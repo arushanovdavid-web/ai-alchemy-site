@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <script>
+   document.documentElement.classList.add('js');
+   setTimeout(function () {
+    if (!document.documentElement.classList.contains('js-ready')) {
+     document.documentElement.classList.remove('js');
+    }
+   }, 2500);
+   function markHeroFallback() {
+    var stage = document.getElementById('hero-glass');
+    if (!stage) return;
+    if (!stage.getAttribute('data-hero-renderer')) {
+     stage.setAttribute('data-hero-renderer', 'image-fallback');
+     console.warn('AI Alchemy hero: switching to static fallback.', 'WebGL renderer did not start');
+    }
+   }
+   function scheduleFallbackCheck() {
+    requestAnimationFrame(function () {
+     if (document.hidden) {
+      document.addEventListener('visibilitychange', function onVis() {
+       if (document.hidden) return;
+       document.removeEventListener('visibilitychange', onVis);
+       requestAnimationFrame(markHeroFallback);
+      });
+      return;
+     }
+     markHeroFallback();
+    });
+   }
+   window.addEventListener('load', scheduleFallbackCheck);
+   window.addEventListener('error', function (e) {
+    var t = e.target;
+    if (t && t.tagName === 'SCRIPT' && /(?:^|\/)scene\.js(?:\?|$)/.test(t.src || '')) {
+     markHeroFallback();
+    }
+   }, true);
+   document.addEventListener('DOMContentLoaded', function () {
+    var visibleMs = 0;
+    var last = document.hidden ? 0 : performance.now();
+    var tid = 0;
+    function stop() { if (tid) { clearTimeout(tid); tid = 0; } }
+    function alreadyDecided() {
+     var stage = document.getElementById('hero-glass');
+     var r = stage && stage.getAttribute('data-hero-renderer');
+     return r === 'webgl' || r === 'image-fallback';
+    }
+    function tick() {
+     tid = 0;
+     if (alreadyDecided()) return;
+     if (document.hidden) return;
+     var now = performance.now();
+     if (last) visibleMs += now - last;
+     last = now;
+     if (visibleMs >= 3000) {
+      markHeroFallback();
+      return;
+     }
+     tid = setTimeout(tick, Math.max(0, 3000 - visibleMs));
+    }
+    document.addEventListener('visibilitychange', function () {
+     if (alreadyDecided()) { stop(); return; }
+     if (document.hidden) {
+      if (last) visibleMs += performance.now() - last;
+      last = 0;
+      stop();
+     } else {
+      last = performance.now();
+      stop();
+      tid = setTimeout(tick, Math.max(0, 3000 - visibleMs));
+     }
+    });
+    if (!document.hidden) tid = setTimeout(tick, 3000);
+   });
+  </script>
+  <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+  <meta content="#090e23" name="theme-color"/>
+  <meta content="AI Alchemy helps Greater Toronto Area businesses modernize legacy systems with architecture-first technology consulting, custom development, enterprise AI, cloud and data." name="description"/>
+  <title>
+   AI Alchemy | Legacy systems, rebuilt for the age of AI.
+  </title>
+  <link href="styles.css" rel="stylesheet"/>
+  <noscript>
+   <style>
+    .hero-fallback-label { display:block }
+   </style>
+  </noscript>
+  <meta content="dark" name="color-scheme"/>
+  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+  <link href="https://ai-alchemy.ca/" rel="canonical"/>
+  <meta content="website" property="og:type"/>
+  <meta content="https://ai-alchemy.ca/" property="og:url"/>
+  <meta content="AI Alchemy | Legacy systems, rebuilt for the age of AI." property="og:title"/>
+  <meta content="AI Alchemy helps Greater Toronto Area businesses modernize legacy systems with architecture-first technology consulting, custom development, enterprise AI, cloud and data." property="og:description"/>
+  <meta content="https://ai-alchemy.ca/assets/holographic-hero-fallback.webp" property="og:image"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="AI Alchemy | Legacy systems, rebuilt for the age of AI." name="twitter:title"/>
+  <meta content="AI Alchemy helps Greater Toronto Area businesses modernize legacy systems with architecture-first technology consulting, custom development, enterprise AI, cloud and data." name="twitter:description"/>
+  <meta content="https://ai-alchemy.ca/assets/holographic-hero-fallback.webp" name="twitter:image"/>
+ </head>
+ <body>
+  <header class="site-header" id="header">
+   <div class="container">
+    <nav aria-label="Primary navigation" class="topnav">
+     <a aria-label="AI Alchemy home" class="brand" href="#home">
+      <svg aria-label="A emblem" role="img" viewbox="0 0 44 40">
+       <defs>
+        <lineargradient id="logo-grad" x1="0" x2="1" y1="0" y2="1">
+         <stop stop-color="#c58fff">
+         </stop>
+         <stop offset=".55" stop-color="#6a6bf8">
+         </stop>
+         <stop offset="1" stop-color="#58e6f5">
+         </stop>
+        </lineargradient>
+       </defs>
+       <path d="M2 36 16 5h13L14 36Z" fill="url(#logo-grad)">
+       </path>
+       <path d="M29 5 42 36H28l-8-18Z" fill="#4e9af9" opacity=".93">
+       </path>
+      </svg>
+      AI Alchemy
+     </a>
+     <button aria-controls="main-links" aria-expanded="false" aria-label="Open navigation" class="menu-button" id="menu" type="button">
+      ☰
+     </button>
+     <div class="nav-links" id="main-links">
+      <a href="#services">
+       Services
+      </a>
+      <a href="#approach">
+       Approach
+      </a>
+      <a href="#results">
+       Results
+      </a>
+      <a href="#about">
+       About
+      </a>
+      <a class="btn btn-primary" href="#contact">
+       Get in touch
+       <span aria-hidden="true">
+        →
+       </span>
+      </a>
+     </div>
+    </nav>
+   </div>
+  </header>
+  <main id="home">
+   <section aria-labelledby="hero-title" class="hero">
+    <div class="container hero-in">
+     <div class="hero-copy">
+      <div class="eyebrow cyan">
+       GTA SOFTWARE CONSULTING
+      </div>
+      <h1 id="hero-title">
+       Legacy systems,
+       <br/>
+       rebuilt for the
+       <span class="gradient-text">
+        age of AI.
+       </span>
+      </h1>
+      <p class="hero-sub">
+       Strategy, architecture, custom software, and cloud for manufacturing — delivered in-house, architecture-first.
+      </p>
+      <div class="hero-actions">
+       <a class="btn btn-primary" href="#contact">
+        Discuss your project
+        <span aria-hidden="true">
+         →
+        </span>
+       </a>
+       <a class="btn btn-outline" href="#approach">
+        <span aria-hidden="true">
+         ▷
+        </span>
+        See how we work
+       </a>
+      </div>
+     </div>
+     <div aria-hidden="true" class="hero-glass three-hero" id="hero-glass">
+      <canvas aria-hidden="true" height="590" id="core-canvas" width="900">
+      </canvas>
+      <img alt="" class="hero-fallback" decoding="async" height="544" src="assets/holographic-hero-fallback.webp" width="850"/>
+      <svg aria-hidden="true" class="orbit" viewbox="0 0 600 370">
+       <defs>
+        <lineargradient id="orbit-color" x1="0" x2="1">
+         <stop stop-color="#9852ff">
+         </stop>
+         <stop offset=".56" stop-color="#4b9eff">
+         </stop>
+         <stop offset="1" stop-color="#56f4c5">
+         </stop>
+        </lineargradient>
+       </defs>
+       <ellipse cx="313" cy="180" fill="none" opacity=".55" rx="255" ry="93" stroke="url(#orbit-color)" transform="rotate(-23 313 180)">
+       </ellipse>
+       <ellipse cx="313" cy="180" fill="none" opacity=".2" rx="203" ry="118" stroke="url(#orbit-color)" transform="rotate(20 313 180)">
+       </ellipse>
+      </svg>
+     </div>
+     <p class="hero-fallback-label" id="hero-fallback-label" role="status">
+      Static preview shown: 3D view unavailable on this device.
+     </p>
+     <div class="trust-row">
+      <div class="trust-item">
+       <div class="trust-icon">
+        <svg viewbox="0 0 36 36">
+         <circle cx="18" cy="10" r="4">
+         </circle>
+         <path d="M10 28v-2c0-5 4-8 8-8s8 3 8 8v2M8 15a4 4 0 1 0-2-7M28 15a4 4 0 1 1 2-7M5 27v-4c0-3 2-5 5-5M31 27v-4c0-3-2-5-5-5">
+         </path>
+        </svg>
+       </div>
+       <div>
+        <strong>
+         In-house delivery
+        </strong>
+        <span>
+         No outsourcing
+        </span>
+       </div>
+      </div>
+      <div class="trust-item">
+       <div class="trust-icon">
+        <svg viewbox="0 0 36 36">
+         <circle cx="18" cy="18" r="13">
+         </circle>
+         <circle cx="18" cy="18" r="8">
+         </circle>
+         <circle cx="18" cy="18" r="3">
+         </circle>
+         <path d="m18 18 11-11M25 6l5-1-1 5">
+         </path>
+        </svg>
+       </div>
+       <div>
+        <strong>
+         Outcome-focused
+        </strong>
+        <span>
+         Aligned to business value
+        </span>
+       </div>
+      </div>
+      <div class="trust-item">
+       <div class="trust-icon">
+        <svg viewbox="0 0 36 36">
+         <path d="m18 4 14 8-14 8L4 12l14-8ZM4 19l14 8 14-8M4 26l14 8 14-8">
+         </path>
+        </svg>
+       </div>
+       <div>
+        <strong>
+         Architecture-first
+        </strong>
+        <span>
+         Built for lasting value
+        </span>
+       </div>
+      </div>
+     </div>
+    </div>
+    <div aria-hidden="true" class="hero-wave">
+     <svg preserveaspectratio="none" viewbox="0 0 1536 180">
+      <defs>
+       <lineargradient id="wgrad" x1="0" x2="1">
+        <stop stop-color="#7e38ff">
+        </stop>
+        <stop offset=".43" stop-color="#8154f7">
+        </stop>
+        <stop offset=".66" stop-color="#41bfff">
+        </stop>
+        <stop offset=".8" stop-color="#53ffdd">
+        </stop>
+        <stop offset="1" stop-color="#6650ff">
+        </stop>
+       </lineargradient>
+       <filter id="waveglow">
+        <fegaussianblur stddeviation="4">
+        </fegaussianblur>
+       </filter>
+      </defs>
+      <g fill="none" id="wave-lines" opacity=".8" stroke="url(#wgrad)">
+      </g>
+      <g fill="url(#wgrad)" id="wave-points">
+      </g>
+     </svg>
+    </div>
+   </section>
+   <div class="container">
+    <div class="glow-line">
+    </div>
+   </div>
+   <section class="section services" id="services">
+    <div class="container">
+     <div class="section-heading reveal">
+      <div>
+       <div class="eyebrow">
+        WHAT WE DO
+       </div>
+       <h2>
+        End-to-end consulting
+        <br/>
+        for modern, AI-ready
+        <br/>
+        organizations.
+       </h2>
+      </div>
+      <p>
+       A practical, architecture-led approach to turning complex systems into a competitive advantage.
+      </p>
+     </div>
+     <div class="service-grid">
+      <button aria-haspopup="dialog" class="service-card purple reveal" data-service="strategy" type="button">
+       <svg viewbox="0 0 34 34">
+        <path d="M10 27c4-5-2-9 3-14l5-4 3 3 4-1-1 5c5 8 1 13-2 13H8">
+        </path>
+        <path d="m18 9 3-4 3 4M7 30h19">
+        </path>
+       </svg>
+       <h3>
+        Strategy
+       </h3>
+       <p>
+        Turn opportunity into a clear, executable plan.
+       </p>
+       <span aria-hidden="true" class="arrow">
+        →
+       </span>
+      </button>
+      <button aria-haspopup="dialog" class="service-card blue reveal" data-service="architecture" type="button">
+       <svg viewbox="0 0 34 34">
+        <path d="m17 3 14 8-14 8L3 11 17 3Zm-14 15 14 8 14-8M3 25l14 8 14-8">
+        </path>
+       </svg>
+       <h3>
+        Architecture &amp;
+        <br/>
+        Governance
+       </h3>
+       <p>
+        Design resilient, secure, and scalable foundations.
+       </p>
+       <span aria-hidden="true" class="arrow">
+        →
+       </span>
+      </button>
+      <button aria-haspopup="dialog" class="service-card mint reveal" data-service="development" type="button">
+       <svg viewbox="0 0 34 34">
+        <path d="m11 8-8 9 8 9m12-18 8 9-8 9M20 5l-6 24">
+        </path>
+       </svg>
+       <h3>
+        Custom Development &amp; Enterprise AI
+       </h3>
+       <p>
+        Build, integrate, and deploy high-impact solutions.
+       </p>
+       <span aria-hidden="true" class="arrow">
+        →
+       </span>
+      </button>
+      <button aria-haspopup="dialog" class="service-card cobalt reveal" data-service="cloud" type="button">
+       <svg viewbox="0 0 34 34">
+        <path d="M7 26a7 7 0 0 1 0-14 10 10 0 0 1 20 1 7 7 0 0 1 0 13H7Z">
+        </path>
+       </svg>
+       <h3>
+        Cloud &amp; Data
+       </h3>
+       <p>
+        Modernize, scale, and unlock value from your data.
+       </p>
+       <span aria-hidden="true" class="arrow">
+        →
+       </span>
+      </button>
+     </div>
+    </div>
+   </section>
+   <div class="container">
+    <div class="glow-line" style="opacity:.46">
+    </div>
+   </div>
+   <section class="section approach" id="approach">
+    <div class="container approach-in">
+     <div class="approach-title reveal">
+      <div class="eyebrow purple">
+       OUR APPROACH
+      </div>
+      <h2>
+       From legacy to AI —
+       <br/>
+       with a clear, staged path.
+      </h2>
+     </div>
+     <ol class="steps reveal">
+      <li class="step">
+       <div class="step-icon">
+        <svg viewbox="0 0 26 26">
+         <circle cx="11" cy="11" r="7">
+         </circle>
+         <path d="m16 16 7 7">
+         </path>
+        </svg>
+       </div>
+       <strong>
+        Discover
+       </strong>
+       <p>
+        Understand goals, systems, and constraints.
+       </p>
+      </li>
+      <li class="step">
+       <div class="step-icon">
+        <svg viewbox="0 0 26 26">
+         <path d="m13 2 11 6-11 6L2 8l11-6ZM2 13l11 6 11-6M2 19l11 6 11-6">
+         </path>
+        </svg>
+       </div>
+       <strong>
+        Design
+       </strong>
+       <p>
+        Define the architecture and roadmap.
+       </p>
+      </li>
+      <li class="step">
+       <div class="step-icon">
+        <svg viewbox="0 0 26 26">
+         <path d="m8 6-6 7 6 7m10-14 6 7-6 7M15 4l-4 18">
+         </path>
+        </svg>
+       </div>
+       <strong>
+        Build
+       </strong>
+       <p>
+        Deliver, integrate, and validate in stages.
+       </p>
+      </li>
+      <li class="step">
+       <div class="step-icon">
+        <svg viewbox="0 0 26 26">
+         <path d="M10 16c3-8 6-11 12-12-1 6-4 9-12 12Zm0 0-4-4-4 2 5 5 4 5 2-4-3-4ZM6 20l-4 4M20 6h.01">
+         </path>
+        </svg>
+       </div>
+       <strong>
+        Scale
+       </strong>
+       <p>
+        Roll out, measure, and improve.
+       </p>
+      </li>
+     </ol>
+    </div>
+   </section>
+   <section aria-label="Let's build what is next" class="container cta-banner reveal">
+    <div aria-hidden="true" class="skyline">
+    </div>
+    <div class="cta-spacer">
+    </div>
+    <div class="cta-content">
+     <div class="eyebrow small">
+      LET'S BUILD WHAT'S NEXT
+     </div>
+     <h2>
+      Ready to modernize and
+      <br/>
+      unlock the value of AI?
+     </h2>
+    </div>
+    <div class="cta-action">
+     <a class="btn btn-primary" href="#contact">
+      Get in touch
+      <span aria-hidden="true">
+       →
+      </span>
+     </a>
+    </div>
+   </section>
+   <section class="details-section" id="results">
+    <div class="container">
+     <div class="eyebrow cyan reveal">
+      OUTCOMES WE DESIGN FOR
+     </div>
+     <div class="section-heading reveal">
+      <h2>
+       Technology that earns its place in the business.
+      </h2>
+      <p>
+       Not demo theatre. Clear accountability, usable systems, and measurable goals defined with your team.
+      </p>
+     </div>
+     <div class="info-grid">
+      <article class="info-card reveal">
+       <div class="eyebrow small purple">
+        CONNECTED OPERATIONS
+       </div>
+       <h3>
+        Less friction between systems
+       </h3>
+       <p>
+        Bring disconnected data and legacy applications into workflows people can understand, operate, and maintain.
+       </p>
+      </article>
+      <article class="info-card reveal">
+       <div class="eyebrow small cyan">
+        CONTROLLED AUTOMATION
+       </div>
+       <h3>
+        Better decisions, with human control
+       </h3>
+       <p>
+        Use AI to support intake, analysis, and handoffs while keeping technical approvals, safety, commercial decisions, and operational releases with accountable people.
+       </p>
+      </article>
+     </div>
+    </div>
+   </section>
+   <section class="details-section" id="about" style="padding-top:0">
+    <div class="container">
+     <div class="eyebrow purple reveal">
+      ABOUT AI ALCHEMY
+     </div>
+     <div class="section-heading reveal">
+      <h2>
+       Architecture before automation.
+      </h2>
+      <p>
+       We are a GTA-based technology consulting and implementation partner for mid-market businesses, with an initial industry focus on architectural glass manufacturers and fabricators.
+      </p>
+     </div>
+     <div class="info-grid">
+      <article class="info-card reveal">
+       <h3>
+        From blueprint to delivery
+       </h3>
+       <p>
+        Strategy, system architecture, integration, enterprise AI, and cloud and data — planned as one coherent solution, not a collection of tools.
+       </p>
+      </article>
+      <article class="info-card reveal">
+       <h3>
+        Built around business accountability
+       </h3>
+       <p>
+        Design decisions are documented, systems are tested, and managers retain authorization over high-stakes technical, pricing, safety, and production actions.
+       </p>
+      </article>
+     </div>
+    </div>
+   </section>
+   <section class="contact" id="contact">
+    <div class="container contact-in">
+     <div class="contact-copy reveal">
+      <div class="eyebrow cyan">
+       START A CONVERSATION
+      </div>
+      <h2>
+       Tell us what needs to change.
+      </h2>
+      <p>
+       Share the problem you're trying to solve. We'll turn the details into a structured project brief you can copy or download.
+      </p>
+      <p>
+       Email us at
+       <a class="contact-email" href="mailto:hello@ai-alchemy.ca">
+        hello@ai-alchemy.ca
+       </a>.
+      </p>
+      <p class="form-note">
+       This is a local brief builder. It does not send your information to a server or claim a consultation is booked.
+      </p>
+      <noscript>
+       The brief builder needs JavaScript.
+      </noscript>
+     </div>
+     <form class="brief-form reveal" id="project-form">
+      <fieldset disabled="" id="brief-fieldset">
+      <div class="form-grid">
+       <div class="form-field">
+        <label for="full-name">
+         Your name *
+        </label>
+        <input autocomplete="name" id="full-name" maxlength="100" name="name" placeholder="Name" required=""/>
+       </div>
+       <div class="form-field">
+        <label for="organization">
+         Organization *
+        </label>
+        <input autocomplete="organization" id="organization" maxlength="160" name="organization" placeholder="Company" required=""/>
+       </div>
+       <div class="form-field full">
+        <label for="email">
+         Email (optional)
+        </label>
+        <input autocomplete="email" id="email" maxlength="200" name="email" placeholder="you@company.com" type="email"/>
+       </div>
+       <div class="form-field full">
+        <label for="challenge">
+         What isn't working today? *
+        </label>
+        <textarea id="challenge" maxlength="2000" name="challenge" placeholder="Tell us about the workflow, system, or bottleneck..." required=""></textarea>
+       </div>
+       <div class="form-field full">
+        <label for="outcome">
+         What would a better result look like?
+        </label>
+        <textarea id="outcome" maxlength="2000" name="outcome" placeholder="The outcome you'd like to see..."></textarea>
+       </div>
+      </div>
+      <div class="form-actions">
+       <button class="btn btn-primary" type="submit">
+        Create project brief
+        <span aria-hidden="true">
+         →
+        </span>
+       </button>
+      </div>
+      <div aria-live="polite" class="brief-result" hidden="" id="brief-result">
+       <h3>
+        Your project brief
+       </h3>
+       <pre id="brief-output"></pre>
+       <div class="form-actions">
+        <button class="btn btn-outline" id="copy-brief" type="button">
+         Copy brief
+        </button>
+        <button class="btn btn-outline" id="download-brief" type="button">
+         Download .txt
+        </button>
+        <a class="btn btn-outline" href="mailto:hello@ai-alchemy.ca" id="email-brief">
+         Send this brief by email
+        </a>
+       </div>
+       <div class="status-text" id="copy-status" role="status">
+       </div>
+      </div>
+      </fieldset>
+     </form>
+    </div>
+   </section>
+  </main>
+  <footer>
+   <div class="container footer-in">
+    <a class="brand" href="#home">
+     <svg aria-hidden="true" viewbox="0 0 44 40">
+      <path d="M2 36 16 5h13L14 36Z" fill="#9279ff">
+      </path>
+      <path d="M29 5 42 36H28l-8-18Z" fill="#4cc8ff">
+      </path>
+     </svg>
+     AI Alchemy
+    </a>
+    <span>
+     Technology consulting &amp; implementation · Greater Toronto Area
+    </span>
+    <div class="footer-links">
+     <a href="#services">
+      Services
+     </a>
+     <a href="#approach">
+      Approach
+     </a>
+     <a href="#contact">
+      Contact
+     </a>
+     <a class="contact-email" href="mailto:hello@ai-alchemy.ca">
+      hello@ai-alchemy.ca
+     </a>
+    </div>
+   </div>
+  </footer>
+  <div aria-hidden="true" class="dialog-backdrop" id="dialog-backdrop">
+   <div aria-labelledby="dialog-title" aria-modal="true" class="dialog" role="dialog" tabindex="-1">
+    <button aria-label="Close dialog" class="dialog-close" id="dialog-close" type="button">
+     ×
+    </button>
+    <div class="eyebrow small cyan">
+     WHAT WE DELIVER
+    </div>
+    <h2 id="dialog-title">
+    </h2>
+    <p id="dialog-intro">
+    </p>
+    <ul id="dialog-list">
+    </ul>
+    <a class="btn btn-primary" href="#contact" id="dialog-contact">
+     Discuss this service →
+    </a>
+   </div>
+  </div>
+  <script src="js/app.js">
+  </script>
+  <script defer="" src="js/scene.js">
+  </script>
+ </body>
+</html>
+
