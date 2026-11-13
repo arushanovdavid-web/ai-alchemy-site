@@ -16,12 +16,39 @@
   const canvas = document.getElementById('core-canvas');
   if (!stage || !canvas) return;
 
-  let frameId=0, rendered=false, inViewport=true, disposed=false;
-  let watchdogId=0, watchdogVisibleMs=0, watchdogLastVisible=0;
+  let frameId=0, firstFrameRendered=false, inViewport=true, disposed=false;
+  let watchdogId=0, watchdogVisibleMs=0, watchdogLastVisible=0, provisional=false;
+  // A-11r watchdog, two stages (visible time only; paused while the tab is hidden):
+  //  - WATCHDOG_MS (1.5 s) with no completed first frame: show the labelled static
+  //    preview *provisionally* (data-hero-state="provisional"). WebGL keeps
+  //    initialising in the background. No console warning, and data-hero-renderer
+  //    is not set to image-fallback, because this is not a final decision.
+  //  - If a frame then draws, swap smoothly back to the live scene (CSS fades).
+  //  - WATCHDOG_HARD_MS (5 s) with still no frame: the fallback becomes final
+  //    (one warning, data-hero-renderer="image-fallback"), and later frames are ignored.
+  // Throws and context loss skip all of this and fall back at once, permanently.
   const WATCHDOG_MS=1500;
+  const WATCHDOG_HARD_MS=5000;
+  const label = document.getElementById('hero-fallback-label');
+  const finalLabel = label ? label.textContent.trim() : '';
+  const PROVISIONAL_LABEL = 'Static preview shown while the 3D view loads.';
 
   const stopWatchdog = () => {
     if (watchdogId) { clearTimeout(watchdogId); watchdogId=0; }
+  };
+
+  const clearProvisional = () => {
+    if (!provisional) return;
+    provisional = false;
+    stage.removeAttribute('data-hero-state');
+    if (label) label.textContent = finalLabel;
+  };
+
+  const showProvisional = () => {
+    if (provisional || disposed || firstFrameRendered) return;
+    provisional = true;
+    if (label) label.textContent = PROVISIONAL_LABEL;
+    stage.setAttribute('data-hero-state', 'provisional');
   };
 
   const useFallback = (reason) => {
@@ -29,29 +56,38 @@
     disposed = true;
     if (frameId) { cancelAnimationFrame(frameId); frameId=0; }
     stopWatchdog();
+    clearProvisional();
     stage.classList.remove('webgl-ready');
     stage.setAttribute('data-hero-renderer', 'image-fallback');
     console.warn('AI Alchemy hero: switching to static fallback.', reason || '');
   };
 
-  const watchdogRemaining = () => Math.max(0, WATCHDOG_MS - watchdogVisibleMs);
+  const nextLimit = () => (provisional ? WATCHDOG_HARD_MS : WATCHDOG_MS);
+  const watchdogRemaining = () => Math.max(0, nextLimit() - watchdogVisibleMs);
+
+  // Applies whichever stage the visible time has reached. Returns true when final.
+  const applyWatchdog = () => {
+    if (watchdogVisibleMs >= WATCHDOG_HARD_MS) {
+      useFallback('WebGL first frame did not render');
+      return true;
+    }
+    if (watchdogVisibleMs >= WATCHDOG_MS) showProvisional();
+    return false;
+  };
 
   const tickWatchdog = () => {
     watchdogId=0;
-    if (disposed || stage.classList.contains('webgl-ready')) return;
+    if (disposed || firstFrameRendered) return;
     if (document.hidden) return;
     const now=performance.now();
     if (watchdogLastVisible) watchdogVisibleMs += now - watchdogLastVisible;
     watchdogLastVisible=now;
-    if (watchdogVisibleMs >= WATCHDOG_MS) {
-      useFallback('WebGL first frame did not render');
-      return;
-    }
+    if (applyWatchdog()) return;
     watchdogId=setTimeout(tickWatchdog, watchdogRemaining());
   };
 
   const startWatchdog = () => {
-    if (disposed || stage.classList.contains('webgl-ready')) return;
+    if (disposed || firstFrameRendered) return;
     if (document.hidden) {
       watchdogLastVisible=0;
       return;
@@ -62,7 +98,7 @@
   };
 
   const onVisibilityForWatchdog = () => {
-    if (disposed || stage.classList.contains('webgl-ready')) return;
+    if (disposed || firstFrameRendered) return;
     if (document.hidden) {
       if (watchdogLastVisible) {
         watchdogVisibleMs += performance.now() - watchdogLastVisible;
@@ -71,10 +107,7 @@
       stopWatchdog();
       return;
     }
-    if (watchdogVisibleMs >= WATCHDOG_MS) {
-      useFallback('WebGL first frame did not render');
-      return;
-    }
+    if (applyWatchdog()) return;
     startWatchdog();
   };
 
@@ -499,11 +532,14 @@
       if(plateInfo===plates[2]) drawMesh(logo,mvp,true);
     }
     gl.depthMask(true);
-    if(!rendered) {
+    if(!firstFrameRendered) {
+      // First successful draw: go live. If the provisional preview is showing,
+      // the canvas/image opacity transitions make the swap back smooth.
+      firstFrameRendered=true;
+      stopWatchdog();
+      clearProvisional();
       stage.classList.add('webgl-ready');
       stage.setAttribute('data-hero-renderer','webgl');
-      rendered=true;
-      stopWatchdog();
     }
     if(!media.matches) schedule();
     } catch (error) {

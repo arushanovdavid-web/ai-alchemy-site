@@ -23,6 +23,11 @@
             wavePts.innerHTML = points;
         }
         const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+        /* Run non-critical UI setup after window load, when the browser is idle, so it never competes with the hero scene's first frame. */
+        const whenIdle = cb => {
+            const run = () => ('requestIdleCallback' in window ? window.requestIdleCallback(cb, { timeout: 800 }) : setTimeout(cb, 50));
+            if (document.readyState === 'complete') run(); else window.addEventListener('load', run, { once: true });
+        };
         const revealItems = document.querySelectorAll('.reveal');
         if (reduced.matches || !('IntersectionObserver' in window)) {
             revealItems.forEach(x => x.classList.add('visible'));
@@ -33,6 +38,57 @@
                 observer.unobserve(item.target);
             } }); }, { threshold: .08, rootMargin: '0px 0px -20px 0px' });
             revealItems.forEach(x => observer.observe(x));
+        }
+        /* v1.1 motion: staggered reveals, skyline draw-in (SVG stroke-dashoffset), parallax and scroll progress (transform), card spotlight (repaints a radial-gradient background). All off under reduced motion. */
+        document.querySelectorAll('.service-grid,.info-grid,.industry-grid,.steps').forEach(group => {
+            [...group.children].forEach((el, i) => el.style.setProperty('--i', String(i)));
+        });
+        const markDone = el => setTimeout(() => el.classList.add('reveal-done'), 1100 + (parseInt(el.style.getPropertyValue('--i') || '0', 10) * 110));
+        const sky = document.querySelector('.cta-banner .toronto');
+        const lines = document.querySelectorAll('.reveal-line');
+        if (reduced.matches || !('IntersectionObserver' in window)) {
+            sky && sky.classList.add('is-drawn');
+            lines.forEach(l => l.classList.add('visible'));
+        } else {
+            const io2 = new IntersectionObserver(items => items.forEach(it => { if (it.isIntersecting) { it.target.classList.add(it.target === sky ? 'is-drawn' : 'visible'); io2.unobserve(it.target); } }), { threshold: .35 });
+            sky && io2.observe(sky);
+            lines.forEach(l => io2.observe(l));
+        }
+        revealItems.forEach(el => { if (el.classList.contains('visible')) el.classList.add('reveal-done'); else new MutationObserver((m, mo) => { if (el.classList.contains('visible')) { mo.disconnect(); markDone(el); } }).observe(el, { attributes: true, attributeFilter: ['class'] }); });
+        if (!reduced.matches) {
+            const progressBar = document.getElementById('scroll-progress');
+            const para = [...document.querySelectorAll('[data-parallax]')];
+            let ticking = false;
+            const update = () => {
+                ticking = false;
+                const vh = window.innerHeight, max = document.documentElement.scrollHeight - vh;
+                if (progressBar) progressBar.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
+                const reads = para.map(el => el.parentElement.getBoundingClientRect());
+                reads.forEach((r, i) => { if (r.bottom < -100 || r.top > vh + 100) return; const k = parseFloat(para[i].dataset.parallax) || 0; para[i].style.transform = `translate3d(${((r.top + r.height / 2 - vh / 2) * k).toFixed(1)}px,0,0)`; });
+            };
+            /* Perf: only the first layout read and the spotlight setup wait until the page has
+               loaded and the browser is idle. Calling update() while the page was still parsing
+               (it reads scrollHeight and getBoundingClientRect) forced an early full layout that,
+               under software WebGL, delayed the hero's first frame by about 1.2 s.
+               Scroll/resize listeners attach now but only mark the state dirty until init; then
+               init runs update(), which reads the current scroll position (not the top). */
+            let initDone = false;
+            const onScrollOrResize = () => {
+                if (!initDone) return; /* dirty: the init update() below reads the latest position */
+                if (!ticking) { ticking = true; requestAnimationFrame(update); }
+            };
+            window.addEventListener('scroll', onScrollOrResize, { passive: true });
+            window.addEventListener('resize', onScrollOrResize, { passive: true });
+            whenIdle(() => {
+                initDone = true;
+                ticking = true;
+                requestAnimationFrame(update);
+                if (window.matchMedia('(pointer:fine)').matches) {
+                    document.querySelectorAll('.info-card,.industry-card,.brief-form').forEach(card => {
+                        card.addEventListener('pointermove', e => { const r = card.getBoundingClientRect(); card.style.setProperty('--mx', `${(e.clientX - r.left).toFixed(0)}px`); card.style.setProperty('--my', `${(e.clientY - r.top).toFixed(0)}px`); }, { passive: true });
+                    });
+                }
+            });
         }
         const art = document.getElementById('hero-glass');
         if (art && !reduced.matches && window.matchMedia('(pointer:fine)').matches) {
@@ -80,8 +136,111 @@
         const form = document.getElementById('project-form'), result = document.getElementById('brief-result'), out = document.getElementById('brief-output'), copyStatus = document.getElementById('copy-status'), emailBrief = document.getElementById('email-brief');
         const briefMailto = () => 'mailto:hello@ai-alchemy.ca?subject=' + encodeURIComponent('AI Alchemy project brief') + '&body=' + encodeURIComponent(out.textContent || '');
         const fieldset = document.getElementById('brief-fieldset');
-        form.addEventListener('submit', e => { e.preventDefault(); if (!form.reportValidity())
-            return; const fd = new FormData(form); const val = k => String(fd.get(k) || '').trim(); const brief = ['AI ALCHEMY — PROJECT BRIEF', '', `Contact: ${val('name')}`, `Organization: ${val('organization')}`, `Email: ${val('email') || 'Not provided'}`, '', 'CURRENT CHALLENGE', val('challenge'), '', 'DESIRED OUTCOME', val('outcome') || 'To be defined', '', `Created: ${new Date().toLocaleDateString('en-CA')}`, '', 'This brief was created locally in your browser. It has not been submitted or sent.'].join('\n'); out.textContent = brief; result.hidden = false; copyStatus.textContent = 'Brief created locally. Copy, download, or email it below.'; if (emailBrief) emailBrief.href = briefMailto(); result.scrollIntoView({ behavior: reduced.matches ? 'auto' : 'smooth', block: 'nearest' }); });
+        const panels = [...form.querySelectorAll('.brief-step')], total = panels.length;
+        const progress = document.getElementById('brief-progress'), bar = document.getElementById('brief-progress-bar'), fill = document.getElementById('brief-progress-fill'), progText = document.getElementById('brief-progress-text');
+        const backBtn = document.getElementById('brief-back'), nextLabel = document.getElementById('brief-next-label'), nav = document.getElementById('brief-nav'), stepsWrap = document.getElementById('brief-steps'), live = document.getElementById('brief-live');
+        const needError = document.getElementById('need-error'), needOther = document.getElementById('need-other');
+        let current = 0;
+        form.noValidate = true;
+        const motion = () => !reduced.matches;
+        function showStep(i, focus, dir) {
+            current = i;
+            panels.forEach((p, n) => {
+                const on = n === i;
+                p.hidden = !on;
+                p.classList.remove('enter-fwd', 'enter-back');
+                if (on && motion() && dir) { void p.offsetWidth; p.classList.add(dir > 0 ? 'enter-fwd' : 'enter-back'); }
+            });
+            const label = `Step ${i + 1} of ${total}`;
+            progText.textContent = label;
+            bar.setAttribute('aria-valuenow', String(i + 1));
+            bar.setAttribute('aria-valuetext', label);
+            fill.style.transform = `scaleX(${(i + 1) / total})`;
+            backBtn.hidden = i === 0;
+            nextLabel.textContent = i === total - 1 ? 'Create my brief' : 'Next';
+            if (focus) {
+                live.textContent = label;
+                const t = panels[i].querySelector('.step-title');
+                if (t) t.focus({ preventScroll: false });
+            }
+        }
+        function stepValid(i) {
+            if (i === 0) {
+                const any = form.querySelectorAll('input[name="need"]:checked').length > 0 || needOther.value.trim() !== '';
+                needError.textContent = any ? '' : 'Pick at least one option, or type a few words.';
+                if (!any) { announce('1 field needs attention: What do you need help with'); const first = form.querySelector('input[name="need"]'); first && first.focus(); }
+                return any;
+            }
+            /* Inline, accessible errors instead of the browser bubble: text under the field
+               (linked by aria-describedby), aria-invalid, and focus on the first invalid field. */
+            const fields = [...panels[i].querySelectorAll('input,textarea')];
+            const bad = fields.filter(f => !checkField(f));
+            if (bad.length) {
+                /* One polite summary in the shared status region, written before focus moves,
+                   so it is also heard when Enter is pressed inside an already-focused field. */
+                announce(`${bad.length} ${bad.length === 1 ? 'field needs' : 'fields need'} attention: ${bad.map(f => fieldNames[f.name] || f.name).join(', ')}`);
+                bad[0].focus();
+                return false;
+            }
+            return true;
+        }
+        /* Re-announces identical text by toggling a trailing no-break space. */
+        let announceFlip = false;
+        function announce(msg) { announceFlip = !announceFlip; live.textContent = msg + (announceFlip ? '\u00a0' : ''); }
+        const fieldNames = { name: 'Name', organization: 'Company', email: 'Email', details: 'Details' };
+        const fieldMessages = { name: 'Please enter your name.', organization: 'Please enter your company name.', email: 'Please enter a valid email address, or leave it blank.', details: 'Please keep this under 2,000 characters.' };
+        function checkField(f) {
+            const err = document.getElementById(f.id + '-error');
+            const ok = f.checkValidity();
+            if (ok) f.removeAttribute('aria-invalid'); else f.setAttribute('aria-invalid', 'true');
+            if (err) err.textContent = ok ? '' : (fieldMessages[f.name] || 'Please check this field.');
+            return ok;
+        }
+        function clearErrors() {
+            needError.textContent = '';
+            live.textContent = '';
+            form.querySelectorAll('[aria-invalid]').forEach(f => f.removeAttribute('aria-invalid'));
+            form.querySelectorAll('.field-error').forEach(e => { e.textContent = ''; });
+        }
+        form.addEventListener('input', e => { const f = e.target; if (f.getAttribute && f.getAttribute('aria-invalid') === 'true') checkField(f); });
+        form.addEventListener('change', e => { if (e.target.name === 'need' && needError.textContent) stepValid(0); });
+        needOther.addEventListener('input', () => { if (needError.textContent && needOther.value.trim()) needError.textContent = ''; });
+        backBtn.addEventListener('click', () => { if (current > 0) showStep(current - 1, true, -1); });
+        function buildBrief() {
+            const fd = new FormData(form);
+            const val = k => String(fd.get(k) || '').trim();
+            const needs = fd.getAll('need').map(String);
+            const other = val('need_other');
+            const needLines = needs.map(n => `- ${n}`);
+            if (other) needLines.push(`- Other: ${other}`);
+            return ['AI ALCHEMY — PROJECT BRIEF', '', `Contact: ${val('name')}`, `Organization: ${val('organization')}`, `Email: ${val('email') || 'Not provided'}`, '', 'WHAT WE NEED HELP WITH', ...needLines, '', 'DETAILS', val('details') || 'Not provided yet', '', `Created: ${new Date().toLocaleDateString('en-CA')}`, '', 'This brief was created locally in your browser. It has not been submitted or sent.'].join('\n');
+        }
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            if (!stepValid(current)) return;
+            if (current < total - 1) { showStep(current + 1, true, 1); return; }
+            live.textContent = '';
+            out.textContent = buildBrief();
+            stepsWrap.hidden = true; nav.hidden = true; progress.hidden = true;
+            result.hidden = false;
+            result.classList.toggle('enter-fwd', motion());
+            copyStatus.textContent = 'Brief created locally. Copy, download, or email it below.';
+            if (emailBrief) emailBrief.href = briefMailto();
+            const h = document.getElementById('brief-result-title');
+            h.focus({ preventScroll: true });
+            result.scrollIntoView({ behavior: motion() ? 'smooth' : 'auto', block: 'nearest' });
+        });
+        document.getElementById('brief-restart').addEventListener('click', () => {
+            /* Start over clears every answer: chips, text fields, errors, and returns to step 1. */
+            form.reset();
+            clearErrors();
+            result.hidden = true; stepsWrap.hidden = false; nav.hidden = false; progress.hidden = false;
+            out.textContent = ''; copyStatus.textContent = '';
+            if (emailBrief) emailBrief.href = 'mailto:hello@ai-alchemy.ca';
+            showStep(0, true, -1);
+        });
+        progress.hidden = false;
+        showStep(0, false, 0);
         if (fieldset)
             fieldset.disabled = false;
         document.getElementById('copy-brief').addEventListener('click', async () => { try {
@@ -99,7 +258,8 @@
         document.getElementById('download-brief').addEventListener('click', () => { const blob = new Blob([out.textContent], { type: 'text/plain;charset=utf-8' }), url = URL.createObjectURL(blob), a = document.createElement('a'); a.href = url; a.download = 'AI_Alchemy_Project_Brief.txt'; a.style.display = 'none'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000); copyStatus.textContent = 'Brief downloaded.'; });
         if (emailBrief) emailBrief.addEventListener('click', () => { emailBrief.href = briefMailto(); });
     } catch (error) {
-        document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+        document.querySelectorAll('.reveal,.reveal-line').forEach(el => el.classList.add('visible'));
+        document.querySelectorAll('.toronto').forEach(el => el.classList.add('is-drawn'));
         try {
             const form = document.getElementById('project-form');
             const fieldset = document.getElementById('brief-fieldset');
