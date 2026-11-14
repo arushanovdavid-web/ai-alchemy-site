@@ -479,3 +479,20 @@ html.js .steps.visible .step { opacity:1;transform:none }
   .industry-card { padding:20px }
   .industry-card h3 { font-size:20px }
 }
+
+/* v1.5 copy: hero lede, problem section, why-close line, footer copy, contact CTA */
+.hero-lede { max-width:615px;margin:12px 0 18px }
+.hero-lede .hero-sub { margin:0 0 8px }
+.hero-lede .hero-tag { color:#fff;font-weight:600;margin:0 }
+.problem .info-card p, #about .info-card p { margin:0 0 10px }
+.problem .info-card p:last-child, #about .info-card p:last-child { margin-bottom:0 }
+.why-close { margin:22px 0 0;font-size:20px;font-weight:700;letter-spacing:-.02em;color:#f5f4ff }
+.contact-action { margin:18px 0 6px }
+.footer-copy { display:flex;flex-direction:column;gap:3px;min-width:0 }
+@media (max-width: 760px) { .why-close { font-size:18px } }
+/* v1.5: a focused control is never left inside a half-faded block (the problem section adds scroll distance, so smooth scroll reaches the CTA later) */
+html.js .reveal:focus-within { opacity:1;transform:none;transition:none }
+/* v1.5b: approach intro, longer step text, results disclaimer */
+.approach-intro { font-size:15px;line-height:1.5;color:#d4d8ed;margin:10px 0 0;max-width:420px }
+.step p { max-width:170px }
+.results-note { margin:18px 0 0;font-size:14px;color:#aeb8db }
