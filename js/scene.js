@@ -5,6 +5,7 @@
  * Each transparent architectural plate is a set of three-dimensional faces,
  * trim meshes and illuminated traces rendered in perspective on the GPU.
  * The camera and object respond independently to pointer position.
+ * v1.4: the slabs assemble into the stack on the first frame, then breathe.
  *
  * Constraints: WebGL1 compatible, no Three.js/CDN dependency, capped device
  * pixel ratio, pauses while offscreen, honors reduced motion, image fallback.
@@ -475,6 +476,24 @@
   let pointerX=0, pointerY=0, targetX=0, targetY=0;
   const start=performance.now();
   let lastFrame=0;
+  // v1.4 motion: on the first drawn frame the three slabs start spread apart
+  // (exploded view, small twist) and settle into the stack one after another,
+  // bottom first (~1.3 s). After that the gaps slowly open and close
+  // ("breathing", 10 s period, small amplitude). Off under reduced motion:
+  // the finished stack is drawn immediately. Pure per-frame math: nothing is
+  // waited on, so the first frame and the watchdog are unaffected.
+  let assembleStart=0;
+  const ASSEMBLE_MS=850, ASSEMBLE_STAGGER_MS=220;
+  const SPREAD=[-.85,0,.95], TWIST=[-.32,.22,-.18];
+  const BREATHE=[-.11,0,.13], BREATHE_PERIOD_S=10;
+  // Zero velocity at both ends (no jolt when a slab starts moving or lands):
+  // 1-(1-x^2)^3, peak speed near x=0.45.
+  const easeSettle=x=>1-Math.pow(1-x*x,3);
+  const assembleProgress=(now,index)=>{
+    if(media.matches||!assembleStart) return media.matches?1:0;
+    const x=(now-assembleStart-index*ASSEMBLE_STAGGER_MS)/ASSEMBLE_MS;
+    return x<=0?0:x>=1?1:easeSettle(x);
+  };
 
   function resize() {
     if(disposed) return;
@@ -498,6 +517,12 @@
     lastFrame=now;
     if(width<2||height<2) return;
     const t=media.matches?0:(now-start)*.001;
+    // Start just after the canvas begins its 0.6 s fade-in so the motion is seen.
+    if(!assembleStart) assembleStart=now+150;
+    const assembleEnd=assembleStart+ASSEMBLE_MS+2*ASSEMBLE_STAGGER_MS;
+    // Breathing fades in after assembly so the two motions never fight.
+    const breatheIn=media.matches?0:Math.min(1,Math.max(0,(now-assembleEnd)/1500));
+    const breathe=breatheIn*(.5-.5*Math.cos((now-assembleEnd)*.001*2*Math.PI/BREATHE_PERIOD_S));
     // Finite, tightly bounded movements; native page scroll is unaffected.
     pointerX+=(targetX-pointerX)*.058;
     pointerY+=(targetY-pointerY)*.058;
@@ -523,9 +548,12 @@
     // Dots render behind geometry in the same perspective space.
     drawDots(dotMVP,pixels);
 
-    for(const plateInfo of plates) {
+    for(let i=0;i<plates.length;i++) {
+      const plateInfo=plates[i];
       const bob=media.matches?0:Math.sin(t*.79+plateInfo.phase)*.06;
-      const plateModel=multiply(root,translate(0,plateInfo.y+bob,0));
+      const k=1-assembleProgress(now,i);
+      const offset=SPREAD[i]*k+BREATHE[i]*breathe;
+      const plateModel=multiply(root,multiply(translate(0,plateInfo.y+bob+offset,0),rotateY(TWIST[i]*k)));
       const mvp=multiply(vp,plateModel);
       drawMesh(plateInfo.mesh.body,mvp);
       drawMesh(plateInfo.mesh.trim,mvp,true);

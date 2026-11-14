@@ -331,8 +331,9 @@ html.js .reveal.visible { opacity:1;transform:none }
 
 /* ----------------------------------------------------------------------
    v1.1 — Toronto skyline, step-by-step brief builder, and motion.
-   Animated: transform and opacity (reveals, entrance, progress bar),
-   SVG stroke-dashoffset (skyline draw), box-shadow/border-color/
+   Animated: transform and opacity (reveals, entrance, progress bar,
+   v1.4 CN Tower beacon pop),
+   SVG stroke-dashoffset (skyline outlines and v1.4 detail strokes), box-shadow/border-color/
    background/color on hovers, a repainted spotlight gradient, and the
    older hero animations (orbit rotation, float, wave drift, beacon, sweep).
    All of it is switched off under prefers-reduced-motion.
@@ -343,12 +344,14 @@ html.js .reveal.visible { opacity:1;transform:none }
 .toronto .sk { stroke-width:2.2 }
 .toronto .dt { stroke-width:1.1;opacity:.5 }
 .toronto .cn-beacon { opacity:.9 }
-html.js .toronto .sk { stroke-dasharray:1 2;stroke-dashoffset:1.05;transition:stroke-dashoffset 1.5s cubic-bezier(.55,.1,.25,1) calc(var(--i,0) * 38ms) }
-html.js .toronto .dt { opacity:0;transition:opacity .9s ease 1.5s }
-html.js .toronto .cn-beacon { opacity:0;transition:opacity .6s ease 1.6s }
-html.js .toronto.is-drawn .sk { stroke-dashoffset:0 }
-html.js .toronto.is-drawn .dt { opacity:.5 }
-html.js .toronto.is-drawn .cn-beacon { opacity:.9;animation:beacon 2.4s ease-in-out 2.2s infinite }
+/* v1.4 skyline draw-in: the ground line, then buildings left to right (30 ms stagger, ease-out),
+   then window/detail strokes, then the CN Tower beacon pops in. ~2.2 s total.
+   Only the skyline animates: the CTA heading and button are never hidden by it. */
+html.js .toronto .sk { stroke-dasharray:1 2;stroke-dashoffset:1.05;transition:stroke-dashoffset 1.05s cubic-bezier(.22,.8,.3,1) calc(.15s + var(--i,0) * 30ms) }
+html.js .toronto .dt { stroke-dasharray:1 2;stroke-dashoffset:1.05;transition:stroke-dashoffset .8s cubic-bezier(.22,.8,.3,1) 1.25s }
+html.js .toronto .cn-beacon { opacity:0;transform:scale(.2);transform-box:fill-box;transform-origin:center;transition:opacity .45s ease 1.9s,transform .6s cubic-bezier(.3,1.6,.5,1) 1.9s }
+html.js .toronto.is-drawn .sk, html.js .toronto.is-drawn .dt { stroke-dashoffset:0 }
+html.js .toronto.is-drawn .cn-beacon { opacity:.9;transform:none;animation:beacon 2.4s ease-in-out 2.6s infinite }
 @keyframes beacon { 0%,100% { opacity:.9 } 50% { opacity:.2 } }
 @media (max-width:720px) { .toronto { height:100% } .toronto .sk { stroke-width:2.6 } }
 /* Scroll progress */
@@ -444,9 +447,8 @@ html.js .steps.visible .step { opacity:1;transform:none }
 @media (prefers-reduced-motion:reduce) {
   .scroll-progress { display:none }
   .skyline { transform:none!important }
-  html.js .toronto .sk { stroke-dasharray:none;stroke-dashoffset:0 }
-  html.js .toronto .dt { opacity:.5 }
-  html.js .toronto .cn-beacon { opacity:.9 }
+  html.js .toronto .sk, html.js .toronto .dt { stroke-dasharray:none;stroke-dashoffset:0 }
+  html.js .toronto .cn-beacon { opacity:.9;transform:none }
   html.js .reveal-line, html.js .reveal .eyebrow:after, html.js .eyebrow.reveal:after { transform:none }
   html.js .steps .step { opacity:1;transform:none }
   .glow-line:after { display:none }
