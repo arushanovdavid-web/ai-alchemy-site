@@ -7,8 +7,9 @@
  * The camera and object respond independently to pointer position.
  * v1.4: the slabs assemble into the stack on the first frame, then breathe.
  *
- * Constraints: WebGL1 compatible, no Three.js/CDN dependency, capped device
- * pixel ratio, pauses while offscreen, honors reduced motion, image fallback.
+ * Constraints: WebGL1 compatible, no Three.js/CDN dependency, device pixel
+ * ratio capped at 3 with a 2.5e6-pixel budget, pauses while offscreen, honors
+ * reduced motion, image fallback.
  */
 (() => {
   'use strict';
@@ -499,7 +500,13 @@
     if(disposed) return;
     const bounds=canvas.getBoundingClientRect();
     if(bounds.width<2||bounds.height<2) return;
-    pixels=Math.min(devicePixelRatio||1,1.65);
+    // min(DPR, 3) so a 3× iPhone renders 1:1. The old 1.65 cap was upscaled
+    // ~1.8× and looked soft (t144u). A 2.5e6-pixel budget keeps a large 3×
+    // desktop canvas from growing past ~2.7×.
+    const area=bounds.width*bounds.height;
+    let scale=Math.min(devicePixelRatio||1,3);
+    if(area>0 && area*scale*scale>2.5e6) scale=Math.max(1,Math.sqrt(2.5e6/area));
+    pixels=scale;
     width=Math.max(1,Math.floor(bounds.width*pixels));
     height=Math.max(1,Math.floor(bounds.height*pixels));
     if(canvas.width!==width || canvas.height!==height) {
