@@ -1,0 +1,32 @@
+# AI Alchemy
+
+> AI Alchemy is a technology consulting and implementation firm for mid-market businesses in the Greater Toronto Area. We design, build and connect the software, AI automation and data your teams run on. One team, from strategy to go-live.
+
+Custom software and AI for mid-market firms. Built in-house. No outsourcing.
+
+We work in four areas: strategy and architecture, custom software and modernization, enterprise AI and automation, and cloud and data. We serve the Greater Toronto Area.
+
+To start a project, send a short project brief. It takes three steps. Your brief opens as an email you send. We reply to every one. Email: hello@ai-alchemy.ca
+
+## Services
+
+- [Services overview](https://ai-alchemy.ca/services/): All four services in one place.
+- [Strategy & Architecture](https://ai-alchemy.ca/services/strategy-architecture/): Make the right technology decisions before you commit to development. We assess your current systems, find the gaps and draw a practical roadmap tied to business priorities.
+- [Custom Software & Modernization](https://ai-alchemy.ca/services/custom-software-modernization/): Stop working around outdated software. We modernize legacy applications, replace manual processes and build software around how you operate.
+- [Enterprise AI & Automation](https://ai-alchemy.ca/services/enterprise-ai-automation/): Put AI where it can do useful work. We find repetitive tasks, improve how information moves and add AI-assisted steps. People keep oversight.
+- [Cloud & Data](https://ai-alchemy.ca/services/cloud-data/): Make your information easier to reach, manage and use. We design cloud and data architecture for connected systems, reliable operations and room to grow.
+
+## Industries
+
+- [Industries overview](https://ai-alchemy.ca/industries/): The industries we work with, and the problems we fix in each.
+- [Manufacturing, Wholesale & Logistics](https://ai-alchemy.ca/industries/manufacturing-wholesale-logistics/): Production, inventory, orders and operations. We connect sales, inventory, the shop floor and freight in one system.
+- [Mortgage & Insurance](https://ai-alchemy.ca/industries/mortgage-insurance/): Information flow, documents and workflows, with review and accountability intact. We bring intake, documents, renewals and claims tracking into one place.
+- [HVAC, Energy & Home Improvement](https://ai-alchemy.ca/industries/hvac-energy-home-improvement/): Field operations, customer records, scheduling and admin, connected. We link dispatch, field estimates and maintenance schedules.
+- [Financial, Professional Services & Non-Profits](https://ai-alchemy.ca/industries/financial-professional-services-non-profits/): Internal systems, records, reporting and coordination. We keep each client's or donor's information in one place.
+
+## Company
+
+- [Home](https://ai-alchemy.ca/): Who we serve, what we do and how to start.
+- [About](https://ai-alchemy.ca/about/): How we work. We start by understanding your business. Then we design the system and build it properly.
+- [Start a project brief](https://ai-alchemy.ca/contact/): Three short steps. Your brief opens as an email you send to hello@ai-alchemy.ca.
+- [Privacy](https://ai-alchemy.ca/privacy/): How we handle the information you share through this site and the project brief.

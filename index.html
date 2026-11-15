@@ -1,907 +1,256 @@
 <!DOCTYPE html>
-<html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <script>
-   document.documentElement.classList.add('js');
-   setTimeout(function () {
-    if (!document.documentElement.classList.contains('js-ready')) {
-     document.documentElement.classList.remove('js');
-    }
-   }, 2500);
-   function markHeroFallback() {
-    var stage = document.getElementById('hero-glass');
-    if (!stage) return;
-    if (!stage.getAttribute('data-hero-renderer')) {
-     stage.setAttribute('data-hero-renderer', 'image-fallback');
-     console.warn('AI Alchemy hero: switching to static fallback.', 'WebGL renderer did not start');
-    }
-   }
-   function scheduleFallbackCheck() {
-    requestAnimationFrame(function () {
-     if (document.hidden) {
-      document.addEventListener('visibilitychange', function onVis() {
-       if (document.hidden) return;
-       document.removeEventListener('visibilitychange', onVis);
-       requestAnimationFrame(markHeroFallback);
-      });
-      return;
-     }
-     markHeroFallback();
-    });
-   }
-   window.addEventListener('load', scheduleFallbackCheck);
-   window.addEventListener('error', function (e) {
-    var t = e.target;
-    if (t && t.tagName === 'SCRIPT' && /(?:^|\/)scene\.js(?:\?|$)/.test(t.src || '')) {
-     markHeroFallback();
-    }
-   }, true);
-   document.addEventListener('DOMContentLoaded', function () {
-    var visibleMs = 0;
-    var last = document.hidden ? 0 : performance.now();
-    var tid = 0;
-    function stop() { if (tid) { clearTimeout(tid); tid = 0; } }
-    function alreadyDecided() {
-     var stage = document.getElementById('hero-glass');
-     var r = stage && stage.getAttribute('data-hero-renderer');
-     return r === 'webgl' || r === 'image-fallback';
-    }
-    function tick() {
-     tid = 0;
-     if (alreadyDecided()) return;
-     if (document.hidden) return;
-     var now = performance.now();
-     if (last) visibleMs += now - last;
-     last = now;
-     if (visibleMs >= 3000) {
-      markHeroFallback();
-      return;
-     }
-     tid = setTimeout(tick, Math.max(0, 3000 - visibleMs));
-    }
-    document.addEventListener('visibilitychange', function () {
-     if (alreadyDecided()) { stop(); return; }
-     if (document.hidden) {
-      if (last) visibleMs += performance.now() - last;
-      last = 0;
-      stop();
-     } else {
-      last = performance.now();
-      stop();
-      tid = setTimeout(tick, Math.max(0, 3000 - visibleMs));
-     }
-    });
-    if (!document.hidden) tid = setTimeout(tick, 3000);
-   });
-  </script>
-  <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
-  <meta content="#090e23" name="theme-color"/>
-  <meta content="AI Alchemy helps mid-market businesses in the Greater Toronto Area modernize how they operate through better technology architecture, custom software, enterprise AI, cloud, and data." name="description"/>
-  <title>
-   AI Alchemy | Your business has outgrown its technology. Let’s fix that.
-  </title>
-  <link as="font" crossorigin="" href="assets/fonts/inter-latin-wght-normal.woff2" rel="preload" type="font/woff2"/>
-  <link href="styles.css" rel="stylesheet"/>
-  <noscript>
-   <style>
-    .hero-fallback-label { display:block }
-   </style>
-  </noscript>
-  <meta content="dark" name="color-scheme"/>
-  <link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/>
-  <link href="https://ai-alchemy.ca/" rel="canonical"/>
-  <meta content="website" property="og:type"/>
-  <meta content="https://ai-alchemy.ca/" property="og:url"/>
-  <meta content="AI Alchemy | Your business has outgrown its technology. Let’s fix that." property="og:title"/>
-  <meta content="AI Alchemy helps mid-market businesses in the Greater Toronto Area modernize how they operate through better technology architecture, custom software, enterprise AI, cloud, and data." property="og:description"/>
-  <meta content="https://ai-alchemy.ca/assets/holographic-hero-fallback.webp" property="og:image"/>
-  <meta content="summary_large_image" name="twitter:card"/>
-  <meta content="AI Alchemy | Your business has outgrown its technology. Let’s fix that." name="twitter:title"/>
-  <meta content="AI Alchemy helps mid-market businesses in the Greater Toronto Area modernize how they operate through better technology architecture, custom software, enterprise AI, cloud, and data." name="twitter:description"/>
-  <meta content="https://ai-alchemy.ca/assets/holographic-hero-fallback.webp" name="twitter:image"/>
- </head>
- <body>
-  <div aria-hidden="true" class="scroll-progress" id="scroll-progress"></div>
-  <header class="site-header" id="header">
-   <div class="container">
-    <nav aria-label="Primary navigation" class="topnav">
-     <a aria-label="AI Alchemy home" class="brand" href="#home">
-      <svg aria-label="A emblem" role="img" viewbox="0 0 44 40">
-       <defs>
-        <lineargradient id="logo-grad" x1="0" x2="1" y1="0" y2="1">
-         <stop stop-color="#c58fff">
-         </stop>
-         <stop offset=".55" stop-color="#6a6bf8">
-         </stop>
-         <stop offset="1" stop-color="#58e6f5">
-         </stop>
-        </lineargradient>
-       </defs>
-       <path d="M2 36 16 5h13L14 36Z" fill="url(#logo-grad)">
-       </path>
-       <path d="M29 5 42 36H28l-8-18Z" fill="#4e9af9" opacity=".93">
-       </path>
-      </svg>
-      AI Alchemy
-     </a>
-     <button aria-controls="main-links" aria-expanded="false" aria-label="Open navigation" class="menu-button" id="menu" type="button">
-      ☰
-     </button>
-     <div class="nav-links" id="main-links">
-      <a href="#services">
-       Services
-      </a>
-      <a href="#approach">
-       Approach
-      </a>
-      <a href="#results">
-       Results
-      </a>
-      <a href="#industries">
-       Industries
-      </a>
-      <a href="#about">
-       About
-      </a>
-      <a class="btn btn-primary" href="#contact">
-       Get in touch
-       <span aria-hidden="true">
-        →
-       </span>
-      </a>
-     </div>
-    </nav>
+<html lang="en-CA" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Custom Software and AI for GTA Mid-Market Firms | AI Alchemy</title>
+<meta name="description" content="We design, build and connect the software, AI automation and data your teams run on. One in-house team for mid-market firms in the GTA.">
+<link rel="canonical" href="https://ai-alchemy.ca/">
+<meta name="theme-color" content="#090E23">
+<meta name="color-scheme" content="dark">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AI Alchemy">
+<meta property="og:locale" content="en_CA">
+<meta property="og:url" content="https://ai-alchemy.ca/">
+<meta property="og:title" content="Custom Software and AI for GTA Mid-Market Firms | AI Alchemy">
+<meta property="og:description" content="We design, build and connect the software, AI automation and data your teams run on. One in-house team for mid-market firms in the GTA.">
+<meta property="og:image" content="https://ai-alchemy.ca/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AI Alchemy. Custom software and AI for mid-market firms, built in-house. Scattered tools settle onto one gold line that ends in a card reading One connected operation.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Custom Software and AI for GTA Mid-Market Firms | AI Alchemy">
+<meta name="twitter:description" content="We design, build and connect the software, AI automation and data your teams run on. One in-house team for mid-market firms in the GTA.">
+<meta name="twitter:image" content="https://ai-alchemy.ca/og-image.png">
+<meta name="twitter:image:alt" content="AI Alchemy. Custom software and AI for mid-market firms, built in-house. Scattered tools settle onto one gold line that ends in a card reading One connected operation.">
+<link rel="preload" href="/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<script>document.documentElement.classList.replace('no-js','js')</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "ProfessionalService", "@id": "https://ai-alchemy.ca/#org", "name": "AI Alchemy", "url": "https://ai-alchemy.ca/", "email": "hello@ai-alchemy.ca", "description": "Technology consulting and implementation for mid-market businesses in the Greater Toronto Area: strategy and architecture, custom software and modernization, enterprise AI and automation, cloud and data.", "logo": "https://ai-alchemy.ca/apple-touch-icon.png", "image": "https://ai-alchemy.ca/og-image.png", "areaServed": {"@type": "Place", "name": "Greater Toronto Area, Ontario, Canada"}, "knowsAbout": ["Technology architecture", "Custom software", "Legacy software modernization", "Enterprise AI", "Business process automation", "Cloud", "Data"], "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Services", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Strategy & Architecture", "description": "We assess your existing systems, identify gaps, and design a practical roadmap that connects technology investment to business priorities.", "provider": {"@id": "https://ai-alchemy.ca/#org"}, "areaServed": {"@type": "Place", "name": "Greater Toronto Area"}}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Custom Software & Modernization", "description": "Modernize legacy applications, replace manual processes, and build software around your operational requirements.", "provider": {"@id": "https://ai-alchemy.ca/#org"}, "areaServed": {"@type": "Place", "name": "Greater Toronto Area"}}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Enterprise AI & Automation", "description": "Identify repetitive tasks, improve information flow, and introduce AI-assisted workflows with appropriate human oversight.", "provider": {"@id": "https://ai-alchemy.ca/#org"}, "areaServed": {"@type": "Place", "name": "Greater Toronto Area"}}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Cloud & Data", "description": "Design cloud and data architecture that supports connected systems, reliable operations, and future growth.", "provider": {"@id": "https://ai-alchemy.ca/#org"}, "areaServed": {"@type": "Place", "name": "Greater Toronto Area"}}}]}}, {"@type": "WebSite", "@id": "https://ai-alchemy.ca/#website", "name": "AI Alchemy", "url": "https://ai-alchemy.ca/", "inLanguage": "en-CA", "publisher": {"@id": "https://ai-alchemy.ca/#org"}}]}</script>
+</head>
+
+<body data-copy="vesper-final">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header" id="header">
+ <div class="wrap header-in">
+  <a class="brand" href="/" aria-label="AI Alchemy"><svg class="logo-h" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="-2.89 4.00 475.87 110.00"><path fill="#F3EEE3" d="M85.4 88 L106.19 88 L60 8 L49.61 26 L65.6 53.69 A23 23 0 0 1 82.12 82.31 Z M57.4 48.5 L47.01 30.5 L1.11 110 L21.89 110 L37.88 82.31 A23 23 0 0 1 54.4 53.69 Z M108.79 92.5 L76.02 92.5 A23 23 0 0 1 43.98 92.5 L37.19 92.5 L27.09 110 L118.89 110 Z"/><path fill="#E6B24E" d="M41 76 A19 19 0 1 0 79 76 A19 19 0 1 0 41 76 Z"/><g transform="translate(140 80.5)"><path fill="#F3EEE3" d="M5.8 0H0.19L12.78 -35H18.89L31.45 0H25.86L15.95 -28.63H15.67ZM6.74 -13.69H24.9V-9.28H6.74Z M46.11 -35V0H40.82V-35Z M76.11 0H70.49L83.09 -35H89.19L101.76 0H96.17L86.26 -28.63H85.97ZM77.05 -13.69H95.21V-9.28H77.05Z M111.48 0V-35H116.76V-4.53H132.62V0Z M154.12 0.47Q149.61 0.47 146.04 -1.69Q142.47 -3.85 140.43 -7.88Q138.38 -11.91 138.38 -17.48Q138.38 -23.09 140.44 -27.12Q142.49 -31.15 146.05 -33.31Q149.61 -35.47 154.12 -35.47Q156.89 -35.47 159.33 -34.67Q161.76 -33.87 163.68 -32.35Q165.61 -30.82 166.87 -28.61Q168.12 -26.4 168.54 -23.61H163.24Q162.93 -25.32 162.1 -26.63Q161.26 -27.93 160.05 -28.83Q158.84 -29.74 157.35 -30.2Q155.86 -30.65 154.19 -30.65Q151.19 -30.65 148.78 -29.14Q146.37 -27.62 145 -24.68Q143.62 -21.73 143.62 -17.48Q143.62 -13.2 145.01 -10.28Q146.39 -7.35 148.79 -5.85Q151.19 -4.35 154.17 -4.35Q155.84 -4.35 157.32 -4.79Q158.8 -5.24 160.02 -6.13Q161.24 -7.02 162.07 -8.3Q162.91 -9.58 163.24 -11.28H168.54Q168.15 -8.67 166.92 -6.52Q165.7 -4.37 163.8 -2.81Q161.9 -1.24 159.45 -0.39Q157.01 0.47 154.12 0.47Z M179.6 0V-35H184.89V-19.78H202.32V-35H207.6V0H202.32V-15.24H184.89V0Z M219.97 0V-35H241.94V-30.47H225.26V-19.92H240.76V-15.41H225.26V-4.53H242.1V0Z M253.68 -35H260.11L271.25 -7.8H271.65L282.8 -35H289.33V0H284.17V-25.32H283.84L273.48 -0.05H269.3L259.06 -25.35H258.73V0H253.68Z M298.31 -35H304.3L313.46 -19.07H313.83L322.95 -35H328.98L316.28 -13.74V0H310.99V-13.74Z"/></g></svg><svg class="logo-s" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="-4.89 -1.64 129.78 129.78"><path fill="#F3EEE3" d="M85.4 88 L106.19 88 L60 8 L49.61 26 L65.6 53.69 A23 23 0 0 1 82.12 82.31 Z M57.4 48.5 L47.01 30.5 L1.11 110 L21.89 110 L37.88 82.31 A23 23 0 0 1 54.4 53.69 Z M108.79 92.5 L76.02 92.5 A23 23 0 0 1 43.98 92.5 L37.19 92.5 L27.09 110 L118.89 110 Z"/><path fill="#E6B24E" d="M41 76 A19 19 0 1 0 79 76 A19 19 0 1 0 41 76 Z"/></svg></a>
+  <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav class="nav" id="nav" aria-label="Main">
+   <a href="/services/">Services</a><a href="/industries/">Industries</a><a href="/about/">About</a>
+   <a class="btn btn-primary btn-sm" href="/contact/">Start a project brief</a>
+  </nav>
+ </div>
+</header>
+
+<main id="main">
+<span id="home" aria-hidden="true"></span>
+<section class="hero" id="top" aria-labelledby="h1">
+ <div class="wrap">
+  <div class="hero-grid">
+   <div class="hero-main">
+    <div class="hero-media" aria-hidden="true">
+     <picture>
+      <source media="(max-width:860px)" type="image/avif" srcset="/media/hero-poster-m.avif 960w, /media/hero-poster-m-1920.avif 1920w" sizes="100vw">
+      <source media="(max-width:860px)" type="image/webp" srcset="/media/hero-poster-m.webp 960w, /media/hero-poster-m-1920.webp 1920w" sizes="100vw">
+      <source media="(max-width:860px)" srcset="/media/hero-poster-m.jpg">
+      <source type="image/avif" srcset="/media/hero-poster-1600.avif 1600w, /media/hero-poster-1920.avif 1920w, /media/hero-poster-2880.avif 2880w, /media/hero-poster-3840.avif 3840w" sizes="(max-width:860px) 100vw, (max-width:1600px) 1600px, 100vw">
+      <source type="image/webp" srcset="/media/hero-poster-1600.webp 1600w, /media/hero-poster-1920.webp 1920w, /media/hero-poster-2880.webp 2880w" sizes="(max-width:860px) 100vw, (max-width:1600px) 1600px, 100vw">
+      <img class="hero-poster" src="/media/hero-poster-1600.jpg" srcset="/media/hero-poster-1600.jpg 1600w, /media/hero-poster-1920.jpg 1920w" sizes="(max-width:860px) 100vw, (max-width:1600px) 1600px, 100vw" width="1600" height="900" alt="" aria-hidden="true" fetchpriority="high" decoding="async">
+     </picture>
+     <video class="hero-video" id="hero-video" muted playsinline loop preload="none" disablepictureinpicture disableremoteplayback tabindex="-1" data-d="/media/hero-1920"></video>
+    </div>
+    <h1 id="h1"><span class="eyebrow">Technology consulting in the Greater Toronto Area</span> Custom software and AI for <span class="nowrap">mid-market</span> firms. <span class="l2">Built in-house.</span></h1>
+    <p class="hero-lead">Disconnected systems. Manual work. Software that no longer keeps up.</p>
+    <p class="support">We design, build and connect the software, AI automation and data your teams run on. One team, from strategy to go-live.</p>
+    <div class="hero-cta">
+     <div class="hero-actions"><a class="btn btn-primary" href="/contact/">Start a project brief</a><a class="textlink hero-sec" href="/services/" aria-label="Learn about our services">Learn about our services</a></div>
+    </div>
+    <p class="hero-fact">In-house delivery. No outsourcing.</p>
+    <button class="hero-toggle" id="hero-toggle" type="button" hidden><span class="ht-pause"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 3h3v10H4zM9 3h3v10H9z" fill="currentColor"/></svg>Pause<span class="visually-hidden"> background video</span></span><span class="ht-play" hidden><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg>Play<span class="visually-hidden"> background video</span></span></button>
    </div>
-  </header>
-  <main id="home">
-   <section aria-labelledby="hero-title" class="hero">
-    <div class="container hero-in">
-     <div class="hero-copy">
-      <div class="eyebrow cyan">
-       TECHNOLOGY CONSULTING &amp; IMPLEMENTATION | GREATER TORONTO AREA
-      </div>
-      <h1 id="hero-title">
-       Your business has outgrown its technology.
-       <span class="gradient-text">Let’s fix that.</span>
-      </h1>
-      <div class="hero-lede">
-       <p class="hero-sub">Disconnected systems. Manual work. Software that no longer keeps up.</p>
-       <p class="hero-sub">We help mid-market businesses modernize how they operate through better technology architecture, custom software, enterprise AI, cloud, and data.</p>
-       <p class="hero-sub hero-tag">One team. From strategy through implementation.</p>
-      </div>
-      <div class="hero-actions">
-       <a class="btn btn-primary" href="#contact">
-        Get in touch
-        <span aria-hidden="true">
-         →
-        </span>
-       </a>
-      </div>
-     </div>
-     <div aria-hidden="true" class="hero-glass three-hero" id="hero-glass">
-      <canvas aria-hidden="true" height="590" id="core-canvas" width="900">
-      </canvas>
-      <img alt="" class="hero-fallback" decoding="async" height="544" src="assets/holographic-hero-fallback.webp" width="850"/>
-      <svg aria-hidden="true" class="orbit" viewbox="0 0 600 370">
-       <defs>
-        <lineargradient id="orbit-color" x1="0" x2="1">
-         <stop stop-color="#9852ff">
-         </stop>
-         <stop offset=".56" stop-color="#4b9eff">
-         </stop>
-         <stop offset="1" stop-color="#56f4c5">
-         </stop>
-        </lineargradient>
-       </defs>
-       <ellipse cx="313" cy="180" fill="none" opacity=".55" rx="255" ry="93" stroke="url(#orbit-color)" transform="rotate(-23 313 180)">
-       </ellipse>
-       <ellipse cx="313" cy="180" fill="none" opacity=".2" rx="203" ry="118" stroke="url(#orbit-color)" transform="rotate(20 313 180)">
-       </ellipse>
-      </svg>
-     </div>
-     <p class="hero-fallback-label" id="hero-fallback-label" role="status">
-      Static preview shown: 3D view unavailable on this device.
-     </p>
-     <div class="trust-row">
-      <div class="trust-item">
-       <div class="trust-icon">
-        <svg viewbox="0 0 36 36">
-         <circle cx="18" cy="10" r="4">
-         </circle>
-         <path d="M10 28v-2c0-5 4-8 8-8s8 3 8 8v2M8 15a4 4 0 1 0-2-7M28 15a4 4 0 1 1 2-7M5 27v-4c0-3 2-5 5-5M31 27v-4c0-3-2-5-5-5">
-         </path>
-        </svg>
-       </div>
-       <div>
-        <strong>
-         In-house delivery
-        </strong>
-        <span>
-         No outsourcing
-        </span>
-       </div>
-      </div>
-      <div class="trust-item">
-       <div class="trust-icon">
-        <svg viewbox="0 0 36 36">
-         <circle cx="18" cy="18" r="13">
-         </circle>
-         <circle cx="18" cy="18" r="8">
-         </circle>
-         <circle cx="18" cy="18" r="3">
-         </circle>
-         <path d="m18 18 11-11M25 6l5-1-1 5">
-         </path>
-        </svg>
-       </div>
-       <div>
-        <strong>
-         Outcome-focused
-        </strong>
-        <span>
-         Aligned to business value
-        </span>
-       </div>
-      </div>
-      <div class="trust-item">
-       <div class="trust-icon">
-        <svg viewbox="0 0 36 36">
-         <path d="m18 4 14 8-14 8L4 12l14-8ZM4 19l14 8 14-8M4 26l14 8 14-8">
-         </path>
-        </svg>
-       </div>
-       <div>
-        <strong>
-         Architecture-first
-        </strong>
-        <span>
-         Built for lasting value
-        </span>
-       </div>
-      </div>
-     </div>
-    </div>
-    <div aria-hidden="true" class="hero-wave">
-     <svg preserveaspectratio="none" viewbox="0 0 1536 180">
-      <defs>
-       <lineargradient id="wgrad" x1="0" x2="1">
-        <stop stop-color="#7e38ff">
-        </stop>
-        <stop offset=".43" stop-color="#8154f7">
-        </stop>
-        <stop offset=".66" stop-color="#41bfff">
-        </stop>
-        <stop offset=".8" stop-color="#53ffdd">
-        </stop>
-        <stop offset="1" stop-color="#6650ff">
-        </stop>
-       </lineargradient>
-       <filter id="waveglow">
-        <fegaussianblur stddeviation="4">
-        </fegaussianblur>
-       </filter>
-      </defs>
-      <g fill="none" id="wave-lines" opacity=".8" stroke="url(#wgrad)">
-      </g>
-      <g fill="url(#wgrad)" id="wave-points">
-      </g>
-     </svg>
-    </div>
-   </section>
-   <div class="container">
-    <div class="glow-line reveal-line">
-    </div>
+   <figure class="diagram" id="diagram" aria-labelledby="diagram-cap">
+  <div class="stage anim" id="stage">
+   <svg class="dg" viewBox="0 0 1600 900" width="1600" height="900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+    <path class="gl gl-br" pathLength="1" d="M1543 96 C1566 96 1577 215 1577 360" style="--i:0"/><path class="gl gl-br" pathLength="1" d="M1449 154 C1523 154 1577 247 1577 360" style="--i:1"/><path class="gl gl-br" pathLength="1" d="M1365 212 C1485 212 1577 279 1577 360" style="--i:2"/><path class="gl gl-br" pathLength="1" d="M1287 270 C1450 270 1577 310 1577 360" style="--i:3"/>
+    <path class="gl gl-trunk" pathLength="1" d="M1577 360 V623 Q1577 645 1555 645 H1182 Q1160 645 1160 667 V699"/>
+    <path class="gl gl-short" pathLength="1" d="M1520 645 H1022 Q1000 645 1000 667 V699"/>
+   </svg>
+   <ul class="sources"><li style="--x:1536;--y:96;--i:0">Email threads</li><li style="--x:1442;--y:154;--i:1">Spreadsheets</li><li style="--x:1358;--y:212;--i:2">Paper forms</li><li style="--x:1280;--y:270;--i:3">Legacy software</li></ul>
+   <span class="origin" style="--x:1520;--y:645" aria-hidden="true"></span>
+   <p class="dest" style="--x:1160;--y:706;--xs:1000;--ys:706"><span class="dest-dot" aria-hidden="true"></span>Aim: one connected operation</p>
+  </div>
+  <figcaption id="diagram-cap"><strong>From scattered tools toward one connected operation.</strong><span>Serving the Greater Toronto Area.</span><span>Illustration of the method, not a client project.</span></figcaption>
+ </figure>
+  </div>
+ </div>
+</section>
+
+
+<section class="block" id="problem" aria-labelledby="problem-h">
+ <div class="wrap problem-grid">
+  <div class="ph"><p class="kicker">The problem</p><h2 id="problem-h">Your systems should work together. Not against you.</h2></div>
+  <ul class="symptoms">
+   <li><svg viewBox="0 0 40 24" aria-hidden="true" focusable="false"><path d="M2 12h10M18 12h4M28 12h10M12 6v12M28 6v12"/></svg><span>Information gets trapped in separate systems.</span></li>
+   <li><svg viewBox="0 0 40 24" aria-hidden="true" focusable="false"><path d="M2 12h10M18 12h4M28 12h10M12 6v12M28 6v12"/></svg><span>Teams repeat work that should happen once.</span></li>
+   <li><svg viewBox="0 0 40 24" aria-hidden="true" focusable="false"><path d="M2 12h10M18 12h4M28 12h10M12 6v12M28 6v12"/></svg><span>Decisions wait on spreadsheets, email and manual handoffs.</span></li>
+  </ul>
+  <div class="pull">
+   <p>Another application won’t necessarily fix it.</p>
+   <p>The real opportunity: technology that works as one operation.</p>
+   <p>We find what slows you down, help you decide what should change, and build around how your teams work.</p>
+  </div>
+ </div>
+</section>
+
+<section class="block" id="services" aria-labelledby="services-h">
+ <div class="wrap">
+  <div class="section-head">
+   <p class="kicker">What we do</p><h2 id="services-h">Technology built around your business.</h2>
+   <p>Four kinds of work. One team carries each from the first conversation to a working system.</p>
+  </div>
+  <ul class="services">
+   <li class="service" id="strategy-architecture">
+    <p class="layer"><span class="ln">Layer 01</span> <span class="sep">·</span> <span class="lt" data-l2="Strategy">Strategy</span></p>
+    <h3>Strategy &amp; Architecture</h3>
+    <p class="claim">A practical roadmap, with priorities and trade-offs, before you build.</p>
+    <p class="detail">We assess your current systems, find the gaps and help you set the order of work against business priorities.</p>
+    <p class="go"><a class="textlink" href="/services/strategy-architecture/" aria-label="Learn about Strategy &amp; Architecture">Learn about Strategy & Architecture</a></p>
+   </li>
+   <li class="service" id="custom-software">
+    <p class="layer"><span class="ln">Layer 02</span> <span class="sep">·</span> <span class="lt" data-l2="Software">Software</span></p>
+    <h3>Custom Software &amp; Modernization</h3>
+    <p class="claim">Stop working around outdated software.</p>
+    <p class="detail">We modernize legacy applications, replace manual processes and build software around how you operate.</p>
+    <p class="go"><a class="textlink" href="/services/custom-software-modernization/" aria-label="Learn about Custom Software &amp; Modernization">Learn about Custom Software & Modernization</a></p>
+   </li>
+   <li class="service" id="enterprise-ai">
+    <p class="layer"><span class="ln">Layer 03</span> <span class="sep">·</span> <span class="lt" data-l2="AI">AI &amp; automation</span></p>
+    <h3>Enterprise AI &amp; Automation</h3>
+    <p class="claim">Put AI where it can do useful work.</p>
+    <p class="detail">We find repetitive tasks, improve how information moves and add AI-assisted steps. People keep oversight.</p>
+    <p class="go"><a class="textlink" href="/services/enterprise-ai-automation/" aria-label="Learn about Enterprise AI &amp; Automation">Learn about Enterprise AI & Automation</a></p>
+   </li>
+   <li class="service" id="cloud-data">
+    <p class="layer"><span class="ln">Layer 04</span> <span class="sep">·</span> <span class="lt" data-l2="Data">Cloud &amp; data</span></p>
+    <h3>Cloud &amp; Data</h3>
+    <p class="claim">Make your information easier to reach, manage and use.</p>
+    <p class="detail">We design cloud and data architecture for connected systems, reliable operations and room to grow.</p>
+    <p class="go"><a class="textlink" href="/services/cloud-data/" aria-label="Learn about Cloud &amp; Data">Learn about Cloud & Data</a></p>
+   </li>
+  </ul>
+  <p class="more section-more"><a class="textlink" href="/services/">See all four services</a></p>
+  <div class="inline-cta"><a class="btn btn-primary" href="/contact/">Start a project brief</a></div>
+ </div>
+</section>
+
+<section class="block" id="approach" aria-labelledby="approach-h">
+ <div class="wrap">
+  <div class="section-head">
+   <p class="kicker">How we work</p><h2 id="approach-h">Understand the business. Design the system. Build it properly.</h2>
+   <p>Projects shouldn’t start with a feature list. They start with how your business works.</p>
+  </div>
+  <ol class="steps"><li><span class="n">Step 1</span><h3 class="h3">Discover</h3><p>We learn how your business runs today: your systems, data and handoffs.</p></li><li><span class="n">Step 2</span><h3 class="h3">Architect</h3><p>You see the plan and the trade-offs before anything is built.</p></li><li><span class="n">Step 3</span><h3 class="h3">Build</h3><p>We build in stages and connect to what already works.</p></li><li><span class="n">Step 4</span><h3 class="h3">Validate</h3><p>Your team tests it on real scenarios. Your people review and approve before anything goes live.</p></li></ol>
+ </div>
+</section>
+
+<section class="block" id="results" aria-labelledby="outcomes-h">
+ <span id="outcomes" aria-hidden="true"></span>
+ <div class="wrap">
+  <div class="section-head">
+   <p class="kicker">Outcomes</p><h2 id="outcomes-h">Technology that earns its place in the business.</h2>
+   <p>What we design for: practical results your team can use every day.</p>
+  </div>
+  <div class="outcomes">
+   <article class="outcome"><svg viewBox="0 0 56 40" aria-hidden="true"><path d="M4 20h14"/><path class="sig" d="M18 20h34"/><path d="M44 14l8 6-8 6" class="sig"/></svg><div><h3>Less manual work</h3><p>Enter information once. Let systems handle more of the routine steps.</p></div></article>
+   <article class="outcome"><svg viewBox="0 0 56 40" aria-hidden="true"><path d="M6 8l18 12M6 32l18-12M50 8 32 20M50 32 32 20"/><circle class="sig" cx="28" cy="20" r="5"/></svg><div><h3>Information in one place</h3><p>Bring scattered data together, so teams work from shared information.</p></div></article>
+   <article class="outcome"><svg viewBox="0 0 56 40" aria-hidden="true"><circle cx="10" cy="20" r="5"/><path class="sig" d="M15 20h26"/><circle cx="46" cy="20" r="5"/></svg><div><h3>Clearer handoffs</h3><p>Work carries the details the next person needs. People keep control of approvals.</p></div></article>
+   <article class="outcome"><svg viewBox="0 0 56 40" aria-hidden="true"><path d="M4 36h48"/><path d="M10 36V26h10v10M24 36V18h10v18"/><path class="sig" d="M38 36V8h10v28" stroke-dasharray="3 3"/></svg><div><h3>Room to grow</h3><p>A foundation designed to take on new needs.</p></div></article>
+  </div>
+  <p class="note">Outcomes depend on your systems, data and processes. We agree goals with you before work starts.</p>
+ </div>
+</section>
+
+<section class="block" id="industries" aria-labelledby="industries-h">
+ <div class="wrap">
+  <div class="section-head">
+   <p class="kicker">Industries</p><h2 id="industries-h">Built for businesses with complex operations.</h2>
+   <p>Each industry has its own problems. The need underneath is often the same: reliable systems, clear processes, and information that moves.</p>
+  </div>
+  <div class="tabs">
+   <div class="tablist-wrap"><div class="tablist" role="tablist" aria-label="Industries"><button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="true" aria-label="Manufacturing, Wholesale &amp; Logistics"><span class="t-full">Manufacturing, Wholesale &amp; Logistics</span><span class="t-short" aria-hidden="true">Manufacturing</span></button><button class="tab" role="tab" id="t2" aria-controls="p2" aria-selected="false" tabindex="-1" aria-label="Mortgage &amp; Insurance"><span class="t-full">Mortgage &amp; Insurance</span><span class="t-short" aria-hidden="true">Mortgage</span></button><button class="tab" role="tab" id="t3" aria-controls="p3" aria-selected="false" tabindex="-1" aria-label="HVAC, Energy &amp; Home Improvement"><span class="t-full">HVAC, Energy &amp; Home Improvement</span><span class="t-short" aria-hidden="true">HVAC, energy</span></button><button class="tab" role="tab" id="t4" aria-controls="p4" aria-selected="false" tabindex="-1" aria-label="Financial, Professional Services &amp; Non-Profits"><span class="t-full">Financial, Professional Services &amp; Non-Profits</span><span class="t-short" aria-hidden="true">Professional</span></button></div></div>
+   <div class="panel" role="tabpanel" id="p1" aria-labelledby="t1" tabindex="0">
+    <h3>Manufacturing, Wholesale &amp; Logistics</h3>
+    <p class="scope">Production, inventory, orders and operations. For fabricators, distributors and logistics teams.</p>
+    <div class="pf"><div><h4>Problem</h4><p>Quotes, stock and shipments sit in spreadsheets, email and portals. That can mean wrong quotes, backorders and no live status.</p></div><div class="fix"><h4>Fix</h4><p>Connect sales, inventory, the shop floor and freight in one system. Send customers milestone updates.</p></div></div>
+    <p class="more"><a class="textlink" href="/industries/manufacturing-wholesale-logistics/" aria-label="Learn about Manufacturing, Wholesale &amp; Logistics">Learn about Manufacturing, Wholesale &amp; Logistics</a></p>
    </div>
-   <section class="details-section problem" id="problem">
-    <div class="container">
-     <div class="eyebrow cyan reveal">
-      THE PROBLEM
-     </div>
-     <div class="section-heading reveal">
-      <h2>
-       Your systems should work together. Not against you.
-      </h2>
-      <p>
-       As businesses grow, technology often becomes harder to manage.
-      </p>
-     </div>
-     <div class="info-grid">
-      <article class="info-card reveal">
-       <p>
-        Information gets trapped in different systems. Teams repeat work that should happen once. Important decisions depend on spreadsheets, emails, and manual handoffs.
-       </p>
-       <p>
-        Adding another application doesn’t necessarily solve the problem.
-       </p>
-      </article>
-      <article class="info-card reveal">
-       <p>
-        The real opportunity is to make your technology work as one connected operation.
-       </p>
-       <p>
-        We examine what’s slowing your business down, identify what needs to change, and build around how your teams actually work.
-       </p>
-      </article>
-     </div>
-    </div>
-   </section>
-   <div class="container">
-    <div class="glow-line reveal-line" style="opacity:.46">
-    </div>
+   <div class="panel" role="tabpanel" id="p2" aria-labelledby="t2" tabindex="0" hidden>
+    <h3>Mortgage &amp; Insurance</h3>
+    <p class="scope">Information flow, documents and workflows, with review and accountability intact.</p>
+    <div class="pf"><div><h4>Problem</h4><p>Documents, deadlines and renewals are tracked by hand across older systems. Closings can run late, and renewals can slip.</p></div><div class="fix"><h4>Fix</h4><p>Bring intake, documents, renewals and claims tracking into one place. Send status updates at each milestone.</p></div></div>
+    <p class="more"><a class="textlink" href="/industries/mortgage-insurance/" aria-label="Learn about Mortgage &amp; Insurance">Learn about Mortgage &amp; Insurance</a></p>
    </div>
-   <section class="section services" id="services">
-    <div class="container">
-     <div class="section-heading reveal">
-      <div>
-       <div class="eyebrow">
-        WHAT WE DO
-       </div>
-       <h2>
-        Technology built around your business.
-       </h2>
-      </div>
-     </div>
-     <div class="service-grid">
-      <button aria-haspopup="dialog" class="service-card purple reveal" data-service="strategy-architecture" type="button">
-       <svg viewbox="0 0 34 34">
-        <path d="M10 27c4-5-2-9 3-14l5-4 3 3 4-1-1 5c5 8 1 13-2 13H8">
-        </path>
-        <path d="m18 9 3-4 3 4M7 30h19">
-        </path>
-       </svg>
-       <h3>
-        Strategy &amp; Architecture
-       </h3>
-       <p>
-        Make the right technology decisions before committing to development.
-       </p>
-       <span aria-hidden="true" class="arrow">
-        →
-       </span>
-      </button>
-      <button aria-haspopup="dialog" class="service-card blue reveal" data-service="custom-software" type="button">
-       <svg viewbox="0 0 34 34">
-        <path d="m17 3 14 8-14 8L3 11 17 3Zm-14 15 14 8 14-8M3 25l14 8 14-8">
-        </path>
-       </svg>
-       <h3>
-        Custom Software &amp; Modernization
-       </h3>
-       <p>
-        Stop forcing your business to work around outdated software.
-       </p>
-       <span aria-hidden="true" class="arrow">
-        →
-       </span>
-      </button>
-      <button aria-haspopup="dialog" class="service-card mint reveal" data-service="enterprise-ai" type="button">
-       <svg viewbox="0 0 34 34">
-        <path d="m11 8-8 9 8 9m12-18 8 9-8 9M20 5l-6 24">
-        </path>
-       </svg>
-       <h3>
-        Enterprise AI &amp; Automation
-       </h3>
-       <p>
-        Put AI where it can do useful work.
-       </p>
-       <span aria-hidden="true" class="arrow">
-        →
-       </span>
-      </button>
-      <button aria-haspopup="dialog" class="service-card cobalt reveal" data-service="cloud-data" type="button">
-       <svg viewbox="0 0 34 34">
-        <path d="M7 26a7 7 0 0 1 0-14 10 10 0 0 1 20 1 7 7 0 0 1 0 13H7Z">
-        </path>
-       </svg>
-       <h3>
-        Cloud &amp; Data
-       </h3>
-       <p>
-        Make your information easier to access, manage, and use.
-       </p>
-       <span aria-hidden="true" class="arrow">
-        →
-       </span>
-      </button>
-     </div>
-    </div>
-   </section>
-   <div class="container">
-    <div class="glow-line reveal-line" style="opacity:.46">
-    </div>
+   <div class="panel" role="tabpanel" id="p3" aria-labelledby="t3" tabindex="0" hidden>
+    <h3>HVAC, Energy &amp; Home Improvement</h3>
+    <p class="scope">Field operations, customer records, scheduling and admin, connected.</p>
+    <div class="pf"><div><h4>Problem</h4><p>Schedules, onsite estimates and service contracts live on paper or in unlinked apps. Dispatch can lose time, and maintenance visits can slip.</p></div><div class="fix"><h4>Fix</h4><p>Connect dispatch, field estimates and maintenance schedules. Link service records to client accounts and billing.</p></div></div>
+    <p class="more"><a class="textlink" href="/industries/hvac-energy-home-improvement/" aria-label="Learn about HVAC, Energy &amp; Home Improvement">Learn about HVAC, Energy &amp; Home Improvement</a></p>
    </div>
-   <section class="section approach" id="approach">
-    <div class="container approach-in">
-     <div class="approach-title reveal">
-      <div class="eyebrow purple">
-       OUR APPROACH
-      </div>
-      <h2>
-       Understand the business.
-       <br/>
-       Design the system.
-       <br/>
-       Build it properly.
-      </h2>
-      <p class="approach-intro">
-       Technology projects shouldn’t begin with a list of features. They should begin with how your business works.
-      </p>
-      <p class="approach-intro">
-       One team carries the work through strategy, architecture, and implementation.
-      </p>
-     </div>
-     <ol class="steps reveal">
-      <li class="step">
-       <div class="step-icon">
-        <svg viewbox="0 0 26 26">
-         <circle cx="11" cy="11" r="7">
-         </circle>
-         <path d="m16 16 7 7">
-         </path>
-        </svg>
-       </div>
-       <span aria-hidden="true" class="step-num">01</span>
-       <strong>
-        Discover
-       </strong>
-       <p>
-        We learn how your business runs today. We map your systems, data, and handoffs.
-       </p>
-      </li>
-      <li class="step">
-       <div class="step-icon">
-        <svg viewbox="0 0 26 26">
-         <path d="m13 2 11 6-11 6L2 8l11-6ZM2 13l11 6 11-6M2 19l11 6 11-6">
-         </path>
-        </svg>
-       </div>
-       <span aria-hidden="true" class="step-num">02</span>
-       <strong>
-        Architect
-       </strong>
-       <p>
-        We design the system before we build it. You see the plan and the trade-offs.
-       </p>
-      </li>
-      <li class="step">
-       <div class="step-icon">
-        <svg viewbox="0 0 26 26">
-         <path d="m8 6-6 7 6 7m10-14 6 7-6 7M15 4l-4 18">
-         </path>
-        </svg>
-       </div>
-       <span aria-hidden="true" class="step-num">03</span>
-       <strong>
-        Build
-       </strong>
-       <p>
-        We build in stages and connect to what already works. You see progress at each stage.
-       </p>
-      </li>
-      <li class="step">
-       <div class="step-icon">
-        <svg viewbox="0 0 26 26">
-         <path d="M10 16c3-8 6-11 12-12-1 6-4 9-12 12Zm0 0-4-4-4 2 5 5 4 5 2-4-3-4ZM6 20l-4 4M20 6h.01">
-         </path>
-        </svg>
-       </div>
-       <span aria-hidden="true" class="step-num">04</span>
-       <strong>
-        Validate
-       </strong>
-       <p>
-        We test with your team using real scenarios. Your people review and approve before anything goes live.
-       </p>
-      </li>
-     </ol>
-    </div>
-   </section>
-   <section aria-label="Let's build what is next" class="container cta-banner reveal">
-    <div aria-hidden="true" class="skyline" data-parallax="-0.06">
-     <svg class="toronto" viewBox="0 0 1000 262" preserveAspectRatio="xMinYMax meet" aria-hidden="true" focusable="false"><defs><linearGradient id="tor-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="0"><stop offset="0" stop-color="#9852ff"/><stop offset=".45" stop-color="#4b9eff"/><stop offset="1" stop-color="#56f4c5"/></linearGradient></defs><g fill="none" stroke="url(#tor-grad)" stroke-linecap="round" stroke-linejoin="round"><path class="sk" pathLength="1" style="--i:0" d="M0 240H1000"/><path class="sk" pathLength="1" style="--i:1" d="M6 240V214H34V240"/><path class="sk" pathLength="1" style="--i:2" d="M38 240V200H62V240"/><path class="sk" pathLength="1" style="--i:3" d="M66 240V222H100V240"/><path class="sk" pathLength="1" style="--i:4" d="M104 240V210H118V240"/><path class="sk" pathLength="1" style="--i:5" d="M122 240V218H290V240"/><path class="sk" pathLength="1" style="--i:6" d="M126 218Q206 166 286 218"/><path class="dt" pathLength="1" d="M150 206Q206 184 262 206"/><path class="dt" pathLength="1" d="M168 198L172 218M206 192V218M244 198L240 218"/><path class="dt" pathLength="1" d="M130 229H282"/><path class="sk" pathLength="1" style="--i:7" d="M311 240C320 214 324 170 325.5 102"/><path class="sk" pathLength="1" style="--i:8" d="M349 240C340 214 336 170 334.5 102"/><path class="dt" pathLength="1" d="M330 240V104"/><path class="sk" pathLength="1" style="--i:9" d="M313 102H347L342 94H318Z"/><path class="sk" pathLength="1" style="--i:10" d="M317 94L321 86H339L343 94"/><path class="sk" pathLength="1" style="--i:11" d="M323 86L325 82H335L337 86"/><path class="sk" pathLength="1" style="--i:12" d="M326.5 82L328 54M333.5 82L332 54"/><path class="sk" pathLength="1" style="--i:13" d="M325 54H335L333.5 48H326.5Z"/><path class="sk" pathLength="1" style="--i:14" d="M330 48V6"/><path class="dt" pathLength="1" d="M318 98H342"/><path class="sk" pathLength="1" style="--i:15" d="M372 240V196H396V240"/><path class="sk" pathLength="1" style="--i:16" d="M400 240V186Q410.5 160 430 160V240"/><path class="dt" pathLength="1" d="M410.0 176V236M420.0 176V236"/><path class="sk" pathLength="1" style="--i:17" d="M436 240V178H458V240"/><path class="sk" pathLength="1" style="--i:18" d="M462 240V146H496V240"/><path class="dt" pathLength="1" d="M473.3 162V236M484.7 162V236"/><path class="sk" pathLength="1" style="--i:19" d="M500 240V140L507.0 128L514.0 137L521.0 128L528 140V240"/><path class="dt" pathLength="1" d="M509.3 144V236M518.7 144V236"/><path class="sk" pathLength="1" style="--i:20" d="M532 240V114H568V240"/><path class="dt" pathLength="1" d="M544.0 130V236M556.0 130V236"/><path class="sk" pathLength="1" style="--i:21" d="M572 240V145H576V139H594V145H598V240"/><path class="dt" pathLength="1" d="M580.7 155V236M589.3 155V236"/><path class="sk" pathLength="1" style="--i:22" d="M602 240V162L617.0 152L632 162V240"/><path class="dt" pathLength="1" d="M612.0 168V236M622.0 168V236"/><path class="sk" pathLength="1" style="--i:23" d="M636 240V137H640V131H644V125H650V131H654V137H658V240"/><path class="sk" pathLength="1" style="--i:24" d="M662 240V168H692V240"/><path class="dt" pathLength="1" d="M672.0 184V236M682.0 184V236"/><path class="sk" pathLength="1" style="--i:25" d="M696 240V160H700V154H704V148H714V154H718V160H722V240"/><path class="dt" pathLength="1" d="M704.7 164V236M713.3 164V236"/><path class="sk" pathLength="1" style="--i:26" d="M726 240V180H760V240"/><path class="dt" pathLength="1" d="M737.3 196V236M748.7 196V236"/><path class="sk" pathLength="1" style="--i:27" d="M764 240V170L776.0 160L788 170V240"/><path class="sk" pathLength="1" style="--i:28" d="M792 240V190H822V240"/><path class="dt" pathLength="1" d="M802.0 206V236M812.0 206V236"/><path class="sk" pathLength="1" style="--i:29" d="M826 240V196Q835.8 170 854 170V240"/><path class="dt" pathLength="1" d="M835.3 186V236M844.7 186V236"/><path class="sk" pathLength="1" style="--i:30" d="M858 240V200H882V240"/><path class="sk" pathLength="1" style="--i:31" d="M886 240V205H920V240"/><path class="sk" pathLength="1" style="--i:32" d="M924 240V214H950V240"/><path class="sk" pathLength="1" style="--i:33" d="M954 240V222H994V240"/><path class="dt" pathLength="1" d="M550 114V100"/><path class="dt" pathLength="1" d="M300 248H360M318 254H342M120 248H200M500 248H620M700 248H780M540 256H600"/></g><circle class="cn-beacon" cx="330" cy="6" r="2.4" fill="#ff6fb5"/></svg>
-    </div>
-    <div class="cta-spacer">
-    </div>
-    <div class="cta-content">
-     <div class="eyebrow small">
-      LET'S BUILD WHAT'S NEXT
-     </div>
-     <h2>
-      Ready to modernize and
-      <br/>
-      put AI to work?
-     </h2>
-    </div>
-    <div class="cta-action">
-     <a class="btn btn-primary" href="#contact">
-      Get in touch
-      <span aria-hidden="true">
-       →
-      </span>
-     </a>
-    </div>
-   </section>
-   <section class="details-section" id="results">
-    <div class="container">
-     <div class="eyebrow cyan reveal">
-      BUSINESS OUTCOMES
-     </div>
-     <div class="section-heading reveal">
-      <h2>
-       Technology that earns its place in the business.
-      </h2>
-      <p>
-       We design for practical results your team can use every day.
-      </p>
-     </div>
-     <div class="info-grid">
-      <article class="info-card reveal">
-       <div class="eyebrow small purple">
-        LESS MANUAL WORK
-       </div>
-       <h3>
-        Less repeated manual work
-       </h3>
-       <p>
-        Enter information once. Let systems handle the routine steps.
-       </p>
-      </article>
-      <article class="info-card reveal">
-       <div class="eyebrow small cyan">
-        ONE SOURCE OF TRUTH
-       </div>
-       <h3>
-        Information in one place
-       </h3>
-       <p>
-        Bring scattered data together, so teams work from the same facts.
-       </p>
-      </article>
-      <article class="info-card reveal">
-       <div class="eyebrow small purple">
-        CLEAR HANDOFFS
-       </div>
-       <h3>
-        Faster, clearer handoffs
-       </h3>
-       <p>
-        Work reaches the right person with the right details. People keep control of every approval.
-       </p>
-      </article>
-      <article class="info-card reveal">
-       <div class="eyebrow small cyan">
-        ROOM TO GROW
-       </div>
-       <h3>
-        Systems that can grow with you
-       </h3>
-       <p>
-        Build on a foundation that can take on new needs without starting over.
-       </p>
-      </article>
-     </div>
-     <p class="results-note reveal">
-      Outcomes depend on your systems, data, and processes. We agree goals with you before work starts.
-     </p>
-    </div>
-   </section>
-   <section class="details-section" id="industries" style="padding-top:0">
-    <div class="container">
-     <div class="eyebrow cyan reveal">
-      INDUSTRIES
-     </div>
-     <div class="section-heading reveal">
-      <h2>
-       Built for businesses with complex operations.
-      </h2>
-      <p>
-       Different industries face different challenges. The underlying need is often the same: reliable systems, clear processes, and information that moves where it needs to go.
-      </p>
-     </div>
-     <div class="industry-grid">
-      <article class="industry-card reveal">
-       <h3>
-        Manufacturing, Wholesale &amp; Logistics
-       </h3>
-       <p class="industry-note">
-        Modernize production, inventory, order management, and operational workflows.
-       </p>
-       <p class="industry-note">
-        Includes architectural glass manufacturers and fabricators, distributors, and logistics operations.
-       </p>
-       <div class="industry-block">
-        <p class="industry-label">
-         Problem
-        </p>
-        <p>
-         Quote, stock, and shipment details sit in spreadsheets, email, and portals. That leads to bad quotes, backorders, and no live status.
-        </p>
-       </div>
-       <div class="industry-block">
-        <p class="industry-label">
-         Fix
-        </p>
-        <p>
-         Connect sales, inventory, the shop floor, and freight in one system. Send customers milestone updates.
-        </p>
-       </div>
-      </article>
-      <article class="industry-card reveal">
-       <h3>
-        Mortgage &amp; Insurance
-       </h3>
-       <p class="industry-note">
-        Improve information flow, document handling, and internal workflows while maintaining appropriate review and accountability.
-       </p>
-       <div class="industry-block">
-        <p class="industry-label">
-         Problem
-        </p>
-        <p>
-         Documents, deadlines, and renewals are tracked by hand on separate older systems. Closings run late and renewals get missed.
-        </p>
-       </div>
-       <div class="industry-block">
-        <p class="industry-label">
-         Fix
-        </p>
-        <p>
-         Bring intake, documents, renewals, and claims tracking into one place. Send status updates at each milestone.
-        </p>
-       </div>
-      </article>
-      <article class="industry-card reveal">
-       <h3>
-        HVAC, Energy &amp; Home Improvement
-       </h3>
-       <p class="industry-note">
-        Connect field operations, customer information, scheduling, and administrative processes.
-       </p>
-       <div class="industry-block">
-        <p class="industry-label">
-         Problem
-        </p>
-        <p>
-         Technician schedules, onsite estimates, and service contracts live on paper or in unlinked apps. Dispatch time is lost and maintenance visits are missed.
-        </p>
-       </div>
-       <div class="industry-block">
-        <p class="industry-label">
-         Fix
-        </p>
-        <p>
-         Connect dispatch, field estimates, and maintenance schedules. Link service records to client accounts and billing.
-        </p>
-       </div>
-      </article>
-      <article class="industry-card reveal">
-       <h3>
-        Financial Services, Professional Services &amp; Non-Profits
-       </h3>
-       <p class="industry-note">
-        Improve internal systems, information management, reporting, and operational coordination.
-       </p>
-       <div class="industry-block">
-        <p class="industry-label">
-         Problem
-        </p>
-        <p>
-         Client and donor records are split across teams and improvised tools. Onboarding, follow-up, and grant deadlines are hard to keep straight.
-        </p>
-       </div>
-       <div class="industry-block">
-        <p class="industry-label">
-         Fix
-        </p>
-        <p>
-         Keep each client’s or donor’s information in one place. Track onboarding, communication, and deadlines alongside it.
-        </p>
-       </div>
-      </article>
-     </div>
-    </div>
-   </section>
-   <section class="details-section" id="about" style="padding-top:0">
-    <div class="container">
-     <div class="eyebrow purple reveal">
-      WHY AI ALCHEMY
-     </div>
-     <div class="section-heading reveal">
-      <h2>
-       We don’t start by selling you another tool.
-      </h2>
-      <p>
-       We start by understanding your business.
-      </p>
-     </div>
-     <div class="info-grid">
-      <article class="info-card reveal">
-       <p>
-        Sometimes the right answer is to improve an existing system. Sometimes it’s to connect applications that already work. Other times, the business needs something built specifically for it.
-       </p>
-      </article>
-      <article class="info-card reveal">
-       <p>
-        Our approach brings strategy, architecture, and implementation together.
-       </p>
-       <p>
-        Managers keep approval over technical, pricing, safety, and production actions.
-       </p>
-      </article>
-     </div>
-     <p class="why-close reveal">
-      Technology should fit the business — not the other way around.
-     </p>
-    </div>
-   </section>
-   <section class="contact" id="contact">
-    <div class="container contact-in">
-     <div class="contact-copy reveal">
-      <div class="eyebrow cyan">
-       START A CONVERSATION
-      </div>
-      <h2>
-       Tell us what’s holding your business back.
-      </h2>
-      <p>
-       You don’t need a finished technical specification to start a conversation.
-      </p>
-      <p>
-       Tell us what you’re trying to improve, where your current systems fall short, and what you’d like to accomplish.
-      </p>
-      <p>
-       We’ll use that context to understand your requirements and discuss a sensible next step.
-      </p>
-      <p class="contact-action">
-       <a class="btn btn-primary" href="#project-form">
-        Get in touch
-        <span aria-hidden="true">
-         →
-        </span>
-       </a>
-      </p>
-      <p>
-       Email us at
-       <a class="contact-email" href="mailto:hello@ai-alchemy.ca">
-        hello@ai-alchemy.ca
-       </a>.
-      </p>
-      <p class="form-note">
-       Start with a short project brief. Your answers stay on your device unless you choose to send them.
-      </p>
-      <noscript>
-       The brief builder needs JavaScript.
-      </noscript>
-     </div>
-     <form class="brief-form reveal" id="project-form">
-      <fieldset disabled="" id="brief-fieldset">
-       <div class="brief-progress" hidden="" id="brief-progress">
-        <div class="brief-progress-label"><span id="brief-progress-text">Step 1 of 3</span></div>
-        <div aria-label="Brief progress" aria-valuemax="3" aria-valuemin="1" aria-valuenow="1" aria-valuetext="Step 1 of 3" class="brief-progress-track" id="brief-progress-bar" role="progressbar"><span class="brief-progress-fill" id="brief-progress-fill"></span></div>
-       </div>
-       <div class="brief-steps" id="brief-steps">
-        <div class="brief-step" data-step="1">
-         <fieldset aria-describedby="need-hint need-error" class="chip-set">
-          <legend class="step-title" id="need-title" tabindex="-1">What do you need help with?</legend>
-          <p class="step-hint" id="need-hint">Pick all that fit.</p>
-          <div class="chips">
-          <label class="chip"><input name="need" type="checkbox" value="Automate manual work"/><span>Automate manual work</span></label>
-          <label class="chip"><input name="need" type="checkbox" value="Connect our systems"/><span>Connect our systems</span></label>
-          <label class="chip"><input name="need" type="checkbox" value="Modernize legacy software"/><span>Modernize legacy software</span></label>
-          <label class="chip"><input name="need" type="checkbox" value="Move to the cloud"/><span>Move to the cloud</span></label>
-          <label class="chip"><input name="need" type="checkbox" value="AI strategy"/><span>AI strategy</span></label>
-          <label class="chip"><input name="need" type="checkbox" value="Something else"/><span>Something else</span></label>
-          </div>
-         </fieldset>
-         <div class="form-field">
-          <label for="need-other">Anything else? (optional)</label>
-          <input id="need-other" maxlength="200" name="need_other" placeholder="In a few words"/>
-         </div>
-         <p class="step-error" id="need-error"></p>
-        </div>
-        <div class="brief-step" data-step="2">
-         <h3 class="step-title" id="details-title" tabindex="-1">Tell us a little more</h3>
-         <p class="step-hint" id="details-hint">Optional. What isn't working today, and what would better look like? A sentence or two is plenty.</p>
-         <div class="form-field">
-          <label class="sr-only" for="details">Details (optional)</label>
-          <textarea aria-describedby="details-hint details-error" id="details" maxlength="2000" name="details" placeholder="e.g. Orders are re-typed into three systems. We want one source of truth."></textarea>
-          <p class="field-error" id="details-error"></p>
-         </div>
-        </div>
-        <div class="brief-step" data-step="3">
-         <h3 class="step-title" id="contact-title" tabindex="-1">Where should we reply?</h3>
-         <div class="form-grid">
-          <div class="form-field">
-           <label for="full-name">Your name *</label>
-           <input autocomplete="name" aria-describedby="full-name-error" id="full-name" maxlength="100" name="name" placeholder="Name" required=""/>
-           <p class="field-error" id="full-name-error"></p>
-          </div>
-          <div class="form-field">
-           <label for="organization">Company *</label>
-           <input autocomplete="organization" aria-describedby="organization-error" id="organization" maxlength="160" name="organization" placeholder="Company" required=""/>
-           <p class="field-error" id="organization-error"></p>
-          </div>
-          <div class="form-field full">
-           <label for="email">Email (optional)</label>
-           <input autocomplete="email" aria-describedby="email-error" id="email" maxlength="200" name="email" placeholder="you@company.com" type="email"/>
-           <p class="field-error" id="email-error"></p>
-          </div>
-         </div>
-        </div>
-       </div>
-       <div class="form-actions step-nav" id="brief-nav">
-        <button class="btn btn-outline" hidden="" id="brief-back" type="button"><span aria-hidden="true">←</span> Back</button>
-        <button class="btn btn-primary" id="brief-next" type="submit"><span id="brief-next-label">Create project brief</span> <span aria-hidden="true">→</span></button>
-       </div>
-       <div class="brief-result" hidden="" id="brief-result">
-        <h3 id="brief-result-title" tabindex="-1">Your project brief</h3>
-        <pre id="brief-output"></pre>
-        <div class="form-actions">
-         <button class="btn btn-outline" id="copy-brief" type="button">Copy brief</button>
-         <button class="btn btn-outline" id="download-brief" type="button">Download .txt</button>
-         <a class="btn btn-outline" href="mailto:hello@ai-alchemy.ca" id="email-brief">Send this brief by email</a>
-         <button class="btn btn-ghost" id="brief-restart" type="button">Start over</button>
-        </div>
-        <div class="status-text" id="copy-status" role="status"></div>
-       </div>
-       <p aria-live="polite" class="sr-only" id="brief-live" role="status"></p>
-      </fieldset>
-     </form>
-    </div>
-   </section>
-  </main>
-  <footer>
-   <div class="container footer-in">
-    <a class="brand" href="#home">
-     <svg aria-hidden="true" viewbox="0 0 44 40">
-      <path d="M2 36 16 5h13L14 36Z" fill="#9279ff">
-      </path>
-      <path d="M29 5 42 36H28l-8-18Z" fill="#4cc8ff">
-      </path>
-     </svg>
-     AI Alchemy
-    </a>
-    <div class="footer-copy">
-     <span>Technology consulting and implementation for mid-market businesses.</span>
-     <span>Strategy. Architecture. Custom Software. Enterprise AI. Cloud &amp; Data.</span>
-     <span>Greater Toronto Area</span>
-    </div>
-    <div class="footer-links">
-     <a href="#services">
-      Services
-     </a>
-     <a href="#approach">
-      Approach
-     </a>
-     <a href="#contact">
-      Contact
-     </a>
-     <a class="contact-email" href="mailto:hello@ai-alchemy.ca">
-      hello@ai-alchemy.ca
-     </a>
-    </div>
-   </div>
-  </footer>
-  <div aria-hidden="true" class="dialog-backdrop" id="dialog-backdrop">
-   <div aria-labelledby="dialog-title" aria-modal="true" class="dialog" role="dialog" tabindex="-1">
-    <button aria-label="Close dialog" class="dialog-close" id="dialog-close" type="button">
-     ×
-    </button>
-    <h2 id="dialog-title">
-    </h2>
-    <p id="dialog-intro">
-    </p>
-    <a class="btn btn-primary" href="#contact" id="dialog-contact">
-     Discuss this service →
-    </a>
+   <div class="panel" role="tabpanel" id="p4" aria-labelledby="t4" tabindex="0" hidden>
+    <h3>Financial, Professional Services &amp; Non-Profits</h3>
+    <p class="scope">Internal systems, records, reporting and coordination.</p>
+    <div class="pf"><div><h4>Problem</h4><p>Client and donor records are split across teams and improvised tools. Onboarding, follow-up and grant deadlines are hard to keep straight.</p></div><div class="fix"><h4>Fix</h4><p>Keep each client’s or donor’s information in one place. Track onboarding, communication and deadlines beside it.</p></div></div>
+    <p class="more"><a class="textlink" href="/industries/financial-professional-services-non-profits/" aria-label="Learn about Financial, Professional Services &amp; Non-Profits">Learn about Financial, Professional Services &amp; Non-Profits</a></p>
    </div>
   </div>
-  <script src="js/app.js">
-  </script>
-  <script defer="" src="js/scene.js">
-  </script>
- </body>
-</html>
+  <p class="more section-more"><a class="textlink" href="/industries/">See all the industries we serve</a></p>
+  <div class="inline-cta"><a class="btn btn-primary" href="/contact/">Start a project brief</a></div>
+ </div>
+</section>
 
+<section class="block" id="about" aria-labelledby="why-h">
+ <div class="wrap why">
+  <div class="wh"><p class="kicker">Why AI Alchemy</p><h2 id="why-h">We don’t start by selling you another tool. <span class="l2">We start by understanding your business.</span></h2></div>
+  <div class="body">
+   <p>Sometimes the answer is to improve a system you already have.</p>
+   <p>Sometimes it’s to connect applications that already work.</p>
+   <p>Sometimes the business needs something built for it.</p>
+  </div>
+  <ul class="facts"><li><h3 class="h3">Built in-house in the GTA</h3><span>Our team is based in the GTA and does the work itself. No outsourcing.</span></li><li><h3 class="h3">We reply to every brief</h3><span>Send a brief and we reply with a sensible next step.</span></li><li><h3 class="h3">You keep approval</h3><span>Managers approve technical, pricing, safety and production actions.</span></li></ul>
+  <p class="more why-more"><a class="textlink" href="/about/" aria-label="Learn about AI Alchemy">Learn about AI Alchemy</a></p>
+ </div>
+</section>
+
+
+<section class="block home-contact" id="contact" aria-labelledby="brief-h">
+ <span id="brief" aria-hidden="true"></span><span id="project-form" aria-hidden="true"></span>
+ <div class="wrap brief">
+  <div class="brief-intro">
+   <p class="kicker">Project brief</p><h2 id="brief-h">Tell us what’s holding your business back.</h2>
+   <p>You don’t need a technical spec to start.</p>
+   <p>Tell us what you want to improve and where your systems fall short. We’ll reply with a sensible next step.</p>
+   <p>Prefer email? Write to <a href="mailto:hello@ai-alchemy.ca">hello@ai-alchemy.ca</a>.</p>
+   <div class="hero-cta"><a class="btn btn-primary" href="/contact/">Start a project brief</a><p class="cta-note">Three short steps. Your brief opens as an email you send. We reply to every one.</p></div>
+  </div>
+ </div>
+</section>
+</main>
+<footer class="site-footer">
+ <div class="wrap footer-in">
+  <div class="footer-id">
+   <a class="brand" href="/" aria-label="AI Alchemy"><svg class="logo-h" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="-2.89 4.00 475.87 110.00"><path fill="#F3EEE3" d="M85.4 88 L106.19 88 L60 8 L49.61 26 L65.6 53.69 A23 23 0 0 1 82.12 82.31 Z M57.4 48.5 L47.01 30.5 L1.11 110 L21.89 110 L37.88 82.31 A23 23 0 0 1 54.4 53.69 Z M108.79 92.5 L76.02 92.5 A23 23 0 0 1 43.98 92.5 L37.19 92.5 L27.09 110 L118.89 110 Z"/><path fill="#E6B24E" d="M41 76 A19 19 0 1 0 79 76 A19 19 0 1 0 41 76 Z"/><g transform="translate(140 80.5)"><path fill="#F3EEE3" d="M5.8 0H0.19L12.78 -35H18.89L31.45 0H25.86L15.95 -28.63H15.67ZM6.74 -13.69H24.9V-9.28H6.74Z M46.11 -35V0H40.82V-35Z M76.11 0H70.49L83.09 -35H89.19L101.76 0H96.17L86.26 -28.63H85.97ZM77.05 -13.69H95.21V-9.28H77.05Z M111.48 0V-35H116.76V-4.53H132.62V0Z M154.12 0.47Q149.61 0.47 146.04 -1.69Q142.47 -3.85 140.43 -7.88Q138.38 -11.91 138.38 -17.48Q138.38 -23.09 140.44 -27.12Q142.49 -31.15 146.05 -33.31Q149.61 -35.47 154.12 -35.47Q156.89 -35.47 159.33 -34.67Q161.76 -33.87 163.68 -32.35Q165.61 -30.82 166.87 -28.61Q168.12 -26.4 168.54 -23.61H163.24Q162.93 -25.32 162.1 -26.63Q161.26 -27.93 160.05 -28.83Q158.84 -29.74 157.35 -30.2Q155.86 -30.65 154.19 -30.65Q151.19 -30.65 148.78 -29.14Q146.37 -27.62 145 -24.68Q143.62 -21.73 143.62 -17.48Q143.62 -13.2 145.01 -10.28Q146.39 -7.35 148.79 -5.85Q151.19 -4.35 154.17 -4.35Q155.84 -4.35 157.32 -4.79Q158.8 -5.24 160.02 -6.13Q161.24 -7.02 162.07 -8.3Q162.91 -9.58 163.24 -11.28H168.54Q168.15 -8.67 166.92 -6.52Q165.7 -4.37 163.8 -2.81Q161.9 -1.24 159.45 -0.39Q157.01 0.47 154.12 0.47Z M179.6 0V-35H184.89V-19.78H202.32V-35H207.6V0H202.32V-15.24H184.89V0Z M219.97 0V-35H241.94V-30.47H225.26V-19.92H240.76V-15.41H225.26V-4.53H242.1V0Z M253.68 -35H260.11L271.25 -7.8H271.65L282.8 -35H289.33V0H284.17V-25.32H283.84L273.48 -0.05H269.3L259.06 -25.35H258.73V0H253.68Z M298.31 -35H304.3L313.46 -19.07H313.83L322.95 -35H328.98L316.28 -13.74V0H310.99V-13.74Z"/></g></svg><svg class="logo-s" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="-4.89 -1.64 129.78 129.78"><path fill="#F3EEE3" d="M85.4 88 L106.19 88 L60 8 L49.61 26 L65.6 53.69 A23 23 0 0 1 82.12 82.31 Z M57.4 48.5 L47.01 30.5 L1.11 110 L21.89 110 L37.88 82.31 A23 23 0 0 1 54.4 53.69 Z M108.79 92.5 L76.02 92.5 A23 23 0 0 1 43.98 92.5 L37.19 92.5 L27.09 110 L118.89 110 Z"/><path fill="#E6B24E" d="M41 76 A19 19 0 1 0 79 76 A19 19 0 1 0 41 76 Z"/></svg></a>
+   <div class="footer-copy"><span>Technology consulting and implementation for mid-market businesses.</span><span>Serving the Greater Toronto Area</span><a href="mailto:hello@ai-alchemy.ca">hello@ai-alchemy.ca</a></div>
+  </div>
+  <nav class="footer-col" aria-label="Services"><p class="footer-h"><a href="/services/">Services</a></p><ul><li><a href="/services/strategy-architecture/">Strategy &amp; Architecture</a></li><li><a href="/services/custom-software-modernization/">Custom Software &amp; Modernization</a></li><li><a href="/services/enterprise-ai-automation/">Enterprise AI &amp; Automation</a></li><li><a href="/services/cloud-data/">Cloud &amp; Data</a></li></ul></nav>
+  <nav class="footer-col" aria-label="Industries"><p class="footer-h"><a href="/industries/">Industries</a></p><ul><li><a href="/industries/manufacturing-wholesale-logistics/">Manufacturing, Wholesale &amp; Logistics</a></li><li><a href="/industries/mortgage-insurance/">Mortgage &amp; Insurance</a></li><li><a href="/industries/hvac-energy-home-improvement/">HVAC, Energy &amp; Home Improvement</a></li><li><a href="/industries/financial-professional-services-non-profits/">Financial, Professional Services &amp; Non-Profits</a></li></ul></nav>
+  <nav class="footer-col" aria-label="Company"><p class="footer-h">Company</p><ul><li><a href="/about/">About</a></li><li><a href="/contact/">Start a project brief</a></li><li><a href="/privacy/">Privacy</a></li></ul></nav>
+ </div>
+</footer>
+<script src="/app.js" defer></script>
+</body>
+</html>
