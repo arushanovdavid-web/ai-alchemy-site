@@ -102,6 +102,7 @@
   }
 
   const PI = Math.PI, TAU = PI * 2, HALF = PI / 2;
+  const coarse = matchMedia('(pointer: coarse)').matches;
   const clamp = (v, a = 0, b = 1) => v < a ? a : v > b ? b : v;
   const ease = t => t * t * (3 - 2 * t);
   const sstep = (a, b, v) => ease(clamp((v - a) / (b - a)));
@@ -109,7 +110,7 @@
   const hex = h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
   const mix = (a, b, t) => { const A = hex(a), B = hex(b); return `rgb(${A.map((v, i) => Math.round(lerp(v, B[i], t))).join(',')})`; };
 
-  const PAPER = '#F3F1EC', NIGHT = '#090818', VIOLET = '#635BFF', GOLD = '#FFB23E';
+  const PAPER = '#F3F1EC', NIGHT = '#090818', VIOLET = '#635BFF', GOLD = '#FFB23E', SIGNAL = '#FF5A3C';
   const BAND_R = .48, GATE_A = 1.72;
   const POLES = [{ a: -.62, r: .47, rad: .25 }, { a: .95, r: .5, rad: .22 }, { a: 2.45, r: .47, rad: .24 }, { a: -2.3, r: .5, rad: .21 }]
     .map(p => ({ x: p.r * Math.cos(p.a), z: p.r * Math.sin(p.a), rad: p.rad }));
@@ -117,7 +118,8 @@
   const COL = [];
   for (let lit = 0; lit < 2; lit++) for (let l = 0; l < LEVELS; l++) for (let t = 0; t < TIERS; t++)
     COL.push(lit ? mix('#6159FF', '#FFFFFF', Math.pow(l / (LEVELS - 1), .8)) : mix('#34324C', VIOLET, Math.pow(l / (LEVELS - 1), .7)));
-  const LW = [.8, 1.35, 2.2];
+  const LW_D = [.8, 1.35, 2.2], LW_M = [1.1, 1.65, 2.5];   /* phones: heavier strokes so the field reads at arm's length */
+  let LW = LW_D, A0 = .72, PACE = 1;
 
   let W = 0, Hh = 0, DPR = 1, K = 0, N = 0, SP = 0, HL = 0;
   let R, PH, PH0, X, Z, BASE, WW, WP, ANG, EN, ORD, RT, BUF, CNT = new Int32Array(NB);
@@ -154,10 +156,13 @@
   }
 
   function layout() {
-    W = innerWidth; Hh = innerHeight; DPR = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; Hh = innerHeight;
+    /* phones draw at full device resolution (up to 3x) so strokes stay sharp; the needle count there is small */
+    DPR = Math.min(devicePixelRatio || 1, W <= 820 ? 3 : 2);
     const cw = Math.round(cv.clientWidth * DPR), ch = Math.round(cv.clientHeight * DPR);
     if (cv.width !== cw || cv.height !== ch) { cv.width = cw; cv.height = ch; }
-    const m = W <= 820, k = W <= 560 ? 27 : W <= 1100 ? 34 : 42;
+    const m = W <= 820, k = W <= 560 ? 23 : W <= 1100 ? 34 : 42;
+    LW = m ? LW_M : LW_D; A0 = m ? .88 : .72; PACE = m || coarse ? 1.7 : 1;   /* touch: the field follows the thumb more tightly */
     if (k !== K) build(k);
     $$('.fl').forEach(el => { el._w = 0; });
     /* on phones the plan view fills the measured gap between the services heading and its panel */
@@ -169,7 +174,8 @@
     CAM.planC = { H: 3, Cz: -.01, zt: 0, F: 3 * r2, cx: W * .5, cy: Hh * .5, yaw: 0 };
     CAM.grand = { H: .52, Cz: -1.55, zt: -.1, F: Hh * (m ? .95 : 1.35), cx: W * (m ? .5 : .57), cy: Hh * (m ? .36 : .42), yaw: 0 };
     /* the finale settles: the camera rises back to a still plan view, the connected rings resolved around the core */
-    CAM.end = { H: 3, Cz: -.01, zt: 0, F: 3 * Math.max(W, Hh) * (m ? .62 : .5), cx: W * (m ? .5 : .76), cy: Hh * (m ? 1.02 : .52), yaw: 0 };
+    /* phones: the rings centre on the screen and frame the closing text symmetrically */
+    CAM.end = { H: 3, Cz: -.01, zt: 0, F: 3 * Math.max(W, Hh) * (m ? .5 : .5), cx: W * (m ? .5 : .76), cy: Hh * (m ? .5 : .52), yaw: 0 };
   }
   const camLerp = (o, a, b, t) => { for (const k in a) o[k] = lerp(a[k], b[k], t); return o; };
 
@@ -221,20 +227,20 @@
   }
 
   function sim(dt, snap) {
-    const kS = snap ? 1 : 1 - Math.exp(-dt * 3.2);
+    const kS = snap ? 1 : 1 - Math.exp(-dt * 3.2 * PACE);
     for (const k in S) if (k !== 'band') S[k] += (G[k] - S[k]) * kS;
-    const bs = snap ? 9 : dt * (G.band > S.band ? (G.band > 1 ? 1.15 : .22) : 1.6);   /* the band grows at a steady pace, so the order visibly spreads */
+    const bs = snap ? 9 : dt * PACE * (G.band > S.band ? (G.band > 1 ? 1.15 : .22) : 1.6);   /* the band grows at a steady pace, so the order visibly spreads */
     S.band += clamp(G.band - S.band, -bs, bs);
-    const kC = snap || !camInit ? 1 : 1 - Math.exp(-dt * 6.5);
+    const kC = snap || !camInit ? 1 : 1 - Math.exp(-dt * 6.5 * PACE);
     for (const k in camS) camS[k] += (camT[k] - camS[k]) * kC; camInit = true;
     ign += (ignT - ign) * (snap ? 1 : 1 - Math.exp(-dt * 9));
     const night = ign > .999;
     spin = night && !snap ? spin + dt * .035 : spin * Math.exp(-dt * 2.5);
-    intro = snap ? 1 : Math.min(1, intro + dt / 1.7);
+    intro = snap ? 1 : Math.min(1, intro + dt * PACE / 1.7);
     for (let i = ripples.length - 1; i >= 0; i--) { const rp = ripples[i]; rp.rad += dt * .62; rp.amp = rp.a0 * (1 - rp.rad / rp.max); if (rp.rad >= rp.max) ripples.splice(i, 1); }
     if (night && !snap) { beat += dt; if (beat > 5.5) { beat = 0; ripples.push({ x: 0, z: 0, rad: 0, max: 1.25, a0: .55, amp: .55 }); } }
 
-    const kA = snap ? 1 : 1 - Math.exp(-dt * 6), kB = snap ? 1 : 1 - Math.exp(-dt * 1.1), dec = Math.exp(-dt * 1.4);
+    const kA = snap ? 1 : 1 - Math.exp(-dt * 6 * PACE), kB = snap ? 1 : 1 - Math.exp(-dt * 1.1 * PACE), dec = Math.exp(-dt * 1.4);
     const band = S.band, full = band > 1.3, none = band < .004, orbit = snap ? 0 : S.orbit, calm = S.calm;
     let px = 0, pz = 0, pon = false;
     if (ptr.on && !snap) { const p = unproject(ptr.sx, ptr.sy); if (p) { px = p[0]; pz = p[1]; pon = true; } }
@@ -293,7 +299,7 @@
       if (placed.some(r => x < r[2] + 6 && x + w > r[0] - 6 && Math.abs(p[1] - r[1]) < 22)) continue;
       lx = x; flip = f; ok = true; break;
     }
-    const o = ok ? op * ease(quietAt(lx + w / 2, p[1], 60)) : 0;
+    const o = ok ? op * sstep(.6, .9, quietAt(lx + w / 2, p[1], 60)) : 0;   /* near text a label leaves quickly rather than hanging half-faded */
     el.style.opacity = o < .02 ? 0 : o.toFixed(2);
     if (o >= .02) { placed.push([lx, p[1], lx + w]); el.classList.toggle('flip', flip); el.style.transform = `translate3d(${lx.toFixed(1)}px,${(p[1] + dy).toFixed(1)}px,0)`; }
   };
@@ -348,15 +354,17 @@
     ctx.lineCap = 'round';
     for (let b = 0; b < NB; b++) {
       const n = CNT[b] * 4; if (!n) continue; const B = BUF[b], tier = b % TIERS;
-      ctx.strokeStyle = COL[b]; ctx.lineWidth = LW[tier]; ctx.globalAlpha = tier === 0 ? .72 : 1;
+      ctx.strokeStyle = COL[b]; ctx.lineWidth = LW[tier]; ctx.globalAlpha = tier === 0 ? A0 : 1;
       ctx.beginPath(); for (let j = 0; j < n; j += 4) { ctx.moveTo(B[j], B[j + 1]); ctx.lineTo(B[j + 2], B[j + 3]); } ctx.stroke();
     }
     ctx.globalAlpha = 1;
 
     /* drawing-board marks for the plan view */
     if (S.survey > .02) {
-      ctx.strokeStyle = VIOLET; ctx.lineWidth = 1.2; ctx.globalAlpha = S.survey * .9; ctx.setLineDash([3, 5]);
+      /* the four sources are marked in signal coral; the links between them stay violet */
+      ctx.strokeStyle = SIGNAL; ctx.lineWidth = 1.6; ctx.globalAlpha = S.survey; ctx.setLineDash([3, 5]);
       for (const p of POLES) { ring(p.x, p.z, p.rad * .82); ctx.stroke(); }
+      ctx.strokeStyle = VIOLET; ctx.lineWidth = 1.2; ctx.globalAlpha = S.survey * .9;
       ctx.beginPath();
       POLES.forEach((p, i) => { const q = POLES[(i + 1) % 4], dx = q.x - p.x, dz = q.z - p.z, d = Math.hypot(dx, dz), ux = dx / d, uz = dz / d, m = d / 2, g = .035;
         seg(p.x + ux * p.rad * .82, p.z + uz * p.rad * .82, p.x + ux * (m - g), p.z + uz * (m - g)); seg(p.x + ux * (m + g), p.z + uz * (m + g), q.x - ux * q.rad * .82, q.z - uz * q.rad * .82); });
@@ -372,7 +380,7 @@
     }
     if (S.gate > .02) {
       const gx = Math.cos(GATE_A), gz = Math.sin(GATE_A), a = proj(gx * (BAND_R - .1), gz * (BAND_R - .1)), b = proj(gx * (BAND_R + .1), gz * (BAND_R + .1));
-      if (a && b) { ctx.globalAlpha = S.gate * (qr.length ? ease(quietAt((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, 70)) : 1); ctx.strokeStyle = GOLD; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); ctx.globalAlpha = 1; }
+      if (a && b) { ctx.globalAlpha = S.gate * (1 - finT) * (qr.length ? ease(quietAt((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, 70)) : 1); ctx.strokeStyle = GOLD; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); ctx.globalAlpha = 1; }
     }
     if (core && S.core > .02) {
       const qa = qr.length ? ease(quietAt(core[0], core[1], 60)) : 1;   /* a gold ring lying in the plane, and a round point at its centre */
@@ -408,7 +416,9 @@
   if (isStatic) still(true); else kick();
   addEventListener('scroll', () => isStatic ? still(false) : kick(), { passive: true });
   let rt = 0;
-  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { layout(); camInit = false; isStatic ? still(true) : kick(); }, 80); });
+  /* a phone's toolbar showing or hiding changes only the height: glide to the new framing instead of jumping */
+  let lastW = innerWidth;
+  addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { const wc = innerWidth !== lastW; lastW = innerWidth; layout(); if (wc) camInit = false; isStatic ? still(true) : kick(); }, 80); });
   document.addEventListener('visibilitychange', kick);
   reduced.addEventListener('change', () => location.reload());
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { layout(); camInit = false; isStatic ? still(true) : kick(); });

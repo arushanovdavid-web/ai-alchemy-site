@@ -7,6 +7,7 @@
   --paper:#F3F1EC; --paper-2:#E9E6DE; --ink:#12102A; --ink-2:#4A4862; --line:rgba(18,16,42,.16);
   --night:#090818; --night-2:#0E0C22; --snow:#F1EFFF; --snow-2:#B9B6D6; --line-n:rgba(241,239,255,.18);
   --violet:#635BFF; --violet-deep:#4A41E0; --violet-lite:#B4AFFF; --gold:#FFB23E;
+  --signal:#FF5A3C; --signal-deep:#C2361B;   /* fourth colour: the scattered sources and the problems they cause */
   --serif:"Newsreader",Georgia,"Times New Roman",serif;
   --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -39,6 +40,8 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 .fl{position:absolute;left:0;top:0;font:500 10.5px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ink);background:var(--paper);white-space:nowrap;opacity:0;will-change:transform,opacity;padding:5px 7px 5px 20px;border-radius:2px;margin-top:-5px}
 .fl::before{content:"";position:absolute;left:6px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;border:1.5px solid currentColor}
 .fl-gate::before,.fl-core::before{background:var(--gold);border-color:var(--gold)}
+.fl[data-pole],.fl-layer.is-night .fl[data-pole]{background:var(--signal);color:var(--ink);font-weight:600}
+.fl[data-pole]::before{background:var(--paper);border-color:var(--ink)}
 .fl-layer.is-night .fl{color:var(--snow);background:var(--night)}
 .fl.flip{padding:5px 20px 5px 7px}
 .fl.flip::before{left:auto;right:6px}
@@ -110,6 +113,7 @@ h1 .l2{display:block}
 .symptoms{margin-top:40px;border-top:1px solid var(--line)}
 .symptoms li{display:grid;grid-template-columns:44px 1fr;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line);font:420 clamp(1.2rem,1.7vw,1.45rem)/1.25 var(--serif);letter-spacing:-.01em}
 .num{color:var(--violet-deep)}
+.symptoms .num{color:var(--signal-deep)}
 .still{margin-top:42vh;max-width:11em;font-size:clamp(2.3rem,5.6vw,5.2rem);line-height:1}
 
 /* ---------- services: the plan view ---------- */
