@@ -1,12 +1,12 @@
 # AI Alchemy
 
-> AI Alchemy is a technology consulting and implementation firm for mid-market businesses in the Greater Toronto Area. We design, build and connect the software, AI automation and data your teams run on. One team, from strategy to go-live.
+> AI Alchemy is a technology consulting and implementation firm for businesses in the Greater Toronto Area. We design, build and connect the software, AI automation and data your teams run on. One team, from strategy to go-live.
 
-Custom software and AI for mid-market firms. Built in-house. No outsourcing.
+Custom software and AI for your business. Built in-house. No outsourcing.
 
 We work in four areas: strategy and architecture, custom software and modernization, enterprise AI and automation, and cloud and data. We serve the Greater Toronto Area.
 
-To start a project, send a short project brief. It takes three steps. Your brief opens as an email you send. We reply to every one. Email: hello@ai-alchemy.ca
+To start a project, send a short project brief. It takes three steps. Your brief opens as an email you send. We reply within one business day. Email: hello@ai-alchemy.ca
 
 ## Services
 

@@ -1,8 +1,8 @@
 {
   "name": "AI Alchemy",
   "short_name": "AI Alchemy",
-  "theme_color": "#090E23",
-  "background_color": "#090E23",
+  "theme_color": "#F3F1EC",
+  "background_color": "#090818",
   "display": "standalone",
   "icons": [
     {
