@@ -45,7 +45,7 @@
   /* ---- Small fields ---- */
   const MF = window.AAMini;
   if (MF) {
-    const { C, sm, noise, GOLD, VIO, LILAC } = MF, PI = Math.PI, VCOL = 'rgb(99,91,255)';
+    const { C, sm, noise, GOLD, VIO, LILAC } = MF, PI = Math.PI, VCOL = 'rgb(31,107,92)';
     const canvas = (parent, cls, before) => { const c = document.createElement('canvas'); c.className = cls; c.setAttribute('aria-hidden', 'true'); before ? parent.insertBefore(c, before) : parent.append(c); return c; };
 
     /* The method figure: labelled stations on a small field. Each station combs its own whorl in turn, then one band
@@ -56,7 +56,7 @@
       const checks = items.map(li => li.classList.contains('is-check')), set = fig.dataset.kind === 'set';
       let geo = null;
       MF.add(canvas(board, 'mfield', board.firstChild), {
-        intro: 2200, lw: 1.5, pal: [[176, 173, 194], VIO],
+        intro: 2200, lw: 1.5, pal: [[190, 190, 186], VIO],
         make(w, h) {
           const vert = w < 440, n = [], sp = 15;
           const st = items.map((_, i) => vert ? { x: 36, y: 12 + (i + .5) / N * (h - 24) } : { x: (i + .5) / N * w, y: h / 2 });
@@ -79,7 +79,7 @@
           if (!geo) return; const { st, vert, gap } = geo;
           st.forEach((s, i) => {
             const k = N > 1 ? i / (N - 1) : 1, o = sm(k * .62, k * .62 + .3, p);
-            x.globalAlpha = 1; x.fillStyle = o > .6 ? VCOL : '#4A4862'; x.beginPath(); x.arc(s.x, s.y, 3.2, 0, 7); x.fill();
+            x.globalAlpha = 1; x.fillStyle = o > .6 ? VCOL : '#4C525A'; x.beginPath(); x.arc(s.x, s.y, 3.2, 0, 7); x.fill();
             if (checks[i] && o > .3) {   /* the approval gate, just before the station */
               x.globalAlpha = sm(.3, .9, o); x.strokeStyle = GOLD; x.lineWidth = 2.4; x.beginPath();
               if (vert) { const y = s.y - gap * .5; x.moveTo(s.x - 12, y); x.lineTo(s.x + 12, y); } else { const gx = s.x - gap * .5; x.moveTo(gx, s.y - 12); x.lineTo(gx, s.y + 12); }
@@ -95,7 +95,7 @@
     $$('.page-hero').forEach(hero => {
       if ($('figure.method', hero)) return;
       MF.add(canvas(hero, 'horizon'), {
-        lw: 1.3, pal: [[150, 147, 170], VIO], intro: 2600,
+        lw: 1.3, pal: [[140, 145, 150], VIO], intro: 2600,
         make(w, h) { const n = []; let y = 6, row = 0;
           while (y < h - 2) { const t = y / h, dx = 9 + 16 * t, l = 2 + 5.4 * t;
             for (let x = (row % 2) * dx / 2; x < w + dx; x += dx) n.push({ x, y, l, a0: noise(x, y * 3, row) * 2, a1: .34 * Math.sin(x * .011 + row * .8), k: x / w });
@@ -113,7 +113,7 @@
     $$('.cta-band').forEach(band => {
       const wrap = $('.wrap', band) || band;
       MF.add(canvas(wrap, 'rings'), {
-        lw: 1.5, pal: [[78, 74, 122], LILAC],
+        lw: 1.5, pal: [[74, 80, 88], LILAC],
         make(w, h) { const n = [], cx = w / 2, cy = h / 2, Rm = w * .5;
           for (let R = 22; R < Rm; R += 14) { const m = Math.round(2 * PI * R / 13); for (let j = 0; j < m; j++) { const a = j / m * 2 * PI + R; n.push({ x: cx + R * Math.cos(a), y: cy + R * Math.sin(a), l: 4.4, a0: noise(R * 4, j * 7, 5) * 2, a1: a + PI / 2, k: R / Rm }); } }
           return n; },

@@ -17,7 +17,7 @@ window.AAMini = (() => {
   const still = root.classList.contains('static') || matchMedia('(prefers-reduced-motion: reduce)').matches;
   let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
   const C = (a, b) => Math.max(0, Math.min(1, a / b)), sm = (a, b, v) => { const t = C(v - a, b - a); return t * t * (3 - 2 * t); };
-  const INK = [18, 16, 42], VIO = [99, 91, 255], SNOW = [185, 182, 214], LILAC = [180, 175, 255], GOLD = '#FFB23E';
+  const INK = [28, 32, 38], VIO = [31, 107, 92], SNOW = [185, 188, 192], LILAC = [227, 154, 114], GOLD = '#1F6B5C';
   const ramp = (A, B) => [0, .25, .5, .75, 1].map(t => `rgb(${A.map((v, i) => Math.round(v + (B[i] - v) * t)).join(',')})`);
   const DEF = ramp(INK, VIO);
   const noise = (x, y, s) => 1.9 * Math.sin(x * .061 + s) + 1.6 * Math.sin(y * .083 - s * 1.7) + 1.2 * Math.sin((x - y) * .047 + 2) + (rnd() - .5) * 1.1;

@@ -48,7 +48,7 @@
   let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
   const MF = window.AAMini;
   if (MF) {
-    const { C, sm, noise } = MF, VCOL = 'rgb(99,91,255)';
+    const { C, sm, noise } = MF, VCOL = 'rgb(31,107,92)';
     $$('.glyph').forEach((g, i, all) => { g.innerHTML = '<canvas></canvas>'; MF.add(g.firstChild, MF.strip(i, all.length)); });
     const spine = $('.spine');
     if (spine) MF.add(spine, {
@@ -80,7 +80,12 @@
   const svc = $('#services'), rev = $('#reveal'), sheet = $('#sheet'), fin = $('#contact');
   const stepBtns = $$('.svc-steps button'), services = $$('.service');
   let stepIdx = 0, focusStep = -1;
-  const setStep = i => { if (i === stepIdx) return; stepIdx = i; stepBtns.forEach((b, k) => b.setAttribute('aria-current', k === i)); services.forEach((s, k) => s.classList.toggle('is-on', k === i)); };
+  const nextEl = $('.svc-next'), NEXT = ['Software', 'AI', 'Data', 'How it fits together'];
+  const setStep = i => { if (i === stepIdx) return; stepIdx = i; stepBtns.forEach((b, k) => b.setAttribute('aria-current', k === i)); services.forEach((s, k) => s.classList.toggle('is-on', k === i));
+    if (nextEl) { nextEl.querySelector('b').textContent = NEXT[i]; nextEl.classList.remove('is-new'); void nextEl.offsetWidth; nextEl.classList.add('is-new'); } };
+  /* each step's bar fills with the scroll, so the pinned section always shows that scrolling is moving it on */
+  const fills = stepBtns.map(() => -1);
+  const setFill = ps => stepBtns.forEach((b, k) => { const f = Math.round(clamp(ps * 4 - k) * 1000) / 1000; if (f !== fills[k]) { fills[k] = f; b.style.setProperty('--f', f); } });
   const goStep = (i, smooth) => scrollTo({ top: svc.offsetTop + (i + .5) / 4 * (svc.offsetHeight - innerHeight), behavior: smooth && !reduced.matches ? 'smooth' : 'auto' });
   stepBtns.forEach((b, i) => b.addEventListener('click', () => goStep(i, true)));
   /* keyboard focus on a hidden service shows it at once, then moves the scroll to its step after the browser's own focus scroll */
@@ -110,14 +115,14 @@
   const hex = h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
   const mix = (a, b, t) => { const A = hex(a), B = hex(b); return `rgb(${A.map((v, i) => Math.round(lerp(v, B[i], t))).join(',')})`; };
 
-  const PAPER = '#F3F1EC', NIGHT = '#090818', VIOLET = '#635BFF', GOLD = '#FFB23E', SIGNAL = '#FF5A3C';
+  const PAPER = '#F2EDE3', NIGHT = '#1C2026', VIOLET = '#1F6B5C', SIGNAL = '#E39A72';
   const BAND_R = .48, GATE_A = 1.72;
   const POLES = [{ a: -.62, r: .47, rad: .25 }, { a: .95, r: .5, rad: .22 }, { a: 2.45, r: .47, rad: .24 }, { a: -2.3, r: .5, rad: .21 }]
     .map(p => ({ x: p.r * Math.cos(p.a), z: p.r * Math.sin(p.a), rad: p.rad }));
   const LEVELS = 6, TIERS = 3, NB = LEVELS * TIERS * 2;
   const COL = [];
   for (let lit = 0; lit < 2; lit++) for (let l = 0; l < LEVELS; l++) for (let t = 0; t < TIERS; t++)
-    COL.push(lit ? mix('#6159FF', '#FFFFFF', Math.pow(l / (LEVELS - 1), .8)) : mix('#34324C', VIOLET, Math.pow(l / (LEVELS - 1), .7)));
+    COL.push(lit ? mix('#4FA391', '#F2EDE3', Math.pow(l / (LEVELS - 1), .8)) : mix('#30353C', VIOLET, Math.pow(l / (LEVELS - 1), .7)));
   const LW_D = [.8, 1.35, 2.2], LW_M = [1.1, 1.65, 2.5];   /* phones: heavier strokes so the field reads at arm's length */
   let LW = LW_D, A0 = .72, PACE = 1;
 
@@ -204,6 +209,7 @@
     const recentre = clamp(1 - r.top / vh), fz = clamp(1 - c.top / vh);
     const idx = r.top < vh * .5 ? 3 : Math.min(3, Math.floor(ps * 4));
     setStep(focusStep >= 0 ? focusStep : idx);
+    setFill(r.top < vh * .5 ? 1 : ps);
     Object.assign(G, rise > .55 ? STEPS[idx] : FREE);
     ignT = ease(clamp((pr - .1) / .42));
     if (ignT > .04) { G.labels = 0; G.flow = 1; }
@@ -307,6 +313,7 @@
   function draw() {
     const c = camS, al = Math.atan2(c.H, c.zt - c.Cz), sa = Math.sin(al), ca = Math.cos(al), yaw = c.yaw + spin, cs = Math.cos(yaw), sn = Math.sin(yaw);
     PJ = { sa, ca, cs, sn };
+    const APPR = mix('#9A6F12', '#E2B04A', ign);   /* approval: gold-deep on paper, gold at night */
     const night = ign > .999, F = c.F, cx = c.cx, cy = c.cy, Hc = c.H, Cz = c.Cz;
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
     ctx.globalAlpha = 1; ctx.fillStyle = ign > .97 ? NIGHT : PAPER; ctx.fillRect(0, 0, W, cv.height / DPR);
@@ -319,7 +326,7 @@
     }
     if (core && ign > .02) {
       const gr = Math.min(.75, waveR) * kc, g = ctx.createRadialGradient(core[0], core[1], 0, core[0], core[1], gr);
-      g.addColorStop(0, 'rgba(99,91,255,.34)'); g.addColorStop(.35, 'rgba(99,91,255,.17)'); g.addColorStop(.7, 'rgba(99,91,255,.05)'); g.addColorStop(1, 'rgba(99,91,255,0)');
+      g.addColorStop(0, 'rgba(31,107,92,.34)'); g.addColorStop(.35, 'rgba(31,107,92,.17)'); g.addColorStop(.7, 'rgba(31,107,92,.05)'); g.addColorStop(1, 'rgba(31,107,92,0)');
       ctx.save(); ctx.translate(core[0], core[1]); ctx.scale(1, Math.max(.2, sa)); ctx.translate(-core[0], -core[1]);
       ctx.fillStyle = g; ctx.beginPath(); ctx.arc(core[0], core[1], gr, 0, TAU); ctx.fill(); ctx.restore();
     }
@@ -380,12 +387,12 @@
     }
     if (S.gate > .02) {
       const gx = Math.cos(GATE_A), gz = Math.sin(GATE_A), a = proj(gx * (BAND_R - .1), gz * (BAND_R - .1)), b = proj(gx * (BAND_R + .1), gz * (BAND_R + .1));
-      if (a && b) { ctx.globalAlpha = S.gate * (1 - finT) * (qr.length ? ease(quietAt((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, 70)) : 1); ctx.strokeStyle = GOLD; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); ctx.globalAlpha = 1; }
+      if (a && b) { ctx.globalAlpha = S.gate * (1 - finT) * (qr.length ? ease(quietAt((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, 70)) : 1); ctx.strokeStyle = APPR; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); ctx.globalAlpha = 1; }
     }
     if (core && S.core > .02) {
-      const qa = qr.length ? ease(quietAt(core[0], core[1], 60)) : 1;   /* a gold ring lying in the plane, and a round point at its centre */
-      ctx.globalAlpha = S.core * qa; ctx.strokeStyle = GOLD; ctx.lineWidth = 1.6; ring(0, 0, .042 * (.6 + .4 * S.core)); ctx.stroke();
-      ctx.fillStyle = GOLD; ctx.beginPath(); ctx.arc(core[0], core[1], clamp(.011 * kc, 3, 7), 0, TAU); ctx.fill(); ctx.globalAlpha = 1;
+      const qa = qr.length ? ease(quietAt(core[0], core[1], 60)) : 1;   /* an approval ring lying in the plane, and a round point at its centre */
+      ctx.globalAlpha = S.core * qa; ctx.strokeStyle = APPR; ctx.lineWidth = 1.6; ring(0, 0, .042 * (.6 + .4 * S.core)); ctx.stroke();
+      ctx.fillStyle = APPR; ctx.beginPath(); ctx.arc(core[0], core[1], clamp(.011 * kc, 3, 7), 0, TAU); ctx.fill(); ctx.globalAlpha = 1;
     }
 
     /* labels live in the DOM so they stay crisp; they are aria-hidden duplicates of text in the page */
