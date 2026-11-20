@@ -254,3 +254,6 @@ body.inner .hint{display:block;background:none;padding:0;margin:0 0 20px;border-
 
 /* Services hub: pricing answer under "Where to start" */
 .section-head .price-h{margin-top:clamp(28px,4.5vh,44px)}
+
+/* second paper stock: every other content block sits on kraft (dark blocks and the CTA band keep their own tone) */
+main>.block:nth-of-type(odd):not(.cta-band):not(:has(.pairs)):not(.on-carbon){background:var(--kraft);--ink-2:#3F444B;--accent-deep:#86391D;--line:rgba(28,32,38,.22)}

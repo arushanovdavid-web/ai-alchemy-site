@@ -9,6 +9,7 @@
   /* "Transmutation" palette (2026-11-19): parchment, lead, verdigris (the field connecting), copper (action; #9A4424 for text),
      gold (approval only; #9A6F12 on paper). The field engine sets verdigris in home.js. */
   --accent:#D06C40; --accent-deep:#9A4424; --accent-lite:#E39A72; --sand:#E2B04A; --stone:#8C9196;
+  --kraft:#DED0B6;   /* second paper stock (2026-11-20): alternate sections, so the page is not one flat cream */
   --signal:#E39A72; --signal-deep:#9A4424;   /* fourth colour: the scattered sources and the problems they cause */
   --serif:"Newsreader",Georgia,"Times New Roman",serif;
   --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -72,6 +73,7 @@ h2{font-size:clamp(2.1rem,4.5vw,4.1rem);line-height:1.02}
 .hdr.is-scrolled{background:rgba(242,237,227,.93);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .hdr[data-tone="night"]{color:var(--snow)}
 .hdr[data-tone="night"].is-scrolled{background:rgba(28,32,38,.78)}
+.hdr[data-tone="kraft"].is-scrolled{background:rgba(222,208,182,.93)}
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;min-height:44px}
 .mark{width:30px;height:30px;transition:transform .9s var(--ease)}
 .brand:hover .mark{transform:rotate(90deg)}
@@ -176,7 +178,10 @@ h1 .l2{display:block}
 .steps h3{margin:10px 0 10px;font:420 clamp(1.6rem,2.3vw,2.2rem)/1.05 var(--serif);letter-spacing:-.02em}
 .steps p{color:var(--ink-2)}
 
-.outcomes{background:var(--paper-2)}
+.outcomes{background:var(--kraft)}
+/* on kraft, text tokens step darker so every pairing stays at 4.5:1 or better */
+.kraft,.outcomes,.why{--ink-2:#3F444B;--accent-deep:#86391D;--line:rgba(28,32,38,.22)}
+.why{background:var(--kraft)}
 .outcomes-grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,6vw,110px);align-items:start}
 .outcomes .head{position:sticky;top:calc(var(--hdr) + 40px)}
 .outcomes .head h2{font-size:clamp(2rem,3.5vw,3.3rem)}

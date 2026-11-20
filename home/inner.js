@@ -32,7 +32,9 @@
     matchMedia('(min-width:821px)').addEventListener('change', e => { if (e.matches && isOpen()) setNav(false); });
   }
 
-  /* ---- Header: paper or night, from whatever section sits under it ---- */
+  /* ---- Header: paper, kraft or night, from whatever section sits under it ---- */
+  /* inner.css puts every other light content block on kraft; marking it here lets the header follow */
+  $$('main>.block:nth-of-type(odd):not(.cta-band):not(.on-carbon):not([data-tone])').forEach(b => { if (!b.querySelector('.pairs')) b.dataset.tone = 'kraft'; });
   const toneEls = $$('[data-tone]');
   const tone = () => {
     let t = 'paper';
