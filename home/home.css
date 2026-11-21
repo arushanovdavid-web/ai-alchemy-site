@@ -394,3 +394,20 @@ h1 .l2{display:block}
 @keyframes panelIn{from{opacity:0;transform:translateY(10px)}}
 @media (max-width:820px){.tab-mark,.tab-hover{display:none}}
 @media (prefers-reduced-motion:reduce){.tab-mark,.tab-hover{transition:none}}
+
+/* the mark: on the first page of a visit the two rings turn into place against each other and the core lands last;
+   on hover the inner ring counter-turns. Plain CSS; nothing moves under reduced motion. */
+.mark circle{transform-origin:16px 16px}
+/* the inner ring's 24° set is restated here so it turns about the same centre (CSS transform overrides the SVG attribute) */
+.mark circle:nth-of-type(2){transform:rotate(24deg);transition:rotate .9s var(--ease)}
+.brand:hover .mark circle:nth-of-type(2){rotate:-180deg}
+.mark .mark-core{transform-box:fill-box;transform-origin:center}
+@media (prefers-reduced-motion:no-preference){
+  .mark-intro .hdr .mark circle:nth-of-type(1){animation:markOuter 1.5s cubic-bezier(.2,.75,.15,1) both}
+  .mark-intro .hdr .mark circle:nth-of-type(2){animation:markInner 1.5s cubic-bezier(.2,.75,.15,1) .05s both}
+  .mark-intro .hdr .mark .mark-core{animation:markCore .7s cubic-bezier(.3,1.6,.5,1) .55s both}
+}
+@keyframes markOuter{from{rotate:-150deg;opacity:.2}}
+@keyframes markInner{from{rotate:200deg;opacity:.2}}
+@keyframes markCore{from{scale:0}}
+@media (prefers-reduced-motion:reduce){.mark,.mark circle{transition:none}}

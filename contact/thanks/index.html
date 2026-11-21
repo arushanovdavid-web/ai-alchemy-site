@@ -30,7 +30,7 @@
 <link rel="icon" href="/home/mark.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<script>(function(c){c.remove('no-js');c.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)c.remove('static')})(document.documentElement.classList)</script>
+<script>(function(c){c.remove('no-js');c.add('js');try{if(!sessionStorage.getItem('aa-mark')){sessionStorage.setItem('aa-mark','1');c.add('mark-intro')}}catch(e){}if(!matchMedia('(prefers-reduced-motion: reduce)').matches)c.remove('static')})(document.documentElement.classList)</script>
 
 </head>
 <body class="inner">
