@@ -147,6 +147,17 @@
   const TRAIL = [], TRAIL_LIFE = 1.1, TRAIL_MAX = 28;
   const quiet = $$('[data-quiet]'), qr = [];
   const labels = $$('.fl[data-pole]'), lGate = $('[data-gate]'), lCore = $('[data-core]'), flLayer = $('#fl');
+  /* three stage words behind the field: Legacy (scattered), Alchemy (drawing together), Scale (one operation).
+     Each rises into place as its stage begins and fades as the next takes over. Decorative: aria-hidden. */
+  const ghost = document.createElement('div'); ghost.className = 'ghost'; ghost.setAttribute('aria-hidden', 'true');
+  const GW = ['Legacy', 'Alchemy', 'Scale'].map(t => { const e = document.createElement('span'); e.textContent = t; ghost.appendChild(e); return e; });
+  if (flLayer) flLayer.prepend(ghost);
+  const gLast = [-1, -1, -1];
+  const setGhost = (...w) => GW.forEach((e, i) => {
+    const v = Math.round(clamp(w[i]) * 100) / 100; if (v === gLast[i]) return; gLast[i] = v;
+    e.style.opacity = v; e.style.visibility = v > 0 ? 'visible' : 'hidden';
+    e.style.transform = `translate3d(0,${((1 - v) * 2.2).toFixed(2)}vh,0) scale(${(1 + (1 - v) * .05).toFixed(3)})`;   /* compositor-only: no blur or relayout per frame */
+  });
 
   function build(k) {
     K = k; SP = 1 / K; HL = SP * .36;
@@ -213,7 +224,7 @@
       const ch = sh.top < 0 ? 'end' : r.top < vh ? 'grand' : 'hero';
       const changed = ch !== chapter; chapter = ch;
       Object.assign(G, ch === 'hero' ? FREE : STEPS[3]); G.calm = 0; G.orbit = 0; G.labels = ch === 'hero' ? 1 : 0; G.flow = 0;
-      ignT = ch === 'hero' ? 0 : 1; Object.assign(camT, CAM[ch]);
+      ignT = ch === 'hero' ? 0 : 1; Object.assign(camT, CAM[ch]); setGhost(0, 0, 0);
       return changed;
     }
     const travel = clamp(y / Math.max(1, s.top + y - vh * .9)), rise = clamp(1 - s.top / (vh * .9));
@@ -231,6 +242,9 @@
     camLerp(tmpB, tmpA, CAM.grand, ease(clamp((pr - .54) / .3)));
     camLerp(camT, tmpB, CAM.end, ease(fz));
     finT = fz;
+    setGhost((1 - sstep(.25, .7, rise)) * Math.min(1, intro * 1.4),
+             sstep(.7, .95, rise) * (1 - sstep(.3, .8, recentre)),
+             sstep(.3, .5, pr) * (1 - sstep(.88, 1, pr)));
     const v = clamp((pr - .42) / .2);
     if (Math.abs(v - rv) > .004) { rv = v; rev.style.setProperty('--rv', v.toFixed(3)); }
     return true;

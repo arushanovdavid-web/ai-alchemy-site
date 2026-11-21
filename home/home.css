@@ -10,7 +10,7 @@
      gold (approval only; #9A6F12 on paper). The field engine sets verdigris in home.js. */
   --accent:#D06C40; --accent-deep:#9A4424; --accent-lite:#E39A72; --sand:#E2B04A; --stone:#8C9196;
   --kraft:#DED0B6;   /* second paper stock (2026-11-20): alternate sections, so the page is not one flat cream */
-  --signal:#E39A72; --signal-deep:#9A4424;   /* fourth colour: the scattered sources and the problems they cause */
+  --signal:#E39A72; --signal-deep:#9A4424;   /* fourth colour: the field's four labelled pieces (what we build) and the problems list */
   --serif:"Newsreader",Georgia,"Times New Roman",serif;
   --sans:"Inter Tight",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -411,3 +411,12 @@ h1 .l2{display:block}
 @keyframes markInner{from{rotate:200deg;opacity:.2}}
 @keyframes markCore{from{scale:0}}
 @media (prefers-reduced-motion:reduce){.mark,.mark circle{transition:none}}
+
+/* stage words (home.js): huge, faint, behind the field; they never carry information the page doesn't already state */
+.ghost{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.ghost span{position:absolute;right:calc(var(--pad) * .6);bottom:9vh;font:400 clamp(5.5rem,17vw,19rem)/.8 var(--serif);letter-spacing:-.03em;color:var(--ink);opacity:0;visibility:hidden;white-space:nowrap;will-change:opacity,transform;transform-origin:100% 100%}
+.ghost span{--g:.075}
+.ghost span{color:rgba(28,32,38,var(--g))}
+.fl-layer.is-night .ghost span{color:rgba(242,237,227,.11);text-shadow:0 0 .35em rgba(79,163,145,.35)}
+@media (max-width:820px){.ghost span{bottom:auto;top:52vh;right:var(--pad)}}
+@media print{.ghost{display:none}}
