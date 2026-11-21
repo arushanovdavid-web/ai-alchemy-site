@@ -368,3 +368,29 @@ h1 .l2{display:block}
 }
 
 .review *,.review *::before,.review *::after{animation:none !important;transition:none !important}
+
+/* section hand-off (home/handoff.js): each sentence of a section headline is its own box so it can slide in */
+.ho-on .ho{display:inline-block;will-change:transform,opacity}
+@media print{.ho-on .ho{transform:none!important;opacity:1!important}}
+
+/* the thread (home/thread.js): one copper line drawn by the scroll through the calm sheet */
+.thread{position:absolute;left:0;top:0;z-index:2;pointer-events:none;overflow:visible}
+.thread path{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-linecap:round}
+.thread-head{fill:var(--accent);stroke:var(--paper);stroke-width:2}
+@media print{.thread{display:none}}
+
+/* industries: the selection marker glides between tabs (home.js); the panel's content arrives in a short stagger */
+.tablist.has-mark{position:relative}
+.has-mark .tab[aria-selected="true"]{box-shadow:none}
+.tab-mark,.tab-hover{position:absolute;left:0;top:0;pointer-events:none}
+.tab-mark{width:3px;background:var(--accent);transition:transform .5s var(--ease),height .5s var(--ease)}
+.tab-hover{right:0;background:rgba(242,237,227,.045);opacity:0;transition:transform .35s var(--ease),height .35s var(--ease),opacity .25s}
+.tab-hover.on{opacity:1}
+@media (min-width:821px) and (prefers-reduced-motion:no-preference){
+  .js .panel:not([hidden])>*{animation:panelIn .55s var(--ease) both}
+  .js .panel:not([hidden])>:nth-child(3){animation-delay:.06s}
+  .js .panel:not([hidden])>:nth-child(4){animation-delay:.12s}
+}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px)}}
+@media (max-width:820px){.tab-mark,.tab-hover{display:none}}
+@media (prefers-reduced-motion:reduce){.tab-mark,.tab-hover{transition:none}}

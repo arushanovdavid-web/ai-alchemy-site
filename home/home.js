@@ -1,6 +1,6 @@
 /* AI Alchemy — "The Field" homepage prototype. No dependencies, no network requests.
    Part 1 is ordinary page behaviour. Part 2 is the field: one 2D canvas of needles on a plane, seen through a
-   small perspective camera. Scroll position sets the camera and the amount of order; the pointer combs the needles.
+   small perspective camera. Scroll position sets the camera and the amount of order; the pointer combs the needles and leaves a short wake.
    The canvas is decorative: every word it illustrates is in the document, and the page reads without it. */
 (() => {
   'use strict';
@@ -32,7 +32,17 @@
 
   /* Industries: WAI-ARIA tabs, arrow keys move and select. */
   const tabs = $$('[role="tab"]');
-  const select = t => tabs.forEach(x => { const on = x === t; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; $('#' + x.getAttribute('aria-controls')).hidden = !on; });
+  /* one copper marker glides to the selected tab; a faint box follows the pointer down the list */
+  const tlist = $('.tablist'), tmark = tlist && document.createElement('i'), thov = tlist && document.createElement('i');
+  const moveTo = (el, t) => { if (!el || !t) return; el.style.transform = `translateY(${t.offsetTop}px)`; el.style.height = t.offsetHeight + 'px'; };
+  if (tlist) {
+    tmark.className = 'tab-mark'; thov.className = 'tab-hover'; tmark.setAttribute('aria-hidden', 'true'); thov.setAttribute('aria-hidden', 'true');
+    tlist.append(thov, tmark); tlist.classList.add('has-mark');
+    tlist.addEventListener('pointerover', e => { const t = e.target.closest('[role="tab"]'); if (t && e.pointerType === 'mouse') { moveTo(thov, t); thov.classList.add('on'); } });
+    tlist.addEventListener('pointerleave', () => thov.classList.remove('on'));
+    new ResizeObserver(() => moveTo(tmark, tabs.find(x => x.getAttribute('aria-selected') === 'true'))).observe(tlist);
+  }
+  const select = t => { tabs.forEach(x => { const on = x === t; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; $('#' + x.getAttribute('aria-controls')).hidden = !on; }); moveTo(tmark, t); };
   tabs.forEach((t, i) => {
     t.addEventListener('click', () => select(t));
     t.addEventListener('keydown', e => {
@@ -133,6 +143,8 @@
   let finT = 0, ign = 0, ignT = 0, rv = -1, spin = 0, T = 0, last = 0, intro = 0, raf = 0, covered = false, camInit = false, beat = 0;
   let isStatic = root.classList.contains('static'), chapter = '';
   const ptr = { sx: 0, sy: 0, on: false, touch: false, t: 0 }, ripples = [];
+  /* the wake: recent pointer points in field space, each with the direction of travel; needles near the path comb along it, then let go */
+  const TRAIL = [], TRAIL_LIFE = 1.1, TRAIL_MAX = 28;
   const quiet = $$('[data-quiet]'), qr = [];
   const labels = $$('.fl[data-pole]'), lGate = $('[data-gate]'), lCore = $('[data-core]'), flLayer = $('#fl');
 
@@ -251,6 +263,14 @@
     let px = 0, pz = 0, pon = false;
     if (ptr.on && !snap) { const p = unproject(ptr.sx, ptr.sy); if (p) { px = p[0]; pz = p[1]; pon = true; } }
     const RHO = full ? .13 : .19, RHO2 = RHO * RHO, pStr = full ? .55 : 1, nr = ripples.length;
+    const WR = RHO * 1.35, WR2 = WR * WR, wStr = full ? .6 : 1;
+    let nt = 0, bx0 = 1e9, bx1 = -1e9, bz0 = 1e9, bz1 = -1e9;
+    if (!snap) {
+      for (let k = TRAIL.length - 1; k >= 0; k--) { if ((TRAIL[k].age += dt) > TRAIL_LIFE) TRAIL.splice(k, 1); }
+      nt = TRAIL.length;
+      for (let k = 0; k < nt; k++) { const tp = TRAIL[k]; if (tp.x < bx0) bx0 = tp.x; if (tp.x > bx1) bx1 = tp.x; if (tp.z < bz0) bz0 = tp.z; if (tp.z > bz1) bz1 = tp.z; }
+      bx0 -= WR; bx1 += WR; bz0 -= WR; bz1 += WR;
+    } else TRAIL.length = 0;
     for (let i = 0; i < N; i++) {
       const r = R[i]; let ph = PH[i];
       const o = full ? 1 : none ? 0 : 1 - sstep(band - .035, band + .035, Math.abs(r - BAND_R));
@@ -264,6 +284,15 @@
       if (pon) {
         const dx = px - x, dz = pz - z, d2 = dx * dx + dz * dz;
         if (d2 < RHO2) { w = 1 - Math.sqrt(d2) / RHO; w *= w; let d = Math.atan2(dz, dx) - t; d -= PI * Math.round(d / PI); t += d * w * pStr; if (w > e) e = w; }
+      }
+      if (nt && x > bx0 && x < bx1 && z > bz0 && z < bz1) {
+        let best = 0, ba = 0;
+        for (let k = 0; k < nt; k++) {
+          const tp = TRAIL[k]; if (tp.a === null) continue;
+          const dx = x - tp.x, dz = z - tp.z, d2 = dx * dx + dz * dz; if (d2 >= WR2) continue;
+          let ww = 1 - Math.sqrt(d2) / WR; ww *= ww * (1 - tp.age / TRAIL_LIFE); if (ww > best) { best = ww; ba = tp.a; }
+        }
+        if (best > .02) { let d = ba - t; d -= PI * Math.round(d / PI); t += d * best * wStr; if (best * .8 > e) e = best * .8; if (best > w) w = best; }
       }
       for (let j = 0; j < nr; j++) {
         const rp = ripples[j], dx = x - rp.x, dz = z - rp.z, q = (Math.sqrt(dx * dx + dz * dz) - rp.rad) * 22;
@@ -440,7 +469,15 @@
   });
 
   /* pointer: the field answers. Listeners are passive, so touch scrolling is never blocked. */
-  const at = (x, y, touch) => { ptr.sx = x; ptr.sy = y; ptr.on = true; ptr.touch = touch; ptr.t = performance.now(); };
+  const at = (x, y, touch) => {
+    ptr.sx = x; ptr.sy = y; ptr.on = true; ptr.touch = touch; ptr.t = performance.now();
+    if (isStatic || covered) return;
+    const p = unproject(x, y); if (!p) return;
+    const L = TRAIL[TRAIL.length - 1], d = L ? Math.hypot(p[0] - L.x, p[1] - L.z) : 1;
+    if (L && d < .02) return;                                              /* too close to the last point to give a direction */
+    TRAIL.push({ x: p[0], z: p[1], a: L && d < .4 ? Math.atan2(p[1] - L.z, p[0] - L.x) : null, age: 0 });   /* a jump starts a new stroke */
+    if (TRAIL.length > TRAIL_MAX) TRAIL.shift();
+  };
   addEventListener('pointermove', e => at(e.clientX, e.clientY, e.pointerType === 'touch'), { passive: true });
   addEventListener('touchmove', e => { const t = e.touches[0]; if (t) at(t.clientX, t.clientY, true); }, { passive: true });
   const off = () => { ptr.on = false; };

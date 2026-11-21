@@ -257,3 +257,11 @@ body.inner .hint{display:block;background:none;padding:0;margin:0 0 20px;border-
 
 /* second paper stock: every other content block sits on kraft (dark blocks and the CTA band keep their own tone) */
 main>.block:nth-of-type(odd):not(.cta-band):not(:has(.pairs)):not(.on-carbon){background:var(--kraft);--ink-2:#3F444B;--accent-deep:#86391D;--line:rgba(28,32,38,.22)}
+
+/* industries and services lists: the row under the pointer comes forward, the rest step back */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .link-list li{transition:opacity .3s var(--ease)}
+  .link-list li h3{transition:transform .4s var(--ease)}
+  .link-list:has(li:hover) li:not(:hover){opacity:.6}
+  .link-list li:hover h3{transform:translateX(6px)}
+}
