@@ -412,11 +412,3 @@ h1 .l2{display:block}
 @keyframes markCore{from{scale:0}}
 @media (prefers-reduced-motion:reduce){.mark,.mark circle{transition:none}}
 
-/* stage words (home.js): huge, faint, behind the field; they never carry information the page doesn't already state */
-.ghost{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.ghost span{position:absolute;right:calc(var(--pad) * .6);bottom:9vh;font:400 clamp(5.5rem,17vw,19rem)/.8 var(--serif);letter-spacing:-.03em;color:var(--ink);opacity:0;visibility:hidden;white-space:nowrap;will-change:opacity,transform;transform-origin:100% 100%}
-.ghost span{--g:.075}
-.ghost span{color:rgba(28,32,38,var(--g))}
-.fl-layer.is-night .ghost span{color:rgba(242,237,227,.11);text-shadow:0 0 .35em rgba(79,163,145,.35)}
-@media (max-width:820px){.ghost span{bottom:auto;top:52vh;right:var(--pad)}}
-@media print{.ghost{display:none}}

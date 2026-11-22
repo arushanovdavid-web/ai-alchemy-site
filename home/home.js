@@ -129,12 +129,15 @@
   const BAND_R = .48, GATE_A = 1.72;
   const POLES = [{ a: -.62, r: .47, rad: .25 }, { a: .95, r: .5, rad: .22 }, { a: 2.45, r: .47, rad: .24 }, { a: -2.3, r: .5, rad: .21 }]
     .map(p => ({ x: p.r * Math.cos(p.a), z: p.r * Math.sin(p.a), rad: p.rad }));
-  const LEVELS = 6, TIERS = 3, NB = LEVELS * TIERS * 2;
+  const LEVELS = 6, TIERS = 5, NB = LEVELS * TIERS * 2;
   const COL = [];
   for (let lit = 0; lit < 2; lit++) for (let l = 0; l < LEVELS; l++) for (let t = 0; t < TIERS; t++)
     COL.push(lit ? mix('#4FA391', '#F2EDE3', Math.pow(l / (LEVELS - 1), .8)) : mix('#30353C', VIOLET, Math.pow(l / (LEVELS - 1), .7)));
-  const LW_D = [.8, 1.35, 2.2], LW_M = [1.1, 1.65, 2.5];   /* phones: heavier strokes so the field reads at arm's length */
-  let LW = LW_D, A0 = .72, PACE = 1;
+  /* engraved strokes: five depth tiers, far to near. Width rises only gently and the nearest tiers lighten again, so the
+     foreground reads as fine detail instead of heavy dashes; phones get slightly heavier strokes for arm's length */
+  const LW_D = [.5, .75, 1, 1.2, 1.35], LW_M = [.75, 1, 1.25, 1.5, 1.7];
+  const AL_D = [.42, .66, .86, .8, .58], AL_M = [.52, .74, .9, .86, .64];
+  let LW = LW_D, AL = AL_D, LMAX = 7.5, PACE = 1;
 
   let W = 0, Hh = 0, DPR = 1, K = 0, N = 0, SP = 0, HL = 0;
   let R, PH, PH0, X, Z, BASE, WW, WP, ANG, EN, ORD, RT, BUF, CNT = new Int32Array(NB);
@@ -147,17 +150,6 @@
   const TRAIL = [], TRAIL_LIFE = 1.1, TRAIL_MAX = 28;
   const quiet = $$('[data-quiet]'), qr = [];
   const labels = $$('.fl[data-pole]'), lGate = $('[data-gate]'), lCore = $('[data-core]'), flLayer = $('#fl');
-  /* three stage words behind the field: Legacy (scattered), Alchemy (drawing together), Scale (one operation).
-     Each rises into place as its stage begins and fades as the next takes over. Decorative: aria-hidden. */
-  const ghost = document.createElement('div'); ghost.className = 'ghost'; ghost.setAttribute('aria-hidden', 'true');
-  const GW = ['Legacy', 'Alchemy', 'Scale'].map(t => { const e = document.createElement('span'); e.textContent = t; ghost.appendChild(e); return e; });
-  if (flLayer) flLayer.prepend(ghost);
-  const gLast = [-1, -1, -1];
-  const setGhost = (...w) => GW.forEach((e, i) => {
-    const v = Math.round(clamp(w[i]) * 100) / 100; if (v === gLast[i]) return; gLast[i] = v;
-    e.style.opacity = v; e.style.visibility = v > 0 ? 'visible' : 'hidden';
-    e.style.transform = `translate3d(0,${((1 - v) * 2.2).toFixed(2)}vh,0) scale(${(1 + (1 - v) * .05).toFixed(3)})`;   /* compositor-only: no blur or relayout per frame */
-  });
 
   function build(k) {
     K = k; SP = 1 / K; HL = SP * .36;
@@ -171,7 +163,7 @@
     for (let i = 0; i < N; i++) {
       const x = R[i] * Math.cos(PH[i]), z = R[i] * Math.sin(PH[i]);
       /* disorder: smooth turbulence plus a little grain, then four whorls that each keep their own local order */
-      const c = 1.9 * Math.sin(x * 6.3 + 1.1) + 1.7 * Math.sin(z * 5.1 - .7) + 1.3 * Math.sin((x - z) * 4.3 + 2) + (rnd() - .5) * .9;
+      const c = 1.9 * Math.sin(x * 6.3 + 1.1) + 1.7 * Math.sin(z * 5.1 - .7) + 1.3 * Math.sin((x - z) * 4.3 + 2) + (rnd() - .5) * .22;   /* low grain: the disorder reads as flowing turbulence, not confetti */
       let vx = Math.cos(2 * c), vy = Math.sin(2 * c);
       for (const p of POLES) {
         const dx = x - p.x, dz = z - p.z, d = Math.hypot(dx, dz); if (d > p.rad) continue;
@@ -189,8 +181,8 @@
     DPR = Math.min(devicePixelRatio || 1, W <= 820 ? 3 : 2);
     const cw = Math.round(cv.clientWidth * DPR), ch = Math.round(cv.clientHeight * DPR);
     if (cv.width !== cw || cv.height !== ch) { cv.width = cw; cv.height = ch; }
-    const m = W <= 820, k = W <= 560 ? 23 : W <= 1100 ? 34 : 42;
-    LW = m ? LW_M : LW_D; A0 = m ? .88 : .72; PACE = m || coarse ? 1.7 : 1;   /* touch: the field follows the thumb more tightly */
+    const m = W <= 820, k = W <= 560 ? 30 : W <= 1100 ? 44 : 58;   /* denser, finer grain */
+    LW = m ? LW_M : LW_D; AL = m ? AL_M : AL_D; LMAX = m ? 6 : 7.5; PACE = m || coarse ? 1.7 : 1;   /* touch: the field follows the thumb more tightly */
     if (k !== K) build(k);
     $$('.fl').forEach(el => { el._w = 0; });
     /* on phones the plan view fills the measured gap between the services heading and its panel */
@@ -224,7 +216,7 @@
       const ch = sh.top < 0 ? 'end' : r.top < vh ? 'grand' : 'hero';
       const changed = ch !== chapter; chapter = ch;
       Object.assign(G, ch === 'hero' ? FREE : STEPS[3]); G.calm = 0; G.orbit = 0; G.labels = ch === 'hero' ? 1 : 0; G.flow = 0;
-      ignT = ch === 'hero' ? 0 : 1; Object.assign(camT, CAM[ch]); setGhost(0, 0, 0);
+      ignT = ch === 'hero' ? 0 : 1; Object.assign(camT, CAM[ch]);
       return changed;
     }
     const travel = clamp(y / Math.max(1, s.top + y - vh * .9)), rise = clamp(1 - s.top / (vh * .9));
@@ -242,9 +234,6 @@
     camLerp(tmpB, tmpA, CAM.grand, ease(clamp((pr - .54) / .3)));
     camLerp(camT, tmpB, CAM.end, ease(fz));
     finT = fz;
-    setGhost((1 - sstep(.25, .7, rise)) * Math.min(1, intro * 1.4),
-             sstep(.7, .95, rise) * (1 - sstep(.3, .8, recentre)),
-             sstep(.3, .5, pr) * (1 - sstep(.88, 1, pr)));
     const v = clamp((pr - .42) / .2);
     if (Math.abs(v - rv) > .004) { rv = v; rev.style.setProperty('--rv', v.toFixed(3)); }
     return true;
@@ -391,20 +380,21 @@
       let q = qr.length ? quietAt(sx, sy, M) : 1;
       const r = R[i];
       if (intro < 1) q *= clamp((introR - r) * 4);
+      if (r > .82) q *= ease(clamp((1 - r) / .18));   /* the rim dissolves instead of cutting off */
       if (q < .05) continue;
-      const a = ANG[i] + yaw, dx = Math.cos(a) * HL * q, dz = Math.sin(a) * HL * q;
+      const hl = HL * q * Math.min(1, LMAX / (HL * k)), a = ANG[i] + yaw, dx = Math.cos(a) * hl, dz = Math.sin(a) * hl;   /* screen length capped */
       const z1 = HcSa + (rz + dz) * ca, z2 = HcSa + (rz - dz) * ca; if (z1 < .04 || z2 < .04) continue;
       const k1 = F / z1, k2 = F / z2;
       let e = EN[i]; const o = ORD[i];
       if (flow > .01 && o > 0) { const sv = Math.sin(3 * PH[i] - T * 1.25 + r * 6.5); if (sv > 0) { const s2 = sv * sv; e += o * flow * s2 * s2 * s2 * .85; } }
-      const lvl = e >= 1 ? LEVELS - 1 : (e * LEVELS) | 0, lw = k * lwk, tier = lw < .95 ? 0 : lw < 1.75 ? 1 : 2;
+      const lvl = e >= 1 ? LEVELS - 1 : (e * LEVELS) | 0, lw = k * lwk, tier = lw < .45 ? 0 : lw < .8 ? 1 : lw < 1.3 ? 2 : lw < 2.1 ? 3 : 4;
       const b = (r < waveR ? LEVELS * TIERS : 0) + lvl * TIERS + tier, n = CNT[b]++ * 4, B = BUF[b];
       B[n] = cx + (xr + dx) * k1; B[n + 1] = cy - (HcCa + (rz + dz) * sa) * k1; B[n + 2] = cx + (xr - dx) * k2; B[n + 3] = cy - (HcCa + (rz - dz) * sa) * k2;
     }
     ctx.lineCap = 'round';
     for (let b = 0; b < NB; b++) {
       const n = CNT[b] * 4; if (!n) continue; const B = BUF[b], tier = b % TIERS;
-      ctx.strokeStyle = COL[b]; ctx.lineWidth = LW[tier]; ctx.globalAlpha = tier === 0 ? A0 : 1;
+      ctx.strokeStyle = COL[b]; ctx.lineWidth = LW[tier]; ctx.globalAlpha = AL[tier];
       ctx.beginPath(); for (let j = 0; j < n; j += 4) { ctx.moveTo(B[j], B[j + 1]); ctx.lineTo(B[j + 2], B[j + 3]); } ctx.stroke();
     }
     ctx.globalAlpha = 1;
