@@ -41,9 +41,9 @@ Evidence (`docs/gate-3/evidence/`): desktop 1440×900 and phone 390×844 at the 
 
 ## Tower scroll sequence (David's CN Tower and Toronto skyline videos)
 - The capabilities section now opens on a low skyline knotted with coral cables ("Today · systems held together by workarounds") with a new intro card, 00 · Today.
-- Each capability pulls its own bundle of the tangle into one part of a single tower: 01 Modernize the base, 02 Connect the shaft plus copper links from the surrounding buildings, 03 Automate the main deck, 04 Understand the upper deck, 05 Enable AI the mast. Segments travel coral → copper (activity) → ink; the signal at the top is verdigris (improved).
+- Each capability pulls its own bundle of the tangle into one part of the tower: 01 Modernize the base, 02 Connect the Y-shaped shaft with copper elevators and links from the surrounding buildings, 03 Automate the main pod, 04 Understand the upper shaft and pod, 05 Enable AI the antenna. Segments travel coral → copper (activity) → ink; the signal at the top is verdigris (improved).
 - The camera rises and pulls back until the whole tower stands, then "From legacy to working AI." appears. The five labels are HTML (crisp, readable) projected next to the tower and flip side when they would leave the window.
-- The tower is stylised, not a copy of a real landmark. Our five capabilities replace the video's older service names.
+- The tower follows the CN Tower's real profile (David, 23 Nov: non-negotiable): Y-shaped shaft of three wings, main pod with brackets and glass band, hexagonal upper shaft, upper pod, antenna, at true proportions (1 unit = 4.6 m), against a Toronto-like skyline with the lake in front. Our five capabilities replace the video's older service names.
 - Built with three.js 0.170.0 (MIT), bundled to assets/tower3d.js (132 KB gzipped) from tools/tower3d/tower3d.src.js. It loads only when the section comes near; without WebGL the previous line-drawn building stays.
 - Accessibility: the window has role=img and a text description of the sequence; the stage cards keep all the content. Reduced motion shows the finished tower, still.
 - Checked forward and reverse on 1440×900 and 390×844, and reduced motion on both: no console errors, no horizontal overflow (evidence d17–d23, m7–m10).
