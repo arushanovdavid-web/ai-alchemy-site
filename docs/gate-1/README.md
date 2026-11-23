@@ -15,9 +15,9 @@ Source: `docs/gate-1/index.html`, screenshots in `docs/gate-1/refs/`.
 ## Decisions
 - Decided: As-Built, revised (rev 2) to use more of Heron's composition and the current site's pastel palette (parchment #F2EDE3, kraft #DED0B6, coral #E39A72, sand #E2B04A, verdigris #1F6B5C). Waiting on David's OK of rev 2 before Gate 2.
 - Decided: lead with Systems Integration & Modernization for established mid-market organizations, explained plainly; architecture is the foundation of delivery.
-- Decided: headline "Give your business the tools to grow." (alt: "...to stay ahead."); supporting line "We replace outdated technology and connect fragmented systems, so your people spend less time on manual tasks and more time moving your business forward."; CTA "Plan Your Modernization".
+- Decided (David's homepage copy, 23 Nov): headline "Give your business the tools to stay ahead."; supporting line "We modernize systems, connect your software, and put AI to work—so your people spend less time on manual tasks and more on what matters."; CTA "Plan Your Modernization". Five problems under "What's holding your business back?" and five capabilities under "Better tools. Stronger capabilities." (Systems Integration, Workflow Automation, Data & Reporting, Systems Modernization, Generative AI Enablement).
 - Decided: "Based in the Greater Toronto Area" is a trust line under the hero or in the intro; no wider service area until confirmed.
-- Decided: Products & Innovation shows "Coming soon".
+- Decided: Products & Innovation: "Our own products are taking shape. More to share soon." Coming soon.
 - Still needed: real proof material (no invented clients or figures).
 
 ## Skills and tools used

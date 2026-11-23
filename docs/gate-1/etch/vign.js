@@ -24,6 +24,12 @@ if (k === 'r1') { // orders typed twice: two desks, papers carried between
   for (let i = 0; i < 5; i++) C.box(2.2 + rnd() * 1.6, 2.6 + rnd() * .6, 3.69, .32, .32, .02);
   papers(4.0, 1.57, 2.7, 4);
   acc(C.tube([[2.4, 2.1, 2.5], [2.0, 1.2, 1.4], [1.0, .2, 1.0], [-.4, .1, 2.0]], .06));
+} else if (k === 'r5') { // ready for AI, unsure where to start: new appliance still boxed, cable not plugged in
+  desk(C, 0, 0, 1.2, 0);
+  C.box(4.2, 0, .6, 2.2, 2.2, 2.2); C.box(4.1, 2.2, .5, 2.4, .12, 2.4); // shipping crate, lid off
+  C.box(4.6, 2.32, 1.0, 1.4, 1.0, 1.3, { m: C.MAT2 }); for (let i = 0; i < 4; i++) C.box(4.6, 2.5 + i * .2, 2.3, 1.4, .06, .03, { m: C.MAT3 });
+  C.box(6.6, 0, 1.0, 1.2, .8, 1.6); C.box(6.7, .8, 1.1, 1.0, .05, 1.4, { m: C.MAT2 }); // manual box
+  acc(C.tube([[5.3, 2.9, 2.32], [4.9, 1.9, 2.75], [4.0, .12, 3.0], [3.0, .06, 3.8], [2.3, .06, 4.6]], .06));
 } else { // work waits in inboxes: desk with stacked trays, pallets waiting
   desk(C, 0, 0, 1.2, 0);
   for (let t = 0; t < 3; t++) { C.box(.3, 1.57 + t * .5, 1.3, 1.0, .06, 1.2, { m: C.MAT2 }); papers(.38, 1.63 + t * .5, 1.35, 6 + t * 3); }
