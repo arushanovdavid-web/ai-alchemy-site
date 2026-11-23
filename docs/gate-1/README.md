@@ -1,6 +1,6 @@
 # Gate 1: research and creative direction
 
-Status: messaging confirmed by David (23 Nov); visual direction still to be chosen. Nothing in the live site changed.
+Status: messaging confirmed and As-Built chosen by David (23 Nov); revision 2 awaiting his OK. Nothing in the live site changed.
 
 Review pack (rendered): https://claude.ai/artifact/GYEpcsvHS4E5a8cAgr6igK
 Source: `docs/gate-1/index.html`, screenshots in `docs/gate-1/refs/`.
@@ -13,7 +13,7 @@ Source: `docs/gate-1/index.html`, screenshots in `docs/gate-1/refs/`.
 - Strategy: two-division IA led by Systems Integration & Modernization, homepage narrative, motion rules, Astro + GSAP + inline SVG on GitHub Pages, budgets, risks, gate plan, nine-scene storyboard.
 
 ## Decisions
-- Open: visual direction (or mix) for Gate 2.
+- Decided: As-Built, revised (rev 2) to use more of Heron's composition and the current site's pastel palette (parchment #F2EDE3, kraft #DED0B6, coral #E39A72, sand #E2B04A, verdigris #1F6B5C). Waiting on David's OK of rev 2 before Gate 2.
 - Decided: lead with Systems Integration & Modernization for established mid-market organizations, explained plainly; architecture is the foundation of delivery.
 - Decided: headline "Give your business the tools to grow." (alt: "...to stay ahead."); supporting line "We replace outdated technology and connect fragmented systems, so your people spend less time on manual tasks and more time moving your business forward."; CTA "Plan Your Modernization".
 - Decided: "Based in the Greater Toronto Area" is a trust line under the hero or in the intro; no wider service area until confirmed.
