@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Alchemy Gate 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="tokens.css">
+<style>
+/* The pack is set in the system it documents: parchment, ink hairlines, Archivo display, Plex text and mono.
+   Dark mode only darkens the page chrome; every specimen and storyboard frame stays on parchment, as the site will. */
+:root{--page:var(--color-bg);--page-fg:var(--color-fg);--page-muted:var(--color-fg-muted);--page-line:var(--color-line);--page-panel:var(--color-surface);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#16181C;--page-fg:#ECE7DD;--page-muted:#A9A69F;--page-line:#4A4C50;--page-panel:#1F2226;color-scheme:dark}}
+:root[data-theme="dark"]{--page:#16181C;--page-fg:#ECE7DD;--page-muted:#A9A69F;--page-line:#4A4C50;--page-panel:#1F2226;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--page-fg);font:400 16px/1.6 var(--font-text);padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:1200px;margin:0 auto;padding-block:40px 96px}
+h1,h2,h3,h4{margin:0;line-height:1.05;text-wrap:balance}
+h1{font:720 clamp(2.4rem,1.2rem + 4.6vw,5rem)/.95 var(--font-display);font-stretch:88%;text-transform:uppercase;letter-spacing:-.02em}
+h2{font:720 clamp(1.7rem,1.1rem + 2.2vw,3rem)/1 var(--font-display);font-stretch:88%;text-transform:uppercase;letter-spacing:-.01em;margin-top:96px;padding-top:20px;border-top:1px solid var(--page-line)}
+h3{font:700 clamp(1.25rem,1rem + 1vw,1.7rem)/1.05 var(--font-display);font-stretch:88%;text-transform:uppercase}
+h4{font:600 15px/1.3 var(--font-text)}
+p,li,dd{max-width:70ch;text-wrap:pretty}
+p{margin:12px 0 0}
+a{color:inherit;text-decoration-color:var(--color-action);text-underline-offset:3px}
+code{font:12.5px var(--font-mono)}
+.mono{font:500 12px/1.4 var(--font-mono);letter-spacing:.04em;text-transform:uppercase;color:var(--page-muted)}
+.muted{color:var(--page-muted)} .small{font-size:14px}
+.sec{font:500 12px var(--font-mono);color:var(--page-muted);display:block;margin-bottom:10px;letter-spacing:.04em}
+.lede{font-size:1.1rem;max-width:62ch;margin-top:20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0;border:1px solid var(--page-line);margin-top:28px}
+.cards>div{padding:18px 20px;border-right:1px solid var(--page-line);border-bottom:1px solid var(--page-line);min-width:0}
+.toc{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:24px;font:500 12.5px var(--font-mono);text-transform:uppercase;letter-spacing:.04em}
+.toc a{text-decoration:none;border-bottom:1px solid var(--page-line)}
+/* sheet = a parchment specimen panel; always light */
+.sheet{background:var(--color-bg);color:var(--color-fg);border:1px solid var(--color-line);padding:24px;margin-top:20px;color-scheme:light;min-width:0}
+.sheet .mono{color:var(--color-fg-muted)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+.tbl table{min-width:760px}
+th,td{text-align:left;vertical-align:top;padding:9px 10px;border-bottom:1px solid var(--color-line-faint)}
+th{font:500 11.5px var(--font-mono);text-transform:uppercase;letter-spacing:.04em;color:var(--color-fg-muted)}
+td.mono{font-size:11.5px;white-space:nowrap}
+.chip{display:block;width:38px;height:38px;border:1px solid var(--color-line)}
+.spec-row{display:grid;grid-template-columns:minmax(200px,280px) 1fr;gap:24px;padding:18px 0;border-bottom:1px solid var(--color-line-faint);align-items:center}
+.spec-row:last-child{border-bottom:0}
+.spec-k{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--color-fg-muted)}
+.spec-k b{color:var(--color-fg);font-size:14px}
+.sp{display:grid;grid-template-columns:90px 140px 60px;gap:12px;align-items:center;font-size:13px;padding:3px 0}
+.sp i{display:block;height:10px;background:var(--color-action);justify-self:start}
+.sp code{order:-1}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid2>*{min-width:0}
+/* ---------- live components (use component tokens only) ---------- */
+.c-nav{display:flex;border:1px solid var(--nav-divider);background:var(--nav-bg);height:var(--nav-height);font:400 12px var(--font-mono);letter-spacing:.04em;text-transform:uppercase}
+.c-nav .brand{font:700 16px var(--font-display);font-stretch:110%;padding:0 20px;display:flex;align-items:center;margin-right:auto}
+.c-nav a{display:flex;align-items:center;padding:0 18px;border-left:1px solid var(--nav-divider);text-decoration:none;color:var(--color-fg)}
+.c-nav a:hover{background:var(--color-action-tint)}
+.c-nav a.cta{background:var(--nav-cta-bg);color:var(--nav-cta-fg)}
+.c-nav a.cta:hover{background:var(--button-bg-hover)}
+.c-nav .menu{display:none}
+.c-btn{display:inline-flex;align-items:center;gap:14px;height:var(--button-height);padding:0 var(--button-padding-x);background:var(--button-bg);color:var(--button-fg);font:500 13px var(--font-mono);letter-spacing:.05em;text-transform:uppercase;text-decoration:none;border:0;cursor:pointer;transition:background var(--motion-hover) var(--primitive-ease-standard)}
+.c-btn:hover,.c-btn.is-hover{background:var(--button-bg-hover)}
+.c-btn:focus-visible,.c-btn.is-focus{outline:2px solid var(--color-focus);outline-offset:3px}
+.c-btn[disabled]{background:var(--color-surface);color:var(--color-fg-muted);cursor:not-allowed}
+.c-btn .arr{transition:transform var(--motion-hover) var(--primitive-ease-standard)}
+.c-btn:hover .arr{transform:translateX(4px)}
+.c-link{font:500 13px var(--font-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--color-action);text-decoration:none;border-bottom:1.5px solid currentColor;padding-bottom:2px}
+.c-link:hover{color:var(--color-action-hover)}
+.c-states{display:flex;flex-wrap:wrap;gap:22px 28px;align-items:flex-end;margin-top:14px}
+.c-states figure{margin:0}
+.c-states figcaption{font:400 11px var(--font-mono);color:var(--color-fg-muted);margin-top:8px;text-transform:uppercase;letter-spacing:.04em}
+.c-sheethead{display:grid;grid-template-columns:2fr 1fr;border:1px solid var(--sheet-border)}
+.c-sheethead>div{padding:20px 24px;min-width:0}
+.c-sheethead>div+div{border-left:1px solid var(--sheet-border)}
+.c-sheethead .lab{font:400 11.5px var(--font-mono);color:var(--sheet-label);letter-spacing:.04em}
+.c-sheethead h5{font:720 var(--primitive-size-display-l)/.94 var(--font-display);font-stretch:88%;text-transform:uppercase;margin:12px 0 0;letter-spacing:-.01em}
+.c-cols{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--sheet-border)}
+.c-cols>div{padding:18px 20px;min-width:0}.c-cols>div+div{border-left:1px solid var(--sheet-border)}
+.c-prob .top{display:flex;justify-content:space-between;font:500 11.5px var(--font-mono)}
+.c-prob .top b{color:var(--problem-marker);font-weight:500}.c-prob .top span{color:var(--problem-index)}
+.c-prob img{display:block;width:100%;aspect-ratio:1;object-fit:cover;margin:10px 0 14px;mix-blend-mode:multiply}
+.c-prob h6,.c-stage h6{font:720 var(--primitive-size-display-s)/1.02 var(--font-display);font-stretch:88%;text-transform:uppercase;margin:0}
+.c-prob p,.c-stage p{font-size:14px;line-height:1.5;margin-top:10px;color:var(--color-fg-body)}
+.c-stage .lab{font:500 11.5px var(--font-mono);color:var(--stage-label);display:flex;align-items:center;gap:8px}
+.c-stage .lamp{width:12px;height:12px;border-radius:50%;background:var(--stage-lamp-off);display:inline-block}
+.c-stage.on .lamp{background:var(--stage-lamp-on);box-shadow:0 0 0 4px color-mix(in srgb,var(--stage-lamp-on) 25%,transparent)}
+.c-stage:not(.on) .lab{color:var(--color-fg-muted)}
+.c-stage:not(.on) h6,.c-stage:not(.on) p,.c-stage:not(.on) .svc{opacity:.45}
+.c-stage .svc{font:500 11px var(--font-mono);color:var(--stage-service);margin-top:12px;letter-spacing:.04em}
+.c-stage img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;margin:10px 0 14px}
+.c-rev{border-collapse:collapse;font:400 12px var(--font-mono);width:100%;min-width:0}
+.c-rev td,.c-rev th{border:1px solid var(--sheet-border);padding:8px 10px}
+.c-rev .ap{color:var(--color-approval-text)}
+.c-stamp{display:inline-block;transform:rotate(-5deg);border:3px solid var(--stamp-border);background:color-mix(in srgb,var(--stamp-border) 22%,transparent);color:var(--stamp-fg);padding:10px 22px;text-align:center;font:800 26px/1 var(--font-display);font-stretch:88%}
+.c-stamp small{display:block;font:500 11px var(--font-mono);margin-top:6px;letter-spacing:.04em}
+.c-stamp.soon{border-style:dashed}
+.c-ticker{display:flex;flex-wrap:wrap;gap:6px 28px;border-top:1px solid var(--sheet-border);border-bottom:1px solid var(--sheet-border);padding:12px 4px;font:400 12px var(--font-mono);letter-spacing:.04em;text-transform:uppercase}
+.c-field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.c-field label{font:500 11.5px var(--font-mono);color:var(--field-label);letter-spacing:.04em;text-transform:uppercase}
+.c-field input{font:400 16px var(--font-text);color:var(--color-fg);background:var(--color-surface);border:0;border-bottom:1.5px solid var(--field-rule);padding:12px 12px;border-radius:0;min-height:48px}
+.c-field input:focus,.c-field.is-focus input{outline:none;border-bottom:2px solid var(--field-rule-focus);background:var(--color-action-tint)}
+.c-field.is-error input{border-bottom-color:var(--field-error)}
+.c-field .err{font-size:13px;color:var(--field-error)}
+.c-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.spec{font-size:13px;color:var(--color-fg-muted);margin-top:12px;max-width:none}
+.spec b{color:var(--color-fg)}
+/* motion demo */
+.m-demo{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:12px}
+.m-demo>div{border:1px solid var(--color-line);padding:14px;min-width:0}
+.m-track{height:4px;background:var(--color-surface);margin-top:12px;position:relative;overflow:hidden}
+.m-track i{position:absolute;inset:0;background:var(--color-pulse);transform-origin:left;transform:scaleX(0)}
+.m-demo>div:hover .m-track i,.m-demo>div:focus-within .m-track i{transform:scaleX(1)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* storyboard */
+.timeline{margin-top:16px;overflow-x:auto}.timeline svg{min-width:760px;width:100%;height:auto;display:block}
+.sb{border-top:1px solid var(--page-line);padding-top:22px;margin-top:40px}
+.sb header{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px}
+.sb header .len{margin-left:auto;color:var(--color-pulse-text)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sb header .len{color:#D9935F}}
+.sb-grid{display:grid;grid-template-columns:minmax(0,3fr) minmax(120px,1fr) minmax(0,2.3fr);gap:20px;margin-top:16px;align-items:start}
+.sb-grid figure{margin:0;min-width:0}
+.sb-grid img,.sb-grid svg{display:block;width:100%;height:auto;border:1px solid var(--page-line);background:var(--color-bg)}
+.sb-grid figcaption{font:400 11px var(--font-mono);color:var(--page-muted);margin-top:6px;text-transform:uppercase;letter-spacing:.04em}
+.sb dl{margin:0;font-size:14px;line-height:1.5}
+.sb dt{font:500 11px var(--font-mono);text-transform:uppercase;letter-spacing:.04em;color:var(--page-muted);margin-top:10px}
+.sb dt:first-child{margin-top:0}
+.sb dd{margin:2px 0 0}
+.rules li{margin-top:8px}
+.q li{margin-top:10px}
+@media (max-width:900px){.sb-grid{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}.sb-grid dl{grid-column:1/-1}.c-cols,.c-fields{grid-template-columns:1fr}.c-cols>div+div{border-left:0;border-top:1px solid var(--sheet-border)}.grid2{grid-template-columns:1fr}}
+@media (max-width:640px){.c-nav a:not(.cta){display:none}.c-nav .menu{display:flex;align-items:center;padding:0 16px;border-left:1px solid var(--nav-divider)}.c-sheethead{grid-template-columns:1fr}.c-sheethead>div+div{border-left:0;border-top:1px solid var(--sheet-border)}.spec-row{grid-template-columns:1fr;gap:10px}.sheet{padding:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<span class="sec">AI ALCHEMY · WEBSITE REDESIGN · GATE 2 OF 4 · 23 NOV 2026 · FOR DAVID'S REVIEW</span>
+<h1>Storyboard and design system</h1>
+<p class="lede">Gate 1 is approved: As-Built, pencil-etched drawings, your homepage copy, and the capabilities chain reaction. This gate turns that into something buildable: the tokens and components the code will use, and every homepage section frame by frame, on desktop and phone, with what happens on scroll in both directions.</p>
+<div class="cards">
+  <div><h4>Approve</h4><p class="small">1 · The tokens and the rules for each colour.<br>2 · The components.<br>3 · The storyboard and scroll lengths.<br>4 · The open questions at the end.</p></div>
+  <div><h4>Not in this gate</h4><p class="small">No production code. Gate 3 builds the homepage on a branch; Gate 4 is visual checks and readiness. Nothing is merged or published without you.</p></div>
+  <div><h4>Files</h4><p class="small"><code>docs/gate-2/tokens.json</code> is the source; <code>tokens.css</code> is generated from it and this page runs on it.</p></div>
+</div>
+<nav class="toc" aria-label="Contents"><a href="#tokens">1 Tokens</a><a href="#components">2 Components</a><a href="#story">3 Storyboard</a><a href="#motion">4 Motion and performance</a><a href="#ia">5 Pages and links</a><a href="#questions">6 Open questions</a><a href="#tools">7 Tools used</a></nav>
+
+<h2 id="tokens"><span class="sec">1</span>Tokens</h2>
+<p>Three layers. Primitives hold raw values, semantic tokens say what a value is for, and component tokens are what components read. Components never use a raw hex value.</p>
+<h3 style="margin-top:36px">Colour, and what each colour is allowed to mean</h3>
+<div class="sheet tbl"><table><thead><tr><th></th><th>Role</th><th>Value</th><th>Use</th><th>Contrast on parchment</th></tr></thead><tbody>
+{{COLOR_TABLE}}
+</tbody></table>
+<p class="spec">Button text on verdigris: <b>{{ONACTION}}:1</b>. Rules: coral only ever marks a problem; verdigris is our work and every action; sand is your approval; copper is the capability pulse. The light coral, sand and copper are never used for text; each has a darker shade that is.</p></div>
+
+<h3 style="margin-top:36px">Type</h3>
+<div class="sheet">{{TYPE}}</div>
+<p class="small muted">Self-hosted in the build (the repo already has a fonts folder); this page loads them from Google Fonts. Archivo's width axis is set to 88 for display, and headlines are capped at about 18 characters per line on desktop.</p>
+
+<h3 style="margin-top:36px">Space, grid and line</h3>
+<div class="grid2">
+<div class="sheet"><span class="mono">SPACING, 4PX BASE</span><div style="margin-top:12px">{{SPACE}}</div></div>
+<div class="sheet"><span class="mono">FRAME AND GRID</span>
+<svg viewBox="0 0 520 330" role="img" aria-label="Grid diagram: a hairline frame inset 16 pixels, a 48 pixel nav row of cells, twelve columns with no gutters, content in cells padded 24 pixels" style="width:100%;height:auto;margin-top:12px;display:block">
+<rect width="520" height="330" fill="#F2EDE3"/><g fill="none" stroke="#8C9196" stroke-width=".8">
+<path d="M48 16V314M86 16V314M124 16V314M162 16V314M200 16V314M238 16V314M276 16V314M314 16V314M352 16V314M390 16V314M428 16V314M466 16V314"/></g>
+<g fill="none" stroke="#1C2026" stroke-width="1.2"><rect x="10" y="10" width="500" height="310"/><path d="M10 40H510M276 10V40M352 10V40M428 10V40M10 220H510M352 220V320"/></g>
+<rect x="428" y="10" width="82" height="30" fill="#1F6B5C"/><g fill="#1C2026" font-family="IBM Plex Mono,monospace" font-size="9"><text x="18" y="29">AI ALCHEMY</text><text x="18" y="236" fill="#5B5F63">CELL PADDING 24</text><text x="18" y="70" fill="#5B5F63">12 COLUMNS · NO GUTTERS · HAIRLINES DIVIDE CELLS</text><text x="360" y="236" fill="#5B5F63">COPY COLUMN</text><text x="18" y="312" fill="#5B5F63">FRAME INSET 16 (PHONE 8)</text></g>
+<path d="M10 300h16M10 296v8M26 296v8" stroke="#B5703F"/></svg>
+<p class="spec"><b>Lines:</b> hairline 1px for frames and cells, 1.5px for field rules, 2px for emphasis. Pencil grey is for construction lines only. <b>Corners:</b> square everywhere; only stamps rotate. <b>Breakpoints:</b> 390, 768, 1024, 1440, 1920.</p></div>
+</div>
+
+<h3 style="margin-top:36px">Motion tokens</h3>
+<div class="sheet"><div class="m-demo">
+  <div tabindex="0"><span class="mono">--primitive-duration-fast · 120ms</span><p class="small">Hover and press. Standard ease.</p><div class="m-track"><i style="transition:transform 120ms cubic-bezier(.2,.7,.1,1)"></i></div></div>
+  <div tabindex="0"><span class="mono">--primitive-duration-base · 240ms</span><p class="small">Tab swaps, menus, crossfades.</p><div class="m-track"><i style="transition:transform 240ms cubic-bezier(.2,.7,.1,1)"></i></div></div>
+  <div tabindex="0"><span class="mono">--primitive-duration-slow · 480ms</span><p class="small">Reveals: columns, rows, notes.</p><div class="m-track"><i style="transition:transform 480ms cubic-bezier(.2,.7,.1,1)"></i></div></div>
+  <div tabindex="0"><span class="mono">--primitive-duration-draw · 1200ms</span><p class="small">Line work drawing on. Draw ease.</p><div class="m-track"><i style="transition:transform 1200ms cubic-bezier(.65,0,.35,1)"></i></div></div>
+</div><p class="spec">Hover or focus a card to play it. Scroll-scrubbed sequences have no duration: they follow the scrollbar, linear, so reverse scroll is exact.</p></div>
+
+<h2 id="components"><span class="sec">2</span>Components</h2>
+<p>Live, built from the component tokens. These are what Gate 3 implements first.</p>
+
+<h3 style="margin-top:36px">Nav</h3>
+<div class="sheet"><nav class="c-nav" aria-label="Example navigation"><span class="brand">AI ALCHEMY</span><a href="#components">Client solutions</a><a href="#components">Industries</a><a href="#components">How we work</a><a href="#components">About</a><span class="menu mono">Menu ☰</span><a class="cta" href="#components">Plan your modernization</a></nav>
+<p class="spec"><b>Cells:</b> 48px tall, hairline dividers, mono 12 uppercase; hover tints verdigris. <b>Action</b> is always the last cell. <b>Phone:</b> wordmark, Menu, action; the menu opens a full-height sheet of the same cells. Sticky; it hides on scroll down and returns on scroll up, never during a pinned sequence.</p></div>
+
+<h3 style="margin-top:36px">Buttons and links</h3>
+<div class="sheet"><div class="c-states">
+  <figure><a class="c-btn" href="#components">Plan your modernization <span class="arr">→</span></a><figcaption>Default</figcaption></figure>
+  <figure><span class="c-btn is-hover">Plan your modernization <span class="arr">→</span></span><figcaption>Hover</figcaption></figure>
+  <figure><span class="c-btn is-focus">Plan your modernization <span class="arr">→</span></span><figcaption>Keyboard focus</figcaption></figure>
+  <figure><button class="c-btn" disabled>Sending…</button><figcaption>Disabled</figcaption></figure>
+  <figure><a class="c-link" href="#components">See manufacturing →</a><figcaption>Text link</figcaption></figure>
+</div><p class="spec"><b>One primary action per screen.</b> 48px target, mono 13 uppercase. Focus is a 2px verdigris ring offset 3px on every interactive element.</p></div>
+
+<h3 style="margin-top:36px">Sheet header</h3>
+<div class="sheet"><div class="c-sheethead"><div><span class="lab">SHEET A-02 · THE PROBLEM</span><h5>What's holding your business back?</h5></div><div><span class="lab">NOTE</span><p class="small" style="margin-top:12px">Every section opens with a sheet number in mono, a headline in Archivo and, where there is one, a short copy column.</p></div></div></div>
+
+<h3 style="margin-top:36px">Problem column</h3>
+<div class="sheet"><div class="c-cols">
+  <div class="c-prob"><div class="top"><b>P1</b><span>[01]</span></div><img src="refs/g1/etch-r1.jpg" alt="Etched drawing of two desks joined by a coral cable"><h6>Disconnected Systems</h6><p>Your software works separately, leaving your people to move information between tools and departments.</p></div>
+  <div class="c-prob"><div class="top"><b>P4</b><span>[04]</span></div><img src="refs/g1/etch-r3.jpg" alt="Etched drawing of an old terminal beside filing cabinets"><h6>Outdated Technology</h6><p>Systems that once served you well now struggle to support how your business needs to operate.</p></div>
+  <div class="c-prob"><div class="top"><b>P5</b><span>[05]</span></div><img src="refs/g1/etch-r5.jpg" alt="Etched drawing of a new machine beside a desk, its coral cable not yet plugged in"><h6>Ready for AI. Unsure Where to Start.</h6><p>You see the potential but need a clear path from experimenting with AI to using it effectively in everyday work.</p></div>
+</div><p class="spec"><b>Order:</b> coral number, grey index, drawing, title, copy. Drawings are AVIF/WebP with fixed aspect ratio so nothing shifts as they load.</p></div>
+
+<h3 style="margin-top:36px">Capability stage</h3>
+<div class="sheet"><div class="c-cols">
+  <div class="c-stage on"><span class="lab"><i class="lamp"></i>01 · MODERNIZE</span><img src="refs/g1/etch-chain-1.jpg" alt="Stage 1 lit: the geared machine belted to a new motor"><h6>Build a stronger foundation.</h6><div class="svc">SYSTEMS MODERNIZATION</div><p>Upgrade legacy technology and build software around how your people work.</p></div>
+  <div class="c-stage on"><span class="lab"><i class="lamp"></i>02 · CONNECT</span><img src="refs/g1/etch-chain-2.jpg" alt="Stage 2 lit: cables from a hub to three systems"><h6>Get your systems working together.</h6><div class="svc">SYSTEMS INTEGRATION</div><p>Connect your applications so information flows across your business.</p></div>
+  <div class="c-stage"><span class="lab"><i class="lamp"></i>03 · AUTOMATE</span><img src="refs/g1/etch-chain-3.jpg" alt="Stage 3: the conveyor and sorting arm"><h6>Spend less time on manual work.</h6><div class="svc">WORKFLOW AUTOMATION</div><p>Reduce repetitive tasks and simplify handoffs between teams.</p></div>
+</div><p class="spec"><b>Off and on:</b> off stages sit at 45% with a pencil lamp; when the pulse arrives the lamp turns copper, the label colours, and the copy writes in. The whole card links to its service page.</p></div>
+
+<h3 style="margin-top:36px">Revision table, stamps and ticker</h3>
+<div class="sheet"><div class="grid2" style="align-items:center">
+<table class="c-rev"><thead><tr><th>Rev</th><th>Change</th><th>Signed by</th></tr></thead><tbody><tr><td>A</td><td>Discover</td><td>Both teams</td></tr><tr><td>B</td><td>Architect</td><td class="ap">You approve</td></tr><tr><td>C</td><td>Build</td><td>AI Alchemy</td></tr><tr><td>D</td><td>Validate</td><td class="ap">You approve</td></tr></tbody></table>
+<div style="display:flex;gap:36px;flex-wrap:wrap;justify-content:center;padding:12px"><span class="c-stamp">APPROVED<small>BY YOUR TEAM</small></span><span class="c-stamp soon">COMING SOON.</span></div>
+</div>
+<div class="c-ticker" style="margin-top:20px"><span>◇ Systems integration</span><span>◇ Workflow automation</span><span>◇ Data &amp; reporting</span><span>◇ Systems modernization</span><span>◇ Generative AI enablement</span></div>
+<p class="spec">The ticker is a static row that wraps; it scrolls sideways only if it overflows, pauses on hover and focus, and stops with reduced motion.</p></div>
+
+<h3 style="margin-top:36px">Brief fields</h3>
+<div class="sheet"><div class="c-fields">
+  <div class="c-field"><label for="f1">1 · What slows you down</label><input id="f1" placeholder="Orders typed twice, reports a day late…"></div>
+  <div class="c-field is-focus"><label for="f2">2 · Systems you run</label><input id="f2" value="CRM, ERP, an Access database"></div>
+  <div class="c-field is-error"><label for="f3">4 · Work email</label><input id="f3" value="dana@" aria-invalid="true" aria-describedby="f3e"><span class="err" id="f3e">Enter a full email address, like name@company.com.</span></div>
+</div><p class="spec"><b>States:</b> default, focus (verdigris rule and tint), error (coral-text rule and message linked by aria-describedby). Labels are always visible; placeholders are examples only. The form posts with no JavaScript.</p></div>
+
+<h2 id="story"><span class="sec">3</span>Homepage storyboard</h2>
+<p>Nine sections, top to bottom. Desktop frames are the approved sheets where we have them; the rest are wireframes in the same grid. Every scroll effect is listed in both directions.</p>
+<div class="sheet timeline"><span class="mono">SCROLL LENGTH, DESKTOP · {{TOTVH}} VIEWPORT HEIGHTS · COPPER = PINNED</span>{{TIMELINE}}</div>
+{{STORY}}
+
+<h2 id="motion"><span class="sec">4</span>Motion and performance rules</h2>
+<div class="grid2">
+<div><h4>Motion</h4><ul class="rules small">
+<li>Native scrolling. No smooth-scroll library and no scroll hijacking; GSAP ScrollTrigger drives pins and scrubs.</li>
+<li>Two pinned sequences on desktop (chain reaction and redraft), plus a short pause before the problems. Each has a skip link before it.</li>
+<li>Every scrubbed effect is a pure function of scroll position, so reverse scroll is exact and refreshing mid-page lands in the right state.</li>
+<li>Content is in the HTML and readable with JavaScript off; motion only adds to it.</li>
+<li>Reduced motion: no pins, parallax, sweeps or loops; drawings and copy are shown finished.</li>
+<li>Nothing loops for ever; stage loops run once when lit.</li>
+</ul></div>
+<div><h4>Performance budgets (Gate 4 checks these)</h4><ul class="rules small">
+<li>LCP under 2.5s on a mid-range phone over 4G; the hero headline is text, so it paints first.</li>
+<li>Hero drawing: AVIF about 180KB at 1440 wide, with a 390 crop for phones; responsive srcset for every drawing.</li>
+<li>JavaScript under 90KB gzipped on the homepage, loaded after first paint.</li>
+<li>Two font families, subset and self-hosted, with display swap.</li>
+<li>CLS under 0.05: every image has fixed dimensions.</li>
+<li>Lighthouse 90+ on performance, 100 on accessibility; axe clean.</li>
+</ul></div></div>
+<p class="small muted">Drawings ship as images rendered from the 3D models, which keeps the page light. The renderer stays in the repo, so new drawings come out in the same hand. Live WebGL is optional later, not part of this build.</p>
+
+<h2 id="ia"><span class="sec">5</span>Pages and links</h2>
+<p>Existing URLs stay. The capability stages need a page each; three already exist under other names.</p>
+<div class="sheet tbl"><table><thead><tr><th>Stage</th><th>Service</th><th>Links to</th><th>Status</th></tr></thead><tbody>
+<tr><td>01 Modernize</td><td>Systems Modernization</td><td><code>/services/custom-software-modernization/</code></td><td>Exists; retitle</td></tr>
+<tr><td>02 Connect</td><td>Systems Integration</td><td><code>/services/systems-integration/</code></td><td>New page</td></tr>
+<tr><td>03 Automate</td><td>Workflow Automation</td><td><code>/services/workflow-automation/</code></td><td>New page, or a section of the AI and automation page</td></tr>
+<tr><td>04 Understand</td><td>Data &amp; Reporting</td><td><code>/services/cloud-data/</code></td><td>Exists; retitle</td></tr>
+<tr><td>05 Enable AI</td><td>Generative AI Enablement</td><td><code>/services/enterprise-ai-automation/</code></td><td>Exists; retitle</td></tr>
+<tr><td>—</td><td>Technology Strategy &amp; Architecture</td><td><code>/services/strategy-architecture/</code></td><td>Exists; becomes “How we work” (the redraft)</td></tr>
+</tbody></table></div>
+
+<h2 id="questions"><span class="sec">6</span>Open questions for you</h2>
+<ol class="q">
+<li><b>Service pages.</b> Are you happy with the mapping above: two new pages (Systems Integration, Workflow Automation) and three existing pages retitled? Gate 3 builds the homepage only; the pages follow.</li>
+<li><b>“How we work” copy.</b> “Rev D. One operation.” and its supporting line were my draft in Gate 1. Keep them, or will you supply copy?</li>
+<li><b>General notes.</b> I will draft four short notes from the current About page for you to approve. Only claims you confirm will appear.</li>
+<li><b>Industries.</b> One drawing relabelled per industry (recommended for the homepage), or a separate drawing for each (more work, better for the industry pages)?</li>
+</ol>
+
+<h2 id="tools"><span class="sec">7</span>Skills and tools used</h2>
+<div class="sheet tbl"><table><thead><tr><th>Used</th><th>For</th></tr></thead><tbody>
+<tr><td>design-system skill</td><td>Three-layer token structure; its <code>generate-tokens.cjs</code> script turned <code>tokens.json</code> into <code>tokens.css</code>.</td></tr>
+<tr><td>Three.js r170 etching renderer (from Gate 1)</td><td>The drawings in the problem, stage and storyboard frames.</td></tr>
+<tr><td>Python, Playwright with Chromium</td><td>Built this page, computed every contrast ratio from the token values, captured the approved Gate 1 sheets as storyboard frames, and checked the page at 1440 and 390 wide.</td></tr>
+<tr><td>Repository files</td><td>Industry names, service URLs, contact email and the one-business-day reply come from the current site's pages.</td></tr>
+</tbody></table>
+<p class="spec">Not used yet: accessibility-auditor and web-performance-optimization (Gate 4), copywriting (only if you ask me to draft the open copy). No third-party skills were installed.</p></div>
+</div>
+</body>
+</html>
