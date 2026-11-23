@@ -47,3 +47,7 @@ Evidence (`docs/gate-3/evidence/`): desktop 1440×900 and phone 390×844 at the 
 - Built with three.js 0.170.0 (MIT), bundled to assets/tower3d.js (132 KB gzipped) from tools/tower3d/tower3d.src.js. It loads only when the section comes near; without WebGL the previous line-drawn building stays.
 - Accessibility: the window has role=img and a text description of the sequence; the stage cards keep all the content. Reduced motion shows the finished tower, still.
 - Checked forward and reverse on 1440×900 and 390×844, and reduced motion on both: no console errors, no horizontal overflow (evidence d17–d23, m7–m10).
+
+## Hero redrawn around the five problems (David: "these images have nothing to do with the work stalls")
+- The as-built drawing is redrawn (docs/gate-1/etch/hero2.js) so every marker sits on something you can see: two unconnected systems side by side with loose plugs (Disconnected Systems → Connect), towers of paper forms by the racks (Time Lost to Manual Work → Automate), a wall of report printouts with an empty coral frame (An Incomplete Business Picture → Understand), a deep old terminal and dot-matrix printer at the counter (Outdated Technology → Modernize), and a queue at one person's desk in front of the binders (Ready for AI → Enable AI).
+- Marker positions now come from anchors exported with the drawing, so they stay on their objects. Card copy rewritten to describe what the drawing shows.

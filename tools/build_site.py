@@ -488,13 +488,15 @@ def home():
                      for n, i in enumerate(INDS))
     hsteps = ''.join(f'<li><span class="n">0{i + 1} · {E(v)}</span><h3>{E(h)}</h3><p>{E(p)}</p></li>' for i, (v, h, p) in enumerate(STEPS))
     # hero inspection: where work stalls in the as-built drawing (drawing px), the problem it is, and the stage that fixes it
-    SPOTS = [
-        (585, 150, 0, 'The same order is typed into two systems by hand.', 2),
-        (425, 190, 2, 'Reports are pieced together from separate files and spreadsheets.', 4),
-        (500, 318, 3, 'The system at the counter can’t share what it knows with the rest.', 1),
-        (785, 330, 1, 'Stock changes wait until someone has time to key them in.', 3),
-        (1105, 445, 4, 'Answers live in people’s heads, not where AI could help with them.', 5),
-    ]
+    # hero inspection: each problem is drawn as something you can see (docs/gate-1/etch/hero2.js); markers sit on
+    # the anchors the drawing exports. (anchor, problem index, what happens, capability that fixes it)
+    ha = json.loads((ROOT / 'assets/lines/hero-asbuilt.json').read_text())['a']
+    SPOTS = [(*ha[k], pi, what, n) for k, pi, what, n in [
+        ('A', 0, 'Two systems sit side by side but aren’t connected, so the same order is typed into both by hand.', 2),
+        ('B', 1, 'Stock changes pile up on paper until someone has time to key them in.', 3),
+        ('C', 2, 'Reports are pieced together from separate printouts and spreadsheets, and pieces are often missing.', 4),
+        ('D', 3, 'The terminal at the counter is too old to share what it knows with the rest of the business.', 1),
+        ('E', 4, 'Answers live in one person’s head, so people queue at their desk instead of finding them.', 5)]]
     def spot(k, x, y, pi, what, n):
         c = CAPS[n - 1]
         return (f'<li class="hs" style="--x:{x / 16:.2f}%;--y:{y / 6.09:.2f}%" data-x="{x}" data-y="{y}">'
@@ -507,7 +509,7 @@ def home():
                '<div class="sel" aria-hidden="true" hidden><span></span></div><div class="coord" aria-hidden="true"></div></div>')
     main = f'''<section class="hero" aria-labelledby="h1">
  <div class="sheet-label"><span class="lab">Sheet A-01 · <b>As built</b></span><span class="lab">Systems integration &amp; modernization</span></div>
- <div class="hero-drawing"><div class="hero-stage">{ldraw("hero-asbuilt", "Line drawing of a business as it runs today: an office, a front counter, stock racks and a delivery truck, joined by tangled cables.", mode="load", accent="coral")}{inspect}</div><span class="spec" aria-hidden="true">SHEET A-01
+ <div class="hero-drawing"><div class="hero-stage">{ldraw("hero-asbuilt", "Line drawing of a business as it runs today, with five places where work stalls: an order typed into two unconnected systems, stock changes piled up on paper by the racks, a wall of report printouts with one piece missing, an old terminal at the front counter, and a queue of people waiting at one person’s desk for answers. Loose cables join it all together.", mode="load", accent="coral")}{inspect}</div><span class="spec" aria-hidden="true">SHEET A-01
 REV A · AS BUILT
 DRAWN · AI ALCHEMY</span></div>
  <div class="hero-copy">
