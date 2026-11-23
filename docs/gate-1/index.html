@@ -270,8 +270,9 @@ td:first-child{font-weight:600;white-space:nowrap}
 
 <!-- Direction 1 -->
 <section class="dir recd" aria-labelledby="d1">
-<header><h3 id="d1">1 · As-Built</h3><span class="badge on">Chosen by David · revised 23 Nov</span><span class="badge">SVG + GSAP</span></header>
+<header><h3 id="d1">1 · As-Built</h3><span class="badge on">Chosen by David · revised 23 Nov</span><span class="badge">Etched 3D renders · SVG · GSAP</span></header>
 <p><b>Idea.</b> Engineers call the drawing of a system as it actually exists “as-built”. Every mid-market company has one in its head: the CRM that doesn't talk to the ERP, the nightly CSV, the Access database one person understands. The site draws that, marks the problems, then redrafts it in revisions until it is one connected operation. Architecture comes first, visibly: we draw the plan, then build to it.</p>
+<p><b>Revision 3 (23 Nov): pencil-etched drawings.</b> David found the flat box drawings too simple. Every drawing below is now a real 3D model (one office-and-warehouse operation, plus four still lifes) rendered as a pencil etching: contour lines, hatching that follows each surface, cross-hatching in shadow, paper grain. Coral marks the hand-made connections in the as-built state; verdigris is the single integration layer in the redraft. The renderer is in <code>docs/gate-1/etch/</code>, so the build can produce more drawings in the same hand, and the hero can later run live in WebGL.</p>
 <p><b>Revision 2 (after David's review).</b> Closer to Heron's composition and drawing language, and back on AI Alchemy's own palette: parchment and kraft paper, soft coral, sand and verdigris. Below are the hero, the problem section and the redraft, at desktop and phone size.</p>
 
 <div class="frames">
@@ -283,7 +284,7 @@ td:first-child{font-weight:600;white-space:nowrap}
     <g font-family="Archivo,sans-serif" fill="#1C2026"><text x="40" y="47" font-weight="700" font-size="17" style="font-stretch:110%">AI ALCHEMY</text></g>
     <g font-family="IBM Plex Mono,monospace" font-size="12" fill="#1C2026"><text x="752" y="45">CLIENT SOLUTIONS</text><text x="912" y="45">INDUSTRIES</text><text x="1052" y="45">HOW WE WORK</text><text x="1172" y="45">ABOUT</text></g>
     <rect x="1236" y="16" width="188" height="48" fill="#1F6B5C"/><text x="1330" y="45" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#F2EDE3">PLAN YOUR MODERNIZATION</text>
-    <g id="h-dia"></g>
+    <image href="refs/etch-hero-asbuilt.jpg" x="16" y="64" width="1408" height="536" preserveAspectRatio="xMidYMid slice"/><g id="h-dia" display="none"></g>
     <!-- scan line -->
     <path d="M16 330H1424" stroke="#E39A72" stroke-width="1.4"/>
     <rect x="28" y="318" width="74" height="24" fill="#E39A72"/><text x="65" y="334" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#1C2026">REV A</text>
@@ -304,7 +305,7 @@ td:first-child{font-weight:600;white-space:nowrap}
     <g fill="none" stroke="#1C2026" stroke-width=".9"><rect x="8" y="8" width="374" height="828"/><path d="M8 58H382M210 8V58M8 420H382M8 790H382"/></g>
     <text x="24" y="40" font-family="Archivo,sans-serif" font-weight="700" font-size="15" fill="#1C2026" style="font-stretch:110%">AI ALCHEMY</text>
     <text x="226" y="39" font-family="IBM Plex Mono,monospace" font-size="12" fill="#1C2026">MENU</text><path d="M342 30h22M342 36h22M342 42h22" stroke="#1C2026"/>
-    <g id="m-dia"></g>
+    <clipPath id="mclip"><rect x="8" y="58" width="374" height="362"/></clipPath><image href="refs/etch-hero-phone.jpg" x="8" y="58" width="374" height="362" preserveAspectRatio="xMidYMid slice" clip-path="url(#mclip)"/><g id="m-dia" display="none"></g>
     <path d="M8 250H382" stroke="#E39A72" stroke-width="1.3"/><rect x="16" y="240" width="56" height="20" fill="#E39A72"/><text x="44" y="254" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#1C2026">REV A</text>
     <g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="44" letter-spacing="-1" style="font-stretch:88%"><text x="20" y="484">GIVE YOUR</text><text x="20" y="530">BUSINESS THE</text><text x="20" y="576">TOOLS TO GROW.</text></g>
     <g font-family="IBM Plex Sans,sans-serif" font-size="15" fill="#2C3036"><text x="22" y="620">We replace outdated technology and</text><text x="22" y="641">connect fragmented systems, so your</text><text x="22" y="662">people spend less time on manual tasks.</text></g>
@@ -324,7 +325,7 @@ td:first-child{font-weight:600;white-space:nowrap}
     <text x="40" y="60" font-family="IBM Plex Mono,monospace" font-size="12" fill="#5B5F63">SHEET A-02 · THE PROBLEM</text>
     <g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="58" letter-spacing="-1" style="font-stretch:88%"><text x="36" y="150">YOUR SYSTEMS SHOULD WORK</text><text x="36" y="212">TOGETHER. NOT AGAINST YOU.</text></g>
     <g font-family="IBM Plex Sans,sans-serif" font-size="15.5" fill="#2C3036"><text x="1060" y="130">Most mid-market operations grew one</text><text x="1060" y="152">system at a time. The gaps between them</text><text x="1060" y="174">are filled by people, by hand, every day.</text></g>
-    <g id="p-icons" fill="none" stroke="#1C2026" stroke-width="1.2"></g>
+    <image href="refs/etch-r1.jpg" x="42" y="292" width="300" height="300"/><image href="refs/etch-r2.jpg" x="394" y="292" width="300" height="300"/><image href="refs/etch-r3.jpg" x="746" y="292" width="300" height="300"/><image href="refs/etch-r4.jpg" x="1098" y="292" width="300" height="300"/><g id="p-icons" display="none"></g>
     <g font-family="IBM Plex Mono,monospace" font-size="12" fill="#9A4424"><text x="40" y="280">R1 · RE-KEYED</text><text x="392" y="280">R2 · EXPORTED</text><text x="744" y="280">R3 · UNDOCUMENTED</text><text x="1096" y="280">R4 · STALLED</text></g>
     <g font-family="IBM Plex Mono,monospace" font-size="12" fill="#8C9196"><text x="344" y="280" text-anchor="end">[01]</text><text x="696" y="280" text-anchor="end">[02]</text><text x="1048" y="280" text-anchor="end">[03]</text><text x="1400" y="280" text-anchor="end">[04]</text></g>
     <g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="34" style="font-stretch:88%"><text x="40" y="660">ORDERS TYPED</text><text x="40" y="696">TWICE</text><text x="392" y="660">REPORTS ON</text><text x="392" y="696">YESTERDAY'S CSV</text><text x="744" y="660">ONE PERSON</text><text x="744" y="696">KNOWS IT</text><text x="1096" y="660">WORK WAITS</text><text x="1096" y="696">IN INBOXES</text></g>
@@ -361,7 +362,7 @@ td:first-child{font-weight:600;white-space:nowrap}
     <text x="40" y="60" font-family="IBM Plex Mono,monospace" font-size="12" fill="#5B5F63">SHEET A-03 · THE REDRAFT</text>
     <g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="72" letter-spacing="-1" style="font-stretch:88%"><text x="36" y="170">REV D. ONE OPERATION.</text></g>
     <g font-family="IBM Plex Sans,sans-serif" font-size="15.5" fill="#2C3036"><text x="1060" y="130">Every system keeps its job. Data moves</text><text x="1060" y="152">once, in one direction, with your</text><text x="1060" y="174">approval at the gates.</text></g>
-    <g id="r-dia"></g>
+    <image href="refs/etch-hero-redraft.jpg" x="16" y="221" width="1408" height="498" preserveAspectRatio="xMidYMid slice"/><g id="r-dia" display="none"></g>
     <g stroke="#1C2026" fill="none" stroke-width=".9"><path d="M16 750H720M16 780H720M16 810H720M16 840H720M60 720V884M420 720V884"/></g>
     <g font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#1C2026"><text x="28" y="740">REV</text><text x="72" y="740">CHANGE</text><text x="432" y="740">SIGNED BY</text><text x="32" y="770">A</text><text x="72" y="770">Discover: drawn as it runs today</text><text x="432" y="770">Both teams</text><text x="32" y="800">B</text><text x="72" y="800">Architect: the plan and its trade-offs</text><text x="432" y="800" fill="#9A6F12">You approve</text><text x="32" y="830">C</text><text x="72" y="830">Build: in stages, beside what works</text><text x="432" y="830">AI Alchemy</text><text x="32" y="860">D</text><text x="72" y="860">Validate: tested on real scenarios</text><text x="432" y="860" fill="#9A6F12">You approve</text></g>
     <g transform="translate(1070 800) rotate(-6)"><rect x="-150" y="-44" width="300" height="88" fill="#E2B04A" fill-opacity=".22" stroke="#E2B04A" stroke-width="3"/><text x="0" y="-6" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="800" font-size="26" fill="#9A6F12" style="font-stretch:88%">APPROVED</text><text x="0" y="22" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#9A6F12">BY YOUR TEAM, BEFORE GO-LIVE</text></g>
@@ -648,6 +649,7 @@ td:first-child{font-weight:600;white-space:nowrap}
 <tr><td>scroll-experience skill</td><td>Read: story-beat and pinning patterns, used for the narrative and motion rules.</td></tr>
 <tr><td>ui-ux-pro-max skill</td><td>Ran its search for “B2B systems integration consulting”; it returned generic “Swiss minimal, professional blue” guidance, which confirmed the default to avoid. Its rule priorities shaped the quality budgets.</td></tr>
 <tr><td>brand skill</td><td>Read the overview; I used it only for structure. Its token sync is for Gate 2.</td></tr>
+<tr><td>Three.js r170 (npm) in headless Chromium via Playwright</td><td>Revision 3: a custom pencil-etching renderer (lit pass, normal and depth pass, then a shader for contours, surface-aligned hatching and paper grain) that draws the As-Built hero, phone crop, redraft and four problem still lifes. Source in docs/gate-1/etch/.</td></tr>
 <tr><td>Artifact page</td><td>This pack: sketch compositions in SVG at real sizes.</td></tr>
 </tbody></table></div>
 <p class="small muted">Not used: Forma (I did not need artboards before a direction is chosen; it fits Gate 2), Figma and Canva connectors (they failed to connect), other installed skills such as accessibility-auditor, web-performance-optimization, seo-audit and copywriting (they belong to Gates 2 to 4). No third-party skills were installed.</p>
