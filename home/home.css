@@ -412,3 +412,26 @@ h1 .l2{display:block}
 @keyframes markCore{from{scale:0}}
 @media (prefers-reduced-motion:reduce){.mark,.mark circle{transition:none}}
 
+
+/* ---------- the Orrery hero (2026-11-23): a midnight stage for the Rings mark as a machined instrument ---------- */
+.hero-orrery{background:#070D1A;color:var(--snow);overflow:hidden;isolation:isolate}
+.hero-orrery .orrery{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:-1;opacity:0;transition:opacity 1.2s var(--ease)}
+.hero-orrery.orrery-on .orrery{opacity:1}
+.static .hero-orrery .orrery{transition:none}
+.no-js .hero-orrery,.hero-orrery.orrery-off{background:#070D1A url(/home/orrery-poster.jpg) no-repeat 100% 50%/cover}
+.no-js .hero-orrery .orrery,.hero-orrery.orrery-off .orrery{display:none}
+.hero-orrery .hero-copy{position:relative}
+/* a soft shadow on the copy side keeps every line legible where the instrument comes close */
+.hero-orrery::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(7,13,26,.55),rgba(7,13,26,.28) 38%,rgba(7,13,26,0) 58%)}
+@media (min-width:821px) and (max-width:1199px){.hero-orrery::after{background:linear-gradient(90deg,rgba(7,13,26,.8),rgba(7,13,26,.6) 50%,rgba(7,13,26,0) 72%)}}
+@media (max-width:820px){.hero-orrery::after{display:none}}
+.hero-orrery .eyebrow{color:var(--accent-lite)}
+.hero-orrery .l2{color:var(--sand)}
+.hero-orrery .support,.hero-orrery .hero-fact{color:var(--snow-2)}
+.hero-orrery .textlink{color:var(--snow);text-decoration-color:rgba(242,237,227,.45)}
+.hero-orrery .hero-foot{color:#8C9196}
+.hero-orrery .cap{background:none;padding:0;margin:0}
+.no-js .hero-orrery .hero-foot,.nofield .hero-orrery .hero-foot{display:flex}
+@media (max-width:820px){
+  .no-js .hero-orrery,.hero-orrery.orrery-off{background-image:url(/home/orrery-poster-m.jpg);background-position:50% 100%;background-size:100% auto}
+}

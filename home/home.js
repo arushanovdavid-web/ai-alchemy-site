@@ -87,6 +87,7 @@
   /* ---------- Part 2: the field ---------- */
   const cv = $('#field'); let ctx = null;
   try { ctx = cv.getContext('2d', { alpha: false }); } catch (e) { /* fall through */ }
+  const heroEl = $('#top');
   const svc = $('#services'), rev = $('#reveal'), sheet = $('#sheet'), fin = $('#contact');
   const stepBtns = $$('.svc-steps button'), services = $$('.service');
   let stepIdx = 0, focusStep = -1;
@@ -212,6 +213,7 @@
     const vh = Hh, y = scrollY;
     const s = svc.getBoundingClientRect(), r = rev.getBoundingClientRect(), sh = sheet.getBoundingClientRect(), c = fin.getBoundingClientRect();
     covered = sh.top <= 0 && sh.bottom >= vh;
+    { const hb = heroEl.getBoundingClientRect(); if (hb.top <= 0 && hb.bottom >= vh) covered = true; }   /* the Orrery hero fills the screen: nothing of the field shows */
     if (isStatic) {
       const ch = sh.top < 0 ? 'end' : r.top < vh ? 'grand' : 'hero';
       const changed = ch !== chapter; chapter = ch;
