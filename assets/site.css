@@ -387,3 +387,44 @@ legend,.step-title{font:720 var(--size-s)/1.05 var(--font-display);font-stretch:
   *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
 }
 @media print{.hdr,.ftr,.skip,.ticker{display:none}.sheetframe{border:0;margin:0}}
+
+/* ---------- line drawings that draw themselves in (assets/lines.js) ---------- */
+.ld{position:relative;width:100%;max-width:100%}
+.ld>canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-drawing{height:auto;max-height:none;min-height:0;display:grid;place-items:center;padding:8px 0}
+.hero-drawing .ld{width:min(100%,calc(max(240px,100svh - var(--nav-h) - 430px) * 1600 / 609))}
+.how-view{aspect-ratio:auto;max-height:none;display:grid;place-items:center;padding:8px 0}
+.how-view .ld{width:min(100%,calc(60svh * 1600 / 609))}
+.p-col .ld{width:calc(100% - 20px);margin:6px 10px 10px}
+.drawing .ld{margin-block:auto}
+.ind-panel figure{display:grid;place-items:center}
+/* the building: the list of capabilities scrolls; the drawing window stays put and pans up floor by floor */
+.tower{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr)}
+.tower-text{border-right:1px solid var(--color-line)}
+.tower .chain-meter{position:sticky;top:var(--nav-h);z-index:2;background:var(--color-bg)}
+.tower .stages{display:flex;flex-direction:column}
+.tower .stage{border-right:0;border-bottom:1px solid var(--color-line);padding:var(--cell);gap:10px;min-height:62vh;justify-content:center}
+.tower .stage:last-child{border-bottom:0}
+.tower .stage:last-child{min-height:calc(100svh - var(--nav-h));justify-content:flex-start;padding-top:calc(var(--cell) + 18vh)}   /* hold the finished building on screen */
+.tower .stage h3{font-size:clamp(1.3rem,.9rem + 1.2vw,2rem)}
+.tower .stage .go{margin-top:6px}
+.tower-draw{position:sticky;top:var(--nav-h);height:calc(100svh - var(--nav-h));overflow:hidden}
+.tower-draw .ld{width:min(100%,760px);margin:0 auto;will-change:transform}
+.ld-lbl{position:absolute;transform:translateY(-50%);font:500 .75rem/1.3 var(--font-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--color-fg-faint);transition:color var(--t-slow) var(--ease)}
+.ld-lbl b{display:block;font-weight:500}
+.ld-lbl.on{color:var(--color-pulse-text)}
+@media (max-width:1100px){
+  .tower{grid-template-columns:1fr}
+  .tower-draw{grid-row:1;height:52svh;border-bottom:1px solid var(--color-line);background:var(--color-bg);z-index:1}
+  .tower-text{border-right:0}
+  .tower .chain-meter{top:calc(var(--nav-h) + 52svh)}
+  .tower .stage{min-height:48svh}
+  .tower .stage:last-child{min-height:44svh;padding-top:var(--cell)}
+  .tower-draw .ld{width:min(100%,420px)}
+}
+@media (prefers-reduced-motion:reduce){
+  .tower-draw{position:static;height:auto;overflow:visible}
+  .tower .stage,.tower .stage:last-child{min-height:0;padding-top:var(--cell);justify-content:center}
+}
+@media (max-width:600px){.ld-lbl{font-size:.625rem;left:auto!important;right:0;text-align:right}.ld-lbl b{display:none}}
+

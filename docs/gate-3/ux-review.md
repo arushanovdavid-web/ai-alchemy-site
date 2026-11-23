@@ -16,8 +16,11 @@ The review used the `ui-ux-pro-max` skill (`.claude/skills/ui-ux-pro-max`) on 20
 - **Text size:** card and step text raised from 14.7px to 16px. Mono labels raised from 11.5px to 12px.
 - **Touch targets:** the ticker, footer, breadcrumb and text links now have 44px targets. `touch-action: manipulation` is set on controls.
 - **Sticky header:** `scroll-padding-top` stops the header covering keyboard focus.
-- **Pinned section:** the chain reaction is the only pinned section, it is scrub-driven, and it recalculates after fonts load. Phones get a simpler version with no pin.
-- **Reduced motion:** shows the finished state, with no pin and no parallax.
-- **Animation and readability:** animations never hide text. The problem drawings ink in, but their text is static.
+- **Line drawings (owner direction, 2026-11-23: "Everywhere"):** every illustration is now vector line art that draws itself in on canvas (`assets/lines.js`, data in `assets/lines/*.json`). Each drawing has `role="img"` and an `aria-label`; the canvas is `aria-hidden`. Drawings load only when within 600px of the screen, and redraw only when something changes.
+- **Capabilities building:** the stage list scrolls normally; the drawing window is sticky (not a scroll-jacking pin) and pans floor by floor. Each floor draws from its card's position, so scrolling back un-draws it. The last card holds the finished building on screen. Phones keep a 52svh drawing window above the cards, with labels right-aligned so nothing overflows.
+- **Reduced motion:** every drawing appears complete and the building section is static, with no sticky window and no pan.
+- **Animation and readability:** animations never hide or move text. Floor labels and the chain meter are real text.
+- **Weight:** the GSAP library and the old raster illustrations were removed; the drawing and homepage scripts are about 12 KB, and all the line data is about 190 KB compressed (the hero is 35 KB), loaded only as each drawing nears the screen.
 - **Industry tabs:** keyboard operable with the arrow keys, Home and End.
-- **Problem drawings:** removed a multiply blend that darkened their paper.
+
+Evidence (`docs/gate-3/evidence/`): desktop 1440×900 and phone 390×844 at the hero, problems, building floors 1, 3 and 5, scrolling back from floor 5, how we work, industries, a capability page, an industry page and reduced motion. No console errors and no horizontal overflow on any frame.

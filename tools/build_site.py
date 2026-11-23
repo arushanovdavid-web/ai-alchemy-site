@@ -21,19 +21,19 @@ def write(path, text):
 
 # ---------------------------------------------------------------- shared data
 CAPS = [  # stage, verb, slug, name, line (David), description (David), brief preset, drawing alt
-    dict(n=1, verb='Modernize', slug='systems-modernization', name='Systems Modernization', line='Build a stronger foundation.',
+    dict(n=1, floor='an old geared machine being refitted beside a row of servers and new equipment, joined to the building core by copper lines.', verb='Modernize', slug='systems-modernization', name='Systems Modernization', line='Build a stronger foundation.',
          desc='Upgrade legacy technology and build software around how your people work.', need='Modernize legacy systems',
          alt='Etched drawing of an old machine whose gears start turning as a copper line reaches it.'),
-    dict(n=2, verb='Connect', slug='systems-integration', name='Systems Integration', line='Get your systems working together.',
+    dict(n=2, floor='four systems on cable trays, each joined to one hub at the core.', verb='Connect', slug='systems-integration', name='Systems Integration', line='Get your systems working together.',
          desc='Connect your applications so information flows across your business.', need='Connect our systems',
          alt='Etched drawing of a hub with copper lines reaching out to the systems around it.'),
-    dict(n=3, verb='Automate', slug='workflow-automation', name='Workflow Automation', line='Spend less time on manual work.',
+    dict(n=3, floor='a process floor with a conveyor, cartons and a robotic arm, with copper runs to each station.', verb='Automate', slug='workflow-automation', name='Workflow Automation', line='Spend less time on manual work.',
          desc='Reduce repetitive tasks and simplify handoffs between teams.', need='Automate manual work',
          alt='Etched drawing of a conveyor and a robotic arm passing work along a bench.'),
-    dict(n=4, verb='Understand', slug='data-reporting', name='Data & Reporting', line='See clearly. Make informed decisions.',
+    dict(n=4, floor='an analysis deck with pie charts and rising bar charts.', verb='Understand', slug='data-reporting', name='Data & Reporting', line='See clearly. Make informed decisions.',
          desc='Bring your information together for a clearer view of your business.', need='Improve data and reporting',
          alt='Etched drawing of a board filling with bar charts and a rising trend line.'),
-    dict(n=5, verb='Enable AI', slug='generative-ai-enablement', name='Generative AI Enablement', line='Put business knowledge to work.',
+    dict(n=5, floor='a glazed top floor where two people work at desks beside shelves of records, connected to the core.', verb='Enable AI', slug='generative-ai-enablement', name='Generative AI Enablement', line='Put business knowledge to work.',
          desc='Identify practical uses, connect AI to business knowledge, and equip your team to use it confidently.', need='Put AI to work',
          alt='Etched drawing of an employee at a desk asking an AI assistant on screen.'),
 ]
@@ -99,6 +99,13 @@ def pic(name, widths, alt, cls='', sizes='100vw', lazy=True, phone=None):
             f'<img{f" class={chr(34)}{cls}{chr(34)}" if cls else ""} src="/assets/img/{name}-{w0}.jpg" srcset="{ss("jpg")}" sizes="{sizes}" width="{iw}" height="{ih}" alt="{E(alt)}"'
             f'{" loading=" + chr(34) + "lazy" + chr(34) if lazy else ""} decoding="async"></picture>')
 
+ACC = {'coral': '#C46A43', 'verd': '#1F6B5C', 'copper': '#B5703F'}
+def ldraw(name, alt, mode='reveal', accent='copper', cls='', labels=''):
+    """A line drawing that draws itself in (assets/lines.js). The canvas is decorative; the alt text is on the wrapper."""
+    d = json.loads((ROOT / f'assets/lines/{name}.json').read_text())
+    return (f'<div class="ld {cls}" role="img" aria-label="{E(alt)}" data-src="/assets/lines/{name}.json" data-mode="{mode}" '
+            f'data-accent="{ACC[accent]}" style="aspect-ratio:{d["W"]}/{d["H"]}">{labels}</div>')
+
 # ---------------------------------------------------------------- chrome
 HEAD_ASSETS = ('<link rel="preload" href="/assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>\n'
                '<link rel="preload" href="/assets/fonts/plex-sans-400.woff2" as="font" type="font/woff2" crossorigin>\n'
@@ -135,9 +142,8 @@ def footer():
  <div class="ftr-base"><span class="mono">AI Alchemy · Client Solutions · Products &amp; Innovation</span><span class="mono">Greater Toronto Area</span></div>
 </footer>'''
 
-SCRIPTS_INNER = '<script src="/home/inner.js" defer></script>'
-SCRIPTS_HOME = ('<script src="/assets/vendor/gsap.min.js" defer></script>\n<script src="/assets/vendor/ScrollTrigger.min.js" defer></script>\n'
-                '<script src="/home/inner.js" defer></script>\n<script src="/assets/home.js" defer></script>')
+SCRIPTS_INNER = '<script src="/home/inner.js" defer></script>\n<script src="/assets/lines.js" defer></script>'
+SCRIPTS_HOME = ('<script src="/home/inner.js" defer></script>\n<script src="/assets/lines.js" defer></script>\n<script src="/assets/home.js" defer></script>')
 
 def head(title, desc, path, ld=None, robots=None):
     url = SITE + path
@@ -236,7 +242,7 @@ def cta_band(h2, need=None, lead='You don’t need a technical spec to start.'):
 
 def ind_drawing(ind, caption=None):
     cap = caption or f'{ind["name"]}: one workflow, connected. Illustration, not a client project.'
-    return (f'<figure class="drawing">{pic("industry-" + ind["k"], [800, 1600], ind["alt"], sizes="(max-width:860px) 100vw, 50vw", lazy=False)}'
+    return (f'<figure class="drawing">{ldraw("industry-" + ind["k"], ind["alt"].replace("Etched drawing", "Line drawing"), accent="verd")}'
             f'<figcaption>{E(cap)}</figcaption></figure>')
 
 # ---------------------------------------------------------------- capability pages
@@ -321,7 +327,7 @@ def cap_page(slug):
   <p class="support">{E(c["desc"])}</p>
   <div class="hero-cta"><div class="hero-actions"><a class="btn btn-primary" href="{brief(c["need"])}">Plan Your Modernization</a></div></div>
   </div>
-  <figure class="drawing">{pic(f"stage-{c['n']}", [800, 1600], c["alt"], sizes="(max-width:860px) 100vw, 50vw", lazy=False)}<figcaption>Stage 0{c["n"]} of the chain reaction · Illustration, not a client project</figcaption></figure>
+  <figure class="drawing">{ldraw(f"stage-{c['n']}", f"Line drawing of floor {c['n']} of the building: " + c["floor"])}<figcaption>Floor 0{c["n"]} of the building · Illustration, not a client project</figcaption></figure>
  </div>
 </section>
 <section class="block" aria-labelledby="problem-h">
@@ -364,7 +370,7 @@ def services_index():
   <p class="support">Five capabilities on one mechanism. Each one strengthens the next, and you can start with the one you need.</p>
   <div class="hero-cta"><div class="hero-actions"><a class="btn btn-primary" href="/contact/">Plan Your Modernization</a></div></div>
   </div>
-  <figure class="drawing">{pic("chain-all", [1600, 2800], "Etched drawing of the whole chain reaction: one copper line runs past an old machine, a hub of connections, a conveyor, a chart board and an employee using an AI assistant, all lit.", sizes="(max-width:860px) 100vw, 50vw", lazy=False)}<figcaption>The chain reaction, all five stages lit · Illustration, not a client project</figcaption></figure>
+  <figure class="drawing">{ldraw("tower", "Line drawing of the business as a five-floor building: foundation and core systems, connected systems, a process floor, an analysis deck and a knowledge floor, joined by one copper riser.", cls="ld-tower-sm")}<figcaption>Five floors, one building · Illustration, not a client project</figcaption></figure>
  </div>
 </section>
 {caps_list(h2='Five capabilities. One connected business.', kicker='The chain', hid='caps-h')}
@@ -402,7 +408,7 @@ def how_page():
   <p class="support">Projects shouldn’t start with a feature list. They start with how your business works.</p>
   <div class="hero-cta"><div class="hero-actions"><a class="btn btn-primary" href="/contact/">Plan Your Modernization</a></div></div>
   </div>
-  <figure class="drawing">{pic("hero-redraft", [1408, 2816], "Etched drawing of a business redrawn: the same machines, desks and cabinets, now joined along one green line.", sizes="(max-width:860px) 100vw, 50vw", lazy=False)}<figcaption>The as-built drawing, redrawn · Illustration, not a client project</figcaption></figure>
+  <figure class="drawing">{ldraw("hero-redraft", "Line drawing of a business redrawn: the same machines, desks and cabinets, now joined along one green line.", accent="verd")}<figcaption>The as-built drawing, redrawn · Illustration, not a client project</figcaption></figure>
  </div>
 </section>
 <section class="block" aria-labelledby="steps-h">
@@ -470,18 +476,20 @@ def home():
         ('Ready for AI. Unsure Where to Start.', 'You see the potential but need a clear path from experimenting with AI to using it effectively in everyday work.', 5,
          'Etched drawing of a new machine beside a desk, its coral cable not yet plugged in.'),
     ]
-    pcols = ''.join(f'''<article class="p-col"><div class="top"><b>P{i + 1}</b><span>[0{i + 1}]</span></div>{pic(f"problem-{img}", [500, 1000], alt, sizes="(max-width:600px) 90vw, (max-width:1100px) 50vw, 20vw")}<h3>{E(t)}</h3><p>{E(c)}</p></article>'''
+    pcols = ''.join(f'''<article class="p-col"><div class="top"><b>P{i + 1}</b><span>[0{i + 1}]</span></div>{ldraw(f"problem-r{img}", alt.replace("Etched drawing", "Line drawing"), mode="scroll", accent="coral")}<h3>{E(t)}</h3><p>{E(c)}</p></article>'''
                     for i, (t, c, img, alt) in enumerate(probs))
-    stages = ''.join(f'''<a class="stage on" href="/services/{c["slug"]}/"><span class="lab"><i class="lamp" aria-hidden="true"></i>0{c["n"]} · {E(c["verb"])}</span>{pic(f"stage-{c['n']}", [800, 1600], c["alt"], cls="phone-img", sizes="(max-width:700px) 90vw, 640px")}<h3>{E(c["line"])}</h3><span class="svc">{E(c["name"])}</span><p>{E(c["desc"])}</p><span class="go">Explore {E(c["name"])} →</span></a>'''
+    stages = ''.join(f'''<a class="stage on" data-n="{c["n"]}" href="/services/{c["slug"]}/"><span class="lab"><i class="lamp" aria-hidden="true"></i>0{c["n"]} · {E(c["verb"])}</span><h3>{E(c["line"])}</h3><span class="svc">{E(c["name"])}</span><p>{E(c["desc"])}</p><span class="go">Explore {E(c["name"])} →</span></a>'''
                      for c in CAPS)
+    td = json.loads((ROOT / 'assets/lines/tower.json').read_text())
+    tower_labels = ''.join(f'<span class="ld-lbl" data-g="{c["n"]}" style="left:{(td["a"]["edge%d" % c["n"]][0] + 72) / td["W"] * 100:.2f}%;top:{td["a"]["edge%d" % c["n"]][1] / td["H"] * 100:.2f}%"><b>Floor 0{c["n"]}</b>{E(c["verb"])}</span>' for c in CAPS)
     ticker = ''.join(f'<a href="/services/{c["slug"]}/">{E(c["name"])}</a>' for c in CAPS)
     tabs = ''.join(f'<button type="button" role="tab" id="tab-{i["k"]}" aria-controls="panel-{i["k"]}" aria-selected="{"true" if n == 0 else "false"}" tabindex="{0 if n == 0 else -1}">0{n + 1} · {E(i["name"])}</button>' for n, i in enumerate(INDS))
-    panels = ''.join(f'''<div class="ind-panel" role="tabpanel" id="panel-{i["k"]}" aria-labelledby="tab-{i["k"]}"{"" if n == 0 else " hidden"}><figure>{pic("industry-" + i["k"], [800, 1600], i["alt"], sizes="(max-width:860px) 100vw, 64vw")}</figure><div class="txt"><p class="kicker">Industry 0{n + 1}</p><h3>{E(i["name"])}</h3><p>{E(i["line"])}</p><div class="pf"><div><p class="pf-l">Problem</p><p>{E(i["problem"])}</p></div><div class="fix"><p class="pf-l">Fix</p><p>{E(i["fix"])}</p></div></div><a class="textlink" href="/industries/{i["slug"]}/">Learn about {E(i["name"])}</a></div></div>'''
+    panels = ''.join(f'''<div class="ind-panel" role="tabpanel" id="panel-{i["k"]}" aria-labelledby="tab-{i["k"]}"{"" if n == 0 else " hidden"}><figure>{ldraw("industry-" + i["k"], i["alt"].replace("Etched drawing", "Line drawing"), accent="verd")}</figure><div class="txt"><p class="kicker">Industry 0{n + 1}</p><h3>{E(i["name"])}</h3><p>{E(i["line"])}</p><div class="pf"><div><p class="pf-l">Problem</p><p>{E(i["problem"])}</p></div><div class="fix"><p class="pf-l">Fix</p><p>{E(i["fix"])}</p></div></div><a class="textlink" href="/industries/{i["slug"]}/">Learn about {E(i["name"])}</a></div></div>'''
                      for n, i in enumerate(INDS))
     hsteps = ''.join(f'<li><span class="n">0{i + 1} · {E(v)}</span><h3>{E(h)}</h3><p>{E(p)}</p></li>' for i, (v, h, p) in enumerate(STEPS))
     main = f'''<section class="hero" aria-labelledby="h1">
  <div class="sheet-label"><span class="lab">Sheet A-01 · <b>As built</b></span><span class="lab">Systems integration &amp; modernization</span></div>
- <div class="hero-drawing">{pic("hero-asbuilt", [1408, 2816], "Etched drawing of a business as it runs today: separate machines, desks and cabinets, joined by tangled cables.", lazy=False, phone="hero-phone-748")}<i class="scan" aria-hidden="true"></i><span class="spec" aria-hidden="true">SHEET A-01
+ <div class="hero-drawing">{ldraw("hero-asbuilt", "Line drawing of a business as it runs today: separate machines, desks and cabinets, joined by tangled cables.", mode="load", accent="coral")}<span class="spec" aria-hidden="true">SHEET A-01
 REV A · AS BUILT
 DRAWN · AI ALCHEMY</span></div>
  <div class="hero-copy">
@@ -502,13 +510,11 @@ DRAWN · AI ALCHEMY</span></div>
 <section class="chain" aria-labelledby="chain-h">
  <div class="sheet-label"><span class="lab">Sheet A-03 · <b>Chain reaction</b></span><span class="lab">Five capabilities</span></div>
  <div class="head"><h2 id="chain-h">Better tools. Stronger capabilities.</h2><p>Five capabilities on one mechanism. Each stage strengthens the next, and you can start with the one you need.</p></div>
- <a class="skip-seq" href="#products-h">Skip the chain reaction</a>
- <div class="chain-stage">
-  <div class="chain-view" aria-hidden="true"><div class="chain-track">{pic("chain-off", [1600, 2800, 5600], "", sizes="300vw", cls="off", lazy=False)}{pic("chain-all", [1600, 2800, 5600], "", sizes="300vw", cls="lit", lazy=False)}<i class="pulse"></i></div></div>
-  <div class="chain-meter"><span class="lab">Chain reaction · <b>05 · Enable AI</b></span><span class="lab">Earlier stages stay lit</span></div>
-  <div class="stages">{stages}</div>
-  <p class="chain-note">Clients can start anywhere. Each capability works on its own and strengthens the others.</p>
+ <div class="tower">
+  <div class="tower-text"><div class="tower-sticky"><div class="chain-meter"><span class="lab">Chain reaction · <b>05 · Enable AI</b></span><span class="lab">Earlier floors stay lit</span></div><div class="stages">{stages}</div></div></div>
+  <div class="tower-draw">{ldraw("tower", "Line drawing of the business as a five-floor building. Floor 1, the foundation: an old machine being refitted beside servers. Floor 2: four systems joined to one hub. Floor 3: a process floor with a conveyor and a robotic arm. Floor 4: an analysis deck with charts. Floor 5: people working with the business's records. One copper riser connects every floor.", mode="manual", labels=tower_labels)}</div>
  </div>
+ <p class="chain-note">Clients can start anywhere. Each capability works on its own and strengthens the others.</p>
 </section>
 <section class="products" aria-labelledby="products-h">
  <div><p class="kicker">Products &amp; Innovation</p><h2 id="products-h">Our own products are taking shape. More to share soon.</h2></div>
@@ -517,7 +523,7 @@ DRAWN · AI ALCHEMY</span></div>
 <section class="how" aria-labelledby="how-h">
  <div class="sheet-label"><span class="lab">Sheet A-04 · <b>Redraft</b></span><span class="lab">How we work</span></div>
  <div class="head"><h2 id="how-h">Understand your business. Build what moves it forward.</h2><p>Projects shouldn’t start with a feature list. They start with how your business works.</p></div>
- <div class="how-view">{pic("hero-asbuilt", [1408, 2816], "The as-built drawing: separate machines, desks and cabinets joined by tangled cables.")}{pic("hero-redraft", [1408, 2816], "The same drawing, redrawn: the machines joined along one green line.", cls="after")}<i class="wipe" aria-hidden="true"></i><span class="tag" aria-hidden="true">Rev A · As built</span></div>
+ <div class="how-view">{ldraw("hero-redraft", "Line drawing of the same business redrawn: machines, desks and cabinets joined along one green line.", mode="scroll", accent="verd")}</div>
  <ol class="how-steps">{hsteps}</ol>
  <div class="how-foot"><span>{OUTCOMES_NOTE}</span><a class="textlink" href="/how-we-work/">How we work</a></div>
 </section>
@@ -638,7 +644,7 @@ def industries_index_extra(soup, main):
         if not a: continue
         slug = a['href'].strip('/').split('/')[-1]
         if slug in IND and not li.find('picture'):
-            li.insert(0, frag(pic('industry-' + IND[slug]['k'], [800], IND[slug]['alt'], sizes='(max-width:860px) 100vw, 33vw')))
+            li.insert(0, frag(ldraw('industry-' + IND[slug]['k'], IND[slug]['alt'].replace('Etched drawing', 'Line drawing'), accent='verd')))
 
 def contact_extra(soup, main):
     chips = main.find('div', class_='chips')
