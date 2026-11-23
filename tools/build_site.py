@@ -143,7 +143,7 @@ def footer():
 </footer>'''
 
 SCRIPTS_INNER = '<script src="/home/inner.js" defer></script>\n<script src="/assets/lines.js" defer></script>'
-SCRIPTS_HOME = ('<script src="/home/inner.js" defer></script>\n<script src="/assets/lines.js" defer></script>\n<script src="/assets/home.js" defer></script>')
+SCRIPTS_HOME = ('<script src="/home/inner.js" defer></script>\n<script src="/assets/lines.js" defer></script>\n<script src="/assets/board.js" defer></script>\n<script src="/assets/home.js" defer></script>')
 
 def head(title, desc, path, ld=None, robots=None):
     url = SITE + path

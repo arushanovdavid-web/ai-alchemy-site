@@ -24,3 +24,10 @@ The review used the `ui-ux-pro-max` skill (`.claude/skills/ui-ux-pro-max`) on 20
 - **Industry tabs:** keyboard operable with the arrow keys, Home and End.
 
 Evidence (`docs/gate-3/evidence/`): desktop 1440×900 and phone 390×844 at the hero, problems, building floors 1, 3 and 5, scrolling back from floor 5, how we work, industries, a capability page, an industry page and reduced motion. No console errors and no horizontal overflow on any frame.
+
+## Circuit board (owner direction, 2026-11-23 22:26 UTC)
+- **One board:** `assets/board.js` reads the page's own hairlines and routes one copper trace along them, visiting every component in reading order. Because the trace only runs on hairlines, it never crosses text.
+- **Powering up:** the trace draws to 70% down the screen and eases rather than jumping. Each area it reaches fades from paper to its pastel (coral family for problems, copper for capabilities, verdigris for how we work and industries), and its drawing changes from graphite to ink and colour.
+- **Alive:** when the trace reaches the project brief, light pulses along the whole trace. Scrolling back withdraws the trace and returns areas to paper.
+- **Reduced motion:** the board is fully live at once, with no pulse.
+- **Robustness:** the board rebuilds on resize, font load and industry tab changes; it is `aria-hidden` and ignores pointer events.

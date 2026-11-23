@@ -11,6 +11,10 @@
   const load = src => cache.get(src) || (cache.set(src, fetch(src).then(r => r.json())), cache.get(src));
   const clamp = v => v < 0 ? 0 : v > 1 ? 1 : v;
   const all = [];
+  /* on the circuit board, a drawing waits in graphite until the trace reaches it, then gains its colours */
+  const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const mix = (a, b, t) => { const A = hex(a), B = hex(b); return `rgb(${A.map((v, i) => Math.round(v + (B[i] - v) * t)).join(',')})`; };
+  const GRAPHITE = '#8F8B83', GRAPHITE_CU = '#B4AEA3';
 
   class Drawing {
     constructor(el, d) {
@@ -31,6 +35,7 @@
       });
       this.byG = new Map(this.groups.map(x => [x.g, x]));
       this.size(); this.dirty = true;
+      this.live = reduce || !document.documentElement.classList.contains('has-board') || el.dataset.live === '1' ? 1 : 0;
       el.classList.add('ld-ready'); el.__draw = this;
       el.dispatchEvent(new Event('ld:ready'));
       if (reduce) { this.groups.forEach(x => x.p = 1); }
@@ -40,6 +45,12 @@
       const r = this.el.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
       this.k = r.width / this.d.W; this.cv.width = Math.round(r.width * dpr); this.cv.height = Math.round(this.d.H * this.k * dpr);
       this.dpr = dpr; this.dirty = true;
+    }
+    setLive(v) {
+      if (reduce) { this.live = v; this.dirty = true; return; }
+      const from = this.live, t0 = performance.now();
+      const step = now => { const k = clamp((now - t0) / 1100); this.live = from + (v - from) * (1 - Math.pow(1 - k, 3)); this.dirty = true; if (k < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
     }
     set(g, p) { const x = this.byG.get(g); if (x && !reduce && x.p !== p) { x.p = p; this.dirty = true; } }
     play(ms) { const t0 = performance.now(); const step = now => { const p = clamp((now - t0) / ms); this.groups.forEach(x => x.p = p); this.dirty = true; if (p < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
@@ -66,6 +77,7 @@
     draw() {
       if (!this.dirty) return; this.dirty = false;
       const c = this.ctx, s = this.d.s, k = this.k * this.dpr;
+      const ink = this.live >= 1 ? INK : mix(GRAPHITE, INK, this.live), acc = this.live >= 1 ? this.cu : mix(GRAPHITE_CU, this.cu, this.live);
       c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, this.cv.width, this.cv.height); c.lineCap = 'round';
       for (const x of this.groups) {
         if (x.p <= 0) continue;
@@ -74,7 +86,7 @@
           const o = i * 8, kind = s[o + 5], cu = s[o + 6], gh = s[o + 7];
           let x0 = s[o], y0 = s[o + 1], x1 = s[o + 2], y1 = s[o + 3];
           if (f >= 1 && kind === 1 && !cu) { const L = Math.hypot(x1 - x0, y1 - y0) || 1, e = 2.2 / L; x0 -= (x1 - x0) * e; y0 -= (y1 - y0) * e; x1 += (x1 - s[o]) * e; y1 += (y1 - s[o + 1]) * e; } // drafting overshoot
-          c.strokeStyle = cu ? this.cu : gh ? GHOST : INK;
+          c.strokeStyle = cu ? acc : gh ? GHOST : ink;
           c.globalAlpha = kind === 2 ? .45 : 1;
           c.lineWidth = (cu ? 2.4 : kind === 1 ? 1.45 : kind === 0 ? .9 : .7) * Math.max(.75, Math.min(1.25, this.k * 1.1)) * this.dpr;
           c.beginPath(); c.moveTo(x0 * k, y0 * k); c.lineTo((x0 + (x1 - x0) * f) * k, (y0 + (y1 - y0) * f) * k); c.stroke();

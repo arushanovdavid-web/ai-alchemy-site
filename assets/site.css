@@ -410,7 +410,7 @@ legend,.step-title{font:720 var(--size-s)/1.05 var(--font-display);font-stretch:
 .tower .stage .go{margin-top:6px}
 .tower-draw{position:sticky;top:var(--nav-h);height:calc(100svh - var(--nav-h));overflow:hidden}
 .tower-draw .ld{width:min(100%,760px);margin:0 auto;will-change:transform}
-.ld-lbl{position:absolute;transform:translateY(-50%);font:500 .75rem/1.3 var(--font-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--color-fg-faint);transition:color var(--t-slow) var(--ease)}
+.ld-lbl{position:absolute;transform:translateY(-50%);font:500 .75rem/1.3 var(--font-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--color-fg-muted);transition:color var(--t-slow) var(--ease)}
 .ld-lbl b{display:block;font-weight:500}
 .ld-lbl.on{color:var(--color-pulse-text)}
 @media (max-width:1100px){
@@ -428,3 +428,35 @@ legend,.step-title{font:720 var(--size-s)/1.05 var(--font-display);font-stretch:
 }
 @media (max-width:600px){.ld-lbl{font-size:.625rem;left:auto!important;right:0;text-align:right}.ld-lbl b{display:none}}
 
+
+/* ---------- the homepage as one circuit board (assets/board.js) ----------
+   One copper trace runs along the hairlines; each area it reaches powers up and gains its colour. */
+@property --live{syntax:'<number>';inherits:true;initial-value:0}
+@property --lit{syntax:'<number>';inherits:false;initial-value:0}
+.has-board main>:is(.hero,.problems,.chain,.products,.how,.ind,.notes){
+  --sec:color-mix(in oklab,var(--tint) calc(var(--live) * 100%),var(--paper-100));
+  --color-bg:var(--sec);background-color:var(--sec);transition:--live 1.6s var(--ease)}
+.has-board main>.live{--live:1}
+.has-board :is(.p-col,.tower .stage,.how-steps>li,.notes .fact,.ind-panel){
+  --color-bg:color-mix(in oklab,var(--tint2) calc(var(--lit) * 80%),var(--sec,var(--paper-100)));
+  background-color:var(--color-bg);transition:--lit 1.2s var(--ease)}
+.has-board :is(.p-col,.tower .stage,.how-steps>li,.notes .fact,.ind-panel).live{--lit:1}
+.hero{--tint:#EEE2C9}
+.problems{--tint:#F6E6DA}.p-col{--tint2:#F1D3BF}
+.chain{--tint:#F4E7D8}.tower .stage{--tint2:#ECD5BD}
+.products{--tint:#F3E6C3}
+.how{--tint:#DFEAE2}.how-steps>li{--tint2:#CCDFD2}
+.ind{--tint:#E4EADF}.ind-panel{--tint2:#D6E5DA}
+.notes{--tint:#EFE6D5}.notes .fact{--tint2:#E9DCC4}
+.notes .fact{padding-inline:12px;margin-inline:-12px}
+.board{position:absolute;left:0;top:0;pointer-events:none;z-index:4;overflow:visible}
+.board .trace,.board .pulse{fill:none;stroke-width:2.25;stroke-linejoin:round;stroke-linecap:round}
+.board .trace{stroke:var(--copper-500,#B5703F)}
+.board .pulse{stroke:#F2C48C;opacity:0;transition:opacity 1.2s}
+.board-alive .board .pulse{opacity:1}
+.board .pad rect{fill:var(--paper-100);stroke:var(--color-line);stroke-width:1;transition:fill .6s,stroke .6s}
+.board .pad circle{fill:var(--color-line);transition:fill .6s}
+.board .pad.on rect{fill:#F2D6B3;stroke:#B5703F}
+.board .pad.on circle{fill:#B5703F}
+.tower-draw,.tower .chain-meter{z-index:6}
+@media (prefers-reduced-motion:reduce){.board .pulse{display:none}}
