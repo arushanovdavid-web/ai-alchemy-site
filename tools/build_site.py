@@ -529,7 +529,7 @@ DRAWN · AI ALCHEMY</span></div>
  <div class="sheet-label"><span class="lab">Sheet A-03 · <b>Chain reaction</b></span><span class="lab">Five capabilities</span></div>
  <div class="head"><h2 id="chain-h">Better tools. Stronger capabilities.</h2><p>Five capabilities on one mechanism. Each stage strengthens the next, and you can start with the one you need.</p></div>
  <div class="tower">
-  <div class="tower-text"><div class="tower-sticky"><div class="chain-meter"><span class="lab">Chain reaction · <b>05 · Enable AI</b></span><span class="lab">Earlier floors stay lit</span></div><div class="stages">{stages}</div></div></div>
+  <div class="tower-text"><div class="tower-sticky"><div class="chain-meter"><span class="lab">Chain reaction · <b>05 · Enable AI</b></span><span class="lab">Earlier floors stay lit</span></div><div class="stages"><div class="stage-intro"><span class="lab">00 · Today</span><h3>Most businesses grow one system at a time.</h3><p>Each new tool gets joined to the last with a workaround: an export, a spreadsheet, a copy and paste. Scroll to see what each capability changes.</p></div>{stages}</div></div></div>
   <div class="tower-draw">{ldraw("tower", "Line drawing of the business as a five-floor building. Floor 1, the foundation: an old machine being refitted beside servers. Floor 2: four systems joined to one hub. Floor 3: a process floor with a conveyor and a robotic arm. Floor 4: an analysis deck with charts. Floor 5: people working with the business's records. One copper riser connects every floor.", mode="manual", labels=tower_labels)}</div>
  </div>
  <p class="chain-note">Clients can start anywhere. Each capability works on its own and strengthens the others.</p>

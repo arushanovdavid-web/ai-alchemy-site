@@ -91,8 +91,9 @@
       const lit = ps.filter(p => p >= .7).length;
       stages.forEach((s, i) => s.classList.toggle('on', ps[i] >= .7));
       labels.forEach(l => l.classList.toggle('on', ps[+l.dataset.g - 1] >= .55));
-      if (meter) meter.textContent = lit ? `0${lit} · ${NAMES[lit - 1]}` : '00 · Foundations';
-      if (!D || reduce) return;
+      if (meter) meter.textContent = lit ? `0${lit} · ${NAMES[lit - 1]}` : '00 · Today';
+      chain.__ps = ps; chain.dispatchEvent(new CustomEvent('chain:progress', { detail: ps }));
+      if (!D || reduce || win.classList.contains('is-3d')) return;
       D.set(0, clamp(ps[0] * 3)); ps.forEach((p, i) => D.set(i + 1, p)); D.set(6, ps[4] >= 1 ? 1 : 0);
       /* camera: keep the floor being drawn near the middle of the window */
       const a = D.d.a, k = D.k, f = ps.reduce((t, p) => t + p, 0);            /* 0..5 */
@@ -105,6 +106,13 @@
     };
     let raf = 0; const req = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; frame(); }); };
     tower.addEventListener('ld:ready', () => { D = tower.__draw; req(); });
+    /* the 3D tower loads only when the section comes near; if WebGL is missing the line drawing above stays */
+    const T3 = new URL('tower3d.js', (document.currentScript && document.currentScript.src) || location.href).href;
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(es => { if (!es.some(e => e.isIntersecting)) return; io.disconnect();
+        import(T3).then(m => { if (m.mount(win, chain)) { tower.style.transform = ''; req(); } }).catch(() => {}); }, { rootMargin: '150% 0px' });
+      io.observe(chain);
+    }
     addEventListener('scroll', req, { passive: true }); addEventListener('resize', req); req();
   }
 })();
