@@ -49,7 +49,7 @@
   --primitive-line-hair: 1px;
   --primitive-line-rule: 1.5px;
   --primitive-line-bold: 2px;
-  --primitive-duration-fast: 120ms;
+  --primitive-duration-fast: 150ms;
   --primitive-duration-base: 240ms;
   --primitive-duration-slow: 480ms;
   --primitive-duration-draw: 1200ms;
@@ -80,6 +80,11 @@
   --color-pulse: #B5703F;
   --color-pulse-text: #8A4E26;
   --color-focus: #1F6B5C;
+  --color-on-kraft-muted: #2C3036;
+  --color-on-kraft-action: #174F44;
+  --color-on-kraft-pulse-text: #723F1F;
+  --color-on-kraft-problem-text: #8A3B1E;
+  --color-approval-text-strong: #6E4F0C;
   --font-display: 'Archivo', 'Arial Narrow', sans-serif;
   --font-text: 'IBM Plex Sans', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
@@ -87,7 +92,12 @@
   --space-cell-tight: 16px;
   --space-frame: 16px;
   --space-section: 96px;
-  --motion-hover: 120ms;
+  --a11y-focus-ring: 3px;
+  --a11y-focus-offset: 3px;
+  --a11y-touch-min: 44px;
+  --a11y-text-min: 0.75rem;
+  --a11y-body-min-mobile: 1rem;
+  --motion-hover: 150ms;
   --motion-reveal: 480ms;
   --motion-draw: 1200ms;
 }
@@ -114,7 +124,7 @@
   --stage-label: #8A4E26;
   --stage-service: #1F6B5C;
   --stamp-border: #E2B04A;
-  --stamp-fg: #86600F;
+  --stamp-fg: #6E4F0C;
   --field-rule: #1C2026;
   --field-rule-focus: #1F6B5C;
   --field-label: #5B5F63;

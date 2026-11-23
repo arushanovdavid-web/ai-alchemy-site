@@ -31,7 +31,7 @@ primitive = {
   "leading": {"tight": o("0.94"), "snug": o("1.15"), "body": o("1.55")},
   "space": {k: d(v) for k, v in {"1": "4px", "2": "8px", "3": "12px", "4": "16px", "5": "20px", "6": "24px", "8": "32px", "10": "40px", "12": "48px", "16": "64px", "20": "80px", "24": "96px", "32": "128px"}.items()},
   "line": {"hair": d("1px"), "rule": d("1.5px"), "bold": d("2px")},
-  "duration": {"fast": o("120ms", "duration"), "base": o("240ms", "duration"), "slow": o("480ms", "duration"), "draw": o("1200ms", "duration")},
+  "duration": {"fast": o("150ms", "duration"), "base": o("240ms", "duration"), "slow": o("480ms", "duration"), "draw": o("1200ms", "duration")},
   "ease": {"standard": o("cubic-bezier(.2,.7,.1,1)", "cubicBezier"), "draw": o("cubic-bezier(.65,0,.35,1)", "cubicBezier"), "linear": o("linear", "cubicBezier")},
 }
 P = "primitive.color."
@@ -45,9 +45,13 @@ semantic = {
     "approval": ref(P + "sand.400"), "approval-text": ref(P + "sand.700"),
     "pulse": ref(P + "copper.500"), "pulse-text": ref(P + "copper.700"),
     "focus": ref(P + "verdigris.600"),
+    # ui-ux-pro-max review (Gate 3): on kraft, muted/action/accent text drop below 4.5:1, so kraft surfaces use darker tones
+    "on-kraft-muted": ref(P + "ink.800"), "on-kraft-action": ref(P + "verdigris.800"),
+    "on-kraft-pulse-text": c("#723F1F"), "on-kraft-problem-text": c("#8A3B1E"), "approval-text-strong": c("#6E4F0C"),
   },
   "font": {"display": ref("primitive.font.display", "fontFamily"), "text": ref("primitive.font.text", "fontFamily"), "mono": ref("primitive.font.mono", "fontFamily")},
   "space": {"cell": ref("primitive.space.6", "dimension"), "cell-tight": ref("primitive.space.4", "dimension"), "frame": ref("primitive.space.4", "dimension"), "section": ref("primitive.space.24", "dimension")},
+  "a11y": {"focus-ring": d("3px"), "focus-offset": d("3px"), "touch-min": d("44px"), "text-min": d("0.75rem"), "body-min-mobile": d("1rem")},
   "motion": {"hover": ref("primitive.duration.fast", "duration"), "reveal": ref("primitive.duration.slow", "duration"), "draw": ref("primitive.duration.draw", "duration")},
 }
 S = "semantic.color."
@@ -57,7 +61,7 @@ component = {
   "sheet": {"border": ref(S + "line"), "label": ref(S + "fg-muted"), "inset": ref("semantic.space.frame", "dimension")},
   "problem": {"marker": ref(S + "problem-text"), "index": ref(S + "fg-muted")},
   "stage": {"lamp-off": ref(S + "fg-faint"), "lamp-on": ref(S + "pulse"), "label": ref(S + "pulse-text"), "service": ref(S + "action")},
-  "stamp": {"border": ref(S + "approval"), "fg": ref(S + "approval-text")},
+  "stamp": {"border": ref(S + "approval"), "fg": ref(S + "approval-text-strong")},
   "field": {"rule": ref(S + "line"), "rule-focus": ref(S + "action"), "label": ref(S + "fg-muted"), "error": ref(S + "problem-text")},
 }
 out = {"$schema": "https://design-tokens.org/schema.json", "primitive": primitive, "semantic": semantic, "component": component}
