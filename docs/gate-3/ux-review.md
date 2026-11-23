@@ -31,3 +31,10 @@ Evidence (`docs/gate-3/evidence/`): desktop 1440×900 and phone 390×844 at the 
 - **Alive:** when the trace reaches the project brief, light pulses along the whole trace. Scrolling back withdraws the trace and returns areas to paper.
 - **Reduced motion:** the board is fully live at once, with no pulse.
 - **Robustness:** the board rebuilds on resize, font load and industry tab changes; it is `aria-hidden` and ignores pointer events.
+
+## Heron lessons (owner's own walkthrough of heronaiapp.com, 2026-11-23)
+- **Hero demonstrates the service:** the as-built drawing can be inspected. Mouse: drag a selection; it reports how many issues it found and lists them beside it. Touch and keyboard: five coral markers are real buttons (44px targets, `aria-expanded`, Escape closes). Each card names one of the five problems in David's words, one concrete stall, and links to the capability stage that fixes it (coral problem, verdigris fix). A CAD-style crosshair and coordinate readout follow a fine pointer only.
+- **Message first:** no loading screen; headline and the primary action are in the first 1440×900 screen, and the nav CTA is always available.
+- **Readable text:** inactive building labels raised from faint to muted; supporting text on every tint keeps at least 4.5:1.
+- **One definition per service:** the stage card, ticker, footer, capability page and fix links all read from the same `CAPS` entry in `tools/build_site.py`.
+- **Every scroll step changes something:** the trace advances, an area powers up, or a floor draws; no pinned section holds the page still.

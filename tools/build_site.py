@@ -478,7 +478,7 @@ def home():
     ]
     pcols = ''.join(f'''<article class="p-col"><div class="top"><b>P{i + 1}</b><span>[0{i + 1}]</span></div>{ldraw(f"problem-r{img}", alt.replace("Etched drawing", "Line drawing"), mode="scroll", accent="coral")}<h3>{E(t)}</h3><p>{E(c)}</p></article>'''
                     for i, (t, c, img, alt) in enumerate(probs))
-    stages = ''.join(f'''<a class="stage on" data-n="{c["n"]}" href="/services/{c["slug"]}/"><span class="lab"><i class="lamp" aria-hidden="true"></i>0{c["n"]} · {E(c["verb"])}</span><h3>{E(c["line"])}</h3><span class="svc">{E(c["name"])}</span><p>{E(c["desc"])}</p><span class="go">Explore {E(c["name"])} →</span></a>'''
+    stages = ''.join(f'''<a class="stage on" id="stage-{c["n"]}" data-n="{c["n"]}" href="/services/{c["slug"]}/"><span class="lab"><i class="lamp" aria-hidden="true"></i>0{c["n"]} · {E(c["verb"])}</span><h3>{E(c["line"])}</h3><span class="svc">{E(c["name"])}</span><p>{E(c["desc"])}</p><span class="go">Explore {E(c["name"])} →</span></a>'''
                      for c in CAPS)
     td = json.loads((ROOT / 'assets/lines/tower.json').read_text())
     tower_labels = ''.join(f'<span class="ld-lbl" data-g="{c["n"]}" style="left:{(td["a"]["edge%d" % c["n"]][0] + 72) / td["W"] * 100:.2f}%;top:{td["a"]["edge%d" % c["n"]][1] / td["H"] * 100:.2f}%"><b>Floor 0{c["n"]}</b>{E(c["verb"])}</span>' for c in CAPS)
@@ -487,9 +487,27 @@ def home():
     panels = ''.join(f'''<div class="ind-panel" role="tabpanel" id="panel-{i["k"]}" aria-labelledby="tab-{i["k"]}"{"" if n == 0 else " hidden"}><figure>{ldraw("industry-" + i["k"], i["alt"].replace("Etched drawing", "Line drawing"), accent="verd")}</figure><div class="txt"><p class="kicker">Industry 0{n + 1}</p><h3>{E(i["name"])}</h3><p>{E(i["line"])}</p><div class="pf"><div><p class="pf-l">Problem</p><p>{E(i["problem"])}</p></div><div class="fix"><p class="pf-l">Fix</p><p>{E(i["fix"])}</p></div></div><a class="textlink" href="/industries/{i["slug"]}/">Learn about {E(i["name"])}</a></div></div>'''
                      for n, i in enumerate(INDS))
     hsteps = ''.join(f'<li><span class="n">0{i + 1} · {E(v)}</span><h3>{E(h)}</h3><p>{E(p)}</p></li>' for i, (v, h, p) in enumerate(STEPS))
+    # hero inspection: where work stalls in the as-built drawing (drawing px), the problem it is, and the stage that fixes it
+    SPOTS = [
+        (585, 150, 0, 'The same order is typed into two systems by hand.', 2),
+        (425, 190, 2, 'Reports are pieced together from separate files and spreadsheets.', 4),
+        (500, 318, 3, 'The system at the counter can’t share what it knows with the rest.', 1),
+        (785, 330, 1, 'Stock changes wait until someone has time to key them in.', 3),
+        (1105, 445, 4, 'Answers live in people’s heads, not where AI could help with them.', 5),
+    ]
+    def spot(k, x, y, pi, what, n):
+        c = CAPS[n - 1]
+        return (f'<li class="hs" style="--x:{x / 16:.2f}%;--y:{y / 6.09:.2f}%" data-x="{x}" data-y="{y}">'
+                f'<button type="button" class="hs-mark" aria-expanded="false" aria-controls="hs-{k}"><span class="sr-only">Inspect: {E(probs[pi][0])}</span></button>'
+                f'<div class="hs-card" id="hs-{k}" hidden><span class="hs-tag">P{pi + 1} · Where work stalls</span><b>{E(probs[pi][0])}</b><p>{E(what)}</p>'
+                f'<a href="#stage-{n}">Fixed by 0{n} · {E(c["verb"])} <span aria-hidden="true">↓</span></a></div></li>')
+    inspect = ('<div class="inspect"><p class="inspect-hint"><span class="fine">Drag across the drawing, or pick a marker, to see where work stalls.</span>'
+               '<span class="coarse">Tap a marker to see where work stalls.</span></p>'
+               '<ul class="hs-list" aria-label="Where work stalls in this business">' + ''.join(spot(k + 1, *sp) for k, sp in enumerate(SPOTS)) + '</ul>'
+               '<div class="sel" aria-hidden="true" hidden><span></span></div><div class="coord" aria-hidden="true"></div></div>')
     main = f'''<section class="hero" aria-labelledby="h1">
  <div class="sheet-label"><span class="lab">Sheet A-01 · <b>As built</b></span><span class="lab">Systems integration &amp; modernization</span></div>
- <div class="hero-drawing">{ldraw("hero-asbuilt", "Line drawing of a business as it runs today: separate machines, desks and cabinets, joined by tangled cables.", mode="load", accent="coral")}<span class="spec" aria-hidden="true">SHEET A-01
+ <div class="hero-drawing"><div class="hero-stage">{ldraw("hero-asbuilt", "Line drawing of a business as it runs today: an office, a front counter, stock racks and a delivery truck, joined by tangled cables.", mode="load", accent="coral")}{inspect}</div><span class="spec" aria-hidden="true">SHEET A-01
 REV A · AS BUILT
 DRAWN · AI ALCHEMY</span></div>
  <div class="hero-copy">

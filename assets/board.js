@@ -36,7 +36,7 @@
   function hairlines() {
     const mr = main.getBoundingClientRect(), ox = mr.left, oy = mr.top, H = [], V = [];
     for (const el of main.querySelectorAll('*')) {
-      if (el === svg || svg.contains(el) || el.closest('.ld') || el.closest('[hidden]')) continue;
+      if (el === svg || svg.contains(el) || el.closest('.ld') || el.closest('.inspect') || el.closest('[hidden]')) continue;
       const cs = getComputedStyle(el); if (cs.display === 'none' || cs.visibility === 'hidden') continue;
       const bt = parseFloat(cs.borderTopWidth), bb = parseFloat(cs.borderBottomWidth), bl = parseFloat(cs.borderLeftWidth), br = parseFloat(cs.borderRightWidth);
       if (!(bt || bb || bl || br)) continue;

@@ -22,6 +22,61 @@
     });
   }
 
+  /* ---------- hero inspection: drag across the drawing (mouse) or pick a marker to see where work stalls.
+     Each card names the problem and links to the capability that fixes it. ---------- */
+  const insp = $('.inspect');
+  if (insp) {
+    const spots = $$('.hs', insp), sel = $('.sel', insp), selLab = $('span', sel), coord = $('.coord', insp);
+    const ci = document.createElement('i'); coord.append(ci);
+    spots.forEach(li => { li.classList.toggle('flip', +li.dataset.x > 1000); li.classList.toggle('low', +li.dataset.y > 380); });
+    const stage = insp.parentElement, phone = matchMedia('(max-width: 700px)');
+    const multi = document.createElement('div'); multi.className = 'hs-card hs-multi'; multi.hidden = true; insp.append(multi);
+    const room = el => { stage.style.marginBottom = phone.matches && el && !el.hidden ? el.offsetHeight + 12 + 'px' : ''; };
+    const open = (li, on) => { const b = $('.hs-mark', li), c = $('.hs-card', li); b.setAttribute('aria-expanded', on); c.hidden = !on; if (on) room(c); };
+    const closeAll = () => { spots.forEach(li => open(li, false)); multi.hidden = true; room(null); };
+    spots.forEach(li => $('.hs-mark', li).addEventListener('click', e => {
+      e.stopPropagation(); const on = $('.hs-mark', li).getAttribute('aria-expanded') !== 'true';
+      closeAll(); sel.hidden = true; open(li, on);
+    }));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAll(); sel.hidden = true; } });
+    document.addEventListener('pointerdown', e => { if (!insp.contains(e.target)) { closeAll(); sel.hidden = true; } });
+    /* markers appear once the drawing has drawn itself in */
+    const ready = () => insp.classList.add('ready');
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) ready(); else setTimeout(ready, 2700);
+    /* coordinates and crosshair, in drawing units, like a CAD readout */
+    let drag = null;
+    const pos = e => { const r = insp.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top, r]; };
+    insp.addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse') return;
+      const [x, y, r] = pos(e); coord.style.setProperty('--cx', x + 'px'); coord.style.setProperty('--cy', y + 'px');
+      ci.textContent = `X ${String(Math.round(x / r.width * 1600)).padStart(4, '0')} · Y ${String(Math.round(y / r.height * 609)).padStart(4, '0')}`;
+      if (!drag) return;
+      const x0 = Math.min(drag[0], x), y0 = Math.min(drag[1], y), w = Math.abs(x - drag[0]), h = Math.abs(y - drag[1]);
+      Object.assign(sel.style, { left: x0 + 'px', top: y0 + 'px', width: w + 'px', height: h + 'px' });
+      sel.hidden = w < 6 && h < 6;
+      const hit = spots.filter(li => { const sx = +li.dataset.x / 1600 * r.width, sy = +li.dataset.y / 609 * r.height; return sx >= x0 && sx <= x0 + w && sy >= y0 && sy <= y0 + h; });
+      selLab.textContent = hit.length ? `Selection · ${hit.length} ${hit.length > 1 ? 'issues' : 'issue'} found` : 'Selection · drag over the business';
+      drag[2] = hit;
+    });
+    insp.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse' || e.button !== 0 || e.target.closest('.hs-mark,.hs-card')) return;
+      e.preventDefault(); const [x, y] = pos(e); drag = [x, y, []]; closeAll(); sel.hidden = true; insp.setPointerCapture(e.pointerId);
+    });
+    insp.addEventListener('pointerup', () => {
+      if (!drag) return; const hit = drag[2]; drag = null;
+      if (sel.hidden) return;
+      if (!hit.length) { setTimeout(() => { sel.hidden = true; }, 900); return; }
+      if (hit.length === 1) { open(hit[0], true); return; }
+      hit.forEach(li => $('.hs-mark', li).setAttribute('aria-expanded', true));
+      multi.innerHTML = `<span class="hs-tag">${hit.length} places where work stalls</span>` + hit.map(li => {
+        const c = $('.hs-card', li); return `<div class="hs-item"><b>${$('b', c).textContent}</b><p>${$('p', c).textContent}</p>${$('a', c).outerHTML}</div>`; }).join('');
+      const L = sel.offsetLeft, W = sel.offsetWidth, right = L + W + 270 < insp.offsetWidth;
+      Object.assign(multi.style, { left: right ? L + W + 12 + 'px' : 'auto', right: right ? '' : insp.offsetWidth - L + 12 + 'px', top: Math.max(0, sel.offsetTop) + 'px' });
+      multi.hidden = false;
+      multi.style.top = Math.max(0, Math.min(sel.offsetTop, insp.offsetHeight - multi.offsetHeight - 4)) + 'px';   /* keep it inside the drawing */
+    });
+  }
+
   /* ---------- capabilities: the building pans up floor by floor while the list scrolls; each floor draws as its
      capability reaches the middle of the screen, and stays drawn (earlier floors stay lit) ---------- */
   const chain = $('.chain'), tower = chain && $('.ld', chain);
