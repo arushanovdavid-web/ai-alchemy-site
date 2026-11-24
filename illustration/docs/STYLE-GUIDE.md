@@ -61,6 +61,44 @@ gradients anywhere.
   height. Shadows never get hatched or outlined.
 - **Iso patterns** (`#ia-perf-l`, `#ia-perf-t`) are sheared to their face, so perforations follow the plane.
 
+## 3a. Material hierarchy (1.1)
+
+There are four materials. Each says something, so none is used for texture alone.
+
+| Material | Tokens | Means | Where |
+|---|---|---|---|
+| Paper solids | `--ia-top`, `--ia-left`, `--ia-right` | What already exists, and neutral structure | Scene 1 systems, plinths, rails, gantry, tanks, platform |
+| **Built (deep)** | `--ia-deep`, `-2`, `-3` | **What AI Alchemy builds** | Collector, new module M8, junction riser, the core's base and crown, cloud rack doors |
+| Voids | `--ia-deep` | Openings and recesses (Heron's dark windows) | Pigeonhole cells, reel window, open drawer, rack backplane, raised-floor void |
+| Smoked glass | `--ia-glass`, `--ia-ring` | The model, visible and not a black box | The core vessel only |
+
+Rule: one dark anchor per scene, and the anchors tell the story. Scene 1 has none, because nothing is built yet.
+Scene 2 has the collector, scene 3 the new module, scene 4 the core, and scene 5 the rack rows.
+
+## 3b. The site
+
+Scenes 2–5 stand on one engineered slab whose top is z = 0. Scene 1's systems sit off it, on loose plinths: being
+disconnected is shown as a place. The slab's front edges are cut in section: a finish line at −8, a service
+zone, and a structural layer below −30 hatched at 45°. Formwork joints run every 160 units, and an 80-unit site
+grid is engraved on top. The spine lies in a recessed channel, and where the site ends the duct is cut to show
+its seven strands in section. Plinths float on a 4-unit shadow-gap reveal.
+
+## 3c. The core (signature object)
+
+The Rings mark built as a machine, bottom to top. Heights are world z on the platform, which is at 18.
+
+| Part | z | Radius | Notes |
+|---|---|---|---|
+| Dais | 18–42 | 124 | 24-bolt circle |
+| Finned drum | 42–104 | 88 (+9 fins) | Built material; 40 fins, front half drawn |
+| Collar | 104–112 | 98 | |
+| Smoked-glass vessel | 112–334 | 84 | Ivory segmented rings (r 72 about x, r 56 about y), core sphere r 34 at z 196, and the spine rising through the base into it |
+| Tie rods | 112–334 | at r 94 | Four, on the axes, so none crosses the view of the core |
+| Cap, crown, boss | 334–378 | 96 / 62 / 18 | Ribbed dark crown; the boss lamp lights with the scene |
+
+The strategy plate (scene 2) carries a 1:3 wire study of the same profile and the core's footprint in poché, so
+scene 2 anticipates scene 4.
+
 ## 4. Colour and states
 
 Colour is reserved for meaning. The default drawing is monochrome ink on ground. Four accents appear only in the
@@ -120,7 +158,8 @@ mid-density objects and quiet ground.
   the flat cast shadow.
 - Don't draw generic tech icons (clouds, brains, gears, padlocks, chat bubbles). Every object is a physical thing
   an engineer could build.
-- Don't add a fifth line weight, a sixth face tone or a new accent hue.
+- Don't add a fifth line weight or a new accent hue. Don't use built (deep) material for anything AI Alchemy
+  doesn't build.
 - Don't use text that claims an outcome or a number. The drawing is labelled "Illustration of the method, not a
   client project."
 - Don't put animation, scripts or transitions in the artwork files.

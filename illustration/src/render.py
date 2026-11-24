@@ -50,10 +50,14 @@ def harness(svg_rel, name, px_w, px_h, theme="paper", state="default", lw=1.0, v
 
 def shoot(url, out, w, h, dpr=1):
     os.makedirs(os.path.dirname(out), exist_ok=True)
-    subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--force-color-profile=srgb",
-                    "--window-size=%d,%d" % (w, h), "--force-device-scale-factor=%s" % dpr,
-                    "--virtual-time-budget=4000", "--screenshot=" + out, url],
-                   check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    cmd = [CHROME, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--force-color-profile=srgb",
+           "--window-size=%d,%d" % (w, h), "--force-device-scale-factor=%s" % dpr,
+           "--virtual-time-budget=4000", "--screenshot=" + out, url]
+    for attempt in range(3):  # headless Chrome occasionally exits early; retry before failing the batch
+        r = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if r.returncode == 0:
+            return
+    raise RuntimeError("Chrome failed to render " + url)
 
 
 def job(svg_rel, out_name, w, h, dpr=1, **kw):

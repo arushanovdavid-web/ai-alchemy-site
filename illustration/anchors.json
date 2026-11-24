@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "canvas": {
     "width": 5280,
     "height": 3300
@@ -39,10 +39,10 @@
         1100
       ],
       "portrait_viewBox": [
-        1238.9,
-        332.98,
-        1274.83,
-        1593.53
+        1136.71,
+        291.61,
+        1377.02,
+        1721.27
       ]
     },
     "software": {
@@ -70,7 +70,7 @@
       ],
       "portrait_viewBox": [
         2966.88,
-        1515.04,
+        1471.62,
         1062.4,
         1328.0
       ]
@@ -262,13 +262,13 @@
       "scene": 2,
       "role": "focus",
       "world": [
-        880,
-        340,
+        690,
+        268,
         184
       ],
       "master": [
-        1367.65,
-        1126.0
+        1265.46,
+        995.0
       ],
       "note": ""
     },
@@ -314,6 +314,36 @@
       "master": [
         2588.75,
         1675.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s3.legacy.out",
+      "scene": 3,
+      "role": "out",
+      "world": [
+        1854,
+        40,
+        0
+      ],
+      "master": [
+        2470.97,
+        1647.0
+      ],
+      "note": "proposed data migration from the legacy core"
+    },
+    {
+      "id": "s3.riser",
+      "scene": 3,
+      "role": "focus",
+      "world": [
+        2268,
+        36,
+        122
+      ],
+      "master": [
+        2832.97,
+        1730.0
       ],
       "note": ""
     },
@@ -404,6 +434,36 @@
       "master": [
         3498.08,
         2004.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s4.core.crown",
+      "scene": 4,
+      "role": "focus",
+      "world": [
+        3000,
+        0,
+        378
+      ],
+      "master": [
+        3498.08,
+        1822.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s4.reader",
+      "scene": 4,
+      "role": "focus",
+      "world": [
+        3000,
+        200,
+        110
+      ],
+      "master": [
+        3324.87,
+        2190.0
       ],
       "note": ""
     },

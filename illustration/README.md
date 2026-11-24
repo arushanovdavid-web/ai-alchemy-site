@@ -4,7 +4,11 @@ One isometric engineering drawing of a business, from disconnected tools to one 
 as a single master board and cut into five scenes that the Experience Spine can reveal, pan and connect as the
 visitor scrolls. The artwork contains no animation logic.
 
+Version 1.1 adds the site slab, the material hierarchy (dark = what AI Alchemy builds) and the signature core. See the changelog in `docs/SPEC.md`.
+
 ![Master composition, paper](previews/master-paper.png)
+
+![v1.0 against v1.1](previews/compare-v1.0-v1.1.png)
 
 | | |
 |---|---|
@@ -16,8 +20,8 @@ visitor scrolls. The artwork contains no animation logic.
 
 - `svg/master.svg`: the master composition (5280 × 3300), all scenes in one coordinate system.
 - `svg/scenes/`: five scene files, same coordinates, each framed by its camera.
-- `svg/components/`: 26 reusable components with ports; `components.json` lists them.
-- `anchors.json`: projection, landscape and portrait cameras, and 33 connection anchors.
+- `svg/components/`: 30 reusable components with ports; `components.json` lists them.
+- `anchors.json`: projection, landscape and portrait cameras, and 37 connection anchors.
 - `docs/SPEC.md`: **the asset interface agreed with Codex** (IDs, states, tokens, anchors, cameras).
 - `docs/STYLE-GUIDE.md`: projection, grid, line weights, shading, colour roles, detail density, annotation.
 - `previews/`: every render the work was checked against.

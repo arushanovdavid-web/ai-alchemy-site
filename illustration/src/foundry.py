@@ -11,12 +11,12 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-from iso import (CTX, C, S, K, P, n, pt, el, g, esc, polygon, polyline, line, lines, box, box_wire, prism,
+from iso import (CTX, C, S, K, P, _ell, n, pt, el, g, esc, polygon, polyline, line, lines, box, box_wire, prism,
                  shadow, rect_shadow, ellipse, arc, arc_d, circ_pt, front_range, cylinder, tube, iso_text,
                  offset_polyline, chamfer, d_poly, track, untrack, vec, hull)
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 W, H = 5280, 3300          # master canvas, user units
 OX, OY = 900, 700          # screen position of world origin (0, 0, 0)
@@ -49,12 +49,25 @@ STYLE = """
 .ia{--ia-ink:#1C2026;--ia-ink-2:#4C525A;--ia-hair:rgba(28,32,38,.36);--ia-top:#FBF9F4;--ia-left:#ECE6D9;--ia-right:#DDD4C2;
 --ia-recess:#C8BEA9;--ia-sh:rgba(28,32,38,.075);--ia-dot:rgba(28,32,38,.22);--ia-active:#1F6B5C;--ia-signal:#D06C40;
 --ia-approve:#9A6F12;--ia-ground:#F2EDE3;--ia-lw:1;
+--ia-deep:#2A2F36;--ia-deep-2:#3A4047;--ia-deep-3:#22262C;--ia-glass:#2E3840;--ia-ring:#F7F3EA;--ia-slab-t:#F6F2EA;
 --ia-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;--ia-serif:"Newsreader",Georgia,"Times New Roman",serif}
 .ia[data-ia-theme=night],[data-ia-theme=night] .ia{--ia-ink:#EAE4D8;--ia-ink-2:#AEB2B8;--ia-hair:rgba(242,237,227,.30);
 --ia-top:#2F353D;--ia-left:#272C33;--ia-right:#21252B;--ia-recess:#14171B;--ia-sh:rgba(0,0,0,.24);--ia-dot:rgba(242,237,227,.15);
---ia-active:#4FA391;--ia-signal:#E39A72;--ia-approve:#E2B04A;--ia-ground:#1C2026}
+--ia-active:#4FA391;--ia-signal:#E39A72;--ia-approve:#E2B04A;--ia-ground:#1C2026;
+--ia-deep:#0F1114;--ia-deep-2:#16191D;--ia-deep-3:#0B0D0F;--ia-glass:#0C1216;--ia-ring:#E6DFD1;--ia-slab-t:#262B31}
 .ia .f-t{fill:var(--ia-top)}.ia .f-l{fill:var(--ia-left)}.ia .f-r{fill:var(--ia-right)}.ia .f-rec{fill:var(--ia-recess)}
-.ia .f-g{fill:var(--ia-ground)}.ia .hv{fill:url(#ia-hv)}.ia .sh{fill:var(--ia-sh)}.ia .poche{fill:var(--ia-ink)}
+.ia .f-g{fill:var(--ia-ground)}
+.ia .f-t-d{fill:var(--ia-deep-2)}.ia .f-l-d{fill:var(--ia-deep)}.ia .f-r-d{fill:var(--ia-deep-3)}.ia .f-deep{fill:var(--ia-deep)}
+.ia .f-slab{fill:var(--ia-slab-t)}.ia .glass{fill:var(--ia-glass)}
+.ia .sheen{fill:none;stroke:var(--ia-ring);stroke-linecap:round}.ia .f-ring{fill:var(--ia-ring)}
+.ia .dl{fill:none;stroke:var(--ia-ring);stroke-opacity:.55;stroke-width:calc(.62px*var(--ia-lw));stroke-linecap:round}
+.ia .t-iso-l{font-size:7.5px;font-weight:600;letter-spacing:.12em;fill:var(--ia-ring);fill-opacity:.8}
+.ia .in-glass .strand{stroke:var(--ia-ring);stroke-opacity:.75}.ia .in-glass .h{stroke:var(--ia-ring);stroke-opacity:.35}
+.ia .in-glass .w-h{stroke:var(--ia-ring);stroke-opacity:.45}.ia .in-glass .ia-core:not(.x){fill:var(--ia-ring)}.ia .in-glass .e-i{stroke:var(--ia-deep-3)}
+.ia .in-glass .e-o{stroke:var(--ia-deep-3)}
+.ia [data-state=active] .in-glass .ia-lead{stroke:var(--ia-active);stroke-opacity:1}
+.ia [data-state=active] .in-glass .ia-core:not(.x){fill:var(--ia-signal)}
+.ia .pat-perf-d{fill:var(--ia-top);fill-opacity:.42}.ia .hv{fill:url(#ia-hv)}.ia .sh{fill:var(--ia-sh)}.ia .poche{fill:var(--ia-ink)}
 .ia .f-ink{fill:var(--ia-ink)}.ia .f-hair{fill:var(--ia-hair)}
 .ia .e-o,.ia .e-i,.ia .d,.ia .h,.ia .w-v,.ia .w-h,.ia .cl,.ia .dim,.ia .strand,.ia .ldr,.ia .ia-link,.ia .rule{fill:none;stroke-linecap:round;stroke-linejoin:round}
 .ia .e-o{stroke:var(--ia-ink);stroke-width:calc(1.45px*var(--ia-lw))}
@@ -115,10 +128,13 @@ def defs():
     perf_l = el("pattern", {"id": "ia-perf-l", "width": "5", "height": "5", "patternUnits": "userSpaceOnUse",
                             "patternTransform": "matrix(%s %s 0 1 0 0)" % (n(C), n(S))},
                 el("circle", {"cx": "2.5", "cy": "2.5", "r": ".85", "cls": "pat-perf"}))
+    perf_ld = el("pattern", {"id": "ia-perf-ld", "width": "5", "height": "5", "patternUnits": "userSpaceOnUse",
+                             "patternTransform": "matrix(%s %s 0 1 0 0)" % (n(C), n(S))},
+                 el("circle", {"cx": "2.5", "cy": "2.5", "r": ".8", "cls": "pat-perf-d"}))
     perf_t = el("pattern", {"id": "ia-perf-t", "width": "6", "height": "6", "patternUnits": "userSpaceOnUse",
                             "patternTransform": "matrix(%s %s %s %s 0 0)" % (n(C), n(S), n(-C), n(S))},
                 el("circle", {"cx": "3", "cy": "3", "r": ".8", "cls": "pat-perf"}))
-    return el("defs", None, [hv, dots, perf_l, perf_t])
+    return el("defs", None, [hv, dots, perf_l, perf_ld, perf_t])
 
 
 # ======================================================================= shared helpers
@@ -198,6 +214,27 @@ def stub(route, axis):
     return "".join(out)
 
 
+def plinth(x0, y0, w, d, h=12, reveal=4, inset=7):
+    """Plinth that floats on a recessed deep reveal (architectural shadow gap)."""
+    return (box(x0 + inset, y0 + inset, 0, w - 2 * inset, d - 2 * inset, reveal, tone="-d", hatch=False, sil=False)
+            + box(x0, y0, reveal, w, d, h - reveal))
+
+
+def duct(p0, p1, z=0.0, hw=11, lead=True):
+    """Shallow covered duct between two plan points (axis-aligned), three strands inside."""
+    (x0, y0), (x1, y1) = p0, p1
+    if abs(x1 - x0) >= abs(y1 - y0):
+        quad = [(min(x0, x1), y0 - hw, z), (max(x0, x1), y0 - hw, z), (max(x0, x1), y0 + hw, z), (min(x0, x1), y0 + hw, z)]
+        st = [((x0, y0 + k, z), (x1, y0 + k, z)) for k in (-6, 0, 6)]
+    else:
+        quad = [(x0 - hw, min(y0, y1), z), (x0 + hw, min(y0, y1), z), (x0 + hw, max(y0, y1), z), (x0 - hw, max(y0, y1), z)]
+        st = [((x0 + k, y0, z), (x0 + k, y1, z)) for k in (-6, 0, 6)]
+    out = [polygon(quad, "f-rec"), polyline(quad, "e-i", close=True)]
+    for i, (a, b) in enumerate(st):
+        out.append(line(a, b, "strand" + (" ia-lead" if (lead and i == 1) else ""), pl="1"))
+    return "".join(out)
+
+
 def corner_marks(x0, y0, x1, y1, L=18, cls="d"):
     segs = []
     for (cx, cy, sx, sy) in ((x0, y0, 1, 1), (x1, y0, -1, 1), (x1, y1, -1, -1), (x0, y1, 1, -1)):
@@ -209,7 +246,7 @@ def corner_marks(x0, y0, x1, y1, L=18, cls="d"):
 
 
 def c_spreadsheets(x0, y0):
-    out = [box(x0, y0, 0, 200, 160, 12)]
+    out = [plinth(x0, y0, 200, 160)]
     offs = [(0, 0), (7, 5), (2, 10), (10, 6), (4, 12), (13, 9), (18, 14)]
     for i, (ox_, oy_) in enumerate(offs):
         out.append(box(x0 + 16 + ox_, y0 + 14 + oy_, 12 + i * 3.5, 140, 106, 3.5, hatch=False))
@@ -231,12 +268,12 @@ def c_spreadsheets(x0, y0):
     ux, uy = tx + 16 + 3 * 19, ty + 11 + 6 * 9
     sel = polyline([(ux, uy, tz), (ux + 38, uy, tz), (ux + 38, uy + 18, tz), (ux, uy + 18, tz)], "e-o", close=True)
     out += [hdr, col, lines(segs, "h"), "".join(fills), sel]
-    out.append(iso_text("S-01  SHEETS", (x0 + 8, y0 + 160, 3.2), "face-l", "t-iso-s"))
+    out.append(iso_text("S-01  SHEETS", (x0 + 8, y0 + 160, 5.4), "face-l", "t-iso-s"))
     return "".join(out)
 
 
 def c_pigeonhole(x0, y0):
-    out = [box(x0, y0, 0, 200, 150, 12)]
+    out = [plinth(x0, y0, 200, 150)]
     bx, by, bz, bw, bd, bh = x0 + 20, y0 + 20, 12, 160, 100, 150
     out.append(box(bx, by, bz, bw, bd, bh))
     fy = by + bd
@@ -250,7 +287,7 @@ def c_pigeonhole(x0, y0):
             v1 = bz + bh - m - r * (ch + gp)
             v0 = v1 - ch
             cell = [(u0, fy, v0), (u0 + cw, fy, v0), (u0 + cw, fy, v1), (u0, fy, v1)]
-            out.append(polygon(cell, "f-rec"))
+            out.append(polygon(cell, "f-deep"))
             # visible floor and left wall of the cell, clipped to the opening. On a +y face a recess of depth d
             # projects exactly to a shift of (+d along x, +d along z) in face coordinates.
             e = min(depth, cw * 0.45)
@@ -270,12 +307,12 @@ def c_pigeonhole(x0, y0):
     # a loose stack of letters on top
     for j in range(3):
         out.append(box(bx + 26 + j * 5, by + 22 + j * 4, bz + bh + j * 2.2, 62, 40, 2.2, hatch=False))
-    out.append(iso_text("S-02  MAIL", (x0 + 8, y0 + 150, 3.2), "face-l", "t-iso-s"))
+    out.append(iso_text("S-02  MAIL", (x0 + 8, y0 + 150, 5.4), "face-l", "t-iso-s"))
     return "".join(out)
 
 
 def c_filing(x0, y0):
-    out = [box(x0, y0, 0, 160, 200, 12)]
+    out = [plinth(x0, y0, 160, 200)]
     cx, cy, cz, cw, cd, chh = x0 + 20, y0 + 20, 12, 110, 160, 196
     out.append(box(cx, cy, cz, cw, cd, chh))
     fx = cx + cw
@@ -288,7 +325,7 @@ def c_filing(x0, y0):
         v0 = v1 - dh
         drawers.append((v0, v1))
         if i == open_i:
-            out.append(polygon([(fx, cy + 8, v0), (fx, cy + cd - 8, v0), (fx, cy + cd - 8, v1), (fx, cy + 8, v1)], "f-rec"))
+            out.append(polygon([(fx, cy + 8, v0), (fx, cy + cd - 8, v0), (fx, cy + cd - 8, v1), (fx, cy + 8, v1)], "f-deep"))
             continue
         out.append(polyline([(fx, cy + 8, v0), (fx, cy + cd - 8, v0), (fx, cy + cd - 8, v1), (fx, cy + 8, v1)], "e-i", close=True))
         # label holder and pull
@@ -300,7 +337,7 @@ def c_filing(x0, y0):
     dx0, dy0, dd = fx, cy + 10, cd - 20
     pull = 64
     out.append(box(dx0, dy0, v0 + 1, pull, dd, dh - 2, top=False, hatch=True))
-    out.append(polygon([(dx0, dy0, v1 - 1), (dx0 + pull, dy0, v1 - 1), (dx0 + pull, dy0 + dd, v1 - 1), (dx0, dy0 + dd, v1 - 1)], "f-rec"))
+    out.append(polygon([(dx0, dy0, v1 - 1), (dx0 + pull, dy0, v1 - 1), (dx0 + pull, dy0 + dd, v1 - 1), (dx0, dy0 + dd, v1 - 1)], "f-deep"))
     for j, fxj in enumerate(range(8, pull - 4, 7)):
         xx = dx0 + fxj
         tab = dy0 + 14 + (j * 23) % (dd - 46)
@@ -315,12 +352,12 @@ def c_filing(x0, y0):
     out.append(polyline([(fxx, dy0 - 2, v0), (fxx, dy0 + dd + 2, v0), (fxx, dy0 + dd + 2, v1), (fxx, dy0 - 2, v1)], "e-o", close=True))
     mid = dy0 + dd / 2
     out.append(box(fxx, mid - 22, v0 + dh * 0.38, 4, 44, 4, hatch=False))
-    out.append(iso_text("S-03  FORMS", (x0 + 8, y0 + 200, 3.2), "face-l", "t-iso-s"))
+    out.append(iso_text("S-03  FORMS", (x0 + 8, y0 + 200, 5.4), "face-l", "t-iso-s"))
     return "".join(out)
 
 
 def c_mainframe(x0, y0):
-    out = [box(x0, y0, 0, 240, 180, 12)]
+    out = [plinth(x0, y0, 240, 180)]
     bx, by, bz, bw, bd, bh = x0 + 20, y0 + 20, 12, 200, 120, 222
     out.append(box(bx, by, bz, bw, bd, bh))
     fy = by + bd
@@ -328,7 +365,7 @@ def c_mainframe(x0, y0):
     out.append(line((bx + bw / 2, fy, bz + 4), (bx + bw / 2, fy, bz + bh - 4), "e-i"))
     # reel window
     win = [(bx + 12, fy, bz + 104), (bx + bw - 12, fy, bz + 104), (bx + bw - 12, fy, bz + 206), (bx + 12, fy, bz + 206)]
-    out.append(polygon(win, "f-rec"))
+    out.append(polygon(win, "f-deep"))
     out.append(polyline(win, "e-i", close=True))
     for ux in (bx + 52, bx + 148):
         c3 = (ux, fy, bz + 155)
@@ -360,7 +397,7 @@ def c_mainframe(x0, y0):
     fx = bx + bw
     segs = [((fx, by + 14 + k * 6, bz + 140), (fx, by + 14 + k * 6, bz + 200)) for k in range(16)]
     out.append(lines(segs, "d"))
-    out.append(iso_text("S-04  LEGACY", (x0 + 8, y0 + 180, 3.2), "face-l", "t-iso-s"))
+    out.append(iso_text("S-04  LEGACY", (x0 + 8, y0 + 180, 5.4), "face-l", "t-iso-s"))
     return "".join(out)
 
 
@@ -420,17 +457,17 @@ def scene1():
 def c_collector(x0, y0):
     out = [box(x0 - 20, y0 - 20, 0, 100, 200, 8, hatch=False)]
     bx, by, bz, bw, bd, bh = x0, y0, 8, 60, 160, 64
-    out.append(box(bx, by, bz, bw, bd, bh))
+    out.append(box(bx, by, bz, bw, bd, bh, tone="-d", hatch=False))
     fx = bx + bw
     for i, yy in enumerate((-45, -15, 15, 45)):
         out.append(ellipse((fx, y0 + 80 + yy, bz + 44), "x", 4.2, "ia-lamp"))
-        out.append(iso_text(str(i + 1), (fx, y0 + 80 + yy + 3, bz + 30), "face-r", "t-iso-s"))
+        out.append(iso_text(str(i + 1), (fx, y0 + 80 + yy + 3, bz + 30), "face-r", "t-iso-l"))
     segs = [((fx, by + 10, bz + 10 + k * 4), (fx, by + bd - 10, bz + 10 + k * 4)) for k in range(4)]
-    out.append(lines(segs, "d"))
+    out.append(lines(segs, "dl"))
     # glands on top for the four incoming lines
     for yy in (-45, -15, 15, 45):
         out.append(cylinder(bx + 18, y0 + 80 + yy, bz + bh, 6, 7, hatch=False))
-    out.append(iso_text("C-01  COLLECTOR", (bx + 4, by + bd, bz + 54), "face-l", "t-iso-s"))
+    out.append(iso_text("C-01  COLLECTOR", (bx + 4, by + bd, bz + 54), "face-l", "t-iso-l"))
     return "".join(out)
 
 
@@ -445,13 +482,7 @@ def c_plate(x0, y0):
     gy = [-400, -300, -200]
     segs = [((x, y0 + 14, z), (x, y0 + d - 14, z)) for x in gx] + [((x0 + 14, y, z), (x0 + w - 14, y, z)) for y in gy]
     out.append(lines(segs, "cl"))
-    walls = [(836, -404, 368, 8), (836, -204, 104, 8), (980, -204, 224, 8), (836, -404, 8, 208), (1196, -404, 8, 208),
-             (956, -404, 8, 74), (956, -290, 8, 90), (964, -304, 136, 8), (1140, -304, 56, 8)]
-    for (wx, wy, ww, wd) in walls:
-        out.append(polygon([(wx, wy, z), (wx + ww, wy, z), (wx + ww, wy + wd, z), (wx, wy + wd, z)], "poche"))
-    # door swings
-    out.append(arc((940, -196, z), "z", 40, 0, math.pi / 2, "h"))
-    out.append(line((940, -196, z), (940, -156, z), "d"))
+    out.append(mini_plan(z))
     # title block on the plate
     tb = [(1150, -186, z), (1266, -186, z), (1266, -114, z), (1150, -114, z)]
     out.append(polyline(tb, "d", close=True))
@@ -461,22 +492,57 @@ def c_plate(x0, y0):
     return "".join(out)
 
 
-def c_massing():
-    z = 16
-    out = [
-        box_wire(866, -380, z, 70, 76, 128),
-        box_wire(990, -386, z, 180, 62, 62),
-        box_wire(1128, -282, z, 52, 64, 40),
-    ]
-    # wire cylinder
-    c0, c1, r = (1050, -244, z), (1050, -244, z + 96), 32
+MP_S = 0.104
+
+
+def _mp(X, Y):
+    """Map a site-plan point onto the drafting plate (scale 1:9.6)."""
+    return (806 + (X - 560) * MP_S, -262 + (Y + 45) * MP_S)
+
+
+def mini_plan(z):
+    """The plan of the whole system, drawn on the strategy plate: site outline in poche, spine, footprints."""
+    out = []
+    pts = [_mp(x, y) for x, y in SITE]
+    out.append(polygon([(x, y, z) for x, y in pts], "f-g"))
+    out.append(el("path", {"cls": "e-o", "d": d_poly([P(x, y, z) for x, y in pts]), "style": "stroke-width:calc(2.6px*var(--ia-lw))"}))
+    a, b = _mp(700, 0), _mp(4600, 0)
+    out.append(line((a[0], a[1], z), (b[0], b[1], z), "e-i"))
+    # footprints of what each scene will hold
+    rects = [(600, -100, 100, 200), (760, -440, 520, 340), (1950, -70, 300, 140), (3300, 150, 40, 46), (3660, -330, 600, 560),
+             (3700, -290, 416, 96), (3700, -110, 416, 96)]
+    for (x0, y0, w, d) in rects:
+        p0, p1 = _mp(x0, y0), _mp(x0 + w, y0 + d)
+        out.append(polyline([(p0[0], p0[1], z), (p1[0], p0[1], z), (p1[0], p1[1], z), (p0[0], p1[1], z)], "d", close=True))
+    for (cx, cy, r) in ((3000, 0, 300), (3000, 0, 124), (3790, 140, 46), (3910, 140, 46), (4030, 140, 46), (4600, 0, 46)):
+        c = _mp(cx, cy)
+        out.append(ellipse((c[0], c[1], z), "z", r * MP_S, "d"))
+    c = _mp(3000, 0)
+    out.append(ellipse((c[0], c[1], z), "z", 124 * MP_S, "poche"))
+    return "".join(out)
+
+
+def _wire_cyl(cx, cy, z0, z1, r, hidden=True):
+    out = []
     t0, t1 = front_range("z")
-    out.append(arc(c0, "z", r, t0, t1, "w-v"))
-    out.append(arc(c0, "z", r, t1, t0 + 2 * math.pi, "w-h"))
-    out.append(ellipse(c1, "z", r, "w-v"))
+    out.append(arc((cx, cy, z0), "z", r, t0, t1, "w-v"))
+    if hidden:
+        out.append(arc((cx, cy, z0), "z", r, t1, t0 + 2 * math.pi, "w-h"))
+    out.append(ellipse((cx, cy, z1), "z", r, "w-v"))
     for t in (math.radians(135), math.radians(-45)):
-        out.append(line(circ_pt(c0, "z", r, t), circ_pt(c1, "z", r, t), "w-v"))
-    out.append(line(c0, c1, "w-h"))
+        out.append(line(circ_pt((cx, cy, z0), "z", r, t), circ_pt((cx, cy, z1), "z", r, t), "w-v"))
+    return "".join(out)
+
+
+def c_massing():
+    """Study models on the plate: the rack (scene 3) and the core (scene 4) at 1:3."""
+    z = 16
+    out = [box_wire(830, -420, z, 100, 47, 42)]
+    s3 = 1 / 3.0
+    cx, cy = 1150, -372
+    for (r, a, b) in ((124, 0, 24), (92, 24, 94), (84, 94, 316), (96, 316, 332), (62, 332, 352)):
+        out.append(_wire_cyl(cx, cy, z + a * s3, z + b * s3, r * s3, hidden=(r == 124)))
+    out.append(line((cx, cy, z), (cx, cy, z + 110 * s3 + 30), "w-h"))
     return "".join(out)
 
 
@@ -581,7 +647,7 @@ def scene2():
     obj.append(g(c_collector(620, -80), "ia-s2-collector", "ia-component", **{"data-component": "collector"}))
     obj.append(g([c_plate(760, -440), c_massing(), c_scale_rule(800, 1036, -150, 16.01), c_set_square(16.01)],
                  "ia-s2-plate", "ia-component", **{"data-component": "drafting-plate"}))
-    obj.append(g(c_survey(880, 340), "ia-s2-survey", "ia-component", **{"data-component": "survey-station"}))
+    obj.append(g(c_survey(690, 268), "ia-s2-survey", "ia-component", **{"data-component": "survey-station"}))
     anc = [
         anchor("s2.collector.in.mail", 2, "in", 606, -45, 0),
         anchor("s2.collector.in.spreadsheets", 2, "in", 606, -15, 0),
@@ -589,14 +655,14 @@ def scene2():
         anchor("s2.collector.in.legacy", 2, "in", 606, 45, 0),
         anchor("s2.collector.out", 2, "out", 700, 0, 0),
         anchor("s2.plate.centre", 2, "focus", 1020, -270, 16),
-        anchor("s2.survey.head", 2, "focus", 880, 340, 184),
+        anchor("s2.survey.head", 2, "focus", 690, 268, 184),
         anchor("spine.j23", 2, "junction", 1500, 0, 0, "spine hand-off from scene 2 to scene 3"),
         anchor("s2.centre", 2, "camera", 1000, 0, 80),
     ]
     notes = [
         note((650, 0, 72), "Collector", "r", L=105, ang=72, lines_=["Four inputs, one line"]),
-        note((900, -342, 140), "Target architecture", "l", L=88, ang=62),
-        note((872, 336, 172), "Survey of current systems", "l", L=70, ang=48),
+        note((1172, -372, 104), "Target architecture", "r", L=70, ang=40, lines_=["Plan of the system, core at 1:3"]),
+        note((690, 268, 120), "Survey of current systems", "l", L=86, ang=-38),
         note((1212, 190, 0), "Structural grid", "r", L=48, ang=-32),
     ]
     return gnd, obj, anc, notes
@@ -605,20 +671,21 @@ def scene2():
 # ======================================================================= scene 3: software
 
 
-def c_module(x, y, z, w=60, d=110, h=48, label="M", lamp=True, side=False):
-    out = [box(x, y, z, w, d, h)]
+def c_module(x, y, z, w=60, d=110, h=48, label="M", lamp=True, side=False, built=False):
+    tone, dc, tc = ("-d", "dl", "t-iso-l") if built else ("", "d", "t-iso-s")
+    out = [box(x, y, z, w, d, h, tone=tone, hatch=not built)]
     fy = y + d
     # vent slot group and lamp on the +y face
     segs = [((x + 8 + k * 4, fy, z + 12), (x + 8 + k * 4, fy, z + h - 12)) for k in range(6)]
-    out.append(lines(segs, "d"))
-    out.append(polyline([(x + 38, fy, z + h - 10), (x + w - 6, fy, z + h - 10), (x + w - 6, fy, z + h - 22), (x + 38, fy, z + h - 22)], "d", close=True))
+    out.append(lines(segs, dc))
+    out.append(polyline([(x + 38, fy, z + h - 10), (x + w - 6, fy, z + h - 10), (x + w - 6, fy, z + h - 22), (x + 38, fy, z + h - 22)], dc, close=True))
     if lamp:
         out.append(ellipse((x + 44, fy, z + 12), "y", 3.2, "ia-lamp"))
-    out.append(iso_text(label, (x + 40, fy, z + h - 12.5), "face-l", "t-iso-s"))
-    if side:
+    out.append(iso_text(label, (x + 40, fy, z + h - 12.5), "face-l", tc))
+    if side or built:
         fx = x + w
         segs = [((fx, y + 10, z + 8 + k * 6), (fx, y + d - 10, z + 8 + k * 6)) for k in range(6)]
-        out.append(lines(segs, "d"))
+        out.append(lines(segs, dc))
     return "".join(out)
 
 
@@ -632,6 +699,8 @@ def c_rack(x0=1950, y0=-70):
     # back posts and the back and left top rails
     for x in xs:
         out.append(box(x - post / 2, y0 + 8, 10, post, post, 122, hatch=False))
+    out.append(polygon([(x0 + 8, y0 + 13, 10), (x0 + 292, y0 + 13, 10), (x0 + 292, y0 + 13, 122), (x0 + 8, y0 + 13, 122)], "f-deep"))
+    out.append(lines([((x, y0 + 13, 20), (x, y0 + 13, 112)) for x in range(int(x0) + 20, int(x0) + 290, 10)], "h"))
     out.append(box(x0 + 8, y0 + 8, lv[2], 284, 5, 4, hatch=False))
     out.append(box(x0 + 8, y0 + 8, lv[2], 5, 124, 4, hatch=False))
     n_mod = 0
@@ -661,6 +730,22 @@ def c_rack_front(x0=1950, y0=-70):
         out.append(box(x - post / 2, y0 + 127, 10, post, post, 116, hatch=False))
     out.append(box(x0 + 287, y0 + 8, 122, 5, 124, 4, hatch=False))
     out.append(box(x0 + 8, y0 + 127, 122, 284, 5, 4, hatch=False))
+    return "".join(out)
+
+
+def c_junction(x=2266):
+    """Junction box straddling the spine, with a three-strand riser that feeds each rack level."""
+    out = [box(x, -34, 0, 22, 84, 14, tone="-d", hatch=False)]
+    out.append(iso_text("J-03", (x + 22, 30, 4), "face-r", "t-iso-l"))
+    # riser: up the junction's front, then into the rack's right end at both levels
+    for k, yy in enumerate((30, 36, 42)):
+        cls = "strand" + (" ia-lead" if k == 1 else "")
+        pts = [P(x + 2, yy, 14), P(x + 2, yy, 122), P(2244, yy, 122)]
+        out.append(el("path", {"cls": cls, "d": d_poly(pts, False), "pl": "1"}))
+        for zl in (40, 96):
+            out.append(line((x + 2, yy, zl), (2244, yy, zl), "strand", pl="1"))
+    for zl in (40, 96, 122):
+        out.append(box(x - 3, 24, zl - 3, 8, 24, 6, hatch=False))
     return "".join(out)
 
 
@@ -697,7 +782,7 @@ def c_hoist(xc=2135):
     out.append(g(box(xc - 14, -42, 302, 28, 56, 24), "ia-s3-trolley"))
     out.append(g(lines([((xc - 6, -20, 302), (mx + 18, my + 56, mz + 50)), ((xc + 6, -10, 302), (mx + 42, my + 56, mz + 50))], "e-i"),
                  "ia-s3-hoist-lines"))
-    out.append(g([box(mx + 10, my + 46, mz + 50, 40, 20, 4, hatch=False), c_module(mx, my, mz, w=60, d=112, h=50, label="M8")],
+    out.append(g([box(mx + 10, my + 46, mz + 50, 40, 20, 4, hatch=False), c_module(mx, my, mz, w=60, d=112, h=50, label="M8", built=True)],
                  "ia-s3-module-new", "ia-component", **{"data-component": "module"}))
     return "".join(out)
 
@@ -727,6 +812,10 @@ def scene3():
     gnd.append(rect_shadow(2115, -306, 40, 26, 326))
     gnd.append(rect_shadow(2115, 254, 40, 26, 326))
     gnd.append(g(bundle_paths([(1500, 0), (2500, 0)]), "ia-spine-s3", "ia-spine", **{"data-from": "spine.j23", "data-to": "spine.j34"}))
+    mig = chamfer([(1854, 40), (1900, 40), (1900, 84), (1950, 84)], 14)
+    gnd.append(el("path", {"id": "ia-link-migration", "cls": "ia-link", "data-state": "proposed",
+                           "data-from": "s3.legacy.out", "data-to": "s3.rack.in",
+                           "d": d_poly([P(x, y, 0) for x, y in mig], False)}))
     gnd.append(clamps_x([1600, 1900, 2300, 2440]))
     obj.append(g(c_rails(), "ia-s3-rails", "ia-component", **{"data-component": "gantry-rails"}))
     obj.append(g(c_gantry_back(), "ia-s3-gantry-leg-back", "ia-component", **{"data-component": "gantry"}))
@@ -736,9 +825,12 @@ def scene3():
     obj.append(g(c_gantry_beam(), "ia-s3-gantry-beam", "ia-component", **{"data-component": "gantry"}))
     obj.append(g(c_hoist(), "ia-s3-hoist", "ia-component", **{"data-component": "hoist-and-module"}))
     obj.append(g(c_rack_front(), "ia-s3-rack-front", "ia-component", **{"data-component": "module-rack-front"}))
+    obj.append(g(c_junction(), "ia-s3-junction", "ia-component", **{"data-component": "junction-riser"}))
     anc = [
         anchor("spine.j23", 3, "junction", 1500, 0, 0, "same point as scene 2's out"),
         anchor("s3.rack.in", 3, "in", 1950, 0, 0),
+        anchor("s3.legacy.out", 3, "out", 1854, 40, 0, "proposed data migration from the legacy core"),
+        anchor("s3.riser", 3, "focus", 2268, 36, 122),
         anchor("s3.rack.out", 3, "out", 2250, 0, 0),
         anchor("s3.module.hanging", 3, "focus", 2135, 0, 240),
         anchor("s3.module.slot", 3, "target", 2135, 0, 69),
@@ -808,18 +900,83 @@ def ring_segments(c3, axis, r_out, width, n_seg, frac, face_cls):
 AXES_ = {"z": ((1, 0, 0), (0, 1, 0)), "x": ((0, 1, 0), (0, 0, 1)), "y": ((1, 0, 0), (0, 0, 1))}
 
 
+CORE = {"dais": (18, 42, 124), "drum": (42, 104, 88), "collar": (104, 112, 98), "glass": (112, 334, 84),
+        "cap": (334, 350, 96), "crown": (350, 370, 62), "boss": (370, 378, 18), "sphere_z": 196, "sphere_r": 34}
+
+
+def _front(axis, th):
+    u, v = AXES_[axis]
+    return sum(u[k] * math.cos(th) + v[k] * math.sin(th) for k in range(3)) > 0
+
+
+def _cyl_body_d(cx, cy, z0, z1, r):
+    """Outline of an upright cylinder's side (screen-left extreme down, front arc, up, back arc)."""
+    tL, tR = math.radians(135), math.radians(-45)
+    U, V, rx, ry, ang, det = _ell("z", r)
+    sw = 0 if det > 0 else 1
+    a = P(*circ_pt((cx, cy, z1), "z", r, tL))
+    b = P(*circ_pt((cx, cy, z0), "z", r, tL))
+    c = P(*circ_pt((cx, cy, z0), "z", r, tR))
+    d = P(*circ_pt((cx, cy, z1), "z", r, tR))
+    return ("M%sL%sA%s %s %s 0 %d %s" % (pt(a), pt(b), n(rx), n(ry), n(ang), sw, pt(c))
+            + "L%sA%s %s %s 0 %d %s" % (pt(d), n(rx), n(ry), n(ang), sw, pt(a)) + "Z")
+
+
 def c_core(cx=3000, cy=0):
-    zc = 196
-    R = 40
-    out_back, out_front = [], []
-    ring_o = ring_segments((cx, cy, zc), "x", 114, 9, 20, 0.64, "f-r")
-    ring_i = ring_segments((cx, cy, zc), "y", 86, 8, 16, 0.62, "f-l")
-    # pedestal and yoke
-    ped = cylinder(cx, cy, 18, 62, 28) + cylinder(cx, cy, 46, 44, 22) + cylinder(cx, cy, 68, 14, 54, hatch=False)
-    post_back = box(cx - 6, cy - 134, 18, 12, 12, 186) + box(cx - 11, cy - 139, 18, 22, 22, 9, hatch=False)
-    post_front = box(cx - 6, cy + 122, 18, 12, 12, 186) + box(cx - 11, cy + 117, 18, 22, 22, 9, hatch=False)
-    pins = [tube((cx, cy - 122, zc), (cx, cy - 112, zc), 4.5)]
-    pin_f = [tube((cx, cy + 114, zc), (cx, cy + 122, zc), 4.5)]
+    """The signature object: the Rings mark held in a glass vessel on a finned base, fed by the spine."""
+    out = []
+    z0, z1, r = CORE["dais"]
+    out.append(cylinder(cx, cy, z0, r, z1 - z0))
+    # bolt circle on the dais
+    for i in range(24):
+        t = 2 * math.pi * i / 24
+        out.append(ellipse(circ_pt((cx, cy, z1), "z", 112, t), "z", 2.4, "d"))
+    out.append(ellipse((cx, cy, z1), "z", 104, "h"))
+    # finned drum
+    z0, z1, r = CORE["drum"]
+    out.append(cylinder(cx, cy, z0, r, z1 - z0, tone="-d", hatch=False))
+    fins = []
+    for i in range(40):
+        t = 2 * math.pi * i / 40 + 0.04
+        if not _front("z", t):
+            continue
+        quad = [circ_pt((cx, cy, z0 + 6), "z", r - 1, t), circ_pt((cx, cy, z0 + 6), "z", r + 9, t),
+                circ_pt((cx, cy, z1 - 4), "z", r + 9, t), circ_pt((cx, cy, z1 - 4), "z", r - 1, t)]
+        fins.append((sum(q[0] + q[1] for q in quad), quad))
+    fins.sort(key=lambda f: f[0])
+    for _, quad in fins:
+        out.append(polygon(quad, "f-t"))
+        out.append(polyline(quad, "e-i", close=True))
+    # collar
+    z0, z1, r = CORE["collar"]
+    out.append(cylinder(cx, cy, z0, r, z1 - z0, hatch=False))
+    # tie rods behind the glass
+    rods = [math.radians(a) for a in (0, 90, 180, 270)]
+    gz0, gz1, gr = CORE["glass"]
+    back_rods = [t for t in rods if not _front("z", t)]
+    front_rods = [t for t in rods if _front("z", t)]
+    for t in back_rods:
+        out.append(tube(circ_pt((cx, cy, gz0), "z", 94, t), circ_pt((cx, cy, gz1), "z", 94, t), 3, cap=False))
+    # glass vessel: tinted body, back rims seen through it
+    out.append(el("path", {"cls": "glass", "d": _cyl_body_d(cx, cy, gz0, gz1, gr)}))
+    t0, t1 = front_range("z")
+    inner = []
+    inner.append(arc((cx, cy, gz1), "z", gr, t1, t0 + 2 * math.pi, "h"))
+    inner.append(arc((cx, cy, gz0), "z", gr, t1, t0 + 2 * math.pi, "h"))
+    # faint concentric field lines on the vessel's back wall: the logo's rings, echoed
+    for rr_ in (gr - 10,):
+        inner.append(arc((cx, cy, gz0 + 10), "z", rr_, t1, t0 + 2 * math.pi, "h"))
+    # inside: the spine rises through the base and fans into the core
+    zc, R = CORE["sphere_z"], CORE["sphere_r"]
+    for i in range(N_STRANDS):
+        cls = "strand" + (" ia-lead" if i == 3 else "") + (" edge" if i in (0, 6) else "")
+        p0 = P(cx + (i - 3) * 7, cy, gz0)
+        p1 = P(cx + (i - 3) * 7, cy, gz0 + 22)
+        p2 = P(cx + (i - 3) * 1.6, cy, zc - R + 2)
+        inner.append(el("path", {"cls": cls, "d": "M%sL%sL%s" % (pt(p0), pt(p1), pt(p2)), "pl": "1", "data-strand": str(i)}))
+    inner.append(line((cx, cy, gz0), (cx, cy, gz1), "w-h"))
+    ring_o = ring_segments((cx, cy, zc), "x", 72, 7, 22, 0.64, "f-ring")
+    ring_i = ring_segments((cx, cy, zc), "y", 56, 6, 16, 0.62, "f-ring")
     sx, sy = P(cx, cy, zc)
     rr = R * K
     sphere = [
@@ -831,7 +988,56 @@ def c_core(cx=3000, cy=0):
         arc((cx, cy, zc), "z", R, front_range("z")[0], front_range("z")[1], "h"),
         el("circle", {"cls": "e-o", "cx": n(sx), "cy": n(sy), "r": n(rr)}),
     ]
-    out = [ped, post_back, "".join(pins), ring_o[0], ring_i[0], "".join(sphere), ring_i[1], ring_o[1], post_front, "".join(pin_f)]
+    # gimbal pivots on the vertical axle
+    piv = [tube((cx, cy, zc + 72), (cx, cy, gz1), 2.2, cap=False), ellipse((cx, cy, zc + 72), "z", 4.5, "f-t"),
+           ellipse((cx, cy, zc + 72), "z", 4.5, "e-i")]
+    inner += [ring_o[0], ring_i[0], "".join(sphere), ring_i[1], ring_o[1], "".join(piv)]
+    out.append(g(inner, "ia-s4-core-vessel", "in-glass"))
+    # glass front: sheen, rims, silhouette
+    for (a, w, op) in ((156, 3.6, .55), (165, 1.4, .5), (-32, 1.2, .3)):
+        t = math.radians(a)
+        out.append(el("path", {"cls": "sheen", "d": "M%sL%s" % (pt(P(*circ_pt((cx, cy, gz0 + 16), "z", gr, t))), pt(P(*circ_pt((cx, cy, gz1 - 16), "z", gr, t)))),
+                               "style": "stroke-width:%spx;stroke-opacity:%s" % (n(w), op)}))
+    out.append(arc((cx, cy, gz0), "z", gr, t0, t1, "e-i"))
+    out.append(arc((cx, cy, gz1), "z", gr, t0, t1, "e-i"))
+    for t in (math.radians(135), math.radians(-45)):
+        out.append(line(circ_pt((cx, cy, gz0), "z", gr, t), circ_pt((cx, cy, gz1), "z", gr, t), "e-o"))
+    for t in front_rods:
+        out.append(tube(circ_pt((cx, cy, gz0), "z", 94, t), circ_pt((cx, cy, gz1), "z", 94, t), 3, cap=False))
+    # cap, ribbed crown, boss
+    z0, z1, r = CORE["cap"]
+    out.append(cylinder(cx, cy, z0, r, z1 - z0))
+    for t in rods:
+        out.append(ellipse(circ_pt((cx, cy, z1), "z", 94, t), "z", 3.4, "f-t-d"))
+    z0, z1, r = CORE["crown"]
+    out.append(cylinder(cx, cy, z0, r, z1 - z0, tone="-d", hatch=False))
+    out.append(lines([(circ_pt((cx, cy, z1), "z", 22, 2 * math.pi * i / 16), circ_pt((cx, cy, z1), "z", r - 5, 2 * math.pi * i / 16)) for i in range(16)], "h",
+                     style="stroke:var(--ia-top);stroke-opacity:.5"))
+    z0, z1, r = CORE["boss"]
+    out.append(cylinder(cx, cy, z0, r, z1 - z0, hatch=False))
+    out.append(ellipse((cx, cy, z1), "z", 7, "ia-lamp"))
+    return "".join(out)
+
+
+def c_reader(x=3000, y0=162, y1=238, z=18):
+    """Reader arch over the belt, wired to the core's dais: the core sees each document as it passes."""
+    out = []
+    # wiring on the platform, from the arch to the dais (three strands in a shallow duct)
+    duct = [(x - 11, y0 - 4, z), (x + 11, y0 - 4, z), (x + 11, 118, z), (x - 11, 118, z)]
+    out.append(polygon(duct, "f-rec"))
+    out.append(polyline(duct, "e-i", close=True))
+    for k in (-6, 0, 6):
+        out.append(line((x + k, y0 - 4, z), (x + k, 118, z), "strand" + (" ia-lead" if k == 0 else ""), pl="1"))
+    out.append(box(x - 8, y0 - 8, z, 16, 8, 92))
+    return "".join(out)
+
+
+def c_reader_front(x=3000, y0=162, y1=238, z=18):
+    out = [box(x - 8, y1, z, 16, 8, 92)]
+    out.append(box(x - 10, y0 - 8, z + 92, 20, y1 - y0 + 16, 12))
+    # read line on the beam's underside, lit with the scene
+    out.append(polygon([(x - 2, y0, z + 92), (x + 2, y0, z + 92), (x + 2, y1, z + 92), (x - 2, y1, z + 92)], "ia-lamp"))
+    out.append(iso_text("RD-04", (x + 10, y0 + 6, z + 98), "face-r", "t-iso-s"))
     return "".join(out)
 
 
@@ -914,12 +1120,16 @@ def scene4():
     gnd.append(rect_shadow(3300, 150, 40, 46, 84))
     obj.append(g(c_platform(), "ia-s4-platform", "ia-component", **{"data-component": "platform"}))
     obj.append(g(c_core(), "ia-s4-core", "ia-component", **{"data-component": "gyro-core"}))
+    obj.append(g(c_reader(), "ia-s4-reader", "ia-component", **{"data-component": "reader-arch"}))
     obj.append(g(c_conveyor(), "ia-s4-conveyor", "ia-component", **{"data-component": "conveyor"}))
+    obj.append(g(c_reader_front(), "ia-s4-reader-front", "ia-component", **{"data-component": "reader-arch"}))
     obj.append(g(c_gate(3168, 238), "ia-s4-gate", "ia-component", **{"data-component": "approval-gate"}))
     obj.append(g(c_console(), "ia-s4-console", "ia-component", **{"data-component": "approval-console"}))
     anc = [
         anchor("spine.j34", 4, "junction", 2500, 0, 0),
         anchor("s4.core", 4, "focus", 3000, 0, 196),
+        anchor("s4.core.crown", 4, "focus", 3000, 0, 378),
+        anchor("s4.reader", 4, "focus", 3000, 200, 110),
         anchor("s4.conveyor.in", 4, "in", 2780, 200, 52),
         anchor("s4.conveyor.out", 4, "out", 3220, 200, 52),
         anchor("s4.gate", 4, "focus", 3177, 200, 104),
@@ -928,7 +1138,8 @@ def scene4():
         anchor("s4.centre", 4, "camera", 3000, 0, 80),
     ]
     notes = [
-        note((3000, -80, 260), "AI model", "r", L=70, ang=54),
+        note((3060, -40, 250), "AI model", "r", L=110, ang=50),
+        note((3000, 238, 110), "Reader", "l", L=60, ang=-58),
         note((2840, 228, 60), "Automated steps", "l", L=70, ang=-40),
         note((3320, 164, 116), "Manager approval", "r", L=70, ang=52),
     ]
@@ -943,8 +1154,8 @@ def c_floor(x0=3660, y0=-330, w=600, d=560, h=26):
     # void under the deck with pedestals, then the deck slab
     fy = y0 + d
     fx = x0 + w
-    out.append(polygon([(x0, fy, 0), (fx, fy, 0), (fx, fy, h - 6), (x0, fy, h - 6)], "f-rec"))
-    out.append(polygon([(fx, y0, 0), (fx, fy, 0), (fx, fy, h - 6), (fx, y0, h - 6)], "f-rec"))
+    out.append(polygon([(x0, fy, 0), (fx, fy, 0), (fx, fy, h - 6), (x0, fy, h - 6)], "f-deep"))
+    out.append(polygon([(fx, y0, 0), (fx, fy, 0), (fx, fy, h - 6), (fx, y0, h - 6)], "f-deep"))
     for x in range(int(x0) + 20, int(fx), 40):
         out.append(polygon([(x - 1.5, fy, 0), (x + 1.5, fy, 0), (x + 1.5, fy, h - 6), (x - 1.5, fy, h - 6)], "f-l"))
     for y in range(int(y0) + 20, int(fy), 40):
@@ -969,8 +1180,9 @@ def c_cabinet(x, y, z, w=50, d=96, h=212, side=False, idx=0):
     out = [box(x, y, z, w, d, h)]
     fy = y + d
     door = [(x + 5, fy, z + 8), (x + w - 5, fy, z + 8), (x + w - 5, fy, z + h - 22), (x + 5, fy, z + h - 22)]
-    out.append(polygon(door, "f-l", style="fill:url(#ia-perf-l)"))
-    out.append(polyline(door, "d", close=True))
+    out.append(polygon(door, "f-deep"))
+    out.append(polygon(door, "f-deep", style="fill:url(#ia-perf-ld)"))
+    out.append(polyline(door, "e-i", close=True))
     out.append(line((x + w - 9, fy, z + h * 0.45), (x + w - 9, fy, z + h * 0.6), "e-i"))
     for k in range(2):
         out.append(ellipse((x + 10 + k * 7, fy, z + h - 12), "y", 2, "ia-lamp" if (idx + k) % 3 else "f-t"))
@@ -1038,7 +1250,7 @@ def scene5():
     obj.append(g(c_floor(), "ia-s5-floor", "ia-component", **{"data-component": "raised-floor"}))
     obj.append(g([c_tray(-260), c_row(-290, "ROW A")], "ia-s5-row-a", "ia-component", **{"data-component": "rack-row"}))
     obj.append(g([c_tray(-80), c_row(-110, "ROW B")], "ia-s5-row-b", "ia-component", **{"data-component": "rack-row"}))
-    tanks = []
+    tanks = [duct((x, 94), (x, -14), z=26.01) for x in (3790, 3910, 4030)]
     for i, x in enumerate((3790, 3910, 4030)):
         if i:
             tanks.append(tube((x - 120 + 44, 140, 92), (x - 44, 140, 92), 7))
@@ -1057,9 +1269,103 @@ def scene5():
     notes = [
         note((3960, -290, 250), "Cloud infrastructure", "r", L=70, ang=56),
         note((3770, 110, 198), "Data stores", "l", L=90, ang=48),
-        note((4600, 0, 6), "One connected operation", "r", L=56, ang=-40),
+        note((4612, -20, 6), "One connected operation", "r", L=60, ang=36),
     ]
     return gnd, obj, anc, notes
+
+
+# ======================================================================= the site
+
+SITE = [(560, -470), (1440, -470), (1440, -70), (1560, -70), (1560, -340), (2440, -340), (2440, -70), (2680, -70),
+        (2680, -340), (3380, -340), (3380, -70), (3620, -70), (3620, -370), (4300, -370), (4300, -70), (4520, -70),
+        (4520, -96), (4680, -96), (4680, 96), (4520, 96), (4520, 70), (4300, 70), (4300, 270), (3620, 270), (3620, 70),
+        (3380, 70), (3380, 340), (2680, 340), (2680, 70), (2440, 70), (2440, 310), (1560, 310), (1560, 70), (1440, 70),
+        (1440, 380), (560, 380)]
+SITE_RECTS = [(560, -470, 1440, 380), (1440, -70, 1560, 70), (1560, -340, 2440, 310), (2440, -70, 2680, 70),
+              (2680, -340, 3380, 340), (3380, -70, 3620, 70), (3620, -370, 4300, 270), (4300, -70, 4520, 70),
+              (4520, -96, 4680, 96)]
+SLAB = 44
+
+
+def _face_diag(p0, p1, za, zb, pitch):
+    """45-degree section hatch on a vertical face between plan points p0 and p1."""
+    (x0, y0), (x1, y1) = p0, p1
+    L = math.hypot(x1 - x0, y1 - y0)
+    ux, uy = (x1 - x0) / L, (y1 - y0) / L
+    hgt = zb - za
+    segs = []
+    u = -hgt
+    while u < L:
+        a, b = max(u, 0), min(u + hgt, L)
+        if b > a:
+            za_ = za + (a - u)
+            zb_ = za + (b - u)
+            segs.append(((x0 + ux * a, y0 + uy * a, za_), (x0 + ux * b, y0 + uy * b, zb_)))
+        u += pitch
+    return segs
+
+
+def site():
+    """Section-cut site slab. Top at z = 0, so every anchor and object keeps its coordinates."""
+    poly = SITE
+    m = len(poly)
+    area = sum(poly[i][0] * poly[(i + 1) % m][1] - poly[(i + 1) % m][0] * poly[i][1] for i in range(m))
+    faces = []
+    for i in range(m):
+        (x0, y0), (x1, y1) = poly[i], poly[(i + 1) % m]
+        ex, ey = x1 - x0, y1 - y0
+        nx, ny = (ey, -ex) if area > 0 else (-ey, ex)
+        L = math.hypot(nx, ny)
+        nx, ny = nx / L, ny / L
+        if nx + ny > 1e-6:
+            faces.append(((x0, y0), (x1, y1), "l" if ny > nx else "r"))
+    faces.sort(key=lambda f: (f[0][0] + f[0][1] + f[1][0] + f[1][1]))
+    out = []
+    for (a, b, side) in faces:
+        quad = [(a[0], a[1], 0), (b[0], b[1], 0), (b[0], b[1], -SLAB), (a[0], a[1], -SLAB)]
+        out.append(polygon(quad, "f-" + side))
+        # strata: finish screed, service zone with conduits in section, structural slab hatched as cut
+        out.append(lines([((a[0], a[1], -8), (b[0], b[1], -8)), ((a[0], a[1], -30), (b[0], b[1], -30))], "d"))
+        out.append(lines(_face_diag(a, b, -SLAB, -30, 7), "h"))
+        L = math.hypot(b[0] - a[0], b[1] - a[1])
+        # formwork joints
+        joints = []
+        k = 160
+        while k < L - 40:
+            t = k / L
+            joints.append(((a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, 0), (a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, -8)))
+            k += 160
+        if joints:
+            out.append(lines(joints, "d"))
+        out.append(polyline(quad, "e-i", close=True))
+    top = polygon([(x, y, 0) for x, y in poly], "f-slab")
+    out.append(top)
+    # engraved site grid on the top, 80-unit module
+    segs = []
+    for (x0, y0, x1, y1) in SITE_RECTS:
+        gx = int(math.ceil(x0 / 80.0)) * 80
+        while gx < x1:
+            if gx > x0:
+                segs.append(((gx, y0, 0), (gx, y1, 0)))
+            gx += 80
+        gy = int(math.ceil(y0 / 80.0)) * 80
+        while gy < y1:
+            if gy > y0:
+                segs.append(((x0, gy, 0), (x1, gy, 0)))
+            gy += 80
+    out.append(lines(segs, "h", style="stroke-opacity:.55"))
+    # the spine channel: a recessed tray the bundle lies in
+    cx0, cx1, hw = 690, 4600, 30
+    out.append(polygon([(cx0, -hw, 0), (cx1, -hw, 0), (cx1, hw, 0), (cx0, hw, 0)], "f-rec"))
+    out.append(polygon([(cx0, -hw, 0), (cx1, -hw, 0), (cx1, -hw, -9), (cx0, -hw, -9)], "f-l-d"))
+    out.append(lines([((cx0, -hw, 0), (cx1, -hw, 0)), ((cx0, hw, 0), (cx1, hw, 0))], "e-i"))
+    # where the site ends, the spine's duct is cut in section: seven strands in a cased duct
+    ex = 4680
+    out.append(polygon([(ex, -30, -6), (ex, 30, -6), (ex, 30, -26), (ex, -30, -26)], "f-deep"))
+    for i in range(N_STRANDS):
+        out.append(ellipse((ex, (i - 3) * GAP, -16), "x", 2.6, "f-t"))
+    out.append(el("path", {"cls": "e-o", "d": d_poly([P(x, y, 0) for x, y in poly])}))
+    return out
 
 
 # ======================================================================= ground, titles, sheet
@@ -1206,7 +1512,7 @@ def main():
                 uniq.append(a)
     anchors_g = g(uniq, "ia-anchors", "ia-anchors")
 
-    body = (g(ground(), "ia-ground") + g(scene_groups, "ia-scenes") + g(note_groups, "ia-annotations")
+    body = (g(ground(), "ia-ground") + g(site(), "ia-site", "ia-site") + g(scene_groups, "ia-scenes") + g(note_groups, "ia-annotations")
             + g(titles(), "ia-titles", "ia-titles") + g(sheet(), "ia-sheet", "ia-sheet") + anchors_g)
     master = svg_doc((0, 0, W, H), body, "AI Alchemy: one connected operation",
                      "An isometric system-architecture drawing in five parts. " + " ".join(DESC[k] for k in DESC))
@@ -1215,7 +1521,7 @@ def main():
     # scenes: same coordinates, own camera, own content plus a break mark where the spine continues
     for k, slug, title in SCENES:
         gnd, obj, anc, notes = built[k]
-        parts = [g(ground(), "ia-ground")]
+        parts = [g(ground(), "ia-ground"), g(site(), "ia-site", "ia-site")]
         if k == 2:
             # show the incoming proposed links from scene 1, without scene 1's objects
             parts.append(scene_link_inset(built[1][0]))
@@ -1294,10 +1600,14 @@ COMPONENTS = [
      "Terminal block that gathers four inputs into the spine."),
     ("drafting-plate", 2, (760, -440, 0), lambda: c_plate(760, -440) + c_massing() + c_scale_rule(800, 1036, -150, 16.01) + c_set_square(16.01),
      {"centre": (260, 170, 16)}, "Plate with a poche plan, structural grid, wire massing, scale rule and set square."),
-    ("survey-station", 2, (880, 340, 0), lambda: c_survey(880, 340), {"head": (0, 0, 184), "mark": (0, 0, 0)},
+    ("survey-station", 2, (690, 268, 0), lambda: c_survey(690, 268), {"head": (0, 0, 184), "mark": (0, 0, 0)},
      "Tripod survey instrument with a plumb line to a ground mark."),
     ("module", 3, (0, 0, 0), lambda: c_module(0, 0, 0, w=60, d=112, h=50, label="M1"), {"top": (30, 56, 50)},
      "One software module: 60 x 112 x 50, vents, status lamp, stencil ID."),
+    ("module-built", 3, (0, 0, 0), lambda: c_module(0, 0, 0, w=60, d=112, h=50, label="M8", built=True), {"top": (30, 56, 50)},
+     "The same module in built (deep) material: what AI Alchemy delivers."),
+    ("junction-riser", 3, (2266, 0, 0), lambda: c_junction(), {"base": (11, 0, 14), "top": (2, 36, 122)},
+     "Junction box on the spine with a three-strand riser into the rack levels."),
     ("module-rack", 3, (1950, -70, 0), lambda: c_rack() + c_rack_front(), {"in": (0, 70, 0), "out": (300, 70, 0), "slot": (185, 70, 69)},
      "Open-top rack, 4 bays x 2 levels, one empty bay."),
     ("gantry", 3, (2135, 0, 0), lambda: c_gantry_back() + c_gantry_front() + c_gantry_beam() + c_hoist(), {"hook": (0, 0, 264)},
@@ -1306,8 +1616,12 @@ COMPONENTS = [
      "Dashed demolition outline for a system that will be replaced."),
     ("platform", 4, (3000, 0, 0), lambda: c_platform(), {"centre": (0, 0, 18)},
      "Circular platform, r 300, dial ticks and a covered cable trench."),
-    ("gyro-core", 4, (3000, 0, 0), lambda: c_core(), {"core": (0, 0, 196)},
-     "The Rings mark as a gimbal: two segmented rings around a core sphere on a pedestal."),
+    ("gyro-core", 4, (3000, 0, 0), lambda: c_core(), {"core": (0, 0, 196), "crown": (0, 0, 378)},
+     "The signature core: the Rings mark (segmented gimbal rings, copper core) inside a smoked-glass vessel on a finned base, fed by the spine."),
+    ("reader-arch", 4, (3000, 200, 0), lambda: c_reader() + c_reader_front(), {"read-line": (0, 0, 110)},
+     "Arch over the conveyor with a read line, ducted to the core's dais."),
+    ("floor-duct", 0, (0, 0, 0), lambda: duct((0, 0), (0, 120)), {"a": (0, 0, 0), "b": (0, 120, 0)},
+     "Shallow covered duct with three strands; the shared vocabulary for short connections."),
     ("conveyor", 4, (2780, 172, 0), lambda: c_conveyor(), {"in": (0, 28, 52), "out": (440, 28, 52)},
      "Roller conveyor with unsorted documents before the core and aligned ones after."),
     ("approval-gate", 4, (3168, 238, 0), lambda: c_gate(3168, 238), {"boom": (9, -44, 100)},

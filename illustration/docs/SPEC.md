@@ -1,8 +1,25 @@
-# Asset interface specification (v1.0.0)
+# Asset interface specification (v1.1.0)
 
 **From:** Illustration Foundry (artwork). **For:** Codex, Experience Spine (motion and page).
 **Status:** proposed. Review and comment on the pull request. The interface is agreed when Codex approves the PR
 or asks for changes there. Nothing here is wired into the site yet.
+
+## Changelog
+
+**1.1.0 (art revision, additive).** Every 1.0 ID, anchor ID, camera, state value and token is kept. One anchor value moved:
+`s2.survey.head` is now at world (690, 268, 184), because the survey station moved.
+
+- New: `#ia-site`, the engineered slab under scenes 2–5. Its top is at z = 0, so no object or anchor moves.
+  It is drawn after `#ia-ground` and before `#ia-scenes`.
+- New: `#ia-s4-core-vessel` (the inside of the core: spine riser, gimbal rings, core), `#ia-s4-reader` and
+  `#ia-s4-reader-front` (the reader arch), `#ia-s3-junction` (junction box and rack riser), and
+  `#ia-link-migration` (a proposed link from the legacy core to the rack).
+- New anchors: `s3.legacy.out`, `s3.riser`, `s4.reader`, `s4.core.crown`.
+- New tokens: `--ia-deep`, `--ia-deep-2`, `--ia-deep-3` (built material and voids), `--ia-glass` (smoked glass),
+  `--ia-ring` (the ivory rings and the light marks on dark material), `--ia-slab-t` (the site top).
+- New components: `module-built`, `junction-riser`, `reader-arch`, `floor-duct` (30 in total).
+
+**1.0.0.** First interface.
 
 This spec covers what the artwork guarantees and what the page may rely on. The artwork contains **no animation
 logic**: no `<script>`, no SMIL, no CSS transitions or keyframes. Every motion decision belongs to the Experience
@@ -14,7 +31,7 @@ Spine.
 |---|---|
 | `illustration/svg/master.svg` | The whole board, 5280 × 3300 user units, all five scenes, notes, titles and sheet furniture. |
 | `illustration/svg/scenes/scene-N-<slug>.svg` | One scene each. Same coordinates as the master; the root `viewBox` is the scene camera. |
-| `illustration/svg/components/<name>.svg` | 26 reusable parts, each with its own local origin (see `components.json`). |
+| `illustration/svg/components/<name>.svg` | 30 reusable parts, each with its own local origin (see `components.json`). |
 | `illustration/anchors.json` | Projection, scene cameras (landscape and portrait) and every connection anchor. |
 | `illustration/components.json` | Component manifest: origin, viewBox, ports, and the transform that places each part in the master. |
 | `illustration/previews/*.png` | Rendered evidence: paper and night, default and active, 1×, 200% crops, portrait crops, library sheet. |
@@ -60,6 +77,7 @@ element has the same ID everywhere. **Do not inline the master and a scene file 
 svg.ia  [data-ia-version, data-ia-theme?]
 ├── defs                      patterns: #ia-hv (hatch), #ia-dots (ground), #ia-perf-l, #ia-perf-t
 ├── #ia-ground                dotted board (hide it to sit the art on the page's own ground)
+├── #ia-site                  the slab under scenes 2–5: section-cut edges, site grid, the spine channel
 ├── #ia-scenes
 │   └── #ia-scene-N  .ia-scene  [data-scene=N][data-slug][data-state]
 │       ├── #ia-sN-ground     shadows, grid, spine segment, stubs, links (drawn first for correct occlusion)
@@ -76,8 +94,8 @@ Addressable parts:
 |---|---|
 | 1 | `#ia-s1-spreadsheets`, `#ia-s1-mail`, `#ia-s1-forms`, `#ia-s1-legacy`; stubs `#ia-s1-stub-*`; links `#ia-link-spreadsheets`, `#ia-link-mail`, `#ia-link-forms`, `#ia-link-legacy` (in `#ia-s1-links`) |
 | 2 | `#ia-s2-collector`, `#ia-s2-plate` (plan, massing, rule, set square), `#ia-s2-survey`, `#ia-s2-grid-bubbles`, spine `#ia-spine-s2` |
-| 3 | `#ia-s3-rails`, `#ia-s3-gantry-leg-back`, `#ia-s3-gantry-leg-front`, `#ia-s3-gantry-beam`, `#ia-s3-hoist` (trolley and hanging module), `#ia-s3-rack`, `#ia-s3-rack-front`, `#ia-s3-legacy-core`, spine `#ia-spine-s3` |
-| 4 | `#ia-s4-platform`, `#ia-s4-core`, `#ia-s4-conveyor`, `#ia-s4-gate`, `#ia-s4-console`, spine `#ia-spine-s4` |
+| 3 | `#ia-s3-junction`, `#ia-link-migration`, `#ia-s3-rails`, `#ia-s3-gantry-leg-back`, `#ia-s3-gantry-leg-front`, `#ia-s3-gantry-beam`, `#ia-s3-hoist` (trolley and hanging module), `#ia-s3-rack`, `#ia-s3-rack-front`, `#ia-s3-legacy-core`, spine `#ia-spine-s3` |
+| 4 | `#ia-s4-platform`, `#ia-s4-core` (contains `#ia-s4-core-vessel`), `#ia-s4-reader`, `#ia-s4-reader-front`, `#ia-s4-conveyor`, `#ia-s4-gate`, `#ia-s4-console`, spine `#ia-spine-s4` |
 | 5 | `#ia-s5-floor`, `#ia-s5-row-a`, `#ia-s5-row-b`, `#ia-s5-stores`, `#ia-s5-terminal`, spine `#ia-spine-s5` |
 
 **Spine:** each `#ia-spine-sN` holds seven `path.strand` elements, `[data-strand=0..6]`, each with
@@ -102,6 +120,10 @@ them.
 | `hidden` | `.ia-notes`, `.ia-sheet` | present | `display: none` |
 
 Scene 1 standalone ships with its links `off` (the disconnected state). The master ships with them `proposed`.
+`#ia-link-migration` (scene 3) uses the same four link states.
+
+Inside the core, `.ia-lead` (the rising lead strand) and `.ia-core` (the sphere) follow the scene's state like
+everywhere else. The rings stay ivory in both themes.
 
 Suggested story mapping, for Codex to adopt or replace:
 
@@ -121,6 +143,9 @@ All are CSS custom properties on `svg.ia` or any ancestor. They inherit into inl
 | `--ia-ink`, `--ia-ink-2`, `--ia-hair` | `#1C2026`, `#4C525A`, `rgba(28,32,38,.36)` | Line colours. |
 | `--ia-top`, `--ia-left`, `--ia-right`, `--ia-recess`, `--ia-ground` | see style guide | Face tones and the ground. |
 | `--ia-active`, `--ia-signal`, `--ia-approve` | `#1F6B5C`, `#D06C40`, `#9A6F12` | State accents. |
+| `--ia-deep`, `--ia-deep-2`, `--ia-deep-3` | `#2A2F36`, `#3A4047`, `#22262C` | Built material (what AI Alchemy delivers) and voids. |
+| `--ia-glass`, `--ia-ring` | `#2E3840`, `#F7F3EA` | The core's smoked glass, and its ivory rings. |
+| `--ia-slab-t` | `#F6F2EA` | Top of the site slab. |
 | `--ia-mono`, `--ia-serif` | JetBrains Mono, Newsreader stacks | The site's self-hosted fonts; no font is embedded in the SVG. |
 
 On the kraft section (`#DED0B6`), leave the faces as they are and set `--ia-ground: #DED0B6` so the grid bubbles
@@ -144,12 +169,16 @@ lookups. Junctions are shared by two scenes.
 | `s2.collector.in.legacy` | in | 606, 45, 0 | 1385.84, 1025.5 |
 | `s2.collector.out` | out | 700, 0, 0 | 1506.22, 1050 |
 | `s2.plate.centre` | focus | 1020, -270, 16 | 2017.17, 1059 |
-| `s2.survey.head` | focus | 880, 340, 184 | 1367.65, 1126 |
+| `s2.survey.head` | focus | 690, 268, 184 (moved in 1.1) | 1265.46, 995 |
 | `spine.j23` | junction | 1500, 0, 0 | 2199.04, 1450 |
 | `s3.rack.in` / `s3.rack.out` | in / out | 1950 / 2250, 0, 0 | 2588.75, 1675 / 2848.56, 1825 |
 | `s3.module.hanging` → `s3.module.slot` | focus → target | 2135, 0, 240 → 69 | 2748.96, 1527.5 → 1698.5 |
 | `spine.j34` | junction | 2500, 0, 0 | 3065.06, 1950 |
+| `s3.legacy.out` → `s3.rack.in` | out → in | 1854, 40, 0 → 1950, 0, 0 | `#ia-link-migration` runs between them |
+| `s3.riser` | focus | 2268, 36, 122 | 2832.97, 1730 |
 | `s4.core` | focus | 3000, 0, 196 | 3498.08, 2004 |
+| `s4.core.crown` | focus | 3000, 0, 378 | 3498.08, 1822 |
+| `s4.reader` | focus | 3000, 200, 110 | 3324.87, 2190 |
 | `s4.conveyor.in` / `.out` | in / out | 2780 / 3220, 200, 52 | 3134.35, 2138 / 3515.4, 2358 |
 | `s4.gate` | focus | 3177, 200, 104 | 3478.16, 2284.5 |
 | `s4.console.lever` | focus | 3320, 164, 114 | 3633.18, 2328 |
@@ -173,8 +202,8 @@ Preview: `previews/check-scene-3-module-seated.png`.
   carries the meaning in HTML, set `aria-hidden="true"` on the inline SVG and keep the HTML copy.
 - Reduced motion: the static `default` and `active` states are complete pictures. Show the end state without
   transitions.
-- Sizes (uncompressed / gzip): master 196 KB / 40 KB, about 1,900 elements. Scenes 30–65 KB / 7–14 KB, 275–492
-  elements. No raster images, no external requests, no embedded fonts.
+- Sizes in 1.1 (uncompressed / gzip): master 254 KB / 57 KB, about 2,250 elements. Scenes 69–114 KB / 20–29 KB,
+  400–690 elements; each scene file now includes the whole `#ia-site`, cropped by its camera. No raster images, no external requests, no embedded fonts.
 - Hatching and dots are `<pattern>` fills, so they cost nothing per face. Avoid animating `--ia-lw` per frame on
   the master (it restyles every stroke); animate transforms, opacity, `stroke-dashoffset` and `viewBox`.
 
