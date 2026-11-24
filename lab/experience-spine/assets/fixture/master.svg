@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" class="ia" data-ia-version="1.0.0" viewBox="0 0 5280 3300">
+  <defs />
+  <style>
+.ia .strand,.ia .ia-link{fill:none;stroke:#444;stroke-width:2}
+.ia .ia-link[data-state=off]{visibility:hidden}
+.ia .ia-link[data-state=proposed]{stroke-dasharray:7 5}
+.ia [data-state=active] .ia-lead,.ia .ia-link[data-state=active]{stroke:#1f6b5c}
+.ia rect{fill:#e3ded1;stroke:#333;stroke-width:3}.ia [data-state=active]&gt;rect{fill:#ce9775}
+</style>
+  <g id="ia-ground" />
+  <g id="ia-scenes">
+    <g id="ia-scene-1">
+      <g id="ia-s1-ground">
+        <path id="ia-link-spreadsheets" class="ia-link" data-from="s1.spreadsheets.out" data-to="s2.collector.in.spreadsheets" d="M813.4 545.5 L1437.8 995.5" />
+        <path id="ia-link-mail" class="ia-link" data-from="s1.mail.out" data-to="s2.collector.in.mail" d="M1182.32 732.5 L1463.78 980.5" />
+        <path id="ia-link-forms" class="ia-link" data-from="s1.forms.out" data-to="s2.collector.in.forms" d="M667.91 701.5 L1411.82 1010.5" />
+        <path id="ia-link-legacy" class="ia-link" data-from="s1.legacy.out" data-to="s2.collector.in.legacy" d="M1074.94 946.5 L1385.84 1025.5" />
+      </g>
+      <g id="ia-s1-objects">
+        <g id="ia-s1-spreadsheets">
+          <rect x="758.4" y="513.0" width="110" height="65" />
+        </g>
+        <g id="ia-s1-mail">
+          <rect x="1127.32" y="700.0" width="110" height="65" />
+        </g>
+        <g id="ia-s1-forms">
+          <rect x="612.91" y="669.0" width="110" height="65" />
+        </g>
+        <g id="ia-s1-legacy">
+          <rect x="1019.94" y="914.0" width="110" height="65" />
+        </g>
+      </g>
+    </g>
+    <g id="ia-scene-2">
+      <g id="ia-s2-ground">
+        <g id="ia-spine-s2" data-from="s2.collector.out" data-to="spine.j23">
+          <path class="strand" data-strand="0" pathLength="1" d="M1506.22 1041.0 L2199.04 1441.0" />
+          <path class="strand" data-strand="1" pathLength="1" d="M1506.22 1044.0 L2199.04 1444.0" />
+          <path class="strand" data-strand="2" pathLength="1" d="M1506.22 1047.0 L2199.04 1447.0" />
+          <path class="strand ia-lead" data-strand="3" pathLength="1" d="M1506.22 1050.0 L2199.04 1450.0" />
+          <path class="strand" data-strand="4" pathLength="1" d="M1506.22 1053.0 L2199.04 1453.0" />
+          <path class="strand" data-strand="5" pathLength="1" d="M1506.22 1056.0 L2199.04 1456.0" />
+          <path class="strand" data-strand="6" pathLength="1" d="M1506.22 1059.0 L2199.04 1459.0" />
+        </g>
+      </g>
+      <g id="ia-s2-objects">
+        <g id="ia-s2-collector">
+          <rect x="1436.22" y="1015.0" width="140" height="70" />
+        </g>
+        <g id="ia-s2-plate">
+          <rect x="1872.17" y="969.0" width="290" height="180" />
+        </g>
+      </g>
+    </g>
+    <g id="ia-scene-3">
+      <g id="ia-s3-ground">
+        <g id="ia-spine-s3" data-from="spine.j23" data-to="spine.j34">
+          <path class="strand" data-strand="0" pathLength="1" d="M2199.04 1441.0 L3065.06 1941.0" />
+          <path class="strand" data-strand="1" pathLength="1" d="M2199.04 1444.0 L3065.06 1944.0" />
+          <path class="strand" data-strand="2" pathLength="1" d="M2199.04 1447.0 L3065.06 1947.0" />
+          <path class="strand ia-lead" data-strand="3" pathLength="1" d="M2199.04 1450.0 L3065.06 1950.0" />
+          <path class="strand" data-strand="4" pathLength="1" d="M2199.04 1453.0 L3065.06 1953.0" />
+          <path class="strand" data-strand="5" pathLength="1" d="M2199.04 1456.0 L3065.06 1956.0" />
+          <path class="strand" data-strand="6" pathLength="1" d="M2199.04 1459.0 L3065.06 1959.0" />
+        </g>
+      </g>
+      <g id="ia-s3-objects">
+        <g id="ia-s3-rack">
+          <rect x="2598.96" y="1641.0" width="300" height="115" />
+        </g>
+        <g id="ia-s3-hoist-lines" />
+        <g id="ia-s3-drop-line" />
+        <g id="ia-s3-module-new">
+          <rect x="2703.96" y="1492.5" width="90" height="70" />
+        </g>
+      </g>
+    </g>
+    <g id="ia-scene-4">
+      <g id="ia-s4-ground">
+        <g id="ia-spine-s4" data-from="spine.j34" data-to="spine.j45">
+          <path class="strand" data-strand="0" pathLength="1" d="M3065.06 1941.0 L3931.09 2441.0" />
+          <path class="strand" data-strand="1" pathLength="1" d="M3065.06 1944.0 L3931.09 2444.0" />
+          <path class="strand" data-strand="2" pathLength="1" d="M3065.06 1947.0 L3931.09 2447.0" />
+          <path class="strand ia-lead" data-strand="3" pathLength="1" d="M3065.06 1950.0 L3931.09 2450.0" />
+          <path class="strand" data-strand="4" pathLength="1" d="M3065.06 1953.0 L3931.09 2453.0" />
+          <path class="strand" data-strand="5" pathLength="1" d="M3065.06 1956.0 L3931.09 2456.0" />
+          <path class="strand" data-strand="6" pathLength="1" d="M3065.06 1959.0 L3931.09 2459.0" />
+        </g>
+      </g>
+      <g id="ia-s4-objects">
+        <g id="ia-s4-core">
+          <rect x="3408.08" y="1914.0" width="180" height="180" />
+        </g>
+        <g id="ia-s4-gate">
+          <rect x="3428.16" y="2262.0" width="100" height="45" />
+        </g>
+      </g>
+    </g>
+    <g id="ia-scene-5">
+      <g id="ia-s5-ground">
+        <g id="ia-spine-s5" data-from="spine.j45" data-to="s5.terminal">
+          <path class="strand" data-strand="0" pathLength="1" d="M3931.09 2441.0 L4883.72 2986.0" />
+          <path class="strand" data-strand="1" pathLength="1" d="M3931.09 2444.0 L4883.72 2989.0" />
+          <path class="strand" data-strand="2" pathLength="1" d="M3931.09 2447.0 L4883.72 2992.0" />
+          <path class="strand ia-lead" data-strand="3" pathLength="1" d="M3931.09 2450.0 L4883.72 2995.0" />
+          <path class="strand" data-strand="4" pathLength="1" d="M3931.09 2453.0 L4883.72 2998.0" />
+          <path class="strand" data-strand="5" pathLength="1" d="M3931.09 2456.0 L4883.72 3001.0" />
+          <path class="strand" data-strand="6" pathLength="1" d="M3931.09 2459.0 L4883.72 3004.0" />
+        </g>
+      </g>
+      <g id="ia-s5-objects">
+        <g id="ia-s5-racks">
+          <rect x="4267.4" y="2255.0" width="280" height="160" />
+        </g>
+        <g id="ia-s5-stores">
+          <rect x="4069.92" y="2470.0" width="190" height="110" />
+        </g>
+        <g id="ia-s5-terminal">
+          <rect x="4856.22" y="2972.5" width="55" height="45" />
+        </g>
+      </g>
+    </g>
+  </g>
+  <g id="ia-annotations" />
+</svg>
