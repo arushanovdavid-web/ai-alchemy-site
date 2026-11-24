@@ -52,6 +52,8 @@ function bind(svg, manifest) {
     return { path, ink, mask };
   });
   const scenes = [1, 2, 3, 4, 5].map((n) => get("scene-" + n));
+  // Foundry 1.1: proposed migration from the legacy core to the rack (optional in 1.0 bundles).
+  const migration = svg.querySelector("#ia-link-migration");
   // Foundry 1.1 site slab (optional in 1.0 bundles): revealed behind a moving construction front.
   const site = svg.querySelector("#ia-site");
   const [OX, OY] = manifest.projection?.origin_master ?? [900, 700];
@@ -170,6 +172,8 @@ function bind(svg, manifest) {
     );
     opacity(lines, 1 - frame.seat);
     opacity(guide, 1 - frame.seat);
+    if (migration)
+      state(migration, frame.liveLinks ? "active" : frame.seat >= 1 ? "built" : frame.visibility[2] > 0 ? "proposed" : "off");
     state(core, frame.core ? "active" : "default");
     state(gate, frame.gate ? "active" : "default");
     state(terminal, frame.terminal ? "active" : "default");

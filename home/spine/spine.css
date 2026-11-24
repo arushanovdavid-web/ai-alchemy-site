@@ -139,3 +139,7 @@
 @media (max-width: 860px), (max-aspect-ratio: 4/5) {
   #experience.live figure { grid-template-rows: minmax(0, 1fr); }
 }
+/* Crossfade: the outgoing chapter leaves fast, the incoming one settles, so the two never read on top of each other. */
+#experience.live article { transition: opacity .12s linear; }
+#experience.live article[style*="opacity: 1"] { transition: opacity .42s var(--ease) .1s; }
+@media (prefers-reduced-motion: reduce) { #experience.live article, #experience.live article[style*="opacity: 1"] { transition: none; } }
