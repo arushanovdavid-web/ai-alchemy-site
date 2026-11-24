@@ -1536,6 +1536,10 @@ def main():
         cam = scene_camera_for_file(k, cams)
         doc = svg_doc(cam, body, "AI Alchemy, %d of 5: %s" % (k, title), DESC[k])
         write(os.path.join(ROOT, "svg", "scenes", "scene-%d-%s.svg" % (k, slug)), doc)
+        # page-use export: same scene without its detail title (pages set their own headings)
+        plain = body.replace(g(titles()[k - 1], "ia-titles", "ia-titles"), "")
+        write(os.path.join(ROOT, "svg", "scenes", "scene-%d-%s.plain.svg" % (k, slug)),
+              svg_doc(cam, plain, "AI Alchemy, %d of 5: %s" % (k, title), DESC[k]))
 
     # anchors + cameras
     data = {
@@ -1674,6 +1678,8 @@ def build_components():
                   g(port_els, "ia-c-%s-ports" % name, "ia-anchors")])
         doc = svg_doc(view, body, "AI Alchemy component: " + name.replace("-", " "), desc)
         write(os.path.join(ROOT, "svg", "components", name + ".svg"), doc)
+        # night stock for dark sections: same drawing, night tokens
+        write(os.path.join(ROOT, "svg", "components", name + ".night.svg"), svg_doc(view, body, "AI Alchemy component: " + name.replace("-", " "), desc, theme="night"))
         out.append({"name": name, "file": "svg/components/%s.svg" % name, "scene": scene or None,
                     "origin_world": list(origin), "viewBox": list(view), "ports": port_data, "description": desc,
                     "place_in_master": "translate(%s %s)" % (n(OX + (wx - wy) * C), n(OY + (wx + wy) * S - wz))})
