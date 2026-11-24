@@ -57,3 +57,11 @@ figure.method .method-steps{border-top:1px solid var(--ink)}
 .page-art::before{position:static;display:block;padding:9px 12px;border-bottom:1px solid var(--line)}
 .hdr.menu-open{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--paper)}
 .bsheet-top{font-size:12px;letter-spacing:.03em}
+
+/* 2026-11-24 review fixes: one margin system, top-aligned heroes, labels as sheet references */
+.wrap{padding-inline:0;max-width:none;width:min(100% - 2*var(--pad),1440px)}
+.page-hero>.wrap:has(>.page-art){align-items:start}
+.page-hero>.wrap:has(>.page-art)>.page-art{margin-top:6px}
+.block .kicker,.section-head .kicker,.cta-band .kicker{display:block;text-align:right;color:var(--ink-2);margin-bottom:clamp(20px,2.4vw,32px);padding-bottom:10px;border-bottom:1px solid var(--line)}
+.cta-band .kicker{color:var(--snow-2);border-color:var(--line-n)}
+.l2{color:var(--ink-2)}

@@ -103,6 +103,7 @@ STYLE = """
 .ia .ia-anchor{fill:none;stroke:none}
 .ia text{font-family:var(--ia-mono);fill:var(--ia-ink-2)}
 .ia .t-note{font-size:calc(12.5px*var(--ia-type,1));font-weight:500;letter-spacing:.09em}
+.ia .t-note-2{transform:translateY(calc((var(--ia-type,1) - 1) * 15px))}
 .ia .t-iso{font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--ia-ink)}
 .ia .t-iso-s{font-size:7.5px;font-weight:600;letter-spacing:.12em;fill:var(--ia-ink-2)}
 .ia .t-bub{font-family:var(--ia-serif);font-size:15px;fill:var(--ia-ink);text-anchor:middle}
@@ -178,7 +179,7 @@ def note(p3, text, side="r", L=64, ang=58, nid=None, lines_=None):
              el("circle", {"cls": "dot", "cx": n(x), "cy": n(y), "r": "2.1"})]
     txt = [text] + (lines_ or [])
     for i, t in enumerate(txt):
-        parts.append(el("text", {"cls": "t-note", "x": n(tx), "y": n(ey + 4.3 + i * 16),
+        parts.append(el("text", {"cls": "t-note" + (" t-note-2" if i else ""), "x": n(tx), "y": n(ey + 4.3 + i * 16),
                                  "text-anchor": "end" if side == "l" else None,
                                  "style": "fill:var(--ia-ink)" if i == 0 else None}, esc(t)))
     return g(parts, nid, "ia-note")

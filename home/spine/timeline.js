@@ -1,7 +1,7 @@
 // Total progress: an opening bookend (the whole board as an unlit plan, with the
 // page headline), then Codex's six-chapter shot sheet, unchanged, in the rest.
 export const HERO = 0.075;
-const GHOST = 0.2;
+const GHOST = 0.42;
 const coreStops = [0, 0.14, 0.32, 0.51, 0.69, 0.85];
 const coreLandings = [0, 0.25, 0.46, 0.65, 0.75, 0.98];
 const toTotal = (c) => HERO + c * (1 - HERO);
@@ -79,6 +79,12 @@ export function prepareFraming(manifest, width, height, leftSpace = 0) {
       w = manifest.canvas.width;
       h = manifest.canvas.height;
       center = [w / 2, h / 2];
+      // Portrait panes: the whole board would be a thin strip; frame collector to data hall instead.
+      if (portrait) {
+        w = 3300;
+        h = 0;
+        center = [3050, 2030];
+      }
     }
     // Expand the last shot into the available paper to the left of the plate.
     if (key === "overview" && leftSpace > 0) {
@@ -90,6 +96,11 @@ export function prepareFraming(manifest, width, height, leftSpace = 0) {
         width: width / scale,
       };
     }
+    // Hold shots keep a margin so the focal object and its labelled neighbours sit inside the plate.
+    if (!portrait && key !== "overview") {
+      w *= 1.12;
+      h *= 1.12;
+    }
     if (portrait && key !== "overview") {
       const close =
         key === "s3.module.hanging" ? 0.72 : key === "s5.terminal" ? 0.8 : 0.94;
@@ -98,25 +109,9 @@ export function prepareFraming(manifest, width, height, leftSpace = 0) {
     const wide = Math.max(w, h * aspect);
     return { at, x: center[0] + dx, y: center[1] + dy, width: wide };
   });
-  // Opening frame: a crop of the board, wide across the whole stage. Scene 1 sits just right of the
-  // headline; the rest of the architecture runs off to the lower right as an unlit plan.
-  let hero = frames[frames.length - 1];
-  const s1 = points.get("s1.centre");
-  if (leftSpace > 0 && s1) {
-    const total = width + leftSpace;
-    const scale = total / 3300;
-    const sx = 0.5 * total - leftSpace,
-      sy = 0.36 * height;
-    const left = s1[0] - sx / scale,
-      top = s1[1] - sy / scale;
-    hero = { at: 0, x: left + width / scale / 2, y: top + height / scale / 2, width: width / scale };
-  }
-  // Narrow screens: open on the first two stations rather than the whole, tiny, board.
-  const j23 = points.get("spine.j23");
-  if (!(leftSpace > 0) && s1 && j23) {
-    hero = { at: 0, x: (s1[0] + j23[0]) / 2 - 170, y: (s1[1] + j23[1]) / 2 - 40, width: 2000 };
-  }
-  return { frames, aspect, portrait, leftSpace, hero };
+  // Opening bookend: the same camera as the closing reveal, so first and last frame are one picture.
+  const hero = frames[frames.length - 1];
+  return { frames, aspect, portrait, leftSpace, hero, px: width };
 }
 
 // Cubic Hermite interpolation. Shared slopes carry velocity through a

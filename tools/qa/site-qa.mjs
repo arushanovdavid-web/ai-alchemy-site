@@ -65,7 +65,7 @@ const spineState = `(() => {
   return { mode: r.dataset.mode, chapter: r.dataset.chapter, vb, finite: vb.length === 4 && vb.every(Number.isFinite) && vb[2] > 0, shown, lit, links, badTransforms: transforms.length };
 })()`;
 const goSpine = (p) => `(() => { const r = document.getElementById('experience'); const top = r.getBoundingClientRect().top + scrollY;
-  const range = r.offsetHeight - r.querySelector('.stage').offsetHeight; scrollTo(0, top + ${p} * range); return new Promise(res => requestAnimationFrame(() => requestAnimationFrame(res))); })()`;
+  const st = r.querySelector('.stage'); const range = r.offsetHeight - st.offsetHeight - (parseFloat(getComputedStyle(st).top) || 0); scrollTo(0, top + ${p} * range); return new Promise(res => requestAnimationFrame(() => requestAnimationFrame(res))); })()`;
 
 const report = { base: BASE, when: new Date().toISOString(), spine: {}, sweep: {}, routes: [], reducedMotion: null, noScript: null, keyboard: null };
 

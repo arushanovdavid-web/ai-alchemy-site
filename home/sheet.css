@@ -226,3 +226,9 @@ html{scrollbar-color:var(--ink-2) var(--paper-2)}
 @media (max-width:900px){.close-row .close-copy{grid-column:1/-1}}
 /* A backdrop-filter makes the header the containing block of the fixed menu; drop it while the menu is open. */
 html.menu-open .hdr,.hdr.menu-open{-webkit-backdrop-filter:none;backdrop-filter:none;background:var(--paper)}
+/* Copper is action only: headline turns sit in muted ink */
+.sec-head h2 em,.close h2 em{color:var(--ink-2)}
+.division .sec-head h2 em{color:var(--snow-2)}
+.label b{color:var(--ink)}
+.textlink:hover,.who-list a:hover::after{color:var(--accent-deep)}
+.sheet-ref span:first-child{color:var(--ink);font-weight:600}.division .sheet-ref span:first-child{color:var(--snow)}

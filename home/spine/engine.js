@@ -89,6 +89,10 @@ function bind(svg, manifest) {
     terminal = get("s5-terminal"),
     ground = get("ground"),
     notes = get("annotations");
+  const labels = [...svg.querySelectorAll(".ia-note")].map((n) => {
+    const dot = n.querySelector("circle");
+    return { n, x: Number(dot?.getAttribute("cx")), y: Number(dot?.getAttribute("cy")) };
+  });
   const sceneNotes = scenes.map((el, i) =>
     svg.querySelector("#ia-s" + (i + 1) + "-notes"),
   );
@@ -179,6 +183,30 @@ function bind(svg, manifest) {
     state(terminal, frame.terminal ? "active" : "default");
     attr(ground, "transform", "translate(0 " + frame.depth.toFixed(2) + ")");
     attr(notes, "visibility", framing.portrait || frame.hero > 0.5 ? "hidden" : "visible");
+    if (!framing.portrait && framing.px) {
+      const scale = framing.px / width;
+      const type = Math.max(1, Math.min(2.1, 11 / (12.5 * scale)));
+      if (!labels.measured) {
+        svg.style.removeProperty("--ia-type");
+        for (const l of labels) l.box = l.n.getBBox();
+        labels.measured = true;
+      }
+      const typeVal = type.toFixed(2);
+      if (svg.style.getPropertyValue("--ia-type") !== typeVal) svg.style.setProperty("--ia-type", typeVal);
+      const hPx = framing.px / framing.aspect,
+        m = 16;
+      for (const l of labels) {
+        // Measured once at type 1; text grows away from the anchor dot as the type factor rises.
+        const bx0 = l.x + (l.box.x - l.x) * type,
+          bx1 = l.x + (l.box.x + l.box.width - l.x) * type,
+          by0 = l.y + (l.box.y - l.y) * type,
+          by1 = l.y + (l.box.y + l.box.height - l.y) * type;
+        const inside =
+          (bx0 - left) * scale > m && (bx1 - left) * scale < framing.px - m &&
+          (by0 - top) * scale > m && (by1 - top) * scale < hPx - m;
+        attr(l.n, "visibility", inside ? "visible" : "hidden");
+      }
+    }
     if (site) {
       opacity(site, frame.hero > 0 ? frame.ghost / 0.2 * 0.35 : 1);
       const x = Number.isFinite(frame.site) ? Math.round(frame.site) : 99999;
@@ -251,7 +279,8 @@ export async function mountSpine(root, assetBundle) {
   function measure() {
     const rect = viewport.getBoundingClientRect();
     const spread = root.querySelector(".spread").getBoundingClientRect();
-    const leftSpace = Math.max(0, rect.left - spread.left);
+    // One framing rule: the drawing stays inside its plate in every frame (no extension into the text column).
+    const leftSpace = 0;
     framing = prepareFraming(
       manifest,
       Math.max(1, rect.width),
@@ -259,7 +288,8 @@ export async function mountSpine(root, assetBundle) {
       leftSpace,
     );
     top = root.getBoundingClientRect().top + scrollY;
-    range = Math.max(1, root.offsetHeight - stage.offsetHeight);
+    const stickyTop = parseFloat(getComputedStyle(stage).top) || 0;
+    range = Math.max(1, root.offsetHeight - stage.offsetHeight - stickyTop);
   }
   function render() {
     raf = 0;
