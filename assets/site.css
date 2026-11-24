@@ -528,3 +528,27 @@ legend,.step-title{font:720 var(--size-s)/1.05 var(--font-display);font-stretch:
 @media (max-width:1100px){.stage-intro{padding-left:calc(var(--cell) + 28px)}}
 @media (prefers-reduced-motion:reduce){.tower-draw.is-3d{position:relative;height:min(84svh,820px)}}
 @media (prefers-reduced-motion:reduce) and (max-width:1100px){.tower-draw.is-3d{height:70svh}}
+
+/* ---------- capabilities world (Hut 8 style fly-through). Desktop: full-width scene, cards over the left ---------- */
+.stage-outro{padding:var(--cell);min-height:calc(130svh - var(--nav-h));display:flex;flex-direction:column;justify-content:center;gap:10px}
+.stage-outro .lab{font:500 .75rem var(--font-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--color-action)}
+.stage-outro h3{font-size:clamp(1.3rem,.9rem + 1.2vw,2rem)}
+.stage-outro p{max-width:40ch}
+.t3-pin{position:absolute;left:0;top:0;display:flex;align-items:center;gap:6px;font:500 .6875rem/1 var(--font-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--color-fg);
+  white-space:nowrap;opacity:0;transition:opacity var(--t-base) var(--ease);pointer-events:none}
+.t3-pin i{width:14px;height:14px;margin-left:-7px;border-radius:50%;border:1.5px solid var(--color-pulse);background:var(--color-bg);box-shadow:0 0 0 4px color-mix(in srgb,var(--color-pulse) 18%,transparent);flex:none}
+.t3-pin b{color:var(--color-pulse-text);font-weight:500}
+.t3-pin.on{opacity:1}
+@media (min-width:1101px){
+  .t3-world .tower{grid-template-columns:1fr}
+  .t3-world .tower-text,.t3-world .tower-draw{grid-area:1/1}
+  .t3-world .tower-draw{align-self:start;z-index:1}
+  .t3-world .tower-text{position:relative;z-index:7;width:min(460px,34vw);border-right:0;pointer-events:none}
+  .t3-world .tower-text .stage,.t3-world .tower-text .stage-intro,.t3-world .tower-text .stage-outro,.t3-world .tower-text .chain-meter{pointer-events:auto}
+  .t3-world .tower .stage,.t3-world .stage-intro{background:color-mix(in srgb,var(--color-bg) 88%,transparent);border-right:1px solid var(--color-line);min-height:90vh}
+  .t3-world .stage-outro{background:transparent}
+  .t3-world .tower .stage:last-child{min-height:90vh;padding-top:var(--cell);justify-content:center}
+}
+@media (min-width:1101px){.t3-world .t3-cap{left:calc(min(460px,34vw) + var(--cell))}}
+.t3-pin span{background:var(--color-bg);border:1px solid var(--color-line);padding:5px 7px;margin-left:4px}
+.t3-pin.flip{flex-direction:row-reverse}.t3-pin.flip i{margin:0 -7px 0 0}.t3-pin.flip span{margin:0 4px 0 0}
