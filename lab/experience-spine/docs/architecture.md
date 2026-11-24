@@ -22,7 +22,7 @@ In Heron's opening, marks on a monochrome façade draw attention to individual l
 
 `prepareFraming(manifest, width, height, leftSpace)` resolves cameras and focus anchors on mount or resize. `sample(progress, framing)` is pure and can be called in either direction. Its output contains camera bounds, draw fractions, component transforms, visibility, activation and the current reading beat. Native scroll events schedule one animation frame. A still page has no running animation loop.
 
-The travel distance is 6.9 small viewport heights. Passive listeners measure the root relative to the document. The camera samples actual scroll position after resize or history restoration. The initial HTML reserves the enhanced scroll extent during asset loading so the browser can restore intermediate offsets. The browser retains its own scrolling behavior. The static HTML and overview image precede enhancement. Reduced motion and very short reading windows use a completed drawing with all text in document flow.
+The travel distance is 6.9 small viewport heights. Passive listeners measure the root relative to the document. The camera samples actual scroll position after resize or history restoration. The initial HTML reserves the enhanced scroll extent during asset loading so the browser can restore intermediate offsets. The browser retains its own scrolling behavior. A tab-local, history-entry-specific position covers engines that restore during asset loading. The static HTML and overview image precede enhancement. Reduced motion and very short reading windows use a completed drawing with all text in document flow.
 
 ## Shot sheet
 
@@ -36,3 +36,5 @@ The travel distance is 6.9 small viewport heights. Passive listeners measure the
 | 85–100% | Pull back from the terminal. Center movement follows the change of scale, keeping that endpoint on screen while upstream stations return. The desktop art can occupy the paper above the caption. | Whole system, 96–100% |
 
 Camera centers use monotone cubic segments with shared tangents through passing positions and zero velocity at holds. Width interpolates multiplicatively. On narrow art panes the engine uses portrait camera centers and protected subject bounds, with a tighter crop for the gantry and terminal. The tiny ground-pattern shift is the only parallax. All cable endpoints, shadows and connected components travel in one coordinate system.
+
+Portrait rendering measures scene bounds once and omits groups outside the camera with a 200-unit safety margin. Finished strands use a solid stroke. The engine only updates a segment when its draw fraction changes.

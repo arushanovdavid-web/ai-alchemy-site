@@ -77,7 +77,13 @@ function bind(svg, manifest) {
   const from = anchors.get("s3.module.hanging"),
     to = anchors.get("s3.module.slot");
   const delta = to.map((v, i) => v - from[i]);
+  let sceneBounds;
+  const lastDraw = new Array(segments.length);
   return (frame, framing) => {
+    // Measure once, while every unmodified scene still participates in layout.
+    // Include extra room for stroke caps and the module's travel in either direction.
+    sceneBounds ??= scenes.map((el) => el.getBBox());
+    const [left, top, width, height] = frame.camera;
     attr(svg, "viewBox", frame.camera.map((x) => x.toFixed(3)).join(" "));
     const weight = framing.portrait ? "2" : "1.45";
     if (svg.style.getPropertyValue("--ia-lw") !== weight)
@@ -92,6 +98,17 @@ function bind(svg, manifest) {
         );
     });
     scenes.forEach((el, i) => {
+      const b = sceneBounds[i];
+      const margin = 200;
+      const outside =
+        b.x + b.width < left - margin ||
+        b.x > left + width + margin ||
+        b.y + b.height < top - margin ||
+        b.y > top + height + margin;
+      // Portrait never extends into the caption. Keep distant groups out of its paint tree.
+      const display =
+        framing.portrait && framing.leftSpace === 0 && outside ? "none" : "";
+      if (el.style.display !== display) el.style.display = display;
       opacity(el, frame.visibility[i]);
       attr(el, "visibility", frame.visibility[i] === 0 ? "hidden" : "visible");
       state(el, frame.powered[i] ? "active" : "default");
@@ -114,8 +131,17 @@ function bind(svg, manifest) {
       } else if (path.hasAttribute("mask")) path.removeAttribute("mask");
     });
     segments.forEach((paths, i) => {
-      const v = (1 - frame.draw[i]).toFixed(4);
-      paths.forEach((p) => attr(p, "stroke-dashoffset", v));
+      const fraction = frame.draw[i];
+      if (fraction === lastDraw[i]) return;
+      const completed = fraction === 1;
+      const changePattern = completed !== (lastDraw[i] === 1);
+      const offset = (1 - fraction).toFixed(4);
+      paths.forEach((path) => {
+        if (changePattern)
+          path.style.strokeDasharray = completed ? "none" : "1 1";
+        attr(path, "stroke-dashoffset", offset);
+      });
+      lastDraw[i] = fraction;
     });
     opacity(plate, frame.plate);
     attr(
@@ -279,13 +305,57 @@ export async function mountSpine(root, assetBundle) {
   const observer = new ResizeObserver(layout);
   observer.observe(viewport);
   observer.observe(stage);
+  // Some engines restore during the static-to-sticky layout change. Store one
+  // offset per history entry, outside the render loop. Storage is optional.
+  function entryKey() {
+    if (!history.state?.spineEntry) {
+      const id =
+        "spine-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+      history.replaceState({ ...history.state, spineEntry: id }, "");
+    }
+    return history.state.spineEntry;
+  }
+  window.addEventListener(
+    "pagehide",
+    () => {
+      if (!root.classList.contains("live")) return;
+      try {
+        sessionStorage.setItem(
+          entryKey(),
+          String(Math.max(0, Math.min(1, (scrollY - top) / range))),
+        );
+      } catch {
+        /* The browser still owns native scroll restoration. */
+      }
+    },
+    options,
+  );
+  window.addEventListener(
+    "hashchange",
+    () => {
+      try {
+        entryKey();
+      } catch {}
+    },
+    options,
+  );
+  let restored = null;
+  try {
+    const key = entryKey();
+    restored = sessionStorage.getItem(key);
+    sessionStorage.removeItem(key);
+  } catch {
+    /* Storage may be disabled. */
+  }
   mode();
   if (root.classList.contains("live")) {
-    // The correct document height is reserved before loading assets. Leave
-    // back/forward and reload offsets to the browser, including URLs with hashes.
     const navigation = performance.getEntriesByType("navigation")[0]?.type;
-    if (navigation !== "reload" && navigation !== "back_forward") {
-      const target = [...markers.children].find(marker => "#" + marker.id === location.hash);
+    if (restored !== null && Number.isFinite(Number(restored))) {
+      window.scrollTo(0, top + Number(restored) * range);
+    } else if (navigation !== "reload" && navigation !== "back_forward") {
+      const target = [...markers.children].find(
+        (marker) => "#" + marker.id === location.hash,
+      );
       target?.scrollIntoView();
     }
     render();

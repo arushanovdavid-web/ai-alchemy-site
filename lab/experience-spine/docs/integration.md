@@ -21,3 +21,9 @@ This lab consumes Foundry v1.0.0 at `7245555fcd11b5c3d9323a0eadddb26a32feebc0`. 
 4. Recapture the Foundry cut and review module seating, masking, the approval gate, terminal and both overview endpoints at desktop and phone sizes. An art-only revision can change composition and rendering cost even with a compatible interface. Keep the fixture for deterministic regression checks and evaluate the art in its actual browser context.
 
 The Foundry files carry the original colour rules and IDs. Runtime treatments are scoped to the mounted copy. Asset approval and any illustration revisions stay with the artwork owner.
+
+## Swap check against the next Foundry release
+
+Foundry v1.1 at `6f0ed4146daa9e1e66556af0df07f346097dcfd5` appeared on the illustration branch during implementation. The browser check supplied that revision's original master and anchors at the same two asset URLs. The five scenes activated, the module seated, and returning to 42.4% reproduced its intermediate transform. The camera and binder were identical for both releases. The new slab and core vessel appear in the [v1.1 compatibility capture](../evidence/foundry-1.1-swap.png).
+
+Run `node qa/swap.mjs` from the lab directory after fetching the illustration revision. The default review cut and performance measurements remain pinned to v1.0. New v1.1-specific parts retain their authored behavior until a motion edit calls for them.

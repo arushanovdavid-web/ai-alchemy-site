@@ -36,6 +36,8 @@ for profile,fps in [("desktop",60),("tablet",60),("phone",30)]:
     late=sum(ms>1000/fps+.2 for ms in a)
     passed=p95<=1000/fps+.2
     report.append(f"- **{profile.capitalize()} Foundry.** The {fps} fps budget was {'met' if passed else 'exceeded'} at p95 ({p95:.1f} ms). {late} of {len(a)} intervals exceeded the budget. The longest was {max(a):.1f} ms.")
+report.extend(["", "## Profiling iteration", "",
+    "An earlier 4× CPU-throttled Foundry run produced 21 intervals over the phone budget, including a 316.6 ms stall. The final implementation skips distant portrait scene groups, avoids repeated writes to unchanged strands and removes the normalized dash pattern once a trunk is complete. Results above come from fresh traversals after those changes. Host scheduling also varies between runs. [Earlier raw intervals](../evidence/profile-initial.json)", ""])
 report.extend(["","The desktop profile was 1440 × 900, tablet 820 × 1180 and phone 390 × 844. Compare the fixture with the Foundry rows to see the cost of the actual drawing. Native Safari was inspected visually. Firefox, WebKit, physical mobile devices and higher-DPR devices have no published frame-time measurements in this run.", "",
     "[Raw per-run intervals and long tasks](../evidence/profile.json) · [Profiling harness](../qa/profile.mjs) · [Visual and functional evidence](review.md)",""])
 Path("docs/performance.md").write_text("\n".join(report))
