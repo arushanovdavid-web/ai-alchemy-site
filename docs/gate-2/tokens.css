@@ -1,0 +1,132 @@
+/* Design Tokens - Auto-generated */
+/* Do not edit directly - modify tokens.json instead */
+
+/* === PRIMITIVES === */
+:root {
+  --primitive-color-paper-100: #F2EDE3;
+  --primitive-color-paper-200: #E9E2D3;
+  --primitive-color-paper-300: #DED0B6;
+  --primitive-color-ink-400: #8C9196;
+  --primitive-color-ink-600: #5B5F63;
+  --primitive-color-ink-800: #2C3036;
+  --primitive-color-ink-900: #1C2026;
+  --primitive-color-coral-400: #E39A72;
+  --primitive-color-coral-700: #9A4424;
+  --primitive-color-verdigris-100: #CFE0D6;
+  --primitive-color-verdigris-600: #1F6B5C;
+  --primitive-color-verdigris-800: #174F44;
+  --primitive-color-sand-400: #E2B04A;
+  --primitive-color-sand-700: #86600F;
+  --primitive-color-copper-500: #B5703F;
+  --primitive-color-copper-700: #8A4E26;
+  --primitive-font-display: 'Archivo', 'Arial Narrow', sans-serif;
+  --primitive-font-text: 'IBM Plex Sans', system-ui, sans-serif;
+  --primitive-font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --primitive-size-display-xl: clamp(2.5rem, 1.1rem + 5.4vw, 5.75rem);
+  --primitive-size-display-l: clamp(2.1rem, 1.2rem + 3.4vw, 4rem);
+  --primitive-size-display-m: clamp(1.5rem, 1.1rem + 1.4vw, 2.125rem);
+  --primitive-size-display-s: clamp(1.25rem, 1.05rem + .7vw, 1.625rem);
+  --primitive-size-body-l: 1.0625rem;
+  --primitive-size-body: 1rem;
+  --primitive-size-body-s: 0.875rem;
+  --primitive-size-meta: 0.75rem;
+  --primitive-leading-tight: 0.94;
+  --primitive-leading-snug: 1.15;
+  --primitive-leading-body: 1.55;
+  --primitive-space-1: 4px;
+  --primitive-space-2: 8px;
+  --primitive-space-3: 12px;
+  --primitive-space-4: 16px;
+  --primitive-space-5: 20px;
+  --primitive-space-6: 24px;
+  --primitive-space-8: 32px;
+  --primitive-space-10: 40px;
+  --primitive-space-12: 48px;
+  --primitive-space-16: 64px;
+  --primitive-space-20: 80px;
+  --primitive-space-24: 96px;
+  --primitive-space-32: 128px;
+  --primitive-line-hair: 1px;
+  --primitive-line-rule: 1.5px;
+  --primitive-line-bold: 2px;
+  --primitive-duration-fast: 150ms;
+  --primitive-duration-base: 240ms;
+  --primitive-duration-slow: 480ms;
+  --primitive-duration-draw: 1200ms;
+  --primitive-ease-standard: cubic-bezier(.2,.7,.1,1);
+  --primitive-ease-draw: cubic-bezier(.65,0,.35,1);
+  --primitive-ease-linear: linear;
+}
+
+/* === SEMANTIC === */
+:root {
+  --color-bg: #F2EDE3;
+  --color-surface: #E9E2D3;
+  --color-surface-kraft: #DED0B6;
+  --color-fg: #1C2026;
+  --color-fg-body: #2C3036;
+  --color-fg-muted: #5B5F63;
+  --color-fg-faint: #8C9196;
+  --color-line: #1C2026;
+  --color-line-faint: #8C9196;
+  --color-problem: #E39A72;
+  --color-problem-text: #9A4424;
+  --color-action: #1F6B5C;
+  --color-action-hover: #174F44;
+  --color-action-tint: #CFE0D6;
+  --color-on-action: #F2EDE3;
+  --color-approval: #E2B04A;
+  --color-approval-text: #86600F;
+  --color-pulse: #B5703F;
+  --color-pulse-text: #8A4E26;
+  --color-focus: #1F6B5C;
+  --color-on-kraft-muted: #2C3036;
+  --color-on-kraft-action: #174F44;
+  --color-on-kraft-pulse-text: #723F1F;
+  --color-on-kraft-problem-text: #8A3B1E;
+  --color-approval-text-strong: #6E4F0C;
+  --font-display: 'Archivo', 'Arial Narrow', sans-serif;
+  --font-text: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --space-cell: 24px;
+  --space-cell-tight: 16px;
+  --space-frame: 16px;
+  --space-section: 96px;
+  --a11y-focus-ring: 3px;
+  --a11y-focus-offset: 3px;
+  --a11y-touch-min: 44px;
+  --a11y-text-min: 0.75rem;
+  --a11y-body-min-mobile: 1rem;
+  --motion-hover: 150ms;
+  --motion-reveal: 480ms;
+  --motion-draw: 1200ms;
+}
+
+/* === COMPONENTS === */
+:root {
+  --nav-height: 48px;
+  --nav-bg: #F2EDE3;
+  --nav-divider: #1C2026;
+  --nav-cta-bg: #1F6B5C;
+  --nav-cta-fg: #F2EDE3;
+  --button-height: 48px;
+  --button-padding-x: 24px;
+  --button-bg: #1F6B5C;
+  --button-bg-hover: #174F44;
+  --button-fg: #F2EDE3;
+  --sheet-border: #1C2026;
+  --sheet-label: #5B5F63;
+  --sheet-inset: 16px;
+  --problem-marker: #9A4424;
+  --problem-index: #5B5F63;
+  --stage-lamp-off: #8C9196;
+  --stage-lamp-on: #B5703F;
+  --stage-label: #8A4E26;
+  --stage-service: #1F6B5C;
+  --stamp-border: #E2B04A;
+  --stamp-fg: #6E4F0C;
+  --field-rule: #1C2026;
+  --field-rule-focus: #1F6B5C;
+  --field-label: #5B5F63;
+  --field-error: #9A4424;
+}

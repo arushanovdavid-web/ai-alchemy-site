@@ -1,0 +1,751 @@
+<title>AI Alchemy Gate 1</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Archivo:wdth,wght@62..125,400..800&family=Chivo:wght@400;700;800&family=Chivo+Mono:wght@400;500&family=Big+Shoulders+Stencil+Display:wght@600;800&family=Instrument+Sans:wght@400;600&display=swap">
+<style>
+/* Layout: a review pack read top to bottom; one 1120px column, figures break out to a wider grid. Each direction's sketches use their own fixed palette. */
+:root{
+  --bg:#F3F4F2; --panel:#FFFFFF; --fg:#15181B; --muted:#59616A; --line:#D5D9DB;
+  --accent:#2B4FD8; --warn:#C8372D; --ok:#2E7D4F; --chip:#E6E9EE;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111417; --panel:#181C20; --fg:#E7EAEC; --muted:#9AA3AB; --line:#2C3238;
+  --accent:#7D97FF; --warn:#FF7A6E; --ok:#6FCF97; --chip:#232A31; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111417; --panel:#181C20; --fg:#E7EAEC; --muted:#9AA3AB; --line:#2C3238;
+  --accent:#7D97FF; --warn:#FF7A6E; --ok:#6FCF97; --chip:#232A31; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.6 var(--sans);margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin:0 auto;padding-block:48px 96px}
+h1,h2,h3,h4{line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2rem,4.4vw,3.2rem);font-weight:600;letter-spacing:-.02em}
+h2{font-size:clamp(1.5rem,2.8vw,2.1rem);font-weight:600;letter-spacing:-.015em;margin-top:88px;padding-top:28px;border-top:1px solid var(--line)}
+h3{font-size:1.2rem;font-weight:600;margin-top:36px}
+h4{font-size:1rem;font-weight:600}
+p,li{max-width:68ch;text-wrap:pretty}
+p{margin:12px 0 0}
+ul,ol{margin:12px 0 0;padding-left:1.2em}
+li+li{margin-top:6px}
+a{color:var(--accent)}
+.meta{font:500 13px/1.5 var(--mono);color:var(--muted)}
+.lede{font-size:1.15rem;color:var(--fg);margin-top:20px}
+.sec-no{font:500 13px/1 var(--mono);color:var(--muted);display:block;margin-bottom:10px}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+code{font:13px var(--mono);background:var(--chip);padding:1px 5px;border-radius:3px}
+
+.summary{display:grid;grid-template-columns:1.25fr 1fr;gap:24px;margin-top:32px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:22px 24px;min-width:0}
+.box h4{margin-bottom:6px}
+.box.rec{border-left:3px solid var(--accent)}
+.decisions li{margin-top:10px}
+.toc{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:28px;font-size:14px}
+.toc a{text-decoration:none;border-bottom:1px solid var(--line);color:var(--fg)}
+
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin-top:20px}
+figure{margin:0;min-width:0}
+figure img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:4px;background:var(--panel)}
+figcaption{font-size:13.5px;color:var(--muted);margin-top:8px;line-height:1.45}
+figcaption b{color:var(--fg);font-weight:600}
+.phone img{max-width:200px}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:8px}
+.two>div{min-width:0}
+.find{list-style:none;padding:0}
+.find li{padding-left:22px;position:relative}
+.find li::before{content:"";position:absolute;left:2px;top:.62em;width:9px;height:9px;border-radius:50%}
+.find.good li::before{background:var(--ok)}
+.find.bad li::before{background:var(--warn)}
+.find.take li::before{background:var(--accent)}
+
+table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:16px}
+.tbl{overflow-x:auto;margin-top:8px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-weight:600;font-size:13px;color:var(--muted)}
+td:first-child{font-weight:600;white-space:nowrap}
+.tbl table{min-width:760px}
+
+.refgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px 22px;margin-top:24px}
+.ref h4{margin-top:10px}
+.ref p{font-size:14.5px;margin-top:4px}
+.ref .tag{font:500 12px var(--mono);color:var(--muted)}
+
+/* direction blocks */
+.dir{margin-top:56px;padding:28px;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+.dir.recd{outline:2px solid var(--accent);outline-offset:-1px}
+.dir header{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px}
+.dir header h3{margin:0;font-size:1.6rem}
+.badge{font:500 12px var(--mono);padding:3px 8px;border-radius:3px;background:var(--chip);color:var(--fg)}
+.badge.on{background:var(--accent);color:#fff}
+.frames{display:grid;grid-template-columns:minmax(0,3.2fr) minmax(0,1fr);gap:18px;margin-top:22px;align-items:start}
+.frame svg{display:block;width:100%;height:auto;border-radius:4px;border:1px solid var(--line)}
+.swatches{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.sw{display:flex;align-items:center;gap:8px;font:12.5px var(--mono);color:var(--muted)}
+.sw i{width:26px;height:26px;border-radius:3px;border:1px solid var(--line);display:block}
+.typespec{margin-top:14px;display:grid;gap:6px}
+.typespec div{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.typespec span.k{font:12.5px var(--mono);color:var(--muted);min-width:70px}
+.cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:20px}
+.cols3>div{min-width:0}
+.cols3 h4{margin-bottom:4px}
+.cols3 p,.cols3 li{font-size:14.5px}
+.mood{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:14px}
+.mood figcaption{font-size:12px}
+
+/* storyboard */
+.story{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px;margin-top:22px}
+.story .sc svg{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:4px}
+.story .sc h4{margin-top:10px;font-size:15px}
+.story .sc p{font-size:14px;margin-top:4px}
+.story .sc .mv{font:12.5px/1.45 var(--mono);color:var(--muted);margin-top:6px}
+
+.ia{font:13.5px/1.7 var(--mono);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 20px;overflow-x:auto;white-space:pre;margin-top:16px}
+.risk td:nth-child(2){white-space:nowrap}
+.lvl{font:500 12px var(--mono);padding:2px 7px;border-radius:3px}
+.lvl.h{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.lvl.m{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}
+.lvl.l{background:var(--chip);color:var(--muted)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+@media (max-width:860px){
+  .summary,.two,.cols3{grid-template-columns:1fr}
+  .frames{grid-template-columns:1fr}
+  .frames .frame.phone svg{max-width:240px}
+  .dir{padding:20px 16px}
+}
+</style>
+
+<div class="wrap">
+<p class="meta">AI Alchemy website · Gate 1 of 4 · Research and creative direction · 23 November 2026 · Messaging confirmed · As-Built chosen · Revision 2 waiting for David</p>
+<h1>Three directions for the AI Alchemy site, and a plan to build the strongest one</h1>
+<p class="lede">I went through the current site and its code, Heron AI on desktop and mobile, and 13 recent Awwwards sites in a real browser. This pack shows what I found, three original directions with sketch compositions, a recommended direction with a full homepage storyboard, and the redesign strategy. Nothing has been rebuilt.</p>
+
+<div class="summary">
+  <div class="box rec">
+    <h4>Chosen: Direction 1, “As-Built”, revision 2</h4>
+    <p class="small">The site presents itself as an engineering drawing of a mid-market company's systems. It opens on the drawing as things stand today, with redline marks on the problems. As the visitor scrolls, the drawing is redrafted revision by revision until it shows one connected operation. The four revisions are your real process: Discover, Architect, Build, Validate. It says “Systems Integration &amp; Modernization” through its form, not only through its copy, and it can be built to a high standard with SVG and GSAP, without a heavy 3D scene.</p>
+  </div>
+  <div class="box">
+    <h4>Decisions</h4>
+    <ol class="decisions small">
+      <li><b>Decided:</b> As-Built, closer to Heron, on the site’s own pastel palette (revision 2 below). Waiting on your OK of revision 2 before Gate 2.</li>
+      <li><b>Decided:</b> lead with Systems Integration &amp; Modernization for established mid-market organizations, explained plainly. Architecture is the foundation of delivery.</li>
+      <li><b>Decided:</b> GTA is a trust signal (“Based in the Greater Toronto Area”) under the hero, not the proposition. No wider service area until confirmed.</li>
+      <li><b>Decided:</b> Products &amp; Innovation shows “Coming soon”.</li>
+      <li><b>Still needed:</b> real proof material (client stories, figures, testimonials), so nothing is invented.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="box" style="margin-top:24px">
+  <h4>Confirmed messaging and homepage copy (David, 23 Nov)</h4>
+  <div class="two" style="margin-top:0">
+    <div>
+      <p class="small"><b>Headline:</b> “Give your business the tools to stay ahead.”</p>
+      <p class="small"><b>Supporting line:</b> “We modernize systems, connect your software, and put AI to work—so your people spend less time on manual tasks and more on what matters.”</p>
+      <p class="small"><b>Problems:</b> Disconnected Systems; Time Lost to Manual Work; An Incomplete Business Picture; Outdated Technology; Ready for AI. Unsure Where to Start..</p>
+      <p class="small"><b>Capabilities:</b> Systems Integration; Workflow Automation; Data &amp; Reporting; Systems Modernization; Generative AI Enablement.</p>
+      <p class="small"><b>Primary action:</b> “Plan Your Modernization”.</p>
+    </div>
+    <div>
+      <p class="small"><b>Lead offer:</b> Systems Integration &amp; Modernization for established mid-market organizations, explained plainly: connecting disconnected systems, modernizing legacy software, and making CRM, ERP and custom applications work together. Architecture is the foundation of delivery.</p>
+      <p class="small"><b>Trust line:</b> “Based in the Greater Toronto Area”, under the hero or in the company introduction. <b>Products &amp; Innovation:</b> “Our own products are taking shape. More to share soon.” Coming soon.</p>
+    </div>
+  </div>
+  <p class="small muted">The sketches below now use this copy. In As-Built, “architecture is the foundation” is what the drawing itself shows: we draw the plan first, then build to it.</p>
+</div>
+
+<nav class="toc" aria-label="Sections">
+  <a href="#current">1 · Current site</a><a href="#heron">2 · Heron AI</a><a href="#awwwards">3 · Awwwards research</a><a href="#directions">4 · Directions</a><a href="#critique">5 · Critique</a><a href="#strategy">6 · Strategy</a><a href="#story">7 · Storyboard</a><a href="#risks">8 · Risks</a><a href="#tools">9 · Skills and tools used</a>
+</nav>
+
+<!-- ============ 1 CURRENT ============ -->
+<h2 id="current"><span class="sec-no">1</span>The current site</h2>
+<p>ai-alchemy.ca is a hand-written static site on GitHub Pages: 17 pages, self-hosted fonts (Newsreader, Inter Tight, JetBrains Mono), about 110 KB of hand-written CSS and JS for the homepage, no framework and no third-party requests. The homepage, “The Field”, is a fixed canvas of short engraved strokes that gathers into rings as you scroll. A draft pull request (#1, “Orrery”) replaces the hero with a WebGL copper-and-gold instrument.</p>
+<div class="shots">
+  <figure><img src="refs/cur-hero.jpg" alt="Current homepage hero: serif headline on cream with a field of strokes around a dark disc" loading="lazy"><figcaption><b>Hero once painted.</b> Serif headline on parchment, field of strokes, copper button.</figcaption></figure>
+  <figure><img src="refs/cur-hero-firstload.jpg" alt="Current homepage on first load, almost entirely black with faint headline" loading="lazy"><figcaption><b>First load, 3 s in.</b> The hero sat black for several seconds on desktop and on mobile in my browser before the field painted.</figcaption></figure>
+  <figure><img src="refs/cur-services.jpg" alt="Pinned services section with tabs and ring diagram" loading="lazy"><figcaption><b>Services.</b> Four tabs pinned beside the field; the rings gain labels as you go.</figcaption></figure>
+  <figure><img src="refs/cur-reveal.jpg" alt="Dark section: One operation, not a stack of disconnected tools" loading="lazy"><figcaption><b>The reveal.</b> The strongest moment on the page.</figcaption></figure>
+  <figure><img src="refs/cur-outcomes.jpg" alt="Kraft paper outcomes section followed by dark industries section" loading="lazy"><figcaption><b>Outcomes and industries.</b> Kraft and night bands alternate.</figcaption></figure>
+  <figure><img src="refs/orrery-pr1.jpg" alt="Orrery poster: copper rings around a gold sphere on midnight blue" loading="lazy"><figcaption><b>Draft PR #1, Orrery.</b> Machined rings and gold core in WebGL2.</figcaption></figure>
+</div>
+<div class="two">
+  <div>
+    <h3>Worth keeping</h3>
+    <ul class="find good">
+      <li>Plain, accurate copy: in-house in the GTA, a reply within one business day, “you keep approval”, illustrations labelled as illustrations.</li>
+      <li>A real process (Discover, Architect, Build, Validate) and four industry pages with specific problems and fixes.</li>
+      <li>Good accessibility groundwork: skip link, no-JS and reduced-motion states, visible focus, structured data, <code>llms.txt</code>.</li>
+      <li>No trackers and no third-party requests. Fast to host, nothing to patch.</li>
+      <li>The three-step project brief that opens as an email. It works and needs no back end.</li>
+    </ul>
+  </div>
+  <div>
+    <h3>What holds it back</h3>
+    <ul class="find bad">
+      <li>The look matches what generated design defaults to right now: cream ground, high-contrast serif, terracotta accent, all-caps mono labels, 01/02 numbering. The design skill we now have flags exactly this set. It reads as competent but not ownable.</li>
+      <li>The field is abstract. Nothing on the page shows the actual work (CRM, ERP, integrations, legacy systems), so the visitor has to translate.</li>
+      <li>Messaging is four equal services. The brief puts Systems Integration &amp; Modernization first and introduces two divisions; neither appears on the site.</li>
+      <li>The hero is blank or black for seconds on first load, and the headline is hard to read in that state.</li>
+      <li>15,200 px of page on desktop, with several pinned stretches. The story is long for a mid-market buyer skimming on a phone.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============ 2 HERON ============ -->
+<h2 id="heron"><span class="sec-no">2</span>Heron AI, the benchmark</h2>
+<p>Heron (by Bearplus, currently Site of the Day) sells an AI agent that works inside architects' design tools. I went through it at 1440 × 900 and at phone size, scrolling forward to the footer and back. It is built on Webflow with GSAP ScrollTrigger, SplitText, Lenis smooth scroll, Barba page transitions, Swiper and one canvas.</p>
+<div class="shots">
+  <figure><img src="refs/heron-intro.jpg" alt="Heron loader: line elevation of a building with a red scan line and a spec list" loading="lazy"><figcaption><b>Loader.</b> A line elevation draws in with a red scan line and a boot log.</figcaption></figure>
+  <figure><img src="refs/heron-hero.jpg" alt="Heron hero: rendered concrete building over huge grotesk headline" loading="lazy"><figcaption><b>Hero.</b> The line drawing becomes a rendered building. One red square marks the agent.</figcaption></figure>
+  <figure><img src="refs/heron-problems.jpg" alt="Four problem cards with isometric line icons" loading="lazy"><figcaption><b>Problems.</b> Four columns on a hairline grid, each with an isometric drawing.</figcaption></figure>
+  <figure><img src="refs/heron-phrase.jpg" alt="Single centered phrase: Right there with you" loading="lazy"><figcaption><b>Pause.</b> Single phrases swap on scroll, giving the page breath.</figcaption></figure>
+  <figure><img src="refs/heron-plan.jpg" alt="Floor plan with red markers and product text" loading="lazy"><figcaption><b>Signature.</b> A floor plan builds wall by wall, then the agent marks issues.</figcaption></figure>
+  <figure><img src="refs/heron-violation.jpg" alt="Floor plan with red violation callout" loading="lazy"><figcaption><b>Proof.</b> The product UI sits on the drawing, showing a real kind of finding.</figcaption></figure>
+  <figure><img src="refs/heron-dashboard.jpg" alt="Dashboard wireframe on the drawing grid" loading="lazy"><figcaption><b>Product.</b> UI shown as wireframe, consistent with the drawing language.</figcaption></figure>
+  <figure><img src="refs/heron-footer.jpg" alt="Footer with huge outlined HERON AI letters drawn as construction lines" loading="lazy"><figcaption><b>Footer.</b> The wordmark drawn in construction lines closes the loop.</figcaption></figure>
+  <figure class="phone"><img src="refs/heron-mobile.jpg" alt="Heron on a phone: building, headline, cookie bar" loading="lazy"><figcaption><b>Mobile.</b> Same story, stacked; pinned sections become swipe rows.</figcaption></figure>
+</div>
+<div class="two">
+  <div>
+    <h3>Why it works</h3>
+    <ul class="find take">
+      <li><b>One visual language from loader to footer.</b> Every element is a technical drawing: hairline grid, dimension ticks, plans, elevations. Nothing is decoration from somewhere else.</li>
+      <li><b>The subject is the art.</b> The drawings are what the customer works on every day, so the visitor recognises their own world in the first second.</li>
+      <li><b>Strict hierarchy.</b> Huge condensed caps headline, small mono metadata, generous empty paper. One accent colour (red) used only to mean “the agent is here”.</li>
+      <li><b>Scroll as construction.</b> The plan is built as you scroll, then annotated. Reverse scroll un-builds it cleanly. It is choreography, not a stack of fade-ins.</li>
+      <li><b>Pacing.</b> Dense sections alternate with single-phrase pauses.</li>
+    </ul>
+  </div>
+  <div>
+    <h3>What we take, and what we don't</h3>
+    <ul class="find take">
+      <li><b>Take:</b> drawing a subject from the buyer's own world; one accent with one meaning; building the key visual on scroll and keeping it reversible; a finale that returns to the opening motif.</li>
+      <li><b>Leave:</b> the long loader (we want the headline visible at once); scroll-jacked smooth scrolling on touch; architecture imagery, the orange circle and the all-caps grotesk, which are Heron's identity.</li>
+      <li><b>Note:</b> its body text is small and low-contrast in places, and several sections need scrolling to read at all. We can match the craft and beat it on readability.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============ 3 AWWWARDS ============ -->
+<h2 id="awwwards"><span class="sec-no">3</span>Awwwards research</h2>
+<p>I filtered Awwwards' Sites of the Day, Business &amp; Corporate and Technology lists for companies that sell something complex to businesses: consultancies, industrial and infrastructure firms, platforms that connect systems. Then I visited 13 of them and scrolled each.</p>
+<div class="refgrid">
+  <div class="ref"><figure><img src="refs/apekon.jpg" alt="Apekon: glass sphere in dark space with headline" loading="lazy"></figure><span class="tag">Apekon · technology partner · Nominee</span><h4>Strategy and engineering, as a glass sphere</h4><p>Closest business peer. Beautiful WebGL, but the sphere says nothing about the work, and the loader plus cookie wall delay the message. A warning about abstraction.</p></div>
+  <div class="ref"><figure><img src="refs/mecha.jpg" alt="Mecha: isometric line M, serif manifesto, side index" loading="lazy"></figure><span class="tag">Mecha · automation for legacy industries · SOTD 31 Oct</span><h4>Legacy industry, drawn in isometric line</h4><p>Pinned left index of chapters, line-drawn isometric objects, editorial manifesto. Shows that “legacy” can look precise and modern.</p></div>
+  <div class="ref"><figure><img src="refs/mecha-iso.jpg" alt="Mecha: isometric factory drawing beside photo" loading="lazy"></figure><span class="tag">Mecha · detail</span><h4>Line drawing next to real photography</h4><p>Drawings explain, photos prove. Useful when we have real project photos.</p></div>
+  <div class="ref"><figure><img src="refs/motive-cutaway.jpg" alt="Motive: 3D warehouse with roof cut away showing interior" loading="lazy"></figure><span class="tag">Motive · industrial operations · Nominee</span><h4>Scroll cuts the building open</h4><p>A rendered facility whose roof lifts away on scroll to show the operation inside. A strong “see inside your operation” device.</p></div>
+  <div class="ref"><figure><img src="refs/stric.jpg" alt="Stric: indigo section with line chart and network diagrams" loading="lazy"></figure><span class="tag">Stric · financial rails behind one API</span><h4>One API, shown as connected lines</h4><p>Integration made visual with simple line diagrams and glowing nodes. Clear, but the indigo-gradient SaaS look is generic.</p></div>
+  <div class="ref"><figure><img src="refs/loop.jpg" alt="Loop Industries: dense industrial cabling and pipework" loading="lazy"></figure><span class="tag">Loop Industries · materials technology</span><h4>Real cabling as the opening image</h4><p>A wall of conduits is the hero. Tangled, physical infrastructure is a powerful image of what integration work actually untangles.</p></div>
+  <div class="ref"><figure><img src="refs/focus-spec.jpg" alt="Focus Industries: grey spec sheet with huge grotesk" loading="lazy"></figure><span class="tag">Focus Industries · physical AI · Honorable Mention</span><h4>The spec sheet as layout</h4><p>Product pages styled as technical spec sheets: dates, sizes, weights in a table under huge type. Document conventions become the design.</p></div>
+  <div class="ref"><figure><img src="refs/grids.jpg" alt="Grids by Obys: black and white grid, index of chapters" loading="lazy"></figure><span class="tag">Grids · Obys · SOTD 2 Nov</span><h4>A grid you can feel</h4><p>Composition lesson: a visible structural grid, strict index, black-and-white blocks. Calm because every edge lines up.</p></div>
+  <div class="ref"><figure><img src="refs/deepbook-iso.jpg" alt="DeepBook: blue panel and isometric block illustration" loading="lazy"></figure><span class="tag">DeepBook · trading infrastructure · SOTD 3 Nov</span><h4>Primitives as isometric blocks</h4><p>“Three primitives, one composable stack”, shown as objects that click together. Good model for modular services.</p></div>
+  <div class="ref"><figure><img src="refs/descycle.jpg" alt="DEScycle: copper coil form in deep blue" loading="lazy"></figure><span class="tag">DEScycle · metals processing</span><h4>Material as identity</h4><p>A copper coil rendered like a sea creature. Shows how far a material metaphor can go; relevant to the “Assay” direction.</p></div>
+  <div class="ref"><figure><img src="refs/ecto.jpg" alt="Ecto: product workflow UI cards on purple" loading="lazy"></figure><span class="tag">Ecto · farm data and work management</span><h4>Workflow shown as working UI</h4><p>Processes, alerts and forms appear as live UI pieces. Plain but effective proof for operations buyers.</p></div>
+  <div class="ref"><figure><img src="refs/ordix.jpg" alt="Ordix: 1960s illustrated businessman pointing at bold headline" loading="lazy"></figure><span class="tag">Ordix · logistics optimization</span><h4>A character and an era</h4><p>Logistics sold with mid-century illustration and humour. Proof that a B2B operations service can have a personality.</p></div>
+  <div class="ref"><figure><img src="refs/jeppesen.jpg" alt="Jeppesen: dark section with client logos and testimonial" loading="lazy"></figure><span class="tag">Jeppesen · studio, strategy to code</span><h4>Quiet proof</h4><p>A small studio leans on client names and one testimonial at a time. The proof section we will need once David supplies real material.</p></div>
+</div>
+<p class="small muted">Also opened: Cyera AI Guardian (SOTD 11 Nov), which stays on a long loading screen before a game; noted as the pattern to avoid for a services firm.</p>
+
+<h3>Patterns across the set</h3>
+<div class="tbl"><table>
+<thead><tr><th>Pattern</th><th>Seen in</th><th>What it means for us</th></tr></thead>
+<tbody>
+<tr><td>The buyer's own world as the art</td><td>Heron, Motive, Mecha, Loop</td><td>Draw CRMs, ERPs, spreadsheets and the wiring between them. Not spheres or particles.</td></tr>
+<tr><td>Document conventions as layout</td><td>Heron, Focus, Grids</td><td>Title blocks, revision tables, sheet numbers, spec rows give structure that is true to engineering work.</td></tr>
+<tr><td>Build or reveal on scroll</td><td>Heron, Motive</td><td>One scrubbed sequence that changes the drawing, fully reversible, is worth more than many entrance effects.</td></tr>
+<tr><td>One accent, one meaning</td><td>Heron, Grids, DeepBook</td><td>Pick a colour that only ever means one thing (a problem, or our work).</td></tr>
+<tr><td>Loaders and cookie walls</td><td>Apekon, Cyera, Heron</td><td>Common and costly. We have no trackers, so no cookie wall, and the headline should be readable in the first frame.</td></tr>
+<tr><td>Modular objects for services</td><td>DeepBook, Mecha</td><td>Five practice areas can be five parts that fit one assembly.</td></tr>
+</tbody></table></div>
+
+<!-- ============ 4 DIRECTIONS ============ -->
+<h2 id="directions"><span class="sec-no">4</span>Three original directions</h2>
+<p>Each direction starts from something true about systems integration work. The sketches are compositions at real proportions (desktop 1440 × 900 and phone 390 × 844) to judge layout, type and colour, not finished art. Headlines are working copy for review.</p>
+
+<!-- Direction 1 -->
+<section class="dir recd" aria-labelledby="d1">
+<header><h3 id="d1">1 · As-Built</h3><span class="badge on">Chosen by David · revised 23 Nov</span><span class="badge">Etched 3D renders · SVG · GSAP</span></header>
+<p><b>Idea.</b> Engineers call the drawing of a system as it actually exists “as-built”. Every mid-market company has one in its head: the CRM that doesn't talk to the ERP, the nightly CSV, the Access database one person understands. The site draws that, marks the problems, then redrafts it in revisions until it is one connected operation. Architecture comes first, visibly: we draw the plan, then build to it.</p>
+<p><b>Revision 3 (23 Nov): pencil-etched drawings.</b> David found the flat box drawings too simple. Every drawing below is now a real 3D model (one office-and-warehouse operation, plus four still lifes) rendered as a pencil etching: contour lines, hatching that follows each surface, cross-hatching in shadow, paper grain. Coral marks the hand-made connections in the as-built state; verdigris is the single integration layer in the redraft. The renderer is in <code>docs/gate-1/etch/</code>, so the build can produce more drawings in the same hand, and the hero can later run live in WebGL.</p>
+<p><b>Revision 2 (after David's review).</b> Closer to Heron's composition and drawing language, and back on AI Alchemy's own palette: parchment and kraft paper, soft coral, sand and verdigris. Below are the hero, the problem section and the redraft, at desktop and phone size.</p>
+
+<div class="frames">
+  <div class="frame">
+  <svg viewBox="0 0 1440 900" role="img" aria-label="As-Built revision 2 desktop hero: parchment sheet framed by hairlines with crosshair marks, nav in cells, a line drawing of business systems with a coral scan line, a huge uppercase headline at the bottom left and a small column of copy at right, with a services ticker">
+    <rect width="1440" height="900" fill="#F2EDE3"/>
+    <g id="h-grid"></g>
+    <g fill="none" stroke="#1C2026" stroke-width=".9"><rect x="16" y="16" width="1408" height="868"/><path d="M16 64H1424M736 16V64M896 16V64M1036 16V64M1156 16V64M1236 16V64M16 600H1424M1040 600V830M16 830H1424M1040 740H1424M1040 790H1424"/></g>
+    <g font-family="Archivo,sans-serif" fill="#1C2026"><text x="40" y="47" font-weight="700" font-size="17" style="font-stretch:110%">AI ALCHEMY</text></g>
+    <g font-family="IBM Plex Mono,monospace" font-size="12" fill="#1C2026"><text x="752" y="45">CLIENT SOLUTIONS</text><text x="912" y="45">INDUSTRIES</text><text x="1052" y="45">HOW WE WORK</text><text x="1172" y="45">ABOUT</text></g>
+    <rect x="1236" y="16" width="188" height="48" fill="#1F6B5C"/><text x="1330" y="45" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#F2EDE3">PLAN YOUR MODERNIZATION</text>
+    <image href="refs/etch-hero-asbuilt.jpg" x="16" y="64" width="1408" height="536" preserveAspectRatio="xMidYMid slice"/><g id="h-dia" display="none"></g>
+    <!-- scan line -->
+    <path d="M16 330H1424" stroke="#E39A72" stroke-width="1.4"/>
+    <rect x="28" y="318" width="74" height="24" fill="#E39A72"/><text x="65" y="334" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#1C2026">REV A</text>
+    <text x="1408" y="320" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#9A4424">SURVEY 64%</text>
+    <!-- spec list, Heron-like -->
+    <g font-family="IBM Plex Mono,monospace" font-size="11" fill="#5B5F63" style="white-space:pre"><text x="1120" y="120">SHEET     A-01 · AS BUILT</text><text x="1120" y="140">SUBJECT   YOUR OPERATION, TODAY</text><text x="1120" y="160">SYSTEMS   7 · LINKED BY HAND 3</text><text x="1120" y="180">SCALE     NOT TO SCALE</text><text x="1120" y="200">NOTE      ILLUSTRATION ONLY</text></g>
+    <!-- headline -->
+    <g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="76" letter-spacing="-2" style="font-stretch:88%"><text x="36" y="694">GIVE YOUR BUSINESS</text><text x="36" y="784">THE TOOLS TO STAY AHEAD.</text></g>
+    <g font-family="IBM Plex Sans,sans-serif" font-size="15.5" fill="#2C3036"><text x="1060" y="636">We modernize systems, connect your</text><text x="1060" y="658">software, and put AI to work—so your</text><text x="1060" y="680">people spend less time on manual tasks and</text><text x="1060" y="702">more on what matters.</text></g>
+    <text x="1060" y="771" font-family="IBM Plex Mono,monospace" font-size="13" fill="#1F6B5C">PLAN YOUR MODERNIZATION  →</text>
+    <text x="1060" y="817" font-family="IBM Plex Mono,monospace" font-size="12" fill="#5B5F63">Based in the Greater Toronto Area</text>
+    <g font-family="IBM Plex Mono,monospace" font-size="12.5" fill="#1C2026"><text x="40" y="862">◇ SYSTEMS INTEGRATION</text><text x="310" y="862">◇ WORKFLOW AUTOMATION</text><text x="580" y="862">◇ DATA &amp; REPORTING</text><text x="820" y="862">◇ SYSTEMS MODERNIZATION</text><text x="1110" y="862">◇ GENERATIVE AI ENABLEMENT</text></g>
+  </svg>
+  </div>
+  <div class="frame phone">
+  <svg viewBox="0 0 390 844" role="img" aria-label="As-Built revision 2 phone hero: nav cells, line drawing with scan line, big uppercase headline, copy, link and services ticker">
+    <rect width="390" height="844" fill="#F2EDE3"/>
+    <g fill="none" stroke="#1C2026" stroke-width=".9"><rect x="8" y="8" width="374" height="828"/><path d="M8 58H382M210 8V58M8 420H382M8 790H382"/></g>
+    <text x="24" y="40" font-family="Archivo,sans-serif" font-weight="700" font-size="15" fill="#1C2026" style="font-stretch:110%">AI ALCHEMY</text>
+    <text x="226" y="39" font-family="IBM Plex Mono,monospace" font-size="12" fill="#1C2026">MENU</text><path d="M342 30h22M342 36h22M342 42h22" stroke="#1C2026"/>
+    <clipPath id="mclip"><rect x="8" y="58" width="374" height="362"/></clipPath><image href="refs/etch-hero-phone.jpg" x="8" y="58" width="374" height="362" preserveAspectRatio="xMidYMid slice" clip-path="url(#mclip)"/><g id="m-dia" display="none"></g>
+    <path d="M8 250H382" stroke="#E39A72" stroke-width="1.3"/><rect x="16" y="240" width="56" height="20" fill="#E39A72"/><text x="44" y="254" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10.5" fill="#1C2026">REV A</text>
+    <g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="40" letter-spacing="-1" style="font-stretch:88%"><text x="20" y="470">GIVE YOUR</text><text x="20" y="510">BUSINESS THE</text><text x="20" y="550">TOOLS TO STAY</text><text x="20" y="590">AHEAD.</text></g>
+    <g font-family="IBM Plex Sans,sans-serif" font-size="14.5" fill="#2C3036"><text x="22" y="622">We modernize systems, connect your</text><text x="22" y="642">software, and put AI to work—so your</text><text x="22" y="662">people spend less time on manual tasks</text><text x="22" y="682">and more on what matters.</text></g>
+    <path d="M8 710H382M8 754H382" stroke="#1C2026" stroke-width=".9"/>
+    <text x="22" y="737" font-family="IBM Plex Mono,monospace" font-size="13" fill="#1F6B5C">PLAN YOUR MODERNIZATION</text><text x="362" y="737" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="13" fill="#1F6B5C">→</text>
+    <text x="22" y="776" font-family="IBM Plex Mono,monospace" font-size="11" fill="#5B5F63">Based in the Greater Toronto Area</text>
+    <g font-family="IBM Plex Mono,monospace" font-size="12" fill="#1C2026"><text x="22" y="818" style="white-space:pre">◇ INTEGRATION  ◇ AUTOMATION  ◇ DATA  ◇ AI</text></g>
+  </svg>
+  </div>
+</div>
+
+<div class="frames">
+  <div class="frame">
+  <svg viewBox="0 0 1440 900" role="img" aria-label="As-Built problem section: What's holding your business back? Five columns, each with a pencil-etched drawing, a coral number, a heading and supporting copy"><rect width="1440" height="900" fill="#F2EDE3"/><defs><radialGradient id="vfade"><stop offset=".62" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient><mask id="vmask" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="url(#vfade)"/></mask></defs><g fill="none" stroke="#1C2026" stroke-width=".9"><rect x="16" y="16" width="1408" height="868"/><path d="M16 250H1424M297.6 250V884M579.2 250V884M860.8 250V884M1142.4 250V884M16 590H1424"/></g><text x="40" y="60" font-family="IBM Plex Mono,monospace" font-size="12" fill="#5B5F63">SHEET A-02 · THE PROBLEM</text><g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="64" letter-spacing="-1" style="font-stretch:88%"><text x="36" y="150">WHAT'S HOLDING YOUR</text><text x="36" y="216">BUSINESS BACK?</text></g><image href="refs/etch-r1.jpg" x="36.8" y="290" width="240" height="240" mask="url(#vmask)"/><text x="36.0" y="280" font-family="IBM Plex Mono,monospace" font-size="12" fill="#9A4424">P1</text><text x="277.6" y="280" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="12" fill="#8C9196">[01]</text><g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="28" style="font-stretch:88%"><text x="36.0" y="636">DISCONNECTED</text><text x="36.0" y="666">SYSTEMS</text></g><g font-family="IBM Plex Sans,sans-serif" font-size="14" fill="#2C3036"><text x="36.0" y="740">Your software works separately,</text><text x="36.0" y="760">leaving your people to move</text><text x="36.0" y="780">information between tools and</text><text x="36.0" y="800">departments.</text></g><image href="refs/etch-r4.jpg" x="318.40000000000003" y="290" width="240" height="240" mask="url(#vmask)"/><text x="317.6" y="280" font-family="IBM Plex Mono,monospace" font-size="12" fill="#9A4424">P2</text><text x="559.2" y="280" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="12" fill="#8C9196">[02]</text><g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="28" style="font-stretch:88%"><text x="317.6" y="636">TIME LOST TO</text><text x="317.6" y="666">MANUAL WORK</text></g><g font-family="IBM Plex Sans,sans-serif" font-size="14" fill="#2C3036"><text x="317.6" y="740">Repetitive tasks, duplicate data</text><text x="317.6" y="760">entry, and workarounds take time</text><text x="317.6" y="780">away from customers and business</text><text x="317.6" y="800">priorities.</text></g><image href="refs/etch-r2.jpg" x="600.0" y="290" width="240" height="240" mask="url(#vmask)"/><text x="599.2" y="280" font-family="IBM Plex Mono,monospace" font-size="12" fill="#9A4424">P3</text><text x="840.8000000000001" y="280" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="12" fill="#8C9196">[03]</text><g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="28" style="font-stretch:88%"><text x="599.2" y="636">AN INCOMPLETE</text><text x="599.2" y="666">BUSINESS PICTURE</text></g><g font-family="IBM Plex Sans,sans-serif" font-size="14" fill="#2C3036"><text x="599.2" y="740">Scattered information and</text><text x="599.2" y="760">inconsistent reports make it</text><text x="599.2" y="780">harder to see performance, spot</text><text x="599.2" y="800">problems, and make confident</text><text x="599.2" y="820">decisions.</text></g><image href="refs/etch-r3.jpg" x="881.5999999999999" y="290" width="240" height="240" mask="url(#vmask)"/><text x="880.8" y="280" font-family="IBM Plex Mono,monospace" font-size="12" fill="#9A4424">P4</text><text x="1122.4" y="280" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="12" fill="#8C9196">[04]</text><g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="28" style="font-stretch:88%"><text x="880.8" y="636">OUTDATED</text><text x="880.8" y="666">TECHNOLOGY</text></g><g font-family="IBM Plex Sans,sans-serif" font-size="14" fill="#2C3036"><text x="880.8" y="740">Systems that once served you well</text><text x="880.8" y="760">now struggle to support how your</text><text x="880.8" y="780">business needs to operate.</text></g><image href="refs/etch-r5.jpg" x="1163.2" y="290" width="240" height="240" mask="url(#vmask)"/><text x="1162.4" y="280" font-family="IBM Plex Mono,monospace" font-size="12" fill="#9A4424">P5</text><text x="1404.0" y="280" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="12" fill="#8C9196">[05]</text><g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="28" style="font-stretch:88%"><text x="1162.4" y="636">READY FOR AI.</text><text x="1162.4" y="666">UNSURE WHERE</text><text x="1162.4" y="696">TO START.</text></g><g font-family="IBM Plex Sans,sans-serif" font-size="14" fill="#2C3036"><text x="1162.4" y="740">You see the potential but need a</text><text x="1162.4" y="760">clear path from experimenting</text><text x="1162.4" y="780">with AI to using it effectively</text><text x="1162.4" y="800">in everyday work.</text></g><g id="p-icons" display="none"></g><text x="40" y="868" font-family="IBM Plex Mono,monospace" font-size="11" fill="#8C9196">Illustrative drawings of common problems, not a client project.</text></svg>
+  </div>
+  <div>
+    <h4>Tokens, revision 2</h4>
+    <div class="swatches">
+      <span class="sw"><i style="background:#F2EDE3"></i>Parchment #F2EDE3</span>
+      <span class="sw"><i style="background:#DED0B6"></i>Kraft #DED0B6</span>
+      <span class="sw"><i style="background:#1C2026"></i>Ink #1C2026</span>
+      <span class="sw"><i style="background:#E39A72"></i>Coral, redline #E39A72</span>
+      <span class="sw"><i style="background:#1F6B5C"></i>Verdigris, our work #1F6B5C</span>
+      <span class="sw"><i style="background:#CFE0D6"></i>Verdigris tint #CFE0D6</span>
+      <span class="sw"><i style="background:#E2B04A"></i>Sand, approval #E2B04A</span>
+      <span class="sw"><i style="background:#8C9196"></i>Pencil #8C9196</span>
+    </div>
+    <div class="typespec">
+      <div><span class="k">Display</span><span style="font-family:Archivo;font-weight:720;font-stretch:88%;font-size:28px;line-height:1">ARCHIVO SEMI-CONDENSED</span></div>
+      <div><span class="k">Text</span><span style="font-family:'IBM Plex Sans'">IBM Plex Sans 16/24</span></div>
+      <div><span class="k">Metadata</span><span style="font-family:'IBM Plex Mono';font-size:14px">IBM PLEX MONO 11–13</span></div>
+    </div>
+    <p class="small muted">All from the current site's palette. Coral marks a problem and only that; verdigris marks our work; sand marks your approval. Coral and sand are line and fill colours; their deeper shades (#9A4424, #9A6F12) carry any text so it passes contrast.</p>
+  </div>
+</div>
+
+<div class="frames">
+  <div class="frame">
+  <svg viewBox="0 0 1440 900" role="img" aria-label="As-Built revision 2 redraft: the same systems redrawn around one verdigris integration layer, struck redlines, a revision table and a sand approval stamp">
+    <rect width="1440" height="900" fill="#F2EDE3"/>
+    <g fill="none" stroke="#1C2026" stroke-width=".9"><rect x="16" y="16" width="1408" height="868"/><path d="M16 220H1424M16 720H1424M720 720V884"/></g>
+    <text x="40" y="60" font-family="IBM Plex Mono,monospace" font-size="12" fill="#5B5F63">SHEET A-03 · THE REDRAFT</text>
+    <g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="72" letter-spacing="-1" style="font-stretch:88%"><text x="36" y="170">REV D. ONE OPERATION.</text></g>
+    <g font-family="IBM Plex Sans,sans-serif" font-size="15.5" fill="#2C3036"><text x="1060" y="130">Every system keeps its job. Data moves</text><text x="1060" y="152">once, in one direction, with your</text><text x="1060" y="174">approval at the gates.</text></g>
+    <image href="refs/etch-hero-redraft.jpg" x="16" y="221" width="1408" height="498" preserveAspectRatio="xMidYMid slice"/><g id="r-dia" display="none"></g>
+    <g stroke="#1C2026" fill="none" stroke-width=".9"><path d="M16 750H720M16 780H720M16 810H720M16 840H720M60 720V884M420 720V884"/></g>
+    <g font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#1C2026"><text x="28" y="740">REV</text><text x="72" y="740">CHANGE</text><text x="432" y="740">SIGNED BY</text><text x="32" y="770">A</text><text x="72" y="770">Discover: drawn as it runs today</text><text x="432" y="770">Both teams</text><text x="32" y="800">B</text><text x="72" y="800">Architect: the plan and its trade-offs</text><text x="432" y="800" fill="#9A6F12">You approve</text><text x="32" y="830">C</text><text x="72" y="830">Build: in stages, beside what works</text><text x="432" y="830">AI Alchemy</text><text x="32" y="860">D</text><text x="72" y="860">Validate: tested on real scenarios</text><text x="432" y="860" fill="#9A6F12">You approve</text></g>
+    <g transform="translate(1070 800) rotate(-6)"><rect x="-150" y="-44" width="300" height="88" fill="#E2B04A" fill-opacity=".22" stroke="#E2B04A" stroke-width="3"/><text x="0" y="-6" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="800" font-size="26" fill="#9A6F12" style="font-stretch:88%">APPROVED</text><text x="0" y="22" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12" fill="#9A6F12">BY YOUR TEAM, BEFORE GO-LIVE</text></g>
+  </svg>
+  </div>
+  <div>
+    <h4>Heron moves we now adopt</h4>
+    <ul class="small" style="padding-left:1.1em">
+      <li>Page-wide hairline frame and grid with crosshair marks; content sits in cells.</li>
+      <li>Nav as a row of cells; the action lives in the last cell.</li>
+      <li>The drawing is the hero; the headline is huge, uppercase, along the bottom; a short copy column sits to its right.</li>
+      <li>A coloured scan line crosses the drawing on load, with a revision tag in place of a percentage.</li>
+      <li>Mono spec list beside the drawing, and a services ticker along the foot of the hero.</li>
+      <li>Problems as four columns of isometric line drawings.</li>
+      <li>Single-phrase pauses between sections; product views drawn as wireframes on the sheet.</li>
+      <li>Footer ends on the wordmark drawn in construction lines.</li>
+    </ul>
+    <h4 style="margin-top:14px">What stays ours</h4>
+    <ul class="small" style="padding-left:1.1em">
+      <li>Our palette, not Heron's red.</li>
+      <li>Software systems and revisions, not buildings.</li>
+      <li>The headline is readable in the first frame, with no blocking loader.</li>
+    </ul>
+  </div>
+</div>
+<div class="frames"><div class="frame"><svg viewBox="0 0 1440 1000" role="img" aria-label="As-Built capabilities sheet: Better tools. Stronger capabilities. One continuous pencil-etched mechanism in five stages, Modernize, Connect, Automate, Understand and Enable AI, all lit by a copper pulse, with each stage message and service beneath, and Products and Innovation marked Coming soon"><rect width="1440" height="1000" fill="#F2EDE3"/><g fill="none" stroke="#1C2026" stroke-width=".9"><rect x="16" y="16" width="1408" height="968"/><path d="M16 236H1424M16 600H1424M16 812H1424M297.6 600V812M579.2 600V812M860.8 600V812M1142.4 600V812"/></g><text x="40" y="60" font-family="IBM Plex Mono,monospace" font-size="12" fill="#5B5F63">SHEET A-04 · CAPABILITIES · CHAIN REACTION</text><text x="1400" y="60" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="12" fill="#8A4E26">PULSE · STAGE 05 OF 05 · ALL ACTIVE</text><g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="64" letter-spacing="-1" style="font-stretch:88%"><text x="36" y="150">BETTER TOOLS.</text><text x="36" y="216">STRONGER CAPABILITIES.</text></g><image href="refs/etch-chain-final.jpg" x="16" y="237" width="1408" height="352"/><path d="M241.3 462V584H36.0V600" fill="none" stroke="#B5703F" stroke-width="1" stroke-dasharray="3 3"/><circle cx="241.3" cy="462" r="4.5" fill="#F2EDE3" stroke="#B5703F" stroke-width="1.5"/><text x="36.0" y="628" font-family="IBM Plex Mono,monospace" font-size="12" fill="#8A4E26">01 · MODERNIZE</text><g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="23" style="font-stretch:88%"><text x="36.0" y="662">BUILD A STRONGER</text><text x="36.0" y="688">FOUNDATION.</text></g><text x="36.0" y="738" font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#1F6B5C">SYSTEMS MODERNIZATION</text><g font-family="IBM Plex Sans,sans-serif" font-size="13.5" fill="#2C3036"><text x="36.0" y="760">Upgrade legacy technology and build</text><text x="36.0" y="778">software around how your people</text><text x="36.0" y="796">work.</text></g><path d="M480.6 481V584H317.6V600" fill="none" stroke="#B5703F" stroke-width="1" stroke-dasharray="3 3"/><circle cx="480.6" cy="481" r="4.5" fill="#F2EDE3" stroke="#B5703F" stroke-width="1.5"/><text x="317.6" y="628" font-family="IBM Plex Mono,monospace" font-size="12" fill="#8A4E26">02 · CONNECT</text><g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="23" style="font-stretch:88%"><text x="317.6" y="662">GET YOUR SYSTEMS</text><text x="317.6" y="688">WORKING TOGETHER.</text></g><text x="317.6" y="738" font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#1F6B5C">SYSTEMS INTEGRATION</text><g font-family="IBM Plex Sans,sans-serif" font-size="13.5" fill="#2C3036"><text x="317.6" y="760">Connect your applications so</text><text x="317.6" y="778">information flows across your</text><text x="317.6" y="796">business.</text></g><path d="M713.0 499V584H599.2V600" fill="none" stroke="#B5703F" stroke-width="1" stroke-dasharray="3 3"/><circle cx="713.0" cy="499" r="4.5" fill="#F2EDE3" stroke="#B5703F" stroke-width="1.5"/><text x="599.2" y="628" font-family="IBM Plex Mono,monospace" font-size="12" fill="#8A4E26">03 · AUTOMATE</text><g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="23" style="font-stretch:88%"><text x="599.2" y="662">SPEND LESS TIME ON</text><text x="599.2" y="688">MANUAL WORK.</text></g><text x="599.2" y="738" font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#1F6B5C">WORKFLOW AUTOMATION</text><g font-family="IBM Plex Sans,sans-serif" font-size="13.5" fill="#2C3036"><text x="599.2" y="760">Reduce repetitive tasks and simplify</text><text x="599.2" y="778">handoffs between teams.</text></g><path d="M938.2 517V584H880.8V600" fill="none" stroke="#B5703F" stroke-width="1" stroke-dasharray="3 3"/><circle cx="938.2" cy="517" r="4.5" fill="#F2EDE3" stroke="#B5703F" stroke-width="1.5"/><text x="880.8" y="628" font-family="IBM Plex Mono,monospace" font-size="12" fill="#8A4E26">04 · UNDERSTAND</text><g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="23" style="font-stretch:88%"><text x="880.8" y="662">SEE CLEARLY. MAKE</text><text x="880.8" y="688">INFORMED</text><text x="880.8" y="714">DECISIONS.</text></g><text x="880.8" y="738" font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#1F6B5C">DATA &AMP; REPORTING</text><g font-family="IBM Plex Sans,sans-serif" font-size="13.5" fill="#2C3036"><text x="880.8" y="760">Bring your information together for</text><text x="880.8" y="778">a clearer view of your business.</text></g><path d="M1177.6 536V584H1162.4V600" fill="none" stroke="#B5703F" stroke-width="1" stroke-dasharray="3 3"/><circle cx="1177.6" cy="536" r="4.5" fill="#F2EDE3" stroke="#B5703F" stroke-width="1.5"/><text x="1162.4" y="628" font-family="IBM Plex Mono,monospace" font-size="12" fill="#8A4E26">05 · ENABLE AI</text><g font-family="Archivo,sans-serif" font-weight="720" fill="#1C2026" font-size="23" style="font-stretch:88%"><text x="1162.4" y="662">PUT BUSINESS</text><text x="1162.4" y="688">KNOWLEDGE TO WORK.</text></g><text x="1162.4" y="738" font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#1F6B5C">GENERATIVE AI ENABLEMENT</text><g font-family="IBM Plex Sans,sans-serif" font-size="13.5" fill="#2C3036"><text x="1162.4" y="760">Identify practical uses, connect AI</text><text x="1162.4" y="778">to business knowledge, and equip</text><text x="1162.4" y="796">your team to use it confidently.</text></g><text x="40" y="852" font-family="IBM Plex Mono,monospace" font-size="12" fill="#5B5F63">PRODUCTS &amp; INNOVATION</text><text x="40" y="900" font-family="Archivo,sans-serif" font-weight="720" font-size="34" fill="#1C2026" style="font-stretch:88%">OUR OWN PRODUCTS ARE TAKING SHAPE.</text><text x="40" y="938" font-family="IBM Plex Sans,sans-serif" font-size="16" fill="#2C3036">More to share soon.</text><g transform="translate(1180 900) rotate(-5)"><rect x="-120" y="-36" width="240" height="72" fill="#E2B04A" fill-opacity=".22" stroke="#E2B04A" stroke-width="3" stroke-dasharray="10 5"/><text x="0" y="10" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="800" font-size="28" fill="#9A6F12" style="font-stretch:88%">COMING SOON.</text></g></svg></div><div><h4>Sheet A-04 · Chain reaction</h4><p class="small">Your five capabilities as one continuous mechanism. A copper pulse runs along the conduit and switches on each stage in turn: the old machine starts turning, connections reach out to the systems, the conveyor and arm take over the handoffs, the board fills with charts, and finally an employee asks the assistant at their desk. Earlier stages stay lit, so the last frame is a whole business working together.</p><p class="small">Each stage shows its message and the matching service beside it, and each links to that service page, so a client can still start with the one they need.</p><div class="swatches"><span class="sw"><i style="background:#B5703F"></i>Copper, the pulse #B5703F</span><span class="sw"><i style="background:#8A4E26"></i>Copper text #8A4E26</span></div><p class="small muted">Copper is new for this sheet: verdigris is copper's patina, so the pulse and our verdigris work read as one material. Coral stays reserved for problems.</p></div></div>
+<h4 style="margin-top:22px">Chain reaction, stage by stage (scroll-scrubbed, pinned on desktop)</h4>
+<div class="chain" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:10px"><figure style="margin:0;border:1px solid #1C2026;background:#F2EDE3"><img src="refs/etch-chain-1.jpg" alt="Stage 1, Modernize: An outdated mechanism transforms and starts moving." style="display:block;width:100%;height:auto;border-bottom:1px solid #1C2026"><figcaption style="padding:10px 12px;font-size:13px;line-height:1.45"><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8A4E26">01 · MODERNIZE</span><br><b>Build a stronger foundation.</b><br><span style="color:#5B5F63">An outdated mechanism transforms and starts moving.</span><br><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1F6B5C">SYSTEMS MODERNIZATION</span></figcaption></figure><figure style="margin:0;border:1px solid #1C2026;background:#F2EDE3"><img src="refs/etch-chain-2.jpg" alt="Stage 2, Connect: Connections extend outward, carrying information between systems." style="display:block;width:100%;height:auto;border-bottom:1px solid #1C2026"><figcaption style="padding:10px 12px;font-size:13px;line-height:1.45"><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8A4E26">02 · CONNECT</span><br><b>Get your systems working together.</b><br><span style="color:#5B5F63">Connections extend outward, carrying information between systems.</span><br><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1F6B5C">SYSTEMS INTEGRATION</span></figcaption></figure><figure style="margin:0;border:1px solid #1C2026;background:#F2EDE3"><img src="refs/etch-chain-3.jpg" alt="Stage 3, Automate: That information triggers tasks and handoffs." style="display:block;width:100%;height:auto;border-bottom:1px solid #1C2026"><figcaption style="padding:10px 12px;font-size:13px;line-height:1.45"><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8A4E26">03 · AUTOMATE</span><br><b>Spend less time on manual work.</b><br><span style="color:#5B5F63">That information triggers tasks and handoffs.</span><br><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1F6B5C">WORKFLOW AUTOMATION</span></figcaption></figure><figure style="margin:0;border:1px solid #1C2026;background:#F2EDE3"><img src="refs/etch-chain-4.jpg" alt="Stage 4, Understand: Activity resolves into clear charts and business insights." style="display:block;width:100%;height:auto;border-bottom:1px solid #1C2026"><figcaption style="padding:10px 12px;font-size:13px;line-height:1.45"><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8A4E26">04 · UNDERSTAND</span><br><b>See clearly. Make informed decisions.</b><br><span style="color:#5B5F63">Activity resolves into clear charts and business insights.</span><br><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1F6B5C">DATA &AMP; REPORTING</span></figcaption></figure><figure style="margin:0;border:1px solid #1C2026;background:#F2EDE3"><img src="refs/etch-chain-5.jpg" alt="Stage 5, Enable AI: An employee uses the connected information through an AI assistant." style="display:block;width:100%;height:auto;border-bottom:1px solid #1C2026"><figcaption style="padding:10px 12px;font-size:13px;line-height:1.45"><span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#8A4E26">05 · ENABLE AI</span><br><b>Put business knowledge to work.</b><br><span style="color:#5B5F63">An employee uses the connected information through an AI assistant.</span><br><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1F6B5C">GENERATIVE AI ENABLEMENT</span></figcaption></figure></div>
+<div class="cols3" style="margin-top:14px"><div><h4>The pulse</h4><p class="small">Desktop: the sheet pins and the drawing pans left as you scroll, about one screen per stage. The copper pulse runs along the conduit ahead of the camera; when it reaches a stage, that stage's lamp lights, its copper parts fill in, and its message and service write in beside it. Scrolling back runs the pulse backwards and switches stages off in reverse.</p></div><div><h4>Movement at each stage</h4><p class="small">Gears turn and the belt runs; cables extend from the hub to each system; parcels ride the conveyor and the arm sorts them; bars rise and the line draws across the board; the assistant's reply types onto the employee's screen. Every loop is short and stops once the stage is lit, so nothing moves for ever.</p></div><div><h4>Phone and reduced motion</h4><p class="small">Phone: no pinning. The five stage frames stack vertically and each lights as it scrolls into view, with the full mechanism shown at the end. Reduced motion: the finished composition with all five stages lit, then the five stages as a list.</p></div></div>
+<div class="cols3">
+  <div><h4>Signature moment</h4><p>The redraft. One pinned sequence, scrubbed by scroll: the scan line sweeps, tangled connectors straighten onto the verdigris integration layer, coral redlines are struck, the Access database is replaced, and the revision tag steps A, B, C, D. Your approvals stamp in sand at B and D. Scrolling back un-drafts it exactly.</p></div>
+  <div><h4>Motion and 3D</h4><p>Heron-style construction: line work draws on, boxes extrude into isometric depth, labels type on. Single phrases swap between sections. All SVG and GSAP, no WebGL. Reduced motion shows Rev A and Rev D as two still sheets.</p></div>
+  <div><h4>Why it fits</h4><p>It shows what you solve in the buyer's own terms, and it makes “architecture is the foundation of delivery” visible: the plan is drawn and approved before anything is built.</p></div>
+</div>
+<h4 style="margin-top:22px">Mood references</h4>
+<div class="mood">
+  <figure><img src="refs/heron-hero.jpg" alt="Heron hero layout" loading="lazy"><figcaption>Heron: drawing as hero, headline along the foot</figcaption></figure>
+  <figure><img src="refs/heron-problems.jpg" alt="Heron problem columns" loading="lazy"><figcaption>Heron: four isometric columns</figcaption></figure>
+  <figure><img src="refs/heron-plan-build.jpg" alt="Heron plan with dimension lines" loading="lazy"><figcaption>Heron: build on scroll</figcaption></figure>
+  <figure><img src="refs/heron-footer.jpg" alt="Heron footer wordmark" loading="lazy"><figcaption>Heron: wordmark in construction lines</figcaption></figure>
+  <figure><img src="refs/cur-outcomes.jpg" alt="Current site kraft and parchment" loading="lazy"><figcaption>Our site: parchment, kraft, verdigris</figcaption></figure>
+</div>
+</section>
+
+<!-- Direction 2 -->
+<section class="dir" aria-labelledby="d2">
+<header><h3 id="d2">2 · Patch Bay</h3><span class="badge">Interactive</span><span class="badge">SVG + Canvas</span></header>
+<p><b>Idea.</b> Integration is patching: a signal leaves one system and arrives in another. The homepage is a rack panel of jacks labelled with the systems a business runs. Visitors drag a cable from CRM to ERP and watch an order travel through; a status light turns from amber to green. Each service is a different kind of patch. It is tactile and memorable, and it lets a visitor do the work for a second instead of reading about it.</p>
+<div class="frames">
+  <div class="frame">
+  <svg viewBox="0 0 1440 900" role="img" aria-label="Patch Bay desktop hero sketch: headline over a black rack panel with labelled jacks and coloured patch cables on aluminium ground">
+    <defs><linearGradient id="alu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#DADDDF"/><stop offset="1" stop-color="#C6CACD"/></linearGradient></defs>
+    <rect width="1440" height="900" fill="url(#alu)"/>
+    <g font-family="Chivo,sans-serif" fill="#141618"><text x="80" y="88" font-weight="800" font-size="18">AI Alchemy</text><text x="900" y="88" font-size="15">Client Solutions</text><text x="1040" y="88" font-size="15">Industries</text><text x="1140" y="88" font-size="15">About</text></g>
+    <rect x="1230" y="66" width="130" height="34" rx="17" fill="#141618"/><text x="1295" y="88" text-anchor="middle" font-family="Chivo,sans-serif" font-size="14" fill="#fff">Start a brief</text>
+    <g font-family="Chivo,sans-serif" font-weight="800" fill="#141618" font-size="80" letter-spacing="-2"><text x="76" y="220">Connect what works.</text><text x="76" y="306">Rebuild what doesn't.</text></g>
+    <text x="80" y="356" font-family="Chivo,sans-serif" font-size="19" fill="#383C40">Systems integration and modernization for mid-market teams. Try a patch below.</text>
+    <!-- rack -->
+    <rect x="80" y="420" width="1280" height="300" rx="6" fill="#141618"/>
+    <g fill="#2A2E32"><circle cx="104" cy="444" r="6"/><circle cx="1336" cy="444" r="6"/><circle cx="104" cy="696" r="6"/><circle cx="1336" cy="696" r="6"/></g>
+    <g id="jacks"></g>
+    <g id="cables" fill="none" stroke-width="7" stroke-linecap="round"></g>
+    <g font-family="Chivo Mono,monospace" font-size="13" fill="#9EA4A9"><text x="140" y="700">Outputs · where data starts</text><text x="1300" y="700" text-anchor="end">Live · 3 of 5 connected</text></g>
+    <rect x="80" y="760" width="420" height="60" rx="30" fill="#141618"/><text x="290" y="797" text-anchor="middle" font-family="Chivo,sans-serif" font-weight="700" font-size="18" fill="#fff">Plan Your Modernization</text>
+    <text x="530" y="797" font-family="Chivo,sans-serif" font-size="17" fill="#141618">Or drag a cable between two systems</text>
+  </svg>
+  </div>
+  <div class="frame phone">
+  <svg viewBox="0 0 390 844" role="img" aria-label="Patch Bay phone hero sketch: headline, a vertical jack strip, tap two jacks to connect">
+    <rect width="390" height="844" fill="#D3D6D9"/>
+    <text x="24" y="52" font-family="Chivo,sans-serif" font-weight="800" font-size="16" fill="#141618">AI Alchemy</text><text x="366" y="52" text-anchor="end" font-family="Chivo,sans-serif" font-size="14" fill="#141618">Menu</text>
+    <g font-family="Chivo,sans-serif" font-weight="800" fill="#141618" font-size="42" letter-spacing="-1"><text x="22" y="130">Connect what</text><text x="22" y="176">works. Rebuild</text><text x="22" y="222">what doesn't.</text></g>
+    <rect x="22" y="262" width="346" height="440" rx="6" fill="#141618"/>
+    <g font-family="Chivo Mono,monospace" font-size="13" fill="#E5E7E9"><text x="60" y="314">CRM</text><text x="60" y="394">Web store</text><text x="60" y="474">Sheets</text><text x="250" y="314">ERP</text><text x="250" y="394">Accounting</text><text x="250" y="474">Warehouse</text></g>
+    <g fill="#2A2E32" stroke="#4A4F54"><circle cx="160" cy="310" r="13"/><circle cx="160" cy="390" r="13"/><circle cx="160" cy="470" r="13"/><circle cx="230" cy="310" r="13"/><circle cx="230" cy="390" r="13"/><circle cx="230" cy="470" r="13"/></g>
+    <path d="M160 310C190 360 200 360 230 310" stroke="#F07A22" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M160 390C185 440 205 440 230 470" stroke="#2D6CDF" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <g><circle cx="44" cy="310" r="5" fill="#39D07A"/><circle cx="44" cy="390" r="5" fill="#39D07A"/><circle cx="44" cy="470" r="5" fill="#F2C230"/></g>
+    <text x="44" y="560" font-family="Chivo Mono,monospace" font-size="12.5" fill="#9EA4A9">Tap two jacks to connect them</text>
+    <text x="44" y="600" font-family="Chivo,sans-serif" font-size="15" fill="#E5E7E9">Orders now reach the ERP once,</text><text x="44" y="622" font-family="Chivo,sans-serif" font-size="15" fill="#E5E7E9">with no re-keying.</text>
+    <rect x="22" y="734" width="346" height="56" rx="28" fill="#141618"/><text x="195" y="768" text-anchor="middle" font-family="Chivo,sans-serif" font-weight="700" font-size="16" fill="#fff">Plan Your Modernization</text>
+  </svg>
+  </div>
+</div>
+<div class="swatches">
+  <span class="sw"><i style="background:#D3D6D9"></i>Aluminium #D3D6D9</span>
+  <span class="sw"><i style="background:#141618"></i>Rack #141618</span>
+  <span class="sw"><i style="background:#F07A22"></i>Sales cable #F07A22</span>
+  <span class="sw"><i style="background:#2D6CDF"></i>Operations cable #2D6CDF</span>
+  <span class="sw"><i style="background:#F2C230"></i>Finance cable #F2C230</span>
+  <span class="sw"><i style="background:#39D07A"></i>Live LED #39D07A</span>
+</div>
+<div class="typespec"><div><span class="k">Display</span><span style="font-family:Chivo;font-weight:800;font-size:26px">Chivo ExtraBold</span></div><div><span class="k">Labels</span><span style="font-family:'Chivo Mono'">Chivo Mono, like engraved panel legends</span></div></div>
+<div class="cols3">
+  <div><h4>Signature moment</h4><p>The first patch. A cable follows the pointer or finger with real slack (a short rope simulation), clicks into the jack, and a small order card travels the cable into the ERP. Keyboard users pick two jacks from a list; screen readers hear “CRM connected to ERP”.</p></div>
+  <div><h4>Motion and 3D</h4><p>Physics on cables only, Canvas 2D or SVG. Services scroll by as panels in a rack, each with its own patch. Light 2.5D depth on the rack; no WebGL needed. Reduced motion shows the patched state, no simulation.</p></div>
+  <div><h4>Trade-offs</h4><p>The most ownable and the most fun, and the furthest from Heron. Risk: playful can read as less serious to a CFO, and the interaction must stay optional so the message never depends on it.</p></div>
+</div>
+<h4 style="margin-top:22px">Mood references</h4>
+<div class="mood">
+  <figure><img src="refs/loop.jpg" alt="Loop cabling" loading="lazy"><figcaption>Loop: physical cabling</figcaption></figure>
+  <figure><img src="refs/stric.jpg" alt="Stric lines" loading="lazy"><figcaption>Stric: one API as lines</figcaption></figure>
+  <figure><img src="refs/ecto.jpg" alt="Ecto UI" loading="lazy"><figcaption>Ecto: workflow as UI</figcaption></figure>
+  <figure><img src="refs/deepbook-iso.jpg" alt="DeepBook blocks" loading="lazy"><figcaption>DeepBook: parts that click</figcaption></figure>
+  <figure><img src="refs/ordix.jpg" alt="Ordix illustration" loading="lazy"><figcaption>Ordix: personality in B2B</figcaption></figure>
+</div>
+</section>
+
+<!-- Direction 3 -->
+<section class="dir" aria-labelledby="d3">
+<header><h3 id="d3">3 · Assay</h3><span class="badge">WebGL</span><span class="badge">Evolves the Orrery and Transmutation work</span></header>
+<p><b>Idea.</b> The name, taken seriously. Alchemists failed to make gold; assayers succeeded at something more useful, testing metal and certifying it with hallmarks. Legacy systems arrive as rough, mismatched ingots. Scroll heats them, they run together, and are recast as one bar stamped with four hallmarks: Discovered, Architected, Built, Validated. Hallmarks give the site a typographic system with real history (maker's mark, standard mark, office mark, date letter).</p>
+<div class="frames">
+  <div class="frame">
+  <svg viewBox="0 0 1440 900" role="img" aria-label="Assay desktop hero sketch: stencil headline on crucible black, mismatched ingots labelled with legacy systems glowing at their edges, a row of hallmark stamps">
+    <defs><radialGradient id="heat" cx=".5" cy=".6" r=".6"><stop offset="0" stop-color="#FF6A1A" stop-opacity=".55"/><stop offset="1" stop-color="#121010" stop-opacity="0"/></radialGradient>
+    <linearGradient id="ing" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8E8A84"/><stop offset=".55" stop-color="#4A4642"/><stop offset="1" stop-color="#2A2725"/></linearGradient>
+    <linearGradient id="hot" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FF6A1A"/><stop offset="1" stop-color="#FFB25A"/></linearGradient></defs>
+    <rect width="1440" height="900" fill="#121010"/>
+    <ellipse cx="1000" cy="560" rx="560" ry="300" fill="url(#heat)"/>
+    <g font-family="Instrument Sans,sans-serif" fill="#EDE8DF"><text x="80" y="88" font-weight="600" font-size="17">AI Alchemy</text><text x="900" y="88" font-size="15">Client Solutions</text><text x="1040" y="88" font-size="15">Industries</text><text x="1140" y="88" font-size="15">About</text></g>
+    <g font-family="Big Shoulders Stencil Display,sans-serif" font-weight="800" fill="#EDE8DF" font-size="128"><text x="76" y="250">LEGACY IN.</text><text x="76" y="370">WORKING</text><text x="76" y="490">SYSTEMS OUT.</text></g>
+    <g font-family="Instrument Sans,sans-serif" font-size="19" fill="#BDB7AD"><text x="80" y="550">We test what you run, keep what holds, and recast</text><text x="80" y="576">the rest into software your teams can rely on.</text></g>
+    <rect x="80" y="616" width="230" height="52" fill="#FF6A1A"/><text x="195" y="648" text-anchor="middle" font-family="Instrument Sans,sans-serif" font-weight="600" font-size="16" fill="#121010">Plan Your Modernization</text>
+    <!-- ingots -->
+    <g font-family="Instrument Sans,sans-serif" font-size="13" fill="#EDE8DF" text-anchor="middle">
+      <g transform="translate(880 470) rotate(-6)"><path d="M0 0h190l-16 56H16z" fill="url(#ing)"/><path d="M16 56H174" stroke="url(#hot)" stroke-width="3"/><text x="95" y="34">CRM 2014</text></g>
+      <g transform="translate(1090 430) rotate(4)"><path d="M0 0h150l-12 46H12z" fill="url(#ing)"/><path d="M12 46H138" stroke="url(#hot)" stroke-width="3"/><text x="75" y="29">Access DB</text></g>
+      <g transform="translate(1180 520) rotate(-3)"><path d="M0 0h170l-14 52H14z" fill="url(#ing)"/><text x="85" y="32">ERP add-on</text></g>
+      <g transform="translate(960 560) rotate(7)"><path d="M0 0h200l-18 60H18z" fill="url(#ing)"/><path d="M18 60H182" stroke="url(#hot)" stroke-width="4"/><text x="100" y="36">Spreadsheets</text></g>
+      <g transform="translate(1150 610) rotate(-9)"><path d="M0 0h130l-10 42H10z" fill="url(#ing)"/><text x="65" y="27">FTP export</text></g>
+    </g>
+    <!-- hallmarks -->
+    <g font-family="Big Shoulders Stencil Display,sans-serif" font-weight="800" fill="none" stroke="#C8C6C1" stroke-width="2">
+      <path d="M80 760h70v40l-35 18-35-18z"/><path d="M180 760h70v58h-70z"/><path d="M280 760h70l-10 58h-50z"/><path d="M380 760h70v58h-70z" rx="10"/>
+    </g>
+    <g font-family="Big Shoulders Stencil Display,sans-serif" font-weight="800" font-size="24" fill="#C8C6C1" text-anchor="middle"><text x="115" y="796">AA</text><text x="215" y="798">SI</text><text x="315" y="798">GTA</text><text x="415" y="798">26</text></g>
+    <g font-family="Instrument Sans,sans-serif" font-size="12" fill="#8E8A84" text-anchor="middle"><text x="115" y="842">maker</text><text x="215" y="842">standard</text><text x="315" y="842">office</text><text x="415" y="842">date</text></g>
+  </svg>
+  </div>
+  <div class="frame phone">
+  <svg viewBox="0 0 390 844" role="img" aria-label="Assay phone hero sketch: stencil headline, glowing ingot stack, hallmark row">
+    <rect width="390" height="844" fill="#121010"/><ellipse cx="200" cy="560" rx="260" ry="180" fill="url(#heat)"/>
+    <text x="24" y="52" font-family="Instrument Sans,sans-serif" font-weight="600" font-size="16" fill="#EDE8DF">AI Alchemy</text>
+    <g font-family="Big Shoulders Stencil Display,sans-serif" font-weight="800" fill="#EDE8DF" font-size="64"><text x="22" y="140">LEGACY IN.</text><text x="22" y="204">WORKING</text><text x="22" y="268">SYSTEMS OUT.</text></g>
+    <g font-family="Instrument Sans,sans-serif" font-size="12" fill="#EDE8DF" text-anchor="middle">
+      <g transform="translate(70 480) rotate(-6)"><path d="M0 0h150l-12 46H12z" fill="url(#ing)"/><path d="M12 46H138" stroke="url(#hot)" stroke-width="3"/><text x="75" y="29">CRM 2014</text></g>
+      <g transform="translate(180 540) rotate(5)"><path d="M0 0h140l-12 44H12z" fill="url(#ing)"/><text x="70" y="28">Access DB</text></g>
+      <g transform="translate(90 600) rotate(-2)"><path d="M0 0h170l-14 52H14z" fill="url(#ing)"/><path d="M14 52H156" stroke="url(#hot)" stroke-width="3"/><text x="85" y="32">Spreadsheets</text></g>
+    </g>
+    <rect x="22" y="720" width="220" height="50" fill="#FF6A1A"/><text x="132" y="751" text-anchor="middle" font-family="Instrument Sans,sans-serif" font-weight="600" font-size="15" fill="#121010">Plan Your Modernization</text>
+  </svg>
+  </div>
+</div>
+<div class="swatches">
+  <span class="sw"><i style="background:#121010"></i>Crucible #121010</span>
+  <span class="sw"><i style="background:#4A4642"></i>Slag #4A4642</span>
+  <span class="sw"><i style="background:#FF6A1A"></i>Melt #FF6A1A</span>
+  <span class="sw"><i style="background:#C8C6C1"></i>Assay silver #C8C6C1</span>
+  <span class="sw"><i style="background:#EDE8DF"></i>Bone #EDE8DF</span>
+</div>
+<div class="typespec"><div><span class="k">Display</span><span style="font-family:'Big Shoulders Stencil Display';font-weight:800;font-size:30px">BIG SHOULDERS STENCIL</span></div><div><span class="k">Text</span><span style="font-family:'Instrument Sans'">Instrument Sans 17/27</span></div></div>
+<div class="cols3">
+  <div><h4>Signature moment</h4><p>The recast. A WebGL scene where ingots soften (signed-distance blend), flow into a mould and set as one bar. The four hallmarks strike in sequence as the process steps are read.</p></div>
+  <div><h4>Motion and 3D</h4><p>The heaviest option: Three.js or the Orrery's hand-written WebGL2, HDR materials, a static poster fallback, and the full scene paused off-screen. It reuses the Transmutation idea and the PR #1 rendering work.</p></div>
+  <div><h4>Trade-offs</h4><p>Most cinematic and closest to the brand name. Risks: “lead into gold” is a familiar metaphor, near-black plus one hot accent is a common look, and it is the hardest to make fast on mid-range phones.</p></div>
+</div>
+<h4 style="margin-top:22px">Mood references</h4>
+<div class="mood">
+  <figure><img src="refs/orrery-pr1.jpg" alt="Orrery" loading="lazy"><figcaption>PR #1: Orrery materials</figcaption></figure>
+  <figure><img src="refs/descycle.jpg" alt="DEScycle copper" loading="lazy"><figcaption>DEScycle: material identity</figcaption></figure>
+  <figure><img src="refs/apekon.jpg" alt="Apekon sphere" loading="lazy"><figcaption>Apekon: cinematic WebGL</figcaption></figure>
+  <figure><img src="refs/motive.jpg" alt="Motive facility" loading="lazy"><figcaption>Motive: rendered industry</figcaption></figure>
+</div>
+</section>
+
+<!-- ============ 5 CRITIQUE ============ -->
+<h2 id="critique"><span class="sec-no">5</span>Critique and why As-Built</h2>
+<div class="tbl"><table>
+<thead><tr><th>Criterion</th><th>1 · As-Built</th><th>2 · Patch Bay</th><th>3 · Assay</th></tr></thead>
+<tbody>
+<tr><td>Says “systems integration and modernization” without words</td><td>Strongest. It is literally a system diagram being fixed.</td><td>Strong for integration, weaker for modernization and custom software.</td><td>Indirect; needs copy to land.</td></tr>
+<tr><td>Credibility with mid-market buyers</td><td>High. Calm, precise, process-led.</td><td>Medium. Fun can read as light.</td><td>Medium. Dramatic, risks feeling like a product launch.</td></tr>
+<tr><td>Ownable, distinct from Heron and the field</td><td>Medium-high. Shares Heron's drawing vernacular; differs in subject, colour, type and the revision device.</td><td>Highest.</td><td>High, but the dark-plus-glow look is common.</td></tr>
+<tr><td>Mobile and accessibility</td><td>Excellent. SVG text is real text; diagrams scale.</td><td>Good if the interaction stays optional.</td><td>Hardest. Heavy GPU work, needs a poster fallback.</td></tr>
+<tr><td>Performance</td><td>Light. No 3D required.</td><td>Light to medium.</td><td>Heavy.</td></tr>
+<tr><td>Build effort to award level</td><td>Medium.</td><td>Medium-high (physics, input modes).</td><td>High.</td></tr>
+</tbody></table></div>
+<h3>Refinements in revision 2</h3>
+<ul>
+  <li><b>Closer to Heron, at David's request:</b> hairline frame and grid, nav cells, drawing-led hero with a huge uppercase headline along the foot, scan line, mono spec list, isometric problem columns, construction-line wordmark.</li>
+  <li><b>Our own palette:</b> parchment, kraft, coral, sand and verdigris from the current site, each with one meaning. No serif display, so the palette reads as engineering paper rather than the generic cream-and-serif look.</li>
+  <li><b>Still distinct from Heron:</b> the subject is software systems and their revisions; no red, no buildings, no blocking loader.</li>
+  <li><b>One bold place:</b> the redraft sequence. Everything else stays quiet so it lands.</li>
+  <li><b>Borrow from Patch Bay:</b> a small “connect it yourself” moment can live in the Custom Integrations sheet, kept optional.</li>
+  <li><b>Honesty:</b> every drawing keeps a line saying it is an illustration.</li>
+</ul>
+
+<!-- ============ 6 STRATEGY ============ -->
+<h2 id="strategy"><span class="sec-no">6</span>Redesign strategy</h2>
+<h3>Information architecture</h3>
+<p>Two divisions, with Client Solutions leading. Systems Integration &amp; Modernization becomes the lead practice, with five service pages. The existing four service pages stay at their current addresses so search rankings and shared links keep working; whether they stay as peers or fold under the new practice is your call.</p>
+<div class="ia" role="img" aria-label="Proposed sitemap">Home
+├─ Client Solutions                         /client-solutions/
+│  ├─ Systems Integration &amp; Modernization   /client-solutions/systems-integration-modernization/
+│  │  ├─ CRM migrations
+│  │  ├─ Custom integrations
+│  │  ├─ ERP connectivity
+│  │  ├─ Legacy modernization
+│  │  └─ Custom software
+│  └─ Also: Strategy &amp; Architecture, Enterprise AI &amp; Automation, Cloud &amp; Data   (existing /services/* pages kept)
+├─ Industries  (4 existing pages, each with its own as-built drawing)
+├─ Products &amp; Innovation                    /products-innovation/   (“Coming soon”, confirmed by David)
+├─ How we work  (Discover, Architect, Build, Validate as revisions A–D)
+├─ About
+├─ Start a project brief  (existing 3-step flow, restyled as a drawing request)
+└─ Privacy</div>
+
+<h3>Homepage narrative</h3>
+<ol>
+  <li><b>Recognition.</b> “Give your business the tools to stay ahead.” Your systems, drawn as they run today, with the problems marked. GTA as a trust line beneath.</li>
+  <li><b>Diagnosis.</b> “What’s holding your business back?” Five problems: disconnected systems, time lost to manual work, an incomplete business picture, outdated technology, and being ready for AI but unsure where to start.</li>
+  <li><b>The offer.</b> “Better tools. Stronger capabilities.” A chain reaction: one mechanism, five stages (Modernize, Connect, Automate, Understand, Enable AI), lit in turn by a copper pulse so the capabilities visibly reinforce each other. Products &amp; Innovation follows as its own block.</li>
+  <li><b>The method.</b> The redraft, A to D, with your approval at each gate.</li>
+  <li><b>Fit.</b> Industries as variants of the same drawing.</li>
+  <li><b>Outcomes and assurance.</b> What changes, who does the work, how fast we reply.</li>
+  <li><b>Second division.</b> Products &amp; Innovation, briefly.</li>
+  <li><b>Action.</b> The project brief, styled as a drawing request.</li>
+</ol>
+
+<h3>Motion system</h3>
+<div class="tbl"><table>
+<thead><tr><th>Layer</th><th>Rule</th></tr></thead>
+<tbody>
+<tr><td>Scroll</td><td>Native scrolling everywhere. GSAP ScrollTrigger scrubs only the redraft and the sheet set. No smooth-scroll hijack on touch; optional Lenis on desktop only if it tests well.</td></tr>
+<tr><td>Line work</td><td>Strokes draw at a steady pen speed (about 900 px/s), never bounce. Easing is linear for drawing, ease-out for placement.</td></tr>
+<tr><td>Text</td><td>Visible at rest. Annotations may type on once; headlines never wait on animation.</td></tr>
+<tr><td>Reverse scroll</td><td>Every scrubbed state is a pure function of scroll position, so scrolling up un-drafts exactly. Tested both ways at each breakpoint.</td></tr>
+<tr><td>Pointer</td><td>Hovering a system box highlights its connections. Touch gets the same on tap. Nothing depends on hover.</td></tr>
+<tr><td>Reduced motion</td><td>Rev A and Rev D shown as two still sheets; sheet set becomes a normal list; no scrubbing.</td></tr>
+<tr><td>3D</td><td>Not required. If wanted later, one isometric exploded view in SVG, or a small WebGL scene behind a poster.</td></tr>
+</tbody></table></div>
+
+<h3>Technical approach</h3>
+<ul>
+  <li><b>Framework:</b> Astro, outputting plain static HTML to GitHub Pages through a GitHub Actions build. Components for the title block, sheet and system box; content collections for services and industries so copy lives in one place. Zero JavaScript by default; motion loads as a small island.</li>
+  <li><b>Libraries:</b> GSAP with ScrollTrigger (free for commercial use since 2025). Inline SVG for every drawing so text stays real, selectable and translatable. No WebGL in the recommended direction.</li>
+  <li><b>Page transitions:</b> the browser's View Transitions API, so moving between sheets feels continuous, with a plain fallback.</li>
+  <li><b>Keep:</b> self-hosted OFL fonts, no trackers, structured data, <code>llms.txt</code>, sitemap, the email-based brief.</li>
+  <li><b>Budgets:</b> homepage JavaScript under 90 KB compressed; Largest Contentful Paint under 2.0 s on a mid-range phone; layout shift under 0.05; headline readable in the first frame; WCAG 2.2 AA.</li>
+  <li><b>Verification:</b> Playwright screenshots at 390, 768, 1440 and 1920 wide, forward and reverse scroll stops, reduced motion, keyboard path through the brief, Lighthouse and axe on every pull request. PR #1 already contains a headless screenshot driver we can reuse.</li>
+</ul>
+
+<h3>Gate plan</h3>
+<ul>
+  <li><b>Gate 2:</b> full homepage storyboard at desktop and phone, the design system (tokens, type scale, drawing components, motion rules), and one inner page (Systems Integration &amp; Modernization). Built as artboards, shared for review.</li>
+  <li><b>Gate 3:</b> implementation on a branch in stages (shell and content, then drawings, then the redraft), each as a draft pull request.</li>
+  <li><b>Gate 4:</b> browser verification on desktop and mobile, both scroll directions, accessibility and performance report, then your approval to publish.</li>
+</ul>
+
+<!-- ============ 7 STORYBOARD ============ -->
+<h2 id="story"><span class="sec-no">7</span>Homepage storyboard, As-Built</h2>
+<p>Nine scenes from first frame to footer. Each card shows the composition, the copy idea, and what scroll does.</p>
+<div class="story" id="storyboard"></div>
+
+<!-- ============ 8 RISKS ============ -->
+<h2 id="risks"><span class="sec-no">8</span>Risks and open questions</h2>
+<div class="tbl"><table class="risk">
+<thead><tr><th>Risk</th><th>Level</th><th>Mitigation</th></tr></thead>
+<tbody>
+<tr><td>Messaging change (four services to two divisions led by SI&amp;M)</td><td><span class="lvl l">Low</span></td><td>Direction and headline confirmed by David on 23 Nov. Full page copy still reviewed at Gate 2.</td></tr>
+<tr><td>No proof on the site: no client names, case studies or figures</td><td><span class="lvl h">High</span></td><td>Award-level B2B sites lean on proof. I will not invent any. Anonymised project stories or testimonials from you would fill this.</td></tr>
+<tr><td>Looking derivative of Heron</td><td><span class="lvl m">Medium</span></td><td>Different subject, palette, type and device (revisions); no loader; reviewed side by side at Gate 2.</td></tr>
+<tr><td>Changing the build (Astro and an Actions deploy) on a live site</td><td><span class="lvl m">Medium</span></td><td>Keep every current URL, compare the built output against today's pages, deploy only with your approval. A no-framework rebuild stays possible if you prefer.</td></tr>
+<tr><td>Pinned scroll on phones feels sticky or traps users</td><td><span class="lvl m">Medium</span></td><td>One pinned sequence on the homepage, shorter on phones, skip link past it, tested on real devices.</td></tr>
+<tr><td>Draft PR #1 (Orrery) overlaps</td><td><span class="lvl l">Low</span></td><td>Keep it open as reference for Assay; close it if you choose As-Built or Patch Bay.</td></tr>
+<tr><td>Current first-load black hero</td><td><span class="lvl l">Low</span></td><td>Seen on desktop and phone in the Claude browser (it may run as a background tab, so I want to confirm on a real device). Fixed by design in any direction: the hero is static SVG.</td></tr>
+</tbody></table></div>
+
+<!-- ============ 9 TOOLS ============ -->
+<h2 id="tools"><span class="sec-no">9</span>Skills and tools used</h2>
+<div class="tbl"><table>
+<thead><tr><th>Used</th><th>For</th></tr></thead>
+<tbody>
+<tr><td>Claude built-in browser</td><td>Live visits to ai-alchemy.ca, Heron AI (1440 × 900 and 375 × 812, forward and reverse scroll) and 13 Awwwards sites; screenshots and stack detection. The cloud container's network could not reach these sites.</td></tr>
+<tr><td>Git, shell</td><td>Read the repository, its history, draft PR #1 (Orrery) and the poster render.</td></tr>
+<tr><td>frontend-design skill</td><td>Read and applied: the generated-design checklist that flagged the current palette, and the plan-then-critique process.</td></tr>
+<tr><td>scroll-experience skill</td><td>Read: story-beat and pinning patterns, used for the narrative and motion rules.</td></tr>
+<tr><td>ui-ux-pro-max skill</td><td>Ran its search for “B2B systems integration consulting”; it returned generic “Swiss minimal, professional blue” guidance, which confirmed the default to avoid. Its rule priorities shaped the quality budgets.</td></tr>
+<tr><td>brand skill</td><td>Read the overview; I used it only for structure. Its token sync is for Gate 2.</td></tr>
+<tr><td>Three.js r170 (npm) in headless Chromium via Playwright</td><td>Revision 3: a custom pencil-etching renderer (lit pass, normal and depth pass, then a shader for contours, surface-aligned hatching and paper grain) that draws the As-Built hero, phone crop, redraft and four problem still lifes. Source in docs/gate-1/etch/.</td></tr>
+<tr><td>Artifact page</td><td>This pack: sketch compositions in SVG at real sizes.</td></tr>
+</tbody></table></div>
+<p class="small muted">Not used: Forma (I did not need artboards before a direction is chosen; it fits Gate 2), Figma and Canva connectors (they failed to connect), other installed skills such as accessibility-auditor, web-performance-optimization, seo-audit and copywriting (they belong to Gates 2 to 4). No third-party skills were installed.</p>
+</div>
+
+<script>
+// Revision clouds: scalloped outline around x,y,w,h
+function cloud(x,y,w,h,r){r=r||11;let d='',pts=[];const per=2*(w+h),n=Math.max(8,Math.round(per/(r*1.7)));
+for(let i=0;i<n;i++){const t=i/n*per;let px,py;if(t<w){px=x+t;py=y}else if(t<w+h){px=x+w;py=y+t-w}else if(t<2*w+h){px=x+w-(t-w-h);py=y+h}else{px=x;py=y+h-(t-2*w-h)}pts.push([px,py])}
+d='M'+pts[0][0].toFixed(1)+' '+pts[0][1].toFixed(1);for(let i=1;i<=n;i++){const p=pts[i%n];d+=' A'+r+' '+r+' 0 0 1 '+p[0].toFixed(1)+' '+p[1].toFixed(1)}return d}
+document.querySelectorAll('[data-cloud]').forEach(p=>{const [x,y,w,h]=p.dataset.cloud.split(',').map(Number);p.setAttribute('d',cloud(x,y,w,h))});
+
+// Patch bay jacks and cables
+(function(){const J=document.getElementById('jacks'),C=document.getElementById('cables');if(!J)return;const NS='http://www.w3.org/2000/svg';
+const top=['CRM','Web store','Field app','Sheets','Order DB'],bot=['ERP','Accounting','Warehouse','Reporting','Portal'];
+function jack(cx,cy,label,ly,led){const g=document.createElementNS(NS,'g');g.innerHTML='<circle cx="'+cx+'" cy="'+cy+'" r="17" fill="#2A2E32" stroke="#4A4F54" stroke-width="2"/><circle cx="'+cx+'" cy="'+cy+'" r="7" fill="#0A0B0C"/><text x="'+cx+'" y="'+ly+'" text-anchor="middle" font-family="Chivo Mono,monospace" font-size="13" fill="#E5E7E9">'+label+'</text><circle cx="'+(cx+30)+'" cy="'+(cy-20)+'" r="4" fill="'+led+'"/>';J.appendChild(g)}
+const xs=[220,460,700,940,1180],leds=['#39D07A','#39D07A','#F2C230','#39D07A','#5A5F64'];
+xs.forEach((x,i)=>{jack(x,500,top[i],470,leds[i]);jack(x,630,bot[i],672,leds[i])});
+const cab=[[0,0,'#F07A22'],[1,1,'#F2C230'],[3,3,'#2D6CDF'],[0,2,'#2D6CDF']];
+cab.forEach(([a,b,col])=>{const x1=xs[a],x2=xs[b],sag=60+Math.abs(x2-x1)*.12;const p=document.createElementNS(NS,'path');
+p.setAttribute('d','M'+x1+' 500 C'+(x1+20)+' '+(560+sag)+' '+(x2-20)+' '+(570+sag)+' '+x2+' 630');p.setAttribute('stroke',col);C.appendChild(p)})})();
+
+// Storyboard
+(function(){const S=document.getElementById('storyboard');const V='#F2EDE3',I='#1C2026',B='#1F6B5C',R='#E39A72',P='#8C9196',N='#1C2026';
+const box=(x,y,w,h,f)=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="'+(f||'#F4F6F5')+'" stroke="'+I+'" stroke-width="1.2"/>';
+const t=(x,y,s,c,sz,a)=>'<text x="'+x+'" y="'+y+'" font-family="IBM Plex Mono,monospace" font-size="'+(sz||9)+'" fill="'+(c||I)+'"'+(a?' text-anchor="'+a+'"':'')+'>'+s+'</text>';
+const h=(x,y,s,sz,c)=>'<text x="'+x+'" y="'+y+'" font-family="Archivo,sans-serif" font-weight="760" style="font-stretch:68%" font-size="'+sz+'" fill="'+(c||I)+'">'+s+'</text>';
+const frame=(bg,inner)=>'<svg viewBox="0 0 320 200" role="img"><rect width="320" height="200" fill="'+(bg||V)+'"/><rect x="6" y="6" width="308" height="188" fill="none" stroke="'+((bg===N)?'#E8ECEB':I)+'" stroke-width=".8"/>'+inner+'</svg>';
+const scenes=[
+ {n:'Sheet A-01 · Recognition',c:'Hero. “Give your business the tools to stay ahead.” Supporting line on modernizing systems, connecting software and putting AI to work, “Plan Your Modernization”, then “Based in the Greater Toronto Area” as a trust line. The as-built drawing of a typical stack sits beside it, all visible in the first frame.',m:'Load: line work draws in 1.2 s, text already there. Scroll: diagram drifts up slower than the text.',
+  s:frame(V,h(18,50,'Give your business',18)+h(18,70,'the tools to',18)+h(18,90,'stay ahead.',18)+'<rect x="18" y="104" width="70" height="16" fill="'+B+'"/>'+box(190,30,50,20)+box(255,60,50,20)+box(200,100,56,22)+box(260,140,46,20)+'<path d="M240 40C260 50 250 80 228 100M215 50C200 80 210 90 212 100" fill="none" stroke="'+P+'"/><path d="M280 80C300 110 290 120 283 140" fill="none" stroke="'+R+'" stroke-dasharray="4 3"/>'+'<path data-cloud="268,96,34,30" fill="none" stroke="'+R+'"/>'+box(214,160,96,30,'none')+t(220,173,'A-01 · Rev A',I,8)+t(220,185,'Illustration',P,8))},
+ {n:'Sheet A-02 · Diagnosis',c:'“What’s holding your business back?” Five problems, each with its own etched drawing: disconnected systems, time lost to manual work, an incomplete business picture, outdated technology, ready for AI but unsure where to start.',m:'Pinned briefly. Each scroll step zooms the drawing to one redline and writes its note. Reverse scroll zooms back out.',
+  s:frame(V,'<g transform="translate(24 34) scale(1.3)">'+box(10,10,50,20)+box(80,40,50,20)+'<path d="M35 30C40 60 70 50 80 50" fill="none" stroke="'+R+'" stroke-width="1" stroke-dasharray="4 3"/></g><path data-cloud="60,72,76,52" fill="none" stroke="'+R+'" stroke-width="1.4"/>'+t(206,70,'P1',R,12)+t(206,90,'Disconnected',I,9.5)+t(206,104,'systems: people',I,9.5)+t(206,118,'carry the data.',I,9.5)+t(206,150,'1 of 5',P,9))},
+ {n:'Sheet A-04 · Capabilities',c:'“Better tools. Stronger capabilities.” A chain reaction: one mechanism in five stages, Modernize, Connect, Automate, Understand, Enable AI. A copper pulse lights each stage in turn and earlier stages stay lit. Each stage carries its service and links to it.',m:'Desktop: the set slides sideways as you scroll (pinned). Phone: a normal vertical list of sheets, no pinning.',
+  s:frame(V,['Integr.','Autom.','Data','Modern.','AI'].map((s,i)=>'<g transform="translate('+(16+i*54)+' '+(40+i*6)+')">'+box(0,0,74,110,'#F4F6F5')+t(6,14,'S-0'+(i+1),P,8)+h(6,34,s,15)+'<path d="M8 60h60M8 72h44M8 84h52" stroke="'+P+'" stroke-width=".8"/></g>').join(''))},
+ {n:'Interlude · Custom integrations',c:'Optional hands-on moment from Patch Bay: connect the CRM to the ERP yourself and watch one order move. Keyboard and screen-reader equivalent provided.',m:'Interaction only; nothing on the page depends on it. Reduced motion shows the connected state.',
+  s:frame(V,box(40,70,80,30)+box(200,70,80,30)+t(80,89,'CRM',I,11,'middle')+t(240,89,'ERP',I,11,'middle')+'<path d="M120 85C150 130 170 130 200 85" fill="none" stroke="'+B+'" stroke-width="3"/><rect x="150" y="112" width="22" height="12" fill="'+B+'"/>'+t(160,160,'Order #1042 · received once',I,10,'middle'))},
+ {n:'Sheet A-03 · The redraft',c:'The signature sequence. Tangled lines straighten onto one integration layer, redlines are struck, the Access database is replaced, the revision letter steps A, B, C, D with “you approve” at B and D.',m:'Pinned for about 2.5 screens on desktop, 1.5 on phone. Fully scrubbed and reversible. Skip link: “Skip the redraft”.',
+  s:frame(V,'<rect x="30" y="100" width="260" height="12" fill="'+B+'"/>'+[40,95,150,205,250].map(x=>box(x,50,40,18)+'<path d="M'+(x+20)+' 68V100" stroke="'+B+'" stroke-width="1.5"/>').join('')+[80,175].map(x=>box(x,135,60,18)+'<path d="M'+(x+30)+' 112V135" stroke="'+B+'" stroke-width="1.5"/>').join('')+'<g stroke="'+I+'" fill="none"><rect x="14" y="160" width="150" height="30"/><path d="M14 175H164M40 160V190"/></g>'+t(20,172,'D',B,9)+t(46,172,'Validate · you approve',I,8)+t(20,186,'C',P,9)+t(46,186,'Build',P,8)+h(200,30,'Rev D',20,B))},
+ {n:'Sheets I-01 to I-04 · Industries',c:'The same drawing, relabelled for each industry: manufacturing and logistics, mortgage and insurance, HVAC and field service, financial and non-profit. Uses the problems and fixes already on the industry pages.',m:'A tab row swaps the plate; boxes slide to new positions and labels change. Each links to its industry page.',
+  s:frame(V,t(16,26,'Manufacturing · Mortgage · HVAC · Non-profit',I,8.5)+'<path d="M16 32h60" stroke="'+B+'" stroke-width="2"/>'+box(30,60,60,22)+box(130,60,60,22)+box(230,60,60,22)+box(80,130,70,22)+box(180,130,70,22)+t(60,74,'Quotes',I,8,'middle')+t(160,74,'Inventory',I,8,'middle')+t(260,74,'Freight',I,8,'middle')+t(115,144,'Shop floor',I,8,'middle')+t(215,144,'Portal',I,8,'middle')+'<path d="M60 82V120H260V82M115 120V130M215 120V130" fill="none" stroke="'+B+'"/>')},
+ {n:'Notes · Outcomes and assurance',c:'Written as the drawing’s general notes: less manual work, information in one place, clearer handoffs, room to grow. Then: built in-house in the GTA, a reply within one business day, you keep approval.',m:'Static. Numbered notes are real drawing notes, so numbering is honest here.',
+  s:frame(V,h(16,40,'General notes',20)+['1  Enter information once.','2  One shared record.','3  Handoffs carry the details.','4  Built for the next change.'].map((s,i)=>t(18,66+i*18,s,I,10)).join('')+'<path d="M182 52V170" stroke="'+P+'" stroke-width=".6"/>'+t(190,66,'In-house, GTA',I,8.5)+t(190,84,'Reply in 1 business',I,8.5)+t(190,96,'day',I,8.5)+t(190,114,'You keep approval',B,8.5))},
+ {n:'Workshop · Products & Innovation',c:'The second division, kept short: “Our own products are taking shape. More to share soon.” Marked “Coming soon.” Placeholder sheets pinned beside the drawing set until there is a product to show.',m:'Light parallax on the pinned sketches; nothing scrubbed.',
+  s:frame(N,h(16,40,'From the workshop',20,'#E8ECEB')+'<rect x="20" y="62" width="90" height="70" fill="none" stroke="#7D97FF" stroke-dasharray="4 3"/><rect x="124" y="74" width="90" height="70" fill="none" stroke="#7D97FF" stroke-dasharray="4 3"/><rect x="228" y="62" width="74" height="70" fill="none" stroke="#7D97FF" stroke-dasharray="4 3"/>'+t(20,170,'Products &amp; Innovation · Coming soon','#9AA3AB',9))},
+ {n:'Drawing request · The brief',c:'The title block grows into the project brief: three short steps, opens as an email to hello@ai-alchemy.ca. Footer repeats the full title block with the sitemap.',m:'The title block scales up from its corner on arrival. Form works with no JavaScript.',
+  s:frame(V,h(16,40,'Request a redraft',22)+'<g stroke="'+I+'" fill="none"><rect x="16" y="56" width="288" height="120"/><path d="M16 86H304M16 116H304M16 146H304M160 56V176"/></g>'+t(24,74,'1 What slows you down',I,9)+t(168,74,'2 Systems you run',I,9)+t(24,104,'3 How to reach you',I,9)+'<rect x="168" y="94" width="110" height="16" fill="'+B+'"/>'+t(24,134,'Reply in 1 business day',P,8.5)+t(24,164,'hello@ai-alchemy.ca',I,9))}
+];
+S.innerHTML=scenes.map(s=>'<div class="sc">'+s.s+'<h4>'+s.n+'</h4><p>'+s.c+'</p><p class="mv">'+s.m+'</p></div>').join('');
+S.querySelectorAll('svg').forEach((el,i)=>el.setAttribute('aria-label','Storyboard scene '+(i+1)+': '+scenes[i].n));
+S.querySelectorAll('[data-cloud]').forEach(p=>{const [x,y,w,hh]=p.dataset.cloud.split(',').map(Number);p.setAttribute('d',cloud(x,y,w,hh,7))});})();
+
+// As-Built rev 2 builders
+(function(){
+const NS='http://www.w3.org/2000/svg',INK='#1C2026',PEN='#8C9196',COR='#E39A72',VER='#1F6B5C',LINE='#D8CFBF';
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;parent.appendChild(e);return e}
+function grid(id,W,H){const g=document.getElementById(id);if(!g)return;for(let x=16;x<=W-16;x+=60)el('path',{d:'M'+x+' 64V600',stroke:LINE,'stroke-width':.5},g);for(let y=64;y<=600;y+=60)el('path',{d:'M16 '+y+'H'+(W-16),stroke:LINE,'stroke-width':.5},g);
+  [[376,64],[736,64],[1096,64],[376,600],[736,600],[1096,600]].forEach(([x,y])=>el('path',{d:'M'+(x-7)+' '+y+'h14M'+x+' '+(y-7)+'v14',stroke:INK,'stroke-width':1},g));
+  for(let y=70;y<600;y+=12)el('path',{d:'M16 '+y+'h'+(y%60<12?10:5),stroke:INK,'stroke-width':.7},g)}
+function node(g,n,s){const d=(s||1)*9,f=n.f||'#F7F3EB';
+  el('path',{d:'M'+n.x+' '+n.y+'l'+d+' '+(-d)+'h'+n.w+'v'+n.h+'l'+(-d)+' '+d,fill:'#E7E0D2',stroke:INK,'stroke-width':1.1},g);
+  el('rect',{x:n.x,y:n.y,width:n.w,height:n.h,fill:f,stroke:INK,'stroke-width':1.3},g);
+  el('text',{x:n.x+n.w/2,y:n.y+n.h/2+(n.s?-2:4),'text-anchor':'middle','font-family':'IBM Plex Mono,monospace','font-size':(s||1)*12.5,fill:n.tc||INK},g,n.t);
+  if(n.s)el('text',{x:n.x+n.w/2,y:n.y+n.h/2+14*(s||1),'text-anchor':'middle','font-family':'IBM Plex Mono,monospace','font-size':(s||1)*10,fill:PEN},g,n.s)}
+function link(g,d,kind){el('path',{d,fill:'none',stroke:kind==='m'?COR:kind==='v'?VER:PEN,'stroke-width':kind==='v'?2.2:1.4,'stroke-dasharray':kind==='m'?'7 5':''},g)}
+function cloudAt(g,x,y,w,h,r){el('path',{d:cloud(x,y,w,h,r||11),fill:'none',stroke:COR,'stroke-width':1.8},g)}
+// desktop hero
+grid('h-grid',1440,900);
+let g=document.getElementById('h-dia');
+[{x:430,y:110,w:140,h:48,t:'CRM'},{x:860,y:100,w:140,h:48,t:'Web store'},{x:640,y:236,w:160,h:54,t:'ERP'},{x:880,y:380,w:140,h:48,t:'Accounting'},{x:420,y:400,w:140,h:48,t:'Warehouse'},{x:650,y:500,w:160,h:56,t:'Order DB',s:'Access, 2009'},{x:438,y:520,w:110,h:40,t:'Sheets ×3'}].forEach(n=>node(g,n));
+link(g,'M570 134C640 130 700 170 700 236');link(g,'M860 124C800 150 800 200 760 236');link(g,'M800 263C860 280 900 330 940 380');link(g,'M560 424C620 380 620 320 660 290');link(g,'M730 290C700 370 760 440 730 500');
+link(g,'M500 158C470 240 520 330 490 400','m');link(g,'M548 540C600 520 620 530 650 528','m');link(g,'M950 428C930 470 860 490 810 515','m');
+cloudAt(g,452,240,96,80);cloudAt(g,636,486,190,84);cloudAt(g,868,440,90,60);
+el('text',{x:452,y:230,'font-family':'IBM Plex Mono,monospace','font-size':12,fill:'#9A4424'},g,'R1 RE-KEYED');
+el('text',{x:968,y:478,'font-family':'IBM Plex Mono,monospace','font-size':12,fill:'#9A4424'},g,'R2 NIGHTLY CSV');
+el('text',{x:636,y:588,'font-family':'IBM Plex Mono,monospace','font-size':12,fill:'#9A4424'},g,'R3 ONE PERSON KNOWS IT');
+// mobile
+g=document.getElementById('m-dia');
+[{x:40,y:96,w:100,h:38,t:'CRM'},{x:236,y:90,w:110,h:38,t:'Web store'},{x:136,y:190,w:120,h:42,t:'ERP'},{x:40,y:310,w:100,h:38,t:'Sheets'},{x:234,y:318,w:116,h:42,t:'Order DB',s:'Access, 2009'}].forEach(n=>node(g,n,.8));
+link(g,'M140 115C180 120 190 150 196 190');link(g,'M291 128C280 160 250 170 236 190');link(g,'M90 134C70 200 100 260 90 310','m');link(g,'M256 220C300 250 300 290 292 318','m');
+cloudAt(g,52,214,76,62,9);
+// problem icons: isometric
+g=document.getElementById('p-icons');
+function iso(cx,cy,w,d,h,fill){const a=.5,p=(x,y,z)=>[cx+(x-y)*0.866,cy+(x+y)*a-z];const P=(...pts)=>'M'+pts.map(q=>q[0].toFixed(1)+' '+q[1].toFixed(1)).join('L')+'Z';
+  el('path',{d:P(p(0,0,h),p(w,0,h),p(w,d,h),p(0,d,h)),fill:fill||'#F7F3EB',stroke:INK,'stroke-width':1.2},g);
+  el('path',{d:P(p(0,d,h),p(w,d,h),p(w,d,0),p(0,d,0)),fill:'#E7E0D2',stroke:INK,'stroke-width':1.2},g);
+  el('path',{d:P(p(w,0,h),p(w,d,h),p(w,d,0),p(w,0,0)),fill:'#DED0B6',stroke:INK,'stroke-width':1.2},g)}
+// R1 two boxes with coral dashed arrow
+iso(130,430,70,70,40);iso(250,470,70,70,40);el('path',{d:'M150 400C190 370 240 390 262 430',fill:'none',stroke:COR,'stroke-width':1.8,'stroke-dasharray':'6 4'},g);
+// R2 stacked sheets
+for(let i=0;i<4;i++)iso(544,500-i*26,110,80,6,i==3?'#F7F3EB':'#EDE6D8');el('path',{d:'M500 360h90',stroke:COR,'stroke-width':1.6,'stroke-dasharray':'5 4'},g);el('text',{x:545,y:350,'text-anchor':'middle','font-family':'IBM Plex Mono,monospace','font-size':11,fill:'#9A4424'},g,'02:00 EXPORT.CSV');
+// R3 cylinder db
+(function(){const cx=896,cy=380,rx=60,ry=22,h=110;el('path',{d:'M'+(cx-rx)+' '+cy+'v'+h+'a'+rx+' '+ry+' 0 0 0 '+(2*rx)+' 0v'+(-h),fill:'#E7E0D2',stroke:INK,'stroke-width':1.2},g);el('ellipse',{cx,cy,rx,ry,fill:'#F7F3EB',stroke:INK,'stroke-width':1.2},g);[40,80].forEach(o=>el('path',{d:'M'+(cx-rx)+' '+(cy+o)+'a'+rx+' '+ry+' 0 0 0 '+(2*rx)+' 0',fill:'none',stroke:INK,'stroke-width':1},g));cloudAt(g,cx-80,cy-40,160,190,12)})();
+// R4 envelope stack
+for(let i=0;i<3;i++){iso(1248,500-i*30,100,66,10,'#F7F3EB');const cx=1248,cy=500-i*30-10;el('path',{d:'M'+cx+' '+cy+'L'+(cx+43)+' '+(cy+50)+'L'+(cx+43-57)+' '+(cy+83)+'',fill:'none',stroke:INK,'stroke-width':.9},g)}el('circle',{cx:1330,cy:380,r:14,fill:'none',stroke:COR,'stroke-width':1.8},g);el('text',{x:1330,y:384,'text-anchor':'middle','font-family':'IBM Plex Mono,monospace','font-size':11,fill:'#9A4424'},g,'12');
+// redraft
+g=document.getElementById('r-dia');
+el('rect',{x:120,y:450,width:1200,height:40,fill:VER},g);el('text',{x:720,y:476,'text-anchor':'middle','font-family':'IBM Plex Mono,monospace','font-size':13.5,fill:'#F2EDE3'},g,'INTEGRATION LAYER · ONE RECORD PER CUSTOMER, ORDER AND INVOICE');
+const top=[[150,'CRM'],[390,'Web store'],[630,'ERP'],[870,'Accounting'],[1110,'Warehouse']];
+top.forEach(([x,t])=>{node(g,{x,y:300,w:170,h:52,t});link(g,'M'+(x+85)+' 352V450','v');el('circle',{cx:x+85,cy:450,r:5,fill:VER},g)});
+[[300,'Customer portal'],[620,'Order service','replaces Access DB'],[940,'Live reporting']].forEach(([x,t,s])=>{node(g,{x,y:580,w:190,h:56,t,s,f:'#CFE0D6'});link(g,'M'+(x+95)+' 490V580','v')});
+el('path',{d:'M1195 410l-10 -16h20z',fill:'#E2B04A',stroke:'#9A6F12'},g);el('text',{x:1212,y:408,'font-family':'IBM Plex Mono,monospace','font-size':11.5,fill:'#9A6F12'},g,'YOUR APPROVAL');
+el('path',{d:'M60 300h70M60 316h70',stroke:COR,'stroke-width':1.6},g);el('text',{x:60,y:290,'font-family':'IBM Plex Mono,monospace','font-size':11,fill:'#9A4424'},g,'R1–R3 CLOSED');
+})();
+</script>
