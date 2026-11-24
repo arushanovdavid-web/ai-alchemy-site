@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-284 -537 591 701" class="ia" role="img" aria-labelledby="ia-t ia-d" data-ia-version="1.1.0" width="591" height="701"><title id="ia-t">AI Alchemy component: gantry</title><desc id="ia-d">Portal gantry with trolley and a module on the hoist.</desc><style>
+.ia{--ia-ink:#1C2026;--ia-ink-2:#4C525A;--ia-hair:rgba(28,32,38,.36);--ia-top:#FBF9F4;--ia-left:#ECE6D9;--ia-right:#DDD4C2;
+--ia-recess:#C8BEA9;--ia-sh:rgba(28,32,38,.075);--ia-dot:rgba(28,32,38,.22);--ia-active:#1F6B5C;--ia-signal:#D06C40;
+--ia-approve:#9A6F12;--ia-ground:#F2EDE3;--ia-lw:1;
+--ia-deep:#2A2F36;--ia-deep-2:#3A4047;--ia-deep-3:#22262C;--ia-glass:#2E3840;--ia-ring:#F7F3EA;--ia-slab-t:#F6F2EA;
+--ia-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;--ia-serif:"Newsreader",Georgia,"Times New Roman",serif}
+.ia[data-ia-theme=night],[data-ia-theme=night] .ia{--ia-ink:#EAE4D8;--ia-ink-2:#AEB2B8;--ia-hair:rgba(242,237,227,.30);
+--ia-top:#2F353D;--ia-left:#272C33;--ia-right:#21252B;--ia-recess:#14171B;--ia-sh:rgba(0,0,0,.24);--ia-dot:rgba(242,237,227,.15);
+--ia-active:#4FA391;--ia-signal:#E39A72;--ia-approve:#E2B04A;--ia-ground:#1C2026;
+--ia-deep:#0F1114;--ia-deep-2:#16191D;--ia-deep-3:#0B0D0F;--ia-glass:#0C1216;--ia-ring:#E6DFD1;--ia-slab-t:#262B31}
+.ia .f-t{fill:var(--ia-top)}.ia .f-l{fill:var(--ia-left)}.ia .f-r{fill:var(--ia-right)}.ia .f-rec{fill:var(--ia-recess)}
+.ia .f-g{fill:var(--ia-ground)}
+.ia .f-t-d{fill:var(--ia-deep-2)}.ia .f-l-d{fill:var(--ia-deep)}.ia .f-r-d{fill:var(--ia-deep-3)}.ia .f-deep{fill:var(--ia-deep)}
+.ia .f-slab{fill:var(--ia-slab-t)}.ia .glass{fill:var(--ia-glass)}
+.ia .sheen{fill:none;stroke:var(--ia-ring);stroke-linecap:round}.ia .f-ring{fill:var(--ia-ring)}
+.ia .dl{fill:none;stroke:var(--ia-ring);stroke-opacity:.55;stroke-width:calc(.62px*var(--ia-lw));stroke-linecap:round}
+.ia .t-iso-l{font-size:7.5px;font-weight:600;letter-spacing:.12em;fill:var(--ia-ring);fill-opacity:.8}
+.ia .in-glass .strand{stroke:var(--ia-ring);stroke-opacity:.75}.ia .in-glass .h{stroke:var(--ia-ring);stroke-opacity:.35}
+.ia .in-glass .w-h{stroke:var(--ia-ring);stroke-opacity:.45}.ia .in-glass .ia-core:not(.x){fill:var(--ia-ring)}.ia .in-glass .e-i{stroke:var(--ia-deep-3)}
+.ia .in-glass .e-o{stroke:var(--ia-deep-3)}
+.ia [data-state=active] .in-glass .ia-lead{stroke:var(--ia-active);stroke-opacity:1}
+.ia [data-state=active] .in-glass .ia-core:not(.x){fill:var(--ia-signal)}
+.ia .pat-perf-d{fill:var(--ia-top);fill-opacity:.42}.ia .hv{fill:url(#ia-hv)}.ia .sh{fill:var(--ia-sh)}.ia .poche{fill:var(--ia-ink)}
+.ia .f-ink{fill:var(--ia-ink)}.ia .f-hair{fill:var(--ia-hair)}
+.ia .e-o,.ia .e-i,.ia .d,.ia .h,.ia .w-v,.ia .w-h,.ia .cl,.ia .dim,.ia .strand,.ia .ldr,.ia .ia-link,.ia .rule{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ia .e-o{stroke:var(--ia-ink);stroke-width:calc(1.45px*var(--ia-lw))}
+.ia .e-i{stroke:var(--ia-ink);stroke-width:calc(.8px*var(--ia-lw))}
+.ia .d{stroke:var(--ia-ink);stroke-width:calc(.62px*var(--ia-lw))}
+.ia .h{stroke:var(--ia-hair);stroke-width:calc(.5px*var(--ia-lw))}
+.ia .w-v{stroke:var(--ia-ink);stroke-width:calc(.85px*var(--ia-lw))}
+.ia .w-h{stroke:var(--ia-ink-2);stroke-width:calc(.6px*var(--ia-lw));stroke-dasharray:4 3}
+.ia .cl{stroke:var(--ia-ink-2);stroke-width:calc(.55px*var(--ia-lw));stroke-dasharray:24 4 3 4}
+.ia .dim{stroke:var(--ia-ink-2);stroke-width:calc(.6px*var(--ia-lw))}
+.ia .ldr{stroke:var(--ia-ink-2);stroke-width:calc(.65px*var(--ia-lw))}
+.ia .rule{stroke:var(--ia-ink);stroke-width:calc(.8px*var(--ia-lw))}
+.ia .strand{stroke:var(--ia-ink);stroke-width:calc(.72px*var(--ia-lw))}
+.ia .strand.edge{stroke-width:calc(1.15px*var(--ia-lw))}
+.ia .ia-link{stroke:var(--ia-ink-2);stroke-width:calc(.9px*var(--ia-lw));stroke-dasharray:7 5}
+.ia .ia-link[data-state=built]{stroke:var(--ia-ink);stroke-dasharray:none}
+.ia .ia-link[data-state=active]{stroke:var(--ia-active);stroke-dasharray:none;stroke-width:calc(1.5px*var(--ia-lw))}
+.ia .ia-link[data-state=off]{visibility:hidden}
+.ia .dot{fill:var(--ia-ink-2)}
+.ia .ia-lamp{fill:var(--ia-top);stroke:var(--ia-ink);stroke-width:calc(.6px*var(--ia-lw))}
+.ia .ia-core{fill:var(--ia-top)}
+.ia .ia-gold{fill:var(--ia-recess)}
+.ia .ia-term{fill:var(--ia-ink)}
+.ia .ia-open{fill:var(--ia-top);stroke:var(--ia-ink);stroke-width:calc(.8px*var(--ia-lw))}
+.ia [data-state=active] .ia-lead{stroke:var(--ia-active);stroke-width:calc(1.6px*var(--ia-lw))}
+.ia [data-state=active] .ia-lamp{fill:var(--ia-signal)}
+.ia [data-state=active] .ia-core{fill:var(--ia-signal)}
+.ia [data-state=active] .ia-gold{fill:var(--ia-approve)}
+.ia [data-state=active] .ia-term{fill:var(--ia-signal)}
+.ia [data-state=active] .ia-open{stroke:var(--ia-signal);fill:var(--ia-top)}
+.ia [data-state=active] .ia-ring{stroke:var(--ia-active)}
+.ia .ia-ring{fill:none;stroke:var(--ia-ink);stroke-linecap:butt}
+.ia .ia-anchor{fill:none;stroke:none}
+.ia text{font-family:var(--ia-mono);fill:var(--ia-ink-2)}
+.ia .t-note{font-size:calc(12.5px*var(--ia-type,1));font-weight:500;letter-spacing:.09em}
+.ia .t-iso{font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--ia-ink)}
+.ia .t-iso-s{font-size:7.5px;font-weight:600;letter-spacing:.12em;fill:var(--ia-ink-2)}
+.ia .t-bub{font-family:var(--ia-serif);font-size:15px;fill:var(--ia-ink);text-anchor:middle}
+.ia .t-title{font-family:var(--ia-serif);font-size:calc(34px*var(--ia-type,1));font-weight:420;letter-spacing:-.012em;fill:var(--ia-ink)}
+.ia .t-num{font-family:var(--ia-serif);font-size:calc(21px*var(--ia-type,1));fill:var(--ia-ink);text-anchor:middle}
+.ia .t-sub{font-size:calc(11px*var(--ia-type,1));font-weight:500;letter-spacing:.14em}
+.ia .t-sheet{font-size:calc(13px*var(--ia-type,1));font-weight:600;letter-spacing:.12em;fill:var(--ia-ink)}
+.ia .t-big{font-family:var(--ia-serif);font-size:calc(44px*var(--ia-type,1));font-weight:420;letter-spacing:-.015em;fill:var(--ia-ink)}
+.ia .pat-hv{stroke:var(--ia-hair);stroke-width:.5}.ia .pat-dot{fill:var(--ia-dot);r:calc(1.15px*var(--ia-lw))}
+.ia .pat-perf{fill:var(--ia-ink);fill-opacity:.5}
+.ia .ia-notes[hidden],.ia .ia-sheet[hidden]{display:none}
+</style><defs><pattern id="ia-hv" width="3.2" height="12" patternUnits="userSpaceOnUse"><path d="M1.6 0V12" class="pat-hv"/></pattern><pattern id="ia-dots" width="69.28" height="40" patternUnits="userSpaceOnUse" patternTransform="translate(900 700)"><circle cx="0" cy="0" r="1.15" class="pat-dot"/><circle cx="69.28" cy="0" r="1.15" class="pat-dot"/><circle cx="0" cy="40" r="1.15" class="pat-dot"/><circle cx="69.28" cy="40" r="1.15" class="pat-dot"/><circle cx="34.64" cy="20" r="1.15" class="pat-dot"/></pattern><pattern id="ia-perf-l" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="matrix(0.87 0.5 0 1 0 0)"><circle cx="2.5" cy="2.5" r=".85" class="pat-perf"/></pattern><pattern id="ia-perf-ld" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="matrix(0.87 0.5 0 1 0 0)"><circle cx="2.5" cy="2.5" r=".8" class="pat-perf-d"/></pattern><pattern id="ia-perf-t" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="matrix(0.87 0.5 -0.87 0.5 0 0)"><circle cx="3" cy="3" r=".8" class="pat-perf"/></pattern></defs><g><g id="ia-c-gantry" class="ia-component" data-component="gantry" data-state="default"><path class="f-r" d="M282.32,-169L259.81,-156L259.81,-140L282.32,-153Z"/><path class="f-l" d="M259.81,-156L225.17,-176L225.17,-160L259.81,-140Z"/><path class="f-t" d="M247.68,-189L282.32,-169L259.81,-156L225.17,-176Z"/><path class="e-i" d="M282.32,-169L259.81,-156M259.81,-140L259.81,-156M259.81,-156L225.17,-176"/><path class="e-o" d="M225.17,-176L247.68,-189L282.32,-169L282.32,-153L259.81,-140L225.17,-160Z"/><path class="f-r" d="M266.74,-472L254.61,-465L254.61,-165L266.74,-172Z"/><path class="hv" d="M266.74,-472L254.61,-465L254.61,-165L266.74,-172Z"/><path class="f-l" d="M254.61,-465L240.76,-473L240.76,-173L254.61,-165Z"/><path class="f-t" d="M252.88,-480L266.74,-472L254.61,-465L240.76,-473Z"/><path class="e-i" d="M266.74,-472L254.61,-465M254.61,-165L254.61,-465M254.61,-465L240.76,-473"/><path class="e-o" d="M240.75,-473L252.88,-480L266.74,-472L266.74,-172L254.61,-165L240.75,-173Z"/><path class="f-r" d="M-202.65,111L-225.17,124L-225.17,140L-202.65,127Z"/><path class="f-l" d="M-225.17,124L-259.81,104L-259.81,120L-225.17,140Z"/><path class="f-t" d="M-237.29,91L-202.65,111L-225.17,124L-259.81,104Z"/><path class="e-i" d="M-202.65,111L-225.17,124M-225.17,140L-225.17,124M-225.17,124L-259.81,104"/><path class="e-o" d="M-259.81,104L-237.29,91L-202.65,111L-202.65,127L-225.17,140L-259.81,120Z"/><path class="f-r" d="M-218.24,-192L-230.36,-185L-230.36,115L-218.24,108Z"/><path class="hv" d="M-218.24,-192L-230.36,-185L-230.36,115L-218.24,108Z"/><path class="f-l" d="M-230.36,-185L-244.22,-193L-244.22,107L-230.36,115Z"/><path class="f-t" d="M-232.09,-200L-218.24,-192L-230.36,-185L-244.22,-193Z"/><path class="e-i" d="M-218.24,-192L-230.36,-185M-230.36,115L-230.36,-185M-230.36,-185L-244.22,-193"/><path class="e-o" d="M-244.22,-193L-232.09,-200L-218.24,-192L-218.24,108L-230.36,115L-244.22,107Z"/><path class="f-r" d="M278.86,-497L-228.63,-204L-228.63,-178L278.86,-471Z"/><path class="hv" d="M278.86,-497L-228.63,-204L-228.63,-178L278.86,-471Z"/><path class="f-l" d="M-228.63,-204L-256.34,-220L-256.34,-194L-228.63,-178Z"/><path class="f-t" d="M251.15,-513L278.86,-497L-228.63,-204L-256.34,-220Z"/><path class="e-i" d="M278.86,-497L-228.63,-204M-228.63,-178L-228.63,-204M-228.63,-204L-256.34,-220"/><path class="e-o" d="M-256.34,-220L251.15,-513L278.86,-497L278.86,-471L-228.63,-178L-256.34,-194Z"/><path class="d" d="M278.86,-476L-228.63,-183M278.86,-492L-228.63,-199"/><path class="h" d="M256.34,-463L256.34,-479M221.7,-443L221.7,-459M187.06,-423L187.06,-439M152.42,-403L152.42,-419M117.78,-383L117.78,-399M83.14,-363L83.14,-379M48.5,-343L48.5,-359M13.86,-323L13.86,-339M-20.78,-303L-20.78,-319M-55.43,-283L-55.43,-299M-90.07,-263L-90.07,-279M-124.71,-243L-124.71,-259M-159.35,-223L-159.35,-239M-193.99,-203L-193.99,-219"/><text class="t-iso-s" transform="matrix(0.87 -0.5 0 1 -202.65 -202)">SWL  GANTRY G-03</text><g id="ia-s3-drop-line" class="ia-guide"><path class="w-h" d="M0,-210L0,-128"/></g><g id="ia-s3-trolley"><path class="f-r" d="M48.5,-340L0,-312L0,-288L48.5,-316Z"/><path class="hv" d="M48.5,-340L0,-312L0,-288L48.5,-316Z"/><path class="f-l" d="M0,-312L-24.25,-326L-24.25,-302L0,-288Z"/><path class="f-t" d="M24.25,-354L48.5,-340L0,-312L-24.25,-326Z"/><path class="e-i" d="M48.5,-340L0,-312M0,-288L0,-312M0,-312L-24.25,-326"/><path class="e-o" d="M-24.25,-326L24.25,-354L48.5,-340L48.5,-316L0,-288L-24.25,-302Z"/></g><g id="ia-s3-hoist-lines"><path class="e-i" d="M12.12,-315L-10.39,-270M13.86,-304L10.39,-258"/></g><g id="ia-s3-module-new" class="ia-component" data-component="module"><path class="f-r" d="M25.98,-263L8.66,-253L8.66,-249L25.98,-259Z"/><path class="f-l" d="M8.66,-253L-25.98,-273L-25.98,-269L8.66,-249Z"/><path class="f-t" d="M-8.66,-283L25.98,-263L8.66,-253L-25.98,-273Z"/><path class="e-i" d="M25.98,-263L8.66,-253M8.66,-249L8.66,-253M8.66,-253L-25.98,-273"/><path class="e-o" d="M-25.98,-273L-8.66,-283L25.98,-263L25.98,-259L8.66,-249L-25.98,-269Z"/><path class="f-r-d" d="M74.48,-277L-22.52,-221L-22.52,-171L74.48,-227Z"/><path class="f-l-d" d="M-22.52,-221L-74.48,-251L-74.48,-201L-22.52,-171Z"/><path class="f-t-d" d="M22.52,-307L74.48,-277L-22.52,-221L-74.48,-251Z"/><path class="e-i" d="M74.48,-277L-22.52,-221M-22.52,-171L-22.52,-221M-22.52,-221L-74.48,-251"/><path class="e-o" d="M-74.48,-251L22.52,-307L74.48,-277L74.48,-227L-22.52,-171L-74.48,-201Z"/><path class="dl" d="M-67.55,-209L-67.55,-235M-64.09,-207L-64.09,-233M-60.62,-205L-60.62,-231M-57.16,-203L-57.16,-229M-53.69,-201L-53.69,-227M-50.23,-199L-50.23,-225"/><path class="dl" d="M-41.57,-222L-27.71,-214L-27.71,-202L-41.57,-210Z"/><ellipse class="ia-lamp" cx="-36.37" cy="-191" rx="3.92" ry="2.26" transform="rotate(60 -36.37 -191)"/><text class="t-iso-l" transform="matrix(0.87 0.5 0 1 -39.84 -218.5)">M8</text><path class="dl" d="M65.82,-230L-13.86,-184M65.82,-236L-13.86,-190M65.82,-242L-13.86,-196M65.82,-248L-13.86,-202M65.82,-254L-13.86,-208M65.82,-260L-13.86,-214"/></g></g><g id="ia-c-gantry-ports" class="ia-anchors"><circle class="ia-anchor" cx="0" cy="-264" r="3" data-port="hook"/></g></g></svg>
