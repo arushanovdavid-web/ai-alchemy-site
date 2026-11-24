@@ -34,7 +34,7 @@
 #experience figure { margin: 0; min-width: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
 #experience .plate-label, #experience figcaption {
   display: flex; justify-content: space-between; gap: 8px; align-items: center;
-  font: 500 10px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); padding: 10px 0;
+  font: 500 11px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); padding: 10px 0;
 }
 #experience .plate-label { border-bottom: 1px solid var(--line); }
 #experience figcaption { border-top: 1px solid var(--line); }
@@ -75,7 +75,7 @@
 /* Chapter rail */
 #experience .rail {
   border-top: 1px solid var(--ink); grid-template-columns: repeat(6, 1fr); gap: 14px; padding: 12px 0 16px;
-  font: 500 10px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase;
+  font: 500 11px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase;
 }
 #experience .rail:not([hidden]) { display: grid; }
 #experience .rail a {

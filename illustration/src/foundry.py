@@ -1517,6 +1517,12 @@ def main():
     master = svg_doc((0, 0, W, H), body, "AI Alchemy: one connected operation",
                      "An isometric system-architecture drawing in five parts. " + " ".join(DESC[k] for k in DESC))
     write(os.path.join(ROOT, "svg", "master.svg"), master)
+    # page-use export: the whole board without notes, titles or sheet furniture, all scenes active, links live
+    bare = g(ground(), "ia-ground") + g(site(), "ia-site", "ia-site") + g(scene_groups, "ia-scenes")
+    bare = bare.replace('data-state="default"', 'data-state="active"').replace('data-state="proposed"', 'data-state="active"')
+    write(os.path.join(ROOT, "svg", "board.svg"), svg_doc((150, 150, W - 300, H - 420), bare, "AI Alchemy: one connected operation",
+                                                       "The whole system, connected: " + " ".join(DESC[k] for k in DESC),
+                                                       extra_attrs={"style": "--ia-lw:2.2"}))
 
     # scenes: same coordinates, own camera, own content plus a break mark where the spine continues
     for k, slug, title in SCENES:
