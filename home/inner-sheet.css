@@ -56,3 +56,4 @@ figure.method .method-steps{border-top:1px solid var(--ink)}
 .btn:hover::after{transform:translateX(4px)}
 .page-art::before{position:static;display:block;padding:9px 12px;border-bottom:1px solid var(--line)}
 .hdr.menu-open{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--paper)}
+.bsheet-top{font-size:12px;letter-spacing:.03em}
