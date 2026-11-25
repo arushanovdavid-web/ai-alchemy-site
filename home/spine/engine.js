@@ -1,4 +1,4 @@
-import { prepareFraming, sample, landings, names, ramp } from "./timeline.js";
+import { prepareFraming, sample, landings, stops, names, ramp } from "./timeline.js";
 import { validateBundle } from "./contract.js";
 const NS = "http://www.w3.org/2000/svg";
 const state = (el, value) => {
@@ -345,6 +345,11 @@ export async function mountSpine(root, assetBundle) {
       (frame.hero > 0 ? 0 : unfold * framing.leftSpace * 0.23).toFixed(1) + "px",
     );
     const i = frame.chapter;
+    // Tie the handoff to camera travel so reversing retraces the same fade.
+    const fade = 0.008;
+    const nextStop = stops[i + 1];
+    const handoff = nextStop === undefined ? 0
+      : ramp(frame.total, nextStop - fade, nextStop);
     if (lastChapter !== i) {
       articles.forEach((a, n) => {
         a.style.opacity = n === i ? "1" : "0";
@@ -357,6 +362,9 @@ export async function mountSpine(root, assetBundle) {
       root.dataset.chapter = String(i);
       lastChapter = i;
     }
+    articles[i].style.opacity = Math.max(0, 1 - 2 * handoff).toFixed(3);
+    if (articles[i + 1])
+      articles[i + 1].style.opacity = Math.max(0, 2 * handoff - 1).toFixed(3);
   }
   function schedule() {
     if (!raf) raf = requestAnimationFrame(render);

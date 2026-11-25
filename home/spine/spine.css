@@ -53,7 +53,7 @@
 #experience.live .spread { min-height: 0; }
 #experience.live figure { align-self: stretch; margin: clamp(10px, 2.4vh, 30px) 0; }
 #experience.live .chapters { display: grid; }
-#experience.live article { grid-area: 1/1; align-self: center; opacity: 0; transition: opacity .45s var(--ease); }
+#experience.live article { grid-area: 1/1; align-self: center; opacity: 0; }
 #experience.live article:first-child { align-self: end; padding-bottom: clamp(8px, 3vh, 36px); }
 #experience.live article:not(:first-child) p { min-height: 4.6em; }
 #experience.live article[data-on] { pointer-events: auto; }
@@ -139,11 +139,6 @@
 @media (max-width: 860px), (max-aspect-ratio: 4/5) {
   #experience.live figure { grid-template-rows: minmax(0, 1fr); }
 }
-/* Crossfade: the outgoing chapter leaves fast, the incoming one settles, so the two never read on top of each other. */
-#experience.live article { transition: opacity .12s linear; }
-#experience.live article[style*="opacity: 1"] { transition: opacity .42s var(--ease) .1s; }
-@media (prefers-reduced-motion: reduce) { #experience.live article, #experience.live article[style*="opacity: 1"] { transition: none; } }
-
 /* 2026-11-24 review fixes */
 #experience .folio { max-width: none !important; min-height: 0 !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #experience h1 .l2, #experience h2 em { color: var(--ink-2); }
