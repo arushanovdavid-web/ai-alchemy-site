@@ -172,7 +172,7 @@ lookups. Junctions are shared by two scenes.
 | `s2.survey.head` | focus | 690, 268, 184 (moved in 1.1) | 1265.46, 995 |
 | `spine.j23` | junction | 1500, 0, 0 | 2199.04, 1450 |
 | `s3.rack.in` / `s3.rack.out` | in / out | 1950 / 2250, 0, 0 | 2588.75, 1675 / 2848.56, 1825 |
-| `s3.module.hanging` → `s3.module.slot` | focus → target | 2135, 0, 240 → 69 | 2748.96, 1527.5 → 1698.5 |
+| `s3.module.hanging` → `s3.module.slot` | focus → target | 2135, 0, 240 → 95 | 2748.96, 1527.5 → 1672.5 |
 | `spine.j34` | junction | 2500, 0, 0 | 3065.06, 1950 |
 | `s3.legacy.out` → `s3.rack.in` | out → in | 1854, 40, 0 → 1950, 0, 0 | `#ia-link-migration` runs between them |
 | `s3.riser` | focus | 2268, 36, 122 | 2832.97, 1730 |
@@ -189,11 +189,13 @@ lookups. Junctions are shared by two scenes.
 | `s5.terminal` | end | 4600, 0, 5 | 4883.72, 2995 |
 | `sN.centre` | camera | 1000·(N−1), 0, 80 | camera centre |
 
-`s3.module.hanging` to `s3.module.slot` is a pure −171 z drop, which in screen space is a translation of
-(0, +171). The drawing order is `#ia-s3-rack` → `#ia-s3-hoist` → `#ia-s3-rack-front`, so a seated module sits
+`s3.module.hanging` is the centre of the hanging module (z = 240). The empty bay's shelf is at z = 69 and the module is 50 tall, so the seated centre is z = 95, not the shelf itself. `s3.module.slot` is that seated centre. The move is a pure −145 z drop, which in screen space is a translation of
+(0, +145). Translating by the shelf (0, +171) sinks the body about 26 master units through the rails. The drawing order is `#ia-s3-rack` → `#ia-s3-hoist` → `#ia-s3-rack-front`, so a seated module sits
 correctly behind the front posts with no re-ordering. Inside `#ia-s3-hoist`: `#ia-s3-trolley`, `#ia-s3-hoist-lines`
 (two straight paths, trolley to sling), `#ia-s3-module-new` (module plus sling) and `#ia-s3-drop-line` (dashed
-guide). Translate `#ia-s3-module-new` by (0, +171) to seat it, and shorten or fade the hoist lines yourself.
+guide from just under the module to the shelf). Translate `#ia-s3-module-new` by (0, +145) to seat it. Move the
+lower end of each hoist line by the same vector so the cables stay on the sling, and shorten the guide as the
+module descends. Fade both as `seat` reaches 1.
 Preview: `previews/check-scene-3-module-seated.png`.
 
 ## 8. Accessibility and performance

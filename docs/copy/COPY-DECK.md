@@ -1,8 +1,18 @@
 # AI Alchemy: Experience Spine copy deck
 
-Status: DRAFT for owner approval. Nothing here is live. Every line marked NEW or ADAPTED is PROPOSED until the owner approves it. Approved site copy stays locked until then.
+Status: DRAFT for owner approval. Nothing here is live. Every line marked NEW or ADAPTED is PROPOSED until the owner approves it. Owner approval is not complete.
 
-Prepared 2026-11-24 on branch `integration/experience-spine-site`.
+Prepared 2026-11-24 on branch `integration/experience-spine-site`. Updated the same day with the positioning decisions below. Those decisions are implemented on the branch so the deck and the pages match. They are still pending the owner's lock. Do not treat this deck as approved.
+
+## Positioning decisions recorded (pending owner lock)
+
+These were applied to the pages, `llms.txt` and structured metadata. They settle the open questions in this deck. They are not a substitute for owner approval.
+
+1. **What kind of firm.** AI Alchemy is an architecture-first technology consulting and engineering company. This replaces "technology consulting and implementation firm" (`llms.txt`) and "technology consultancy" (About, Privacy).
+2. **Lead offering.** Systems Integration & Modernization stays the lead. CRM and ERP integrations and migrations are part of that offer, on the homepage, on `/services/`, in `llms.txt` and in the homepage offer catalog.
+3. **Products & Innovation.** A distinct business division of the same company, focused on proprietary technology development. It does not imply separate personnel or a separate legal entity. The homepage no longer says "separate division" or "separate from our client work."
+4. **Approval.** Approval follows each client's organizational structure. The people the client names decide on technical, pricing, safety and production actions. The pages no longer assume a manager is the decision-maker. The drawing may still label a lever "Manager approval"; that is a picture of one control, not a claim about every client.
+5. **Metadata.** Homepage JSON-LD, the About page description, the services overview description and `llms.txt` use the company description in decision 1. Social image alt text describes the current architectural drawing. Owner approval of titles and descriptions is still pending.
 
 ## How to read this deck
 
@@ -32,7 +42,7 @@ Prepared 2026-11-24 on branch `integration/experience-spine-site`.
 
 ### Source conflicts found (quoted, for the owner to settle)
 
-1. **What kind of firm.** `llms`: "a technology consulting and implementation firm". `about`: "AI Alchemy is a technology consultancy." `brief`: "an architecture-first technology consulting and engineering company". This deck uses "technology consulting and engineering" in the hero eyebrow and leaves `llms.txt` and About untouched. If approved, `llms.txt` and the About intro should be brought into line later.
+1. **What kind of firm.** Decided, and implemented, still pending owner lock: "an architecture-first technology consulting and engineering company." See the positioning decisions at the top of this deck. `llms.txt`, About and Privacy now use that description.
 2. **Pricing.** `PRODUCT`: "Pricing, engagement models ... are not published anywhere. [open]". `svc` publishes: "At a fixed price or by the hour, depending on the scope ... The first conversation is free." This deck uses only "free first conversation", which also appears on `home` and `contact`.
 3. **Industry focus.** `ind`: "The four above are where we focus." `brief`: "without restricting us to a specific industry or company size." These are compatible. The deck keeps the four as examples of focus, not a limit.
 4. **Scene titles on the drawing vs service names.** `svg` sheet titles read "Software & Modernization", "AI & Automation", "Cloud & Data Infrastructure". The service pages are "Custom Software & Modernization", "Enterprise AI & Automation", "Cloud & Data". The HTML chapter kickers below use the service names. The artwork owner should decide whether the drawing's sheet titles change to match, or whether the short forms stand as drawing labels.
@@ -140,7 +150,7 @@ Each chapter: kicker (matches the scene), serif headline (line break shown as ` 
 |---|---|---|---|
 | CH4-K | Kicker | 04 / 06 · Enterprise AI & Automation | EXISTING name |
 | CH4-H | Headline | AI takes on the routine. / Your people decide. | ADAPTED |
-| CH4-B | Body | The core works through documents as they come down the line. At the barrier, a manager decides what moves forward. Your managers keep approval over technical, pricing, safety and production actions. | ADAPTED |
+| CH4-B | Body | AI handles the repeatable steps as work comes down the line. At the barrier, approval follows your organization’s structure. The people you name decide what moves forward. | ADAPTED. Decision recorded; owner lock still pending. |
 | CH4-L | Link | Learn about Enterprise AI & Automation | EXISTING |
 
 **Chapter 5. Cloud & Data** (the line runs under a raised floor of server racks and data stores and ends at one terminal)
@@ -242,7 +252,7 @@ Design note: the Spine chapters 2 to 5 already explain these four services. Keep
 |---|---|---|---|
 | PI-K | Eyebrow | Products & Innovation | NEW (name from `brief`) |
 | PI-H | H2 | Our own products. | NEW |
-| PI-B1 | Body | Products & Innovation is a separate division from our client work. | NEW. Confirm with owner; see self-review. |
+| PI-B1 | Body | A distinct division of AI Alchemy for proprietary technology. Same company, same people. | NEW. Decision recorded; owner lock still pending. |
 | PI-B2 | Body | Our own products are taking shape. More to share soon. | OWNER |
 
 - No button, no sign-up, no "learn more". There is no list, no waitlist and no product page, so any call to action would promise something that does not exist.
@@ -262,7 +272,7 @@ Design note: the Spine chapters 2 to 5 already explain these four services. Keep
 | F-E | Email fallback | Prefer email? Write to hello@ai-alchemy.ca. | EXISTING |
 | F-T1 | Reassurance 1 (heading / line) | Built in-house in the GTA / Our team is based in the GTA and does the work itself. No outsourcing. | EXISTING |
 | F-T2 | Reassurance 2 | A reply within one business day / Then, if you'd like, a free first conversation with David Arushanov, our Client Solutions Lead, by phone, video call or in person. | EXISTING |
-| F-T3 | Reassurance 3 | You keep approval / In the systems we build, your managers approve technical, pricing, safety and production actions. | EXISTING |
+| F-T3 | Reassurance 3 | You keep approval / In the systems we build, approval follows your organization’s structure. The people you name decide on technical, pricing, safety and production actions. | ADAPTED. Decision recorded; owner lock still pending. |
 
 The three reassurances answer the three main objections (outsourcing, waiting, losing control to AI) right beside the button. Keep them here even if they are removed elsewhere on the page.
 
@@ -335,7 +345,7 @@ Word counts for Spine chapters: headline words per line / body words (limits: 2 
 | CH3-L | Learn about Custom Software & Modernization | EXISTING | `home` |
 | CH4-K | 04 / 06 · Enterprise AI & Automation | EXISTING | `eai` |
 | CH4-H | AI takes on the routine. / Your people decide. (5 / 3) | ADAPTED | `eai` "AI should take on routine work, not the decisions." |
-| CH4-B | The core works through documents as they come down the line. At the barrier, a manager decides what moves forward. Your managers keep approval over technical, pricing, safety and production actions. (31) | ADAPTED | `svg` "Reader", "Automated steps", "Manager approval"; `eai` Validate step (approval sentence verbatim); `eai` "better document handling with review and accountability intact" |
+| CH4-B | AI handles the repeatable steps as work comes down the line. At the barrier, approval follows your organization’s structure. The people you name decide what moves forward. (29) | ADAPTED | Decision recorded, owner lock pending. Drawing still shows a manager's lever as one control, not as every client's approver. |
 | CH4-L | Learn about Enterprise AI & Automation | EXISTING | `home` |
 | CH5-K | 05 / 06 · Cloud & Data | EXISTING | `cd` |
 | CH5-H | A shared foundation. / One current version. (3 / 3) | NEW | `cd` "We design the foundation your systems share.", "Finding the current version is the hard part." |
@@ -374,12 +384,12 @@ Word counts for Spine chapters: headline words per line / body words (limits: 2 
 | W-L | See all the industries we serve | EXISTING | `home` |
 | PI-K | Products & Innovation | NEW | `brief` |
 | PI-H | Our own products. | NEW | `owner-pi` |
-| PI-B1 | Products & Innovation is a separate division from our client work. | NEW | `brief` "distinct business division, separate from client consulting". `[NEEDS OWNER FACT: whether the division has separate people or only separate work]` |
+| PI-B1 | A distinct division of AI Alchemy for proprietary technology. Same company, same people. | NEW | Decision recorded, owner lock pending. Same company, no separate personnel or legal entity. |
 | PI-B2 | Our own products are taking shape. More to share soon. | OWNER | `owner-pi` |
 | F-K, F-H, F-B1, F-B2, F-CTA, F-M, F-E | (as listed in 2.10) | EXISTING | `home`, `contact` |
 | F-T1 | Built in-house in the GTA / Our team is based in the GTA and does the work itself. No outsourcing. | EXISTING | `home` |
 | F-T2 | A reply within one business day / Then, if you'd like, a free first conversation with David Arushanov, our Client Solutions Lead, by phone, video call or in person. | EXISTING | `home`, `contact` |
-| F-T3 | You keep approval / In the systems we build, your managers approve technical, pricing, safety and production actions. | EXISTING | `home`, `contact` |
+| F-T3 | You keep approval / In the systems we build, approval follows your organization’s structure. The people you name decide on technical, pricing, safety and production actions. | ADAPTED | Decision recorded, owner lock pending. Was the manager sentence on `home` and `contact`. |
 | FT-T | We bring disconnected technology together into systems that work. | NEW | `brief` |
 | FT-T2 | Built in-house by one team. Serving the Greater Toronto Area. | ADAPTED | `home` footer "built in-house by one team", "Serving the Greater Toronto Area" |
 | FT-E | hello@ai-alchemy.ca | EXISTING | `home` |
@@ -397,7 +407,7 @@ Every chapter headline is within 2 lines and 2 to 6 words per line, except CH6-H
 
 1. **H-H1 (owner headline).** It is 15 words and says nothing about what is sold or where. On a phone it will run to five or six lines and push the support line and button below the fold. It also repeats the About H2 almost word for word. I kept it because the owner approved it; the eyebrow and support line do the "what, for whom, where" work. Test the mobile first screen before signing off.
 2. **CS-LK "Where most projects start".** This is a claim about the firm's project history that no source supports. Approve only if true; otherwise drop the label.
-3. **PI-B1 "a separate division from our client work".** The owner asked for a distinct division, but "separate" could make a buyer wonder whether the "one in-house team" is split. Confirm what is actually separate (people, budget, or only the work) before publishing. If unsure, cut PI-B1 and let the eyebrow and band carry the distinction.
+3. **PI-B1.** Decided, pending owner lock: a distinct division of the same company for proprietary technology, without separate personnel or a separate legal entity. Implemented. Do not publish as approved until the owner locks the deck.
 4. **CH4-B "The core works through documents".** It describes the drawing, but a reader may read it as a promised document-processing capability. The closest approved basis is "better document handling with review and accountability intact" (`eai`). If the owner wants to avoid that reading, use: "The core handles the repeatable steps as work comes down the line."
 5. **CH6-B "now work as one system".** It is the end state of an illustration, not a result. The caption "Illustration of the method, not a client project." and the outcome note directly below it carry the honesty. Do not separate CH6-B from CH6-N in any layout, including the reduced-motion and static versions.
 6. **P2 "ERP" and "migrations".** These come from the owner's brief, but "ERP" appears nowhere on the live site. Name system categories only. Never name vendors (no specific CRM or ERP brands) unless the owner confirms hands-on work with them.

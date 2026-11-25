@@ -779,7 +779,7 @@ def c_gantry_front(xc=2135):
 def c_hoist(xc=2135):
     out = []
     mx, my, mz = xc - 30, -56, 214   # hanging module; the empty bay is x 2100..2170, upper level
-    out.append(g(line((xc, 0, mz - 4), (xc, 0, 128), "w-h"), "ia-s3-drop-line", "ia-guide"))
+    out.append(g(line((xc, 0, mz - 4), (xc, 0, 69), "w-h"), "ia-s3-drop-line", "ia-guide"))
     out.append(g(box(xc - 14, -42, 302, 28, 56, 24), "ia-s3-trolley"))
     out.append(g(lines([((xc - 6, -20, 302), (mx + 18, my + 56, mz + 50)), ((xc + 6, -10, 302), (mx + 42, my + 56, mz + 50))], "e-i"),
                  "ia-s3-hoist-lines"))
@@ -834,7 +834,7 @@ def scene3():
         anchor("s3.riser", 3, "focus", 2268, 36, 122),
         anchor("s3.rack.out", 3, "out", 2250, 0, 0),
         anchor("s3.module.hanging", 3, "focus", 2135, 0, 240),
-        anchor("s3.module.slot", 3, "target", 2135, 0, 69),
+        anchor("s3.module.slot", 3, "target", 2135, 0, 95, "seated centre of the module; the shelf is z=69 and the module is 50 tall"),
         anchor("spine.j34", 3, "junction", 2500, 0, 0),
         anchor("s3.centre", 3, "camera", 2000, 0, 80),
     ]

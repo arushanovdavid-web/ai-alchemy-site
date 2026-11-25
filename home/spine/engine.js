@@ -99,6 +99,14 @@ function bind(svg, manifest) {
   const from = anchors.get("s3.module.hanging"),
     to = anchors.get("s3.module.slot");
   const delta = to.map((v, i) => v - from[i]);
+  const cables = [...lines.querySelectorAll("path")].map((path) => ({
+    path,
+    d: path.getAttribute("d") || "",
+  }));
+  const guidePath = guide.querySelector("path");
+  const guideNums = (guidePath?.getAttribute("d") || "")
+    .match(/-?\d*\.?\d+/g)
+    ?.map(Number);
   let sceneBounds;
   const lastDraw = new Array(segments.length);
   return (frame, framing) => {
@@ -167,13 +175,42 @@ function bind(svg, manifest) {
       lastDraw[i] = fraction;
     });
     opacity(plate, frame.plate);
+    const travel = delta.map((v) => v * frame.seat);
     attr(
       module,
       "transform",
-      "translate(" +
-        delta.map((v) => (v * frame.seat).toFixed(2)).join(" ") +
-        ")",
+      "translate(" + travel.map((v) => v.toFixed(2)).join(" ") + ")",
     );
+    // Cables stay pinned to the trolley and follow the sling, so they do not
+    // detach while the module is still in the air. They fade as it seats.
+    for (const cable of cables) {
+      const next = cable.d.replace(
+        /L(-?\d*\.?\d+),(-?\d*\.?\d+)/g,
+        (_, x, y) =>
+          "L" +
+          (Number(x) + travel[0]).toFixed(2) +
+          "," +
+          (Number(y) + travel[1]).toFixed(2),
+      );
+      attr(cable.path, "d", next);
+    }
+    if (guidePath && guideNums && guideNums.length >= 4) {
+      const y0 = guideNums[1] + travel[1];
+      const y1 = guideNums[3];
+      const x = guideNums[0];
+      attr(
+        guidePath,
+        "d",
+        "M" +
+          x.toFixed(2) +
+          "," +
+          Math.min(y0, y1).toFixed(2) +
+          "L" +
+          x.toFixed(2) +
+          "," +
+          Math.max(y0, y1).toFixed(2),
+      );
+    }
     opacity(lines, 1 - frame.seat);
     opacity(guide, 1 - frame.seat);
     if (migration)

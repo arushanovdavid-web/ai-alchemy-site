@@ -9,13 +9,13 @@ import { tmpdir } from "node:os";
 
 const BASE = process.argv[2] || "http://127.0.0.1:8737";
 const OUT = process.argv[3] || "tools/qa/evidence";
-const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const CHROME = process.env.CHROME || "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const PORT = 9333;
 mkdirSync(OUT, { recursive: true });
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const profile = join(tmpdir(), "aa-qa-" + Date.now());
-const chrome = spawn(CHROME, ["--headless=new", "--remote-debugging-port=" + PORT, "--user-data-dir=" + profile,
+const chrome = spawn(CHROME, ["--headless=new", "--no-sandbox", "--disable-dev-shm-usage", "--remote-debugging-port=" + PORT, "--user-data-dir=" + profile,
   "--no-first-run", "--hide-scrollbars", "--force-color-profile=srgb", "about:blank"], { stdio: "ignore" });
 
 async function json(path, method = "GET") {

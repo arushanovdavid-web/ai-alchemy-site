@@ -123,7 +123,7 @@ for (const [name, kind] of Object.entries({ chromium, firefox, webkit })) {
       await p.emulateMedia({ reducedMotion: "reduce" });
       await p.waitForSelector("main[data-mode=overview]");
       assert.ok(await p.locator("svg.ia").isVisible());
-      assert.equal(await p.locator("article").count(), 6);
+      assert.equal(await p.locator("article").count(), 7);
       await p.emulateMedia({ reducedMotion: "no-preference" });
       await p.waitForSelector(".live");
       await open(p, "?asset=fixture");
@@ -158,7 +158,7 @@ for (const [name, kind] of Object.entries({ chromium, firefox, webkit })) {
     const ctx = await browser.newContext({ javaScriptEnabled: false });
     const plain = await ctx.newPage();
     await plain.goto(base);
-    assert.equal(await plain.locator("article:visible").count(), 6);
+    assert.equal(await plain.locator("article:visible").count(), 7);
     await ctx.close();
     if (name === "webkit") {
       await fs.mkdir(evidence + "webkit", { recursive: true });

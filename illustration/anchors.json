@@ -384,13 +384,13 @@
       "world": [
         2135,
         0,
-        69
+        95
       ],
       "master": [
         2748.96,
-        1698.5
+        1672.5
       ],
-      "note": ""
+      "note": "Seated centre of the module. The shelf is at z=69; the module is 50 tall, so its centre rests at z=95. A target of z=69 dropped the body through the shelf."
     },
     {
       "id": "spine.j34",

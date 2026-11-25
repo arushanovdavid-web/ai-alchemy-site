@@ -1,16 +1,20 @@
 # AI Alchemy
 
-> AI Alchemy is a technology consulting and implementation firm for businesses in the Greater Toronto Area. We design, build and connect the software, AI automation and data your teams run on. One team, from strategy to go-live.
+> AI Alchemy is an architecture-first technology consulting and engineering company for businesses in the Greater Toronto Area. We design, build and connect the software, AI automation and data your teams run on. One team, from strategy to go-live.
 
-Custom software and AI for your business. Built in-house. No outsourcing.
+Systems Integration & Modernization is the lead offering. It includes CRM and ERP integrations and migrations: connecting the systems a business already runs, modernizing what holds it back, and building only what is missing. Built in-house. No outsourcing.
 
-We work in four areas: strategy and architecture, custom software and modernization, enterprise AI and automation, and cloud and data. We serve the Greater Toronto Area.
+Products & Innovation is a distinct division of the same company, focused on proprietary technology development. It is not a separate legal entity and it does not imply separate personnel.
+
+Client work is also organized as four services: strategy and architecture, custom software and modernization, enterprise AI and automation, and cloud and data. We serve the Greater Toronto Area.
+
+Approval follows each client's organizational structure. The people the client names decide on technical, pricing, safety and production actions. A manager is not assumed to be the decision-maker.
 
 To start a project, send a short project brief. It takes three steps. Your brief opens as an email you send. We reply within one business day. Email: hello@ai-alchemy.ca
 
 ## Services
 
-- [Services overview](https://ai-alchemy.ca/services/): All four services in one place.
+- [Services overview](https://ai-alchemy.ca/services/): Systems Integration & Modernization leads, including CRM and ERP integrations and migrations, with the four services below.
 - [Strategy & Architecture](https://ai-alchemy.ca/services/strategy-architecture/): Make the right technology decisions before you commit to development. We assess your current systems, find the gaps and draw a practical roadmap tied to business priorities.
 - [Custom Software & Modernization](https://ai-alchemy.ca/services/custom-software-modernization/): Stop working around outdated software. We modernize legacy applications, replace manual processes and build software around how you operate.
 - [Enterprise AI & Automation](https://ai-alchemy.ca/services/enterprise-ai-automation/): Put AI where it can do useful work. We find repetitive tasks, improve how information moves and add AI-assisted steps. People keep oversight.

@@ -62,6 +62,22 @@ figure.method .method-steps{border-top:1px solid var(--ink)}
 .wrap{padding-inline:0;max-width:none;width:min(100% - 2*var(--pad),1440px)}
 .page-hero>.wrap:has(>.page-art){align-items:start}
 .page-hero>.wrap:has(>.page-art)>.page-art{margin-top:6px}
-.block .kicker,.section-head .kicker,.cta-band .kicker{display:block;text-align:right;color:var(--ink-2);margin-bottom:clamp(20px,2.4vw,32px);padding-bottom:10px;border-bottom:1px solid var(--line)}
-.cta-band .kicker{color:var(--snow-2);border-color:var(--line-n)}
+/* Sheet references, not the old single-word kickers. Same two-part label as the homepage sheets. */
+.block .sheet-ref,
+.section-head .sheet-ref,
+.cta-band .sheet-ref,
+.cta-copy > .sheet-ref{
+  display:flex;
+  justify-content:flex-end;
+  gap:18px;
+  margin:0 0 clamp(20px,2.4vw,32px);
+  padding:0 0 10px;
+  border-bottom:1px solid var(--line);
+  text-align:right;
+}
+.block .sheet-ref span:first-child,
+.section-head .sheet-ref span:first-child,
+.cta-copy > .sheet-ref span:first-child{color:var(--ink);font-weight:600}
+.cta-band .sheet-ref,.cta-copy > .sheet-ref{color:var(--snow-2);border-color:var(--line-n)}
+.cta-band .sheet-ref span:first-child,.cta-copy > .sheet-ref span:first-child{color:var(--snow)}
 .l2{color:var(--ink-2)}
