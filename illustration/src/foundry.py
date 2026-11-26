@@ -168,13 +168,13 @@ def clamp_y(x, y, n_str=3, gap=6.0):
     return box(x - half, y - 3, 0, 2 * half, 6, 4, hatch=False)
 
 
-def note(p3, text, side="r", L=64, ang=58, nid=None, lines_=None):
+def note(p3, text, side="r", L=64, ang=58, nid=None, lines_=None, gap=6):
     x, y = P(*p3)
     sgn = 1 if side == "r" else -1
     ex = x + math.cos(math.radians(ang)) * L * sgn
     ey = y - math.sin(math.radians(ang)) * L
     sx = ex + 16 * sgn
-    tx = sx + 6 * sgn
+    tx = sx + gap * sgn
     parts = [el("path", {"cls": "ldr", "d": "M%sL%sL%s" % (pt((x, y)), pt((ex, ey)), pt((sx, ey)))}),
              el("circle", {"cls": "dot", "cx": n(x), "cy": n(y), "r": "2.1"})]
     txt = [text] + (lines_ or [])
@@ -479,7 +479,9 @@ def scene1():
         note((160, -255, 180), "Email threads", "r", L=60, ang=60),
         note((-260, 180, 210), "Paper forms", "l", L=64, ang=60),
         note((280, 200, 150), "Legacy software", "r", L=60, ang=-30),
-        note((-200, -100, 6), "Open end", "l", L=40, ang=-50),
+        note((-200, -90, 4.5), "Open end", "l", L=36, ang=133, gap=14),
+        g(note((-200, -90, 4.5), "Open end", "l", L=245, ang=61, gap=20),
+          "ia-s1-open-portrait", style="display:none;--ia-type:3"),
     ]
     return gnd, obj, anc, notes
 
@@ -558,15 +560,19 @@ def mini_plan(z):
     return "".join(out)
 
 
-def _wire_cyl(cx, cy, z0, z1, r, hidden=True):
-    out = []
-    t0, t1 = front_range("z")
-    out.append(arc((cx, cy, z0), "z", r, t0, t1, "w-v"))
-    if hidden:
-        out.append(arc((cx, cy, z0), "z", r, t1, t0 + 2 * math.pi, "w-h"))
-    out.append(ellipse((cx, cy, z1), "z", r, "w-v"))
-    for t in (math.radians(135), math.radians(-45)):
-        out.append(line(circ_pt((cx, cy, z0), "z", r, t), circ_pt((cx, cy, z1), "z", r, t), "w-v"))
+def _wire_cyl(cx, cy, z0, z1, r):
+    bottom, top = (cx, cy, z0), (cx, cy, z1)
+    right, left = front_range("z")
+    # Attenuate the plate border seen through the model. Use the same tangent
+    # points for its transparent surface, both rims and the two side edges.
+    surface = arc_d(bottom, "z", r, right, left)
+    surface += arc_d(top, "z", r, left, right + 2 * math.pi, move=False) + "Z"
+    out = [el("path", {"cls": "f-t", "fill-opacity": ".76", "d": surface})]
+    for center in (bottom, top):
+        out.append(arc(center, "z", r, right, left, "w-v"))
+        out.append(arc(center, "z", r, left, right + 2 * math.pi, "w-h"))
+    for angle in (right, left):
+        out.append(line(circ_pt(bottom, "z", r, angle), circ_pt(top, "z", r, angle), "w-v"))
     return "".join(out)
 
 
@@ -577,8 +583,29 @@ def c_massing():
     s3 = 1 / 3.0
     cx, cy = 1150, -372
     for (r, a, b) in ((124, 0, 24), (92, 24, 94), (84, 94, 316), (96, 316, 332), (62, 332, 352)):
-        out.append(_wire_cyl(cx, cy, z + a * s3, z + b * s3, r * s3, hidden=(r == 124)))
-    out.append(line((cx, cy, z), (cx, cy, z + 110 * s3 + 30), "w-h"))
+        out.append(_wire_cyl(cx, cy, z + a * s3, z + b * s3, r * s3))
+    out.append(line((cx, cy, z), (cx, cy, z + 352 * s3), "w-h"))
+    return "".join(out)
+
+
+def c_dependency_map():
+    """Two existing services feed a routing block and a raised target module."""
+    out = []
+    for y in (-47, 47):
+        out.append(bundle_paths([(-88, y), (-28, y), (-28, 0), (0, 0)], 2, 4, lead=False))
+    out.append(bundle_paths([(0, 0), (96, 0)], 3, 4, lead=False))
+    for y, tag in ((-47, "A"), (47, "B")):
+        out.append(box(-122, y - 15, 0, 35, 30, 24))
+        out.append(iso_text(tag, (-114, y - 5, 24), "top-x", "t-iso-s"))
+        for x in (-115, -108, -101):
+            out.append(line((x, y + 15, 6), (x, y + 15, 18), "d"))
+    out.append(box(-12, -17, 0, 32, 34, 15, tone="-d"))
+    out.append(box(76, -25, 0, 50, 50, 7))
+    out.append(box_wire(81, -20, 7, 40, 40, 35))
+    out.append(box(81, -20, 58, 40, 40, 22, tone="-d"))
+    for x in (81, 121):
+        out.append(line((x, 20, 42), (x, 20, 58), "w-h"))
+    out.append(iso_text("C", (98, 20, 65), "face-l", "t-iso-l"))
     return "".join(out)
 
 
@@ -1690,6 +1717,8 @@ COMPONENTS = [
      "Three-strand stub ending in an open plug (the disconnected state)."),
     ("collector", 2, (620, -80, 0), lambda: c_collector(620, -80), {"in.1": (-14, 35, 0), "in.4": (-14, 125, 0), "out": (80, 80, 0)},
      "Terminal block that gathers four inputs into the spine."),
+    ("dependency-map", 2, (0, 0, 0), c_dependency_map, {},
+     "Two source systems converge on a routing block and an exploded target module."),
     ("drafting-plate", 2, (760, -440, 0), lambda: c_plate(760, -440) + c_massing() + c_scale_rule(800, 1036, -150, 16.01) + c_set_square(16.01),
      {"centre": (260, 170, 16)}, "Plate with a poche plan, structural grid, wire massing, scale rule and set square."),
     ("survey-station", 2, (690, 268, 0), lambda: c_survey(690, 268), {"head": (0, 0, 184), "mark": (0, 0, 0)},

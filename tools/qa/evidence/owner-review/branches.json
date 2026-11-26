@@ -1,0 +1,516 @@
+{
+  "desktop": {
+    "spreadsheets": [
+      {
+        "core": 0.1620041093725304,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 24.331916259765624,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.1721194879089616,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 0,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.8500079026394817,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.8490595859016912,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 0,
+        "lit": false,
+        "state": "built"
+      },
+      {
+        "core": 0.1620041093725304,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 24.331916259765624,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.9400979927295716,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.1620041093725304,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 24.331916259765624,
+        "lit": false,
+        "state": "proposed"
+      }
+    ],
+    "mail": [
+      {
+        "core": 0.176070807649755,
+        "receiver": "s2.collector.in.mail",
+        "gap": 12.833779321289063,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.18602813339655447,
+        "receiver": "s2.collector.in.mail",
+        "gap": 0,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.8500079026394817,
+        "receiver": "s2.collector.in.mail",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.8490595859016912,
+        "receiver": "s2.collector.in.mail",
+        "gap": 0,
+        "lit": false,
+        "state": "built"
+      },
+      {
+        "core": 0.176070807649755,
+        "receiver": "s2.collector.in.mail",
+        "gap": 12.833779321289063,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.9400979927295716,
+        "receiver": "s2.collector.in.mail",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.176070807649755,
+        "receiver": "s2.collector.in.mail",
+        "gap": 12.833779321289063,
+        "lit": false,
+        "state": "proposed"
+      }
+    ],
+    "forms": [
+      {
+        "core": 0.1901375059269796,
+        "receiver": "s2.collector.in.forms",
+        "gap": 23.151446411132813,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.200094831673779,
+        "receiver": "s2.collector.in.forms",
+        "gap": 0,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.8500079026394817,
+        "receiver": "s2.collector.in.forms",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.8490595859016912,
+        "receiver": "s2.collector.in.forms",
+        "gap": 0,
+        "lit": false,
+        "state": "built"
+      },
+      {
+        "core": 0.1901375059269796,
+        "receiver": "s2.collector.in.forms",
+        "gap": 23.151446411132813,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.9400979927295716,
+        "receiver": "s2.collector.in.forms",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.1901375059269796,
+        "receiver": "s2.collector.in.forms",
+        "gap": 23.151446411132813,
+        "lit": false,
+        "state": "proposed"
+      }
+    ],
+    "legacy": [
+      {
+        "core": 0.20404615141457247,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 9.652369042968749,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.21400347716137189,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 0,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.8500079026394817,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.8490595859016912,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 0,
+        "lit": false,
+        "state": "built"
+      },
+      {
+        "core": 0.20404615141457247,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 9.652369042968749,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.9400979927295716,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.20404615141457247,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 9.652369042968749,
+        "lit": false,
+        "state": "proposed"
+      }
+    ],
+    "migration": [
+      {
+        "core": 0.4480796586059744,
+        "receiver": "s3.rack.in",
+        "gap": 10.919998168945312,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.4580369843527738,
+        "receiver": "s3.rack.in",
+        "gap": 0,
+        "lit": false,
+        "state": "built"
+      },
+      {
+        "core": 0.8500079026394817,
+        "receiver": "s3.rack.in",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.8490595859016912,
+        "receiver": "s3.rack.in",
+        "gap": 0,
+        "lit": false,
+        "state": "built"
+      },
+      {
+        "core": 0.4480796586059744,
+        "receiver": "s3.rack.in",
+        "gap": 10.919998168945312,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.9400979927295716,
+        "receiver": "s3.rack.in",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.4480796586059744,
+        "receiver": "s3.rack.in",
+        "gap": 10.919998168945312,
+        "lit": false,
+        "state": "proposed"
+      }
+    ]
+  },
+  "mobile": {
+    "spreadsheets": [
+      {
+        "core": 0.1621368796298637,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 23.723618353271487,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.1720813423339148,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 0,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.8501588585779418,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.8491475572860044,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 0,
+        "lit": false,
+        "state": "built"
+      },
+      {
+        "core": 0.1621368796298637,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 23.723618353271487,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.9401646735603705,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.1621368796298637,
+        "receiver": "s2.collector.in.spreadsheets",
+        "gap": 23.723618353271487,
+        "lit": false,
+        "state": "proposed"
+      }
+    ],
+    "mail": [
+      {
+        "core": 0.1761265475016644,
+        "receiver": "s2.collector.in.mail",
+        "gap": 12.694281719970704,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.1860710102057155,
+        "receiver": "s2.collector.in.mail",
+        "gap": 0,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.8501588585779418,
+        "receiver": "s2.collector.in.mail",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.8491475572860044,
+        "receiver": "s2.collector.in.mail",
+        "gap": 0,
+        "lit": false,
+        "state": "built"
+      },
+      {
+        "core": 0.1761265475016644,
+        "receiver": "s2.collector.in.mail",
+        "gap": 12.694281719970704,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.9401646735603705,
+        "receiver": "s2.collector.in.mail",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.1761265475016644,
+        "receiver": "s2.collector.in.mail",
+        "gap": 12.694281719970704,
+        "lit": false,
+        "state": "proposed"
+      }
+    ],
+    "forms": [
+      {
+        "core": 0.19011621537346513,
+        "receiver": "s2.collector.in.forms",
+        "gap": 23.236250244140624,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.2000606780775162,
+        "receiver": "s2.collector.in.forms",
+        "gap": 0,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.8501588585779418,
+        "receiver": "s2.collector.in.forms",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.8491475572860044,
+        "receiver": "s2.collector.in.forms",
+        "gap": 0,
+        "lit": false,
+        "state": "built"
+      },
+      {
+        "core": 0.19011621537346513,
+        "receiver": "s2.collector.in.forms",
+        "gap": 23.236250244140624,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.9401646735603705,
+        "receiver": "s2.collector.in.forms",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.19011621537346513,
+        "receiver": "s2.collector.in.forms",
+        "gap": 23.236250244140624,
+        "lit": false,
+        "state": "proposed"
+      }
+    ],
+    "legacy": [
+      {
+        "core": 0.20410588324526582,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 9.51348603515625,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.2140503459493169,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 0,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.8501588585779418,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.8491475572860044,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 0,
+        "lit": false,
+        "state": "built"
+      },
+      {
+        "core": 0.20410588324526582,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 9.51348603515625,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.9401646735603705,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.20410588324526582,
+        "receiver": "s2.collector.in.legacy",
+        "gap": 9.51348603515625,
+        "lit": false,
+        "state": "proposed"
+      }
+    ],
+    "migration": [
+      {
+        "core": 0.44816659503282513,
+        "receiver": "s3.rack.in",
+        "gap": 10.740005493164062,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.45811105773687627,
+        "receiver": "s3.rack.in",
+        "gap": 0,
+        "lit": false,
+        "state": "built"
+      },
+      {
+        "core": 0.8501588585779418,
+        "receiver": "s3.rack.in",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.8491475572860044,
+        "receiver": "s3.rack.in",
+        "gap": 0,
+        "lit": false,
+        "state": "built"
+      },
+      {
+        "core": 0.44816659503282513,
+        "receiver": "s3.rack.in",
+        "gap": 10.740005493164062,
+        "lit": false,
+        "state": "proposed"
+      },
+      {
+        "core": 0.9401646735603705,
+        "receiver": "s3.rack.in",
+        "gap": 0,
+        "lit": true,
+        "state": "active"
+      },
+      {
+        "core": 0.44816659503282513,
+        "receiver": "s3.rack.in",
+        "gap": 10.740005493164062,
+        "lit": false,
+        "state": "proposed"
+      }
+    ]
+  }
+}

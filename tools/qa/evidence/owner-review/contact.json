@@ -1,0 +1,806 @@
+{
+  "desktop": [
+    {
+      "separated": {
+        "scroll": 2572,
+        "core": 0.32543069385174644,
+        "gap": 1.9439989746093749,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.5457162929883971
+      },
+      "contact": {
+        "scroll": 2595,
+        "core": 0.3290659080132764,
+        "gap": 0,
+        "complete": true,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.5471930327885283
+      },
+      "lit": {
+        "scroll": 4436,
+        "core": 0.6200410937253042,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.7389885678620243
+      },
+      "reverseLit": {
+        "scroll": 4435,
+        "core": 0.6198830409356725,
+        "gap": 0,
+        "complete": true,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.7389346792206687
+      },
+      "reverseSeparated": {
+        "scroll": 2572,
+        "core": 0.32543069385174644,
+        "gap": 1.9439989746093749,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.5457162929883971
+      },
+      "seekLit": {
+        "scroll": 6461,
+        "core": 0.9400979927295716,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.1816332850594225
+      },
+      "seekSeparated": {
+        "scroll": 2572,
+        "core": 0.32543069385174644,
+        "gap": 1.9439989746093749,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.5457162929883971
+      }
+    },
+    {
+      "separated": {
+        "scroll": 3627,
+        "core": 0.492176386913229,
+        "gap": 1.4999930419921876,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.697796485550509
+      },
+      "contact": {
+        "scroll": 3652,
+        "core": 0.49612770665402245,
+        "gap": 0,
+        "complete": true,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.6873340862257423
+      },
+      "lit": {
+        "scroll": 4436,
+        "core": 0.6200410937253042,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.7389885678620243
+      },
+      "reverseLit": {
+        "scroll": 4435,
+        "core": 0.6198830409356725,
+        "gap": 0,
+        "complete": true,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.7389346792206687
+      },
+      "reverseSeparated": {
+        "scroll": 3627,
+        "core": 0.492176386913229,
+        "gap": 1.4999930419921876,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.697796485550509
+      },
+      "seekLit": {
+        "scroll": 6461,
+        "core": 0.9400979927295716,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.1816332850594225
+      },
+      "seekSeparated": {
+        "scroll": 3627,
+        "core": 0.492176386913229,
+        "gap": 1.4999930419921876,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.697796485550509
+      }
+    },
+    {
+      "separated": {
+        "scroll": 4734,
+        "core": 0.6671408250355619,
+        "gap": 1.4000053833007813,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.7359276856704505
+      },
+      "contact": {
+        "scroll": 4759,
+        "core": 0.6710921447763554,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.7234065910575943
+      },
+      "lit": {
+        "scroll": 4759,
+        "core": 0.6710921447763554,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.7234065910575943
+      },
+      "reverseLit": {
+        "scroll": 4758,
+        "core": 0.6709340919867236,
+        "gap": 0,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.7239726351099794
+      },
+      "reverseSeparated": {
+        "scroll": 4734,
+        "core": 0.6671408250355619,
+        "gap": 1.4000053833007813,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.7359276856704505
+      },
+      "seekLit": {
+        "scroll": 6461,
+        "core": 0.9400979927295716,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.1816332850594225
+      },
+      "seekSeparated": {
+        "scroll": 4734,
+        "core": 0.6671408250355619,
+        "gap": 1.4000053833007813,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.7359276856704505
+      }
+    },
+    {
+      "separated": {
+        "scroll": 5772,
+        "core": 0.8311996206733049,
+        "gap": 1.478396923828125,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.7307994019126944
+      },
+      "contact": {
+        "scroll": 5784,
+        "core": 0.8330962541488857,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.73318807309985
+      },
+      "lit": {
+        "scroll": 5784,
+        "core": 0.8330962541488857,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.73318807309985
+      },
+      "reverseLit": {
+        "scroll": 5783,
+        "core": 0.832938201359254,
+        "gap": 0,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.7330470786224577
+      },
+      "reverseSeparated": {
+        "scroll": 5772,
+        "core": 0.8311996206733049,
+        "gap": 1.478396923828125,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.7307994019126944
+      },
+      "seekLit": {
+        "scroll": 6461,
+        "core": 0.9400979927295716,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.1816332850594225
+      },
+      "seekSeparated": {
+        "scroll": 5772,
+        "core": 0.8311996206733049,
+        "gap": 1.478396923828125,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.7307994019126944
+      }
+    }
+  ],
+  "mobile": [
+    {
+      "separated": {
+        "scroll": 2404,
+        "core": 0.32411363655517067,
+        "gap": 3.644998077392578,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.276451184241382
+      },
+      "contact": {
+        "scroll": 2433,
+        "core": 0.3290015927995348,
+        "gap": 0,
+        "complete": true,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.27756361316775896
+      },
+      "lit": {
+        "scroll": 4160,
+        "core": 0.6200878146621833,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.37487302449671767
+      },
+      "reverseLit": {
+        "scroll": 4159,
+        "core": 0.6199192644468604,
+        "gap": 0,
+        "complete": true,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.3748437108982833
+      },
+      "reverseSeparated": {
+        "scroll": 2404,
+        "core": 0.32411363655517067,
+        "gap": 3.644998077392578,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.276451184241382
+      },
+      "seekLit": {
+        "scroll": 6059,
+        "core": 0.9401646735603705,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.09132680863449123
+      },
+      "seekSeparated": {
+        "scroll": 2404,
+        "core": 0.32411363655517067,
+        "gap": 3.644998077392578,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j23",
+        "end": [
+          2197.090087890625,
+          1451.1199951171875
+        ],
+        "scale": 0.276451184241382
+      }
+    },
+    {
+      "separated": {
+        "scroll": 3396,
+        "core": 0.49131545015548755,
+        "gap": 2.2999893310546873,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.4449444828094569
+      },
+      "contact": {
+        "scroll": 3424,
+        "core": 0.49603485618452875,
+        "gap": 0,
+        "complete": true,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.42870023586771877
+      },
+      "lit": {
+        "scroll": 4160,
+        "core": 0.6200878146621833,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.37487302449671767
+      },
+      "reverseLit": {
+        "scroll": 4159,
+        "core": 0.6199192644468604,
+        "gap": 0,
+        "complete": true,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.3748437108982833
+      },
+      "reverseSeparated": {
+        "scroll": 3396,
+        "core": 0.49131545015548755,
+        "gap": 2.2999893310546873,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.4449444828094569
+      },
+      "seekLit": {
+        "scroll": 6059,
+        "core": 0.9401646735603705,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.09132680863449123
+      },
+      "seekSeparated": {
+        "scroll": 3396,
+        "core": 0.49131545015548755,
+        "gap": 2.2999893310546873,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j34",
+        "end": [
+          3063.110107421875,
+          1951.1199951171875
+        ],
+        "scale": 0.4449444828094569
+      }
+    },
+    {
+      "separated": {
+        "scroll": 4430,
+        "core": 0.6655963727993663,
+        "gap": 2.7000103820800785,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.37528358707316917
+      },
+      "contact": {
+        "scroll": 4463,
+        "core": 0.671158529905022,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.36683939242481517
+      },
+      "lit": {
+        "scroll": 4463,
+        "core": 0.671158529905022,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.36683939242481517
+      },
+      "reverseLit": {
+        "scroll": 4462,
+        "core": 0.6709899796896991,
+        "gap": 0,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.3671464848144234
+      },
+      "reverseSeparated": {
+        "scroll": 4430,
+        "core": 0.6655963727993663,
+        "gap": 2.7000103820800785,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.37528358707316917
+      },
+      "seekLit": {
+        "scroll": 6059,
+        "core": 0.9401646735603705,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.09132680863449123
+      },
+      "seekSeparated": {
+        "scroll": 4430,
+        "core": 0.6655963727993663,
+        "gap": 2.7000103820800785,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "spine.j45",
+        "end": [
+          3929.139892578125,
+          2451.1201171875
+        ],
+        "scale": 0.37528358707316917
+      }
+    },
+    {
+      "separated": {
+        "scroll": 5409,
+        "core": 0.8306070336004855,
+        "gap": 2.5343947265624998,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.4340143290424112
+      },
+      "contact": {
+        "scroll": 5424,
+        "core": 0.833135286830329,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.43685238047751934
+      },
+      "lit": {
+        "scroll": 5424,
+        "core": 0.833135286830329,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.43685238047751934
+      },
+      "reverseLit": {
+        "scroll": 5423,
+        "core": 0.8329667366150061,
+        "gap": 0,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.43673146499676563
+      },
+      "reverseSeparated": {
+        "scroll": 5409,
+        "core": 0.8306070336004855,
+        "gap": 2.5343947265624998,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.4340143290424112
+      },
+      "seekLit": {
+        "scroll": 6059,
+        "core": 0.9401646735603705,
+        "gap": 0,
+        "complete": true,
+        "lit": true,
+        "stroke": "rgb(208, 108, 64)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.09132680863449123
+      },
+      "seekSeparated": {
+        "scroll": 5409,
+        "core": 0.8306070336004855,
+        "gap": 2.5343947265624998,
+        "complete": false,
+        "lit": false,
+        "stroke": "rgb(28, 32, 38)",
+        "receiver": "s5.terminal",
+        "end": [
+          4843.66015625,
+          2979.1201171875
+        ],
+        "scale": 0.4340143290424112
+      }
+    }
+  ]
+}

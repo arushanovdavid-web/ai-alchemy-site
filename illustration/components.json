@@ -221,6 +221,25 @@
       "place_in_master": "translate(1506.22 970)"
     },
     {
+      "name": "dependency-map",
+      "file": "svg/components/dependency-map.svg",
+      "scene": 2,
+      "origin_world": [
+        0,
+        0,
+        0
+      ],
+      "viewBox": [
+        -184,
+        -140,
+        339,
+        240
+      ],
+      "ports": {},
+      "description": "Two source systems converge on a routing block and an exploded target module.",
+      "place_in_master": "translate(900 700)"
+    },
+    {
       "name": "drafting-plate",
       "file": "svg/components/drafting-plate.svg",
       "scene": 2,

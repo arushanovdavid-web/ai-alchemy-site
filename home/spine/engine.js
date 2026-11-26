@@ -152,7 +152,7 @@ function bind(svg, manifest) {
     )
       throw Error("Invalid spine segment " + n);
     paths.forEach((p) => (p.style.strokeDasharray = "1 1"));
-    return paths;
+    return { paths, lead: paths.find((path) => path.classList.contains("ia-lead")) };
   });
   const plate = get("s2-plate"),
     module = get("s3-module-new"),
@@ -164,7 +164,8 @@ function bind(svg, manifest) {
     ground = get("ground"),
     notes = get("annotations");
   const paintMechanics = mechanics ? bindMechanics(get, C30, project, defs) : null;
-  const labels = [...svg.querySelectorAll(".ia-note")].map((n) => {
+  const portraitNote = svg.querySelector("#ia-s1-open-portrait");
+  const labels = [...svg.querySelectorAll(".ia-notes > .ia-note")].map((n) => {
     const dot = n.querySelector("circle");
     return { n, x: Number(dot?.getAttribute("cx")), y: Number(dot?.getAttribute("cy")) };
   });
@@ -225,7 +226,7 @@ function bind(svg, manifest) {
         path,
         !t
           ? "off"
-          : frame.liveLinks
+          : frame.liveLinks && t === 1
             ? "active"
             : frame.built
               ? "built"
@@ -236,11 +237,13 @@ function bind(svg, manifest) {
         attr(ink, "stroke-dashoffset", (1 - t).toFixed(4));
       } else if (path.hasAttribute("mask")) path.removeAttribute("mask");
     });
-    segments.forEach((paths, i) => {
+    segments.forEach(({ paths, lead }, i) => {
       const fraction = frame.draw[i];
       if (fraction === lastDraw[i]) return;
       const completed = fraction === 1;
-      const changePattern = completed !== (lastDraw[i] === 1);
+      // The lead reaches its authored receiving junction at full path length.
+      const changePattern = lastDraw[i] === undefined || completed !== (lastDraw[i] === 1);
+      if (lead && changePattern) lead.style.stroke = completed ? "" : "var(--ia-ink)";
       const offset = (1 - fraction).toFixed(4);
       paths.forEach((path) => {
         if (changePattern)
@@ -289,13 +292,21 @@ function bind(svg, manifest) {
     opacity(lines, 1 - frame.seat);
     opacity(guide, 1 - frame.seat);
     if (migration)
-      state(migration, frame.liveLinks ? "active" : frame.seat >= 1 ? "built" : frame.visibility[2] > 0 ? "proposed" : "off");
+      state(migration, frame.liveLinks && frame.seat === 1 ? "active" : frame.seat >= 1 ? "built" : frame.visibility[2] > 0 ? "proposed" : "off");
     paintMechanics?.(frame);
     state(core, frame.core ? "active" : "default");
     state(gate, frame.gate ? "active" : "default");
     state(terminal, frame.terminal ? "active" : "default");
     attr(ground, "transform", "translate(0 " + frame.depth.toFixed(2) + ")");
     attr(notes, "visibility", framing.portrait || frame.hero > 0.5 ? "hidden" : "visible");
+    if (portraitNote) {
+      const show = framing.portrait && frame.hero === 0 && frame.p < 0.072;
+      portraitNote.style.display = show ? "inline" : "none";
+      if (show) {
+        attr(portraitNote, "visibility", "visible");
+        opacity(portraitNote, 1 - ramp(frame.p, 0.06, 0.072));
+      }
+    }
     if (!framing.portrait && framing.px) {
       const scale = framing.px / width;
       const type = Math.max(1, Math.min(2.1, 11 / (12.5 * scale)));
