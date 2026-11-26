@@ -1,14 +1,14 @@
 # AI Alchemy
 
-> AI Alchemy is an architecture-first technology consulting and engineering company for businesses in the Greater Toronto Area. We design, build and connect the software, AI automation and data your teams run on. One team, from strategy to go-live.
+> AI Alchemy is an architecture-first technology consulting and engineering company based in the Greater Toronto Area. We design, build and connect the software, AI automation and data your teams run on. One team, from strategy to go-live.
 
 Systems Integration & Modernization is the lead offering. It includes CRM and ERP integrations and migrations: connecting the systems a business already runs, modernizing what holds it back, and building only what is missing. Built in-house. No outsourcing.
 
 Our Products & Innovation division develops proprietary software and AI technologies. Our own products are taking shape. More to share soon.
 
-Client work is also organized as four services: strategy and architecture, custom software and modernization, enterprise AI and automation, and cloud and data. We serve the Greater Toronto Area.
+Client work is also organized as four services: strategy and architecture, custom software and modernization, enterprise AI and automation, and cloud and data. We are based in the Greater Toronto Area.
 
-Approval follows each client's organizational structure. The people the client names decide on technical, pricing, safety and production actions. A manager is not assumed to be the decision-maker.
+Clients stay in control. We design systems around each client's processes, approval requirements and decision-making authority.
 
 To start a project, send a short project brief. It takes three steps. Your brief opens as an email you send. We reply within one business day. Email: hello@ai-alchemy.ca
 

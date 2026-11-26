@@ -1,5 +1,7 @@
 # Final editorial review: material copy changes for owner approval
 
+**Status: all 16 approved by the owner on 2026-11-26 and applied.** Row 7: `llms.txt` uses "Clients stay in control. We design systems around each client's processes, approval requirements and decision-making authority." That is the locked reassurance in the third person.
+
 Reviewed 2026-11-26 on `integration/experience-spine-site`. I read the working tree, which already had another session's uncommitted edits to `index.html`, `about/`, `contact/` and `llms.txt`. I checked every page, the meta titles and descriptions, og and twitter text, JSON-LD and `llms.txt`. The owner decisions locked today are not reopened here. That covers navigation, all H2s and H3s, the homepage H1, the Products & Innovation body, the chapter 4 and chapter 6 bodies, and the approval reassurance.
 
 Every "Proposed" line below is PROPOSED and needs owner approval before it goes on a page.

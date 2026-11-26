@@ -1,6 +1,6 @@
 # AI Alchemy: Experience Spine copy deck
 
-Status: DRAFT for owner approval. Nothing here is live. Every line marked NEW or ADAPTED is PROPOSED until the owner approves it. Owner approval is not complete.
+Status: APPROVED by the owner, 2026-11-26. See "Owner approvals, 2026-11-26" below. The three owner facts listed there are still open.
 
 Prepared 2026-11-24 on branch `integration/experience-spine-site`. Updated the same day with the positioning decisions below. Those decisions are implemented on the branch so the deck and the pages match. They are still pending the owner's lock. Do not treat this deck as approved.
 
@@ -11,7 +11,8 @@ Prepared 2026-11-24 on branch `integration/experience-spine-site`. Updated the s
 - **AI & Automation chapter (CH4-B):** "AI takes care of repetitive work while your people retain control over the decisions that matter."
 - **Final chapter (CH6-B):** "Your systems connected. Your workflows streamlined. Your people equipped with better tools."
 - **Approval reassurance (F-T3, About, Contact):** heading "Your business stays in control", body "We design systems around your organization's processes, approval requirements and decision-making authority."
-- **Remaining NEW and ADAPTED lines:** pending a final editorial review (`FINAL-EDITORIAL-REVIEW.md`). Only material changes go back to the owner.
+- **Remaining NEW and ADAPTED lines:** the final editorial review (`FINAL-EDITORIAL-REVIEW.md`) found 16 material changes. The owner approved all 16 on 26 Nov, and they are applied. The copy is approved for launch.
+- **Still for the owner to confirm (facts, nothing depends on them):** whether you serve clients beyond the GTA; whether pricing is fixed or hourly by scope (live on `/services/`); hands-on CRM and ERP work.
 
 ## Positioning decisions recorded (pending owner lock)
 
