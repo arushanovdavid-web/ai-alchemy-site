@@ -95,3 +95,12 @@ figure.method .method-steps{border-top:1px solid var(--ink)}
 .cta-copy>:not(.sheet-ref){max-width:40rem}
 .block .inline-cta{padding:clamp(36px,5vh,56px) 0 0;max-width:none;margin:0}
 .cta-band>.wrap{grid-template-columns:minmax(0,1fr)}
+/* Night blocks (industry problem/fix pairs): the sheet number and the brief button take the night-band treatment. */
+.block:has(.pairs) .sheet-ref.label{color:var(--snow-2)}
+.block:has(.pairs) .sheet-ref span:first-child{color:var(--snow)}
+.block:has(.pairs) .btn{background:var(--snow);color:var(--night);border-color:var(--snow);text-decoration:none}
+.block:has(.pairs) .btn:hover{background:var(--accent-lite);color:var(--night);border-color:var(--accent-lite)}
+/* The Sheet header stays on paper over night sections too: the older night+scrolled rule turned it dark under ink text. */
+.hdr[data-tone].is-scrolled{color:var(--ink);background:rgba(242,237,227,.93)}
+.hdr[data-tone] .btn{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.hdr[data-tone] .btn:hover{background:var(--accent);border-color:var(--accent);color:var(--ink)}
