@@ -68,7 +68,7 @@
 #experience.live .narrative { transform: translateY(var(--caption-shift, 0)); pointer-events: none; }
 #experience.live .narrative a, #experience.live .narrative button { pointer-events: auto; }
 #experience.live .ia [data-state="active"] .ia-lead,
-#experience.live .ia .ia-link[data-state="active"] { vector-effect: non-scaling-stroke; stroke-width: 1.55px; }
+#experience.live .ia .ia-link[data-state="active"] { vector-effect: non-scaling-stroke; stroke: var(--ia-signal); stroke-width: .75px; }
 #experience[data-mode="overview"] .poster { visibility: hidden; }
 @media (prefers-reduced-motion: no-preference) and (min-height: 316px) { .preparing #experience { min-height: 860svh; } }
 

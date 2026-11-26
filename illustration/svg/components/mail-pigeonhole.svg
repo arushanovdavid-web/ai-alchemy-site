@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-154 -166 352 361" class="ia" role="img" aria-labelledby="ia-t ia-d" data-ia-version="1.1.0" width="352" height="361"><title id="ia-t">AI Alchemy component: mail pigeonhole</title><desc id="ia-d">Pigeonhole cabinet, 4 x 3 recessed cells with letters, on a 200 x 150 plinth.</desc><style>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-154 -166 352 361" class="ia" role="img" aria-labelledby="ia-t ia-d" data-ia-version="1.2.0" width="352" height="361"><title id="ia-t">AI Alchemy component: mail pigeonhole</title><desc id="ia-d">Pigeonhole cabinet, 4 x 3 recessed cells with letters, on a 200 x 150 plinth.</desc><style>
 .ia{--ia-ink:#1C2026;--ia-ink-2:#4C525A;--ia-hair:rgba(28,32,38,.36);--ia-top:#FBF9F4;--ia-left:#ECE6D9;--ia-right:#DDD4C2;
 --ia-recess:#C8BEA9;--ia-sh:rgba(28,32,38,.075);--ia-dot:rgba(28,32,38,.22);--ia-active:#1F6B5C;--ia-signal:#D06C40;
 --ia-approve:#9A6F12;--ia-ground:#F2EDE3;--ia-lw:1;
@@ -19,7 +19,7 @@
 .ia .in-glass .strand{stroke:var(--ia-ring);stroke-opacity:.75}.ia .in-glass .h{stroke:var(--ia-ring);stroke-opacity:.35}
 .ia .in-glass .w-h{stroke:var(--ia-ring);stroke-opacity:.45}.ia .in-glass .ia-core:not(.x){fill:var(--ia-ring)}.ia .in-glass .e-i{stroke:var(--ia-deep-3)}
 .ia .in-glass .e-o{stroke:var(--ia-deep-3)}
-.ia [data-state=active] .in-glass .ia-lead{stroke:var(--ia-active);stroke-opacity:1}
+.ia [data-state=active] .in-glass .ia-lead{stroke:var(--ia-signal);stroke-opacity:1}
 .ia [data-state=active] .in-glass .ia-core:not(.x){fill:var(--ia-signal)}
 .ia .pat-perf-d{fill:var(--ia-top);fill-opacity:.42}.ia .hv{fill:url(#ia-hv)}.ia .sh{fill:var(--ia-sh)}.ia .poche{fill:var(--ia-ink)}
 .ia .f-ink{fill:var(--ia-ink)}.ia .f-hair{fill:var(--ia-hair)}
@@ -35,10 +35,10 @@
 .ia .ldr{stroke:var(--ia-ink-2);stroke-width:calc(.65px*var(--ia-lw))}
 .ia .rule{stroke:var(--ia-ink);stroke-width:calc(.8px*var(--ia-lw))}
 .ia .strand{stroke:var(--ia-ink);stroke-width:calc(.72px*var(--ia-lw))}
-.ia .strand.edge{stroke-width:calc(1.15px*var(--ia-lw))}
+.ia .ia-spine .strand{stroke-width:calc(.65px*var(--ia-lw))}
 .ia .ia-link{stroke:var(--ia-ink-2);stroke-width:calc(.9px*var(--ia-lw));stroke-dasharray:7 5}
 .ia .ia-link[data-state=built]{stroke:var(--ia-ink);stroke-dasharray:none}
-.ia .ia-link[data-state=active]{stroke:var(--ia-active);stroke-dasharray:none;stroke-width:calc(1.5px*var(--ia-lw))}
+.ia .ia-link[data-state=active]{stroke:var(--ia-signal);stroke-dasharray:none;stroke-width:calc(1.5px*var(--ia-lw))}
 .ia .ia-link[data-state=off]{visibility:hidden}
 .ia .dot{fill:var(--ia-ink-2)}
 .ia .ia-lamp{fill:var(--ia-top);stroke:var(--ia-ink);stroke-width:calc(.6px*var(--ia-lw))}
@@ -46,13 +46,13 @@
 .ia .ia-gold{fill:var(--ia-recess)}
 .ia .ia-term{fill:var(--ia-ink)}
 .ia .ia-open{fill:var(--ia-top);stroke:var(--ia-ink);stroke-width:calc(.8px*var(--ia-lw))}
-.ia [data-state=active] .ia-lead{stroke:var(--ia-active);stroke-width:calc(1.6px*var(--ia-lw))}
+.ia [data-state=active] .ia-lead{stroke:var(--ia-signal);stroke-width:calc(.8px*var(--ia-lw))}
 .ia [data-state=active] .ia-lamp{fill:var(--ia-signal)}
 .ia [data-state=active] .ia-core{fill:var(--ia-signal)}
 .ia [data-state=active] .ia-gold{fill:var(--ia-approve)}
 .ia [data-state=active] .ia-term{fill:var(--ia-signal)}
 .ia [data-state=active] .ia-open{stroke:var(--ia-signal);fill:var(--ia-top)}
-.ia [data-state=active] .ia-ring{stroke:var(--ia-active)}
+.ia [data-state=active] .ia-ring{stroke:var(--ia-signal)}
 .ia .ia-ring{fill:none;stroke:var(--ia-ink);stroke-linecap:butt}
 .ia .ia-anchor{fill:none;stroke:none}
 .ia text{font-family:var(--ia-mono);fill:var(--ia-ink-2)}

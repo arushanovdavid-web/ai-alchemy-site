@@ -1,0 +1,36 @@
+{
+  "desktop": {
+    "scrollSamples": 481,
+    "mismatches": [],
+    "violations": [],
+    "counts": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "boxTravel": [
+      0,
+      133.99999690668182
+    ],
+    "tiltError": 0.00006830226644893855,
+    "axisError": 0
+  },
+  "mobile": {
+    "scrollSamples": 481,
+    "mismatches": [],
+    "violations": [],
+    "counts": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "boxTravel": [
+      0,
+      133.99999690668182
+    ],
+    "tiltError": 0.00006759949221724071,
+    "axisError": 0
+  }
+}

@@ -11,6 +11,23 @@ const attr = (el, key, val) => {
 const opacity = (el, v) => attr(el, "opacity", v.toFixed(3));
 const ids = ["spreadsheets", "mail", "forms", "legacy"];
 
+function bindMechanics(get, C30) {
+  const fan = get("s4-fan-rotor"), parcel = get("s4-parcel"),
+    boom = get("s4-boom"), lever = get("s4-lever");
+  const travelX = Number(parcel.dataset.travel);
+  const [hx, hy] = boom.dataset.pivot.split(",").map(Number);
+  return (frame) => {
+    attr(fan, "transform", `rotate(${frame.fanAngle.toFixed(4)})`);
+    attr(parcel, "transform", `translate(${(frame.conveyor * travelX * C30).toFixed(4)} ${(frame.conveyor * travelX / 2).toFixed(4)})`);
+    // Hinge along world X: rotate in the Y/Z plane, then project back.
+    const angle = frame.barrier * Math.PI / 2;
+    const c = Math.cos(angle), s = Math.sin(angle);
+
+    attr(boom, "transform", `translate(${hx} ${hy}) matrix(${c + s / 2} ${-1.25 * s / C30} ${C30 * s} ${c - s / 2} 0 0) translate(${-hx} ${-hy})`);
+    attr(lever, "transform", `rotate(${(frame.lever * 42).toFixed(3)} ${lever.dataset.pivot.replace(",", " ")})`);
+  };
+}
+
 function bind(svg, manifest) {
   const get = (id) => {
     const el = svg.querySelector("#ia-" + id);
@@ -70,10 +87,11 @@ function bind(svg, manifest) {
     defs.append(clip);
     site.setAttribute("clip-path", "url(#spine-site-front)");
   }
+  const mechanics = manifest.version === "1.2.0";
   const segments = [2, 3, 4, 5].map((n) => {
     const paths = [...get("spine-s" + n).querySelectorAll(".strand")];
     if (
-      paths.length !== 7 ||
+      paths.length !== (mechanics ? 4 : 7) ||
       paths.some((p) => p.getAttribute("pathLength") !== "1")
     )
       throw Error("Invalid spine segment " + n);
@@ -89,6 +107,7 @@ function bind(svg, manifest) {
     terminal = get("s5-terminal"),
     ground = get("ground"),
     notes = get("annotations");
+  const paintMechanics = mechanics ? bindMechanics(get, C30) : null;
   const labels = [...svg.querySelectorAll(".ia-note")].map((n) => {
     const dot = n.querySelector("circle");
     return { n, x: Number(dot?.getAttribute("cx")), y: Number(dot?.getAttribute("cy")) };
@@ -215,6 +234,7 @@ function bind(svg, manifest) {
     opacity(guide, 1 - frame.seat);
     if (migration)
       state(migration, frame.liveLinks ? "active" : frame.seat >= 1 ? "built" : frame.visibility[2] > 0 ? "proposed" : "off");
+    paintMechanics?.(frame);
     state(core, frame.core ? "active" : "default");
     state(gate, frame.gate ? "active" : "default");
     state(terminal, frame.terminal ? "active" : "default");

@@ -1,10 +1,12 @@
-# Asset interface specification (v1.1.0)
+# Asset interface specification (v1.2.0)
 
 **From:** Illustration Foundry (artwork). **For:** Codex, Experience Spine (motion and page).
 **Status:** proposed. Review and comment on the pull request. The interface is agreed when Codex approves the PR
 or asks for changes there. Nothing here is wired into the site yet.
 
 ## Changelog
+
+**1.2.0.** The homepage consumes four surface conductors per main segment. The fan rotor, parcel, boom and lever have separate transform targets. The lab retains support for its seven-strand Foundry bundles.
 
 **1.1.0 (art revision, additive).** Every 1.0 ID, anchor ID, camera, state value and token is kept. One anchor value moved:
 `s2.survey.head` is now at world (690, 268, 184), because the survey station moved.
@@ -77,7 +79,7 @@ element has the same ID everywhere. **Do not inline the master and a scene file 
 svg.ia  [data-ia-version, data-ia-theme?]
 ├── defs                      patterns: #ia-hv (hatch), #ia-dots (ground), #ia-perf-l, #ia-perf-t
 ├── #ia-ground                dotted board (hide it to sit the art on the page's own ground)
-├── #ia-site                  the slab under scenes 2–5: section-cut edges, site grid, the spine channel
+├── #ia-site                  the slab under scenes 2–5: section-cut edges and site grid
 ├── #ia-scenes
 │   └── #ia-scene-N  .ia-scene  [data-scene=N][data-slug][data-state]
 │       ├── #ia-sN-ground     shadows, grid, spine segment, stubs, links (drawn first for correct occlusion)
@@ -98,8 +100,8 @@ Addressable parts:
 | 4 | `#ia-s4-platform`, `#ia-s4-core` (contains `#ia-s4-core-vessel`), `#ia-s4-reader`, `#ia-s4-reader-front`, `#ia-s4-conveyor`, `#ia-s4-gate`, `#ia-s4-console`, spine `#ia-spine-s4` |
 | 5 | `#ia-s5-floor`, `#ia-s5-row-a`, `#ia-s5-row-b`, `#ia-s5-stores`, `#ia-s5-terminal`, spine `#ia-spine-s5` |
 
-**Spine:** each `#ia-spine-sN` holds seven `path.strand` elements, `[data-strand=0..6]`, each with
-`pathLength="1"`. Strand 3 also has `.ia-lead`. Segments meet exactly at the junction anchors `spine.j23`,
+**Spine:** each `#ia-spine-sN` holds four `path.strand` elements, `[data-strand=0..3]`, each with
+`pathLength="1"`. Strand 1 also has `.ia-lead`. Segments meet exactly at the junction anchors `spine.j23`,
 `spine.j34` and `spine.j45` (x = 1500, 2500, 3500) and carry `data-from` and `data-to`. Drawing s2 → s5 in order
 gives one continuous line.
 

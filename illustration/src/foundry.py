@@ -16,7 +16,7 @@ from iso import (CTX, C, S, K, P, _ell, n, pt, el, g, esc, polygon, polyline, li
                  offset_polyline, chamfer, d_poly, track, untrack, vec, hull)
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 
 W, H = 5280, 3300          # master canvas, user units
 OX, OY = 900, 700          # screen position of world origin (0, 0, 0)
@@ -32,7 +32,7 @@ SCENES = [
 ]
 
 ANCHORS = []
-N_STRANDS, GAP = 7, 7.0
+N_STRANDS, GAP = 4, 4.5
 
 
 def anchor(aid, scene, role, x, y, z=0.0, note=""):
@@ -65,7 +65,7 @@ STYLE = """
 .ia .in-glass .strand{stroke:var(--ia-ring);stroke-opacity:.75}.ia .in-glass .h{stroke:var(--ia-ring);stroke-opacity:.35}
 .ia .in-glass .w-h{stroke:var(--ia-ring);stroke-opacity:.45}.ia .in-glass .ia-core:not(.x){fill:var(--ia-ring)}.ia .in-glass .e-i{stroke:var(--ia-deep-3)}
 .ia .in-glass .e-o{stroke:var(--ia-deep-3)}
-.ia [data-state=active] .in-glass .ia-lead{stroke:var(--ia-active);stroke-opacity:1}
+.ia [data-state=active] .in-glass .ia-lead{stroke:var(--ia-signal);stroke-opacity:1}
 .ia [data-state=active] .in-glass .ia-core:not(.x){fill:var(--ia-signal)}
 .ia .pat-perf-d{fill:var(--ia-top);fill-opacity:.42}.ia .hv{fill:url(#ia-hv)}.ia .sh{fill:var(--ia-sh)}.ia .poche{fill:var(--ia-ink)}
 .ia .f-ink{fill:var(--ia-ink)}.ia .f-hair{fill:var(--ia-hair)}
@@ -81,10 +81,10 @@ STYLE = """
 .ia .ldr{stroke:var(--ia-ink-2);stroke-width:calc(.65px*var(--ia-lw))}
 .ia .rule{stroke:var(--ia-ink);stroke-width:calc(.8px*var(--ia-lw))}
 .ia .strand{stroke:var(--ia-ink);stroke-width:calc(.72px*var(--ia-lw))}
-.ia .strand.edge{stroke-width:calc(1.15px*var(--ia-lw))}
+.ia .ia-spine .strand{stroke-width:calc(.65px*var(--ia-lw))}
 .ia .ia-link{stroke:var(--ia-ink-2);stroke-width:calc(.9px*var(--ia-lw));stroke-dasharray:7 5}
 .ia .ia-link[data-state=built]{stroke:var(--ia-ink);stroke-dasharray:none}
-.ia .ia-link[data-state=active]{stroke:var(--ia-active);stroke-dasharray:none;stroke-width:calc(1.5px*var(--ia-lw))}
+.ia .ia-link[data-state=active]{stroke:var(--ia-signal);stroke-dasharray:none;stroke-width:calc(1.5px*var(--ia-lw))}
 .ia .ia-link[data-state=off]{visibility:hidden}
 .ia .dot{fill:var(--ia-ink-2)}
 .ia .ia-lamp{fill:var(--ia-top);stroke:var(--ia-ink);stroke-width:calc(.6px*var(--ia-lw))}
@@ -92,13 +92,13 @@ STYLE = """
 .ia .ia-gold{fill:var(--ia-recess)}
 .ia .ia-term{fill:var(--ia-ink)}
 .ia .ia-open{fill:var(--ia-top);stroke:var(--ia-ink);stroke-width:calc(.8px*var(--ia-lw))}
-.ia [data-state=active] .ia-lead{stroke:var(--ia-active);stroke-width:calc(1.6px*var(--ia-lw))}
+.ia [data-state=active] .ia-lead{stroke:var(--ia-signal);stroke-width:calc(.8px*var(--ia-lw))}
 .ia [data-state=active] .ia-lamp{fill:var(--ia-signal)}
 .ia [data-state=active] .ia-core{fill:var(--ia-signal)}
 .ia [data-state=active] .ia-gold{fill:var(--ia-approve)}
 .ia [data-state=active] .ia-term{fill:var(--ia-signal)}
 .ia [data-state=active] .ia-open{stroke:var(--ia-signal);fill:var(--ia-top)}
-.ia [data-state=active] .ia-ring{stroke:var(--ia-active)}
+.ia [data-state=active] .ia-ring{stroke:var(--ia-signal)}
 .ia .ia-ring{fill:none;stroke:var(--ia-ink);stroke-linecap:butt}
 .ia .ia-anchor{fill:none;stroke:none}
 .ia text{font-family:var(--ia-mono);fill:var(--ia-ink-2)}
@@ -834,7 +834,7 @@ def scene3():
         anchor("s3.riser", 3, "focus", 2268, 36, 122),
         anchor("s3.rack.out", 3, "out", 2250, 0, 0),
         anchor("s3.module.hanging", 3, "focus", 2135, 0, 240),
-        anchor("s3.module.slot", 3, "target", 2135, 0, 95, "seated centre of the module; the shelf is z=69 and the module is 50 tall"),
+        anchor("s3.module.slot", 3, "target", 2135, 0, 95, "Seated centre of the module. The shelf is at z=69; the module is 50 tall, so its centre rests at z=95. A target of z=69 dropped the body through the shelf."),
         anchor("spine.j34", 3, "junction", 2500, 0, 0),
         anchor("s3.centre", 3, "camera", 2000, 0, 80),
     ]
@@ -970,10 +970,11 @@ def c_core(cx=3000, cy=0):
     # inside: the spine rises through the base and fans into the core
     zc, R = CORE["sphere_z"], CORE["sphere_r"]
     for i in range(N_STRANDS):
-        cls = "strand" + (" ia-lead" if i == 3 else "") + (" edge" if i in (0, 6) else "")
-        p0 = P(cx + (i - 3) * 7, cy, gz0)
-        p1 = P(cx + (i - 3) * 7, cy, gz0 + 22)
-        p2 = P(cx + (i - 3) * 1.6, cy, zc - R + 2)
+        offset = i - (N_STRANDS - 1) / 2
+        cls = "strand" + (" ia-lead" if i == int((N_STRANDS - 1) / 2) else "")
+        p0 = P(cx + offset * GAP, cy, gz0)
+        p1 = P(cx + offset * GAP, cy, gz0 + 22)
+        p2 = P(cx + offset * 1.6, cy, zc - R + 2)
         inner.append(el("path", {"cls": cls, "d": "M%sL%sL%s" % (pt(p0), pt(p1), pt(p2)), "pl": "1", "data-strand": str(i)}))
     inner.append(line((cx, cy, gz0), (cx, cy, gz1), "w-h"))
     ring_o = ring_segments((cx, cy, zc), "x", 72, 7, 22, 0.64, "f-ring")
@@ -1012,8 +1013,14 @@ def c_core(cx=3000, cy=0):
         out.append(ellipse(circ_pt((cx, cy, z1), "z", 94, t), "z", 3.4, "f-t-d"))
     z0, z1, r = CORE["crown"]
     out.append(cylinder(cx, cy, z0, r, z1 - z0, tone="-d", hatch=False))
-    out.append(lines([(circ_pt((cx, cy, z1), "z", 22, 2 * math.pi * i / 16), circ_pt((cx, cy, z1), "z", r - 5, 2 * math.pi * i / 16)) for i in range(16)], "h",
-                     style="stroke:var(--ia-top);stroke-opacity:.5"))
+    # Rotor geometry is local to the shaft. Project the rotor plane once;
+    # rotation inside this plane keeps its rim on the stationary crown.
+    fx, fy = P(cx, cy, z1)
+    blades = [el("path", {"d": "M19,-2 Q35,-13 55,-8 Q49,0 21,4 Z",
+                          "fill": "var(--ia-top)", "opacity": ".65",
+                          "transform": "rotate(%s)" % (i * 45)}) for i in range(8)]
+    out.append(g(g(blades, "ia-s4-fan-rotor"), transform="matrix(%s %s %s %s %s %s)" %
+                 (n(C), n(S), n(-C), n(S), n(fx), n(fy))))
     z0, z1, r = CORE["boss"]
     out.append(cylinder(cx, cy, z0, r, z1 - z0, hatch=False))
     out.append(ellipse((cx, cy, z1), "z", 7, "ia-lamp"))
@@ -1062,11 +1069,13 @@ def c_conveyor(x0=2780, x1=3220, y0=172, y1=228, z0=18, h=34):
             out.append(box(x + jitter[0] + k * 2.5, y0 + 12 + jitter[1] + k * 2, zt + k * 2.2, 34, 30, 2.2, hatch=False))
         bx_, by_, tz = x + jitter[0] + 5, y0 + 12 + jitter[1] + 4, zt + 6.6
         out.append(lines([((bx_ + 6, by_ + 6 + j * 6, tz), (bx_ + 26 - (j % 2) * 8, by_ + 6 + j * 6, tz)) for j in range(3)], "h"))
-    for x in range(3050, int(x1) - 30, 50):
-        for k in range(3):
-            out.append(box(x, y0 + 13, zt + k * 2.2, 34, 30, 2.2, hatch=False))
-        tz = zt + 6.6
-        out.append(lines([((x + 6, y0 + 19 + j * 6, tz), (x + 28 - (j % 2) * 8, y0 + 19 + j * 6, tz)) for j in range(3)], "h"))
+    # A single processed box travels along +X on the roller top. At rest
+    # its rear face clears the boom and its front face stays inside x1.
+    start, length = x1 - 170, 32
+    travel = x1 - 4 - length - start
+    parcel = box(start, y0 + 13, zt, length, 30, 21, hatch=False)
+    parcel += line((start, y0 + 28, zt + 21), (start + length, y0 + 28, zt + 21), "d")
+    out.append(g(parcel, "ia-s4-parcel", **{"data-travel": n(travel)}))
     return "".join(out)
 
 
@@ -1075,6 +1084,7 @@ def c_gate(x=3236, y=238):
     out.append(box(x, y, 18, 18, 18, 104))
     out.append(box(x - 2, y - 2, 18, 22, 22, 8, hatch=False))
     # boom across the belt, striped: approval is gold when active
+    fixed = len(out)
     bz = 96
     y_from, y_to = 150, y
     out.append(box(x + 4, y_from, bz, 10, y_to - y_from, 8, hatch=False))
@@ -1089,6 +1099,8 @@ def c_gate(x=3236, y=238):
         yy = y2
         k += 1
     out.append(polyline([(x + 4, y_from, bz + 8), (x + 14, y_from, bz + 8), (x + 14, y_from, bz), (x + 14, y_to, bz), (x + 14, y_to, bz + 8), (x + 4, y_to, bz + 8)], "e-o", close=True))
+    pivot = P(x + 9, y_to, bz + 4)
+    out[fixed:] = [g(out[fixed:], "ia-s4-boom", **{"data-pivot": pt(pivot)})]
     out.append(cylinder(x + 9, y + 9, 122, 7, 6, hatch=False))
     return "".join(out)
 
@@ -1103,11 +1115,13 @@ def c_console(x=3300, y=150):
     out.append(polyline(top, "e-o", close=True))
     out.append(polyline([(x, y + 46, 70), (x, y + 46, 84)], "e-o"))
     out.append(polyline([(x + 40, y + 46, 70), (x + 40, y + 46, 84), (x + 40, y, 70)], "e-o"))
+    fixed = len(out)
     # lever with a gold knob
     out.append(tube((x + 20, y + 26, 80), (x + 20, y + 14, 112), 1.8, cap=False))
     sx, sy = P(x + 20, y + 14, 114)
     out.append(el("circle", {"cls": "ia-gold", "cx": n(sx), "cy": n(sy), "r": "6.5"}))
     out.append(el("circle", {"cls": "e-o", "cx": n(sx), "cy": n(sy), "r": "6.5"}))
+    out[fixed:] = [g(out[fixed:], "ia-s4-lever", **{"data-pivot": pt(P(x + 20, y + 26, 80))})]
     for i in range(3):
         out.append(ellipse((x + 8 + i * 9, y + 34, 81.5), "z", 2.2, "ia-lamp"))
     return "".join(out)
@@ -1355,16 +1369,6 @@ def site():
                 segs.append(((x0, gy, 0), (x1, gy, 0)))
             gy += 80
     out.append(lines(segs, "h", style="stroke-opacity:.55"))
-    # the spine channel: a recessed tray the bundle lies in
-    cx0, cx1, hw = 690, 4600, 30
-    out.append(polygon([(cx0, -hw, 0), (cx1, -hw, 0), (cx1, hw, 0), (cx0, hw, 0)], "f-rec"))
-    out.append(polygon([(cx0, -hw, 0), (cx1, -hw, 0), (cx1, -hw, -9), (cx0, -hw, -9)], "f-l-d"))
-    out.append(lines([((cx0, -hw, 0), (cx1, -hw, 0)), ((cx0, hw, 0), (cx1, hw, 0))], "e-i"))
-    # where the site ends, the spine's duct is cut in section: seven strands in a cased duct
-    ex = 4680
-    out.append(polygon([(ex, -30, -6), (ex, 30, -6), (ex, 30, -26), (ex, -30, -26)], "f-deep"))
-    for i in range(N_STRANDS):
-        out.append(ellipse((ex, (i - 3) * GAP, -16), "x", 2.6, "f-t"))
     out.append(el("path", {"cls": "e-o", "d": d_poly([P(x, y, 0) for x, y in poly])}))
     return out
 
@@ -1649,7 +1653,7 @@ COMPONENTS = [
     ("terminal", 5, (4600, 0, 0), lambda: c_terminal(4600, 0), {"end": (0, 0, 5)},
      "Ground terminal where the spine ends."),
     ("cable-bundle", 0, (0, 0, 0), lambda: bundle_paths([(0, 0), (240, 0)]) + clamps_x([60, 180]), {"in": (0, 0, 0), "out": (240, 0, 0)},
-     "Seven-strand bundle, 7 units apart; strand 3 is the lead. Clamps every 120-160 units."),
+     "Four thin conductors, 4.5 units apart; one copper lead when powered. Clamps every 120-160 units."),
     ("grid-bubble", 0, (0, 0, 0), lambda: ellipse((0, 0, 0), "z", 15, "f-g") + ellipse((0, 0, 0), "z", 15, "e-i") +
      el("text", {"cls": "t-bub", "x": n(P(0, 0, 0)[0]), "y": n(P(0, 0, 0)[1] + 5)}, "A"), {}, "Structural grid bubble lying on the ground."),
     ("annotation", 0, (0, 0, 0), lambda: note((0, 0, 0), "Label", "r", L=64, ang=58, lines_=["Second line"]), {"point": (0, 0, 0)},

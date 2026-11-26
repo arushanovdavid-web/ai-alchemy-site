@@ -80,8 +80,7 @@ Scene 2 has the collector, scene 3 the new module, scene 4 the core, and scene 5
 Scenes 2–5 stand on one engineered slab whose top is z = 0. Scene 1's systems sit off it, on loose plinths: being
 disconnected is shown as a place. The slab's front edges are cut in section: a finish line at −8, a service
 zone, and a structural layer below −30 hatched at 45°. Formwork joints run every 160 units, and an 80-unit site
-grid is engraved on top. The spine lies in a recessed channel, and where the site ends the duct is cut to show
-its seven strands in section. Plinths float on a 4-unit shadow-gap reveal.
+grid is engraved on top. Four thin charcoal conductors run directly across the slab. One lead takes a restrained copper accent when powered. Plinths float on a 4-unit shadow-gap reveal.
 
 ## 3c. The core (signature object)
 
@@ -148,8 +147,8 @@ mid-density objects and quiet ground.
 | Rack bay | 70 | 2 levels × 56 |
 | Server cabinet | 50 × 96 | 212 |
 | Data store | r 46 | 172 |
-| Bundle | 7 strands at 7 units = 42 wide | flat on ground |
-| Clamp | 6 × 52 | 4, every 120–160 |
+| Bundle | 4 conductors at 4.5 units = 13.5 between outer centers | flat on ground |
+| Clamp | 6 × 23.5 | 4, every 120–160 |
 
 ## 8. Don't
 
