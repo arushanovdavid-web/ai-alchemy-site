@@ -4,6 +4,15 @@ Status: DRAFT for owner approval. Nothing here is live. Every line marked NEW or
 
 Prepared 2026-11-24 on branch `integration/experience-spine-site`. Updated the same day with the positioning decisions below. Those decisions are implemented on the branch so the deck and the pages match. They are still pending the owner's lock. Do not treat this deck as approved.
 
+## Owner approvals, 2026-11-26
+
+- **Approved:** the navigation labels and all section headings, as built.
+- **Products & Innovation (PI-B1):** "Our Products & Innovation division develops proprietary software and AI technologies." followed by PI-B2, unchanged.
+- **AI & Automation chapter (CH4-B):** "AI takes care of repetitive work while your people retain control over the decisions that matter."
+- **Final chapter (CH6-B):** "Your systems connected. Your workflows streamlined. Your people equipped with better tools."
+- **Approval reassurance (F-T3, About, Contact):** heading "Your business stays in control", body "We design systems around your organization's processes, approval requirements and decision-making authority."
+- **Remaining NEW and ADAPTED lines:** pending a final editorial review (`FINAL-EDITORIAL-REVIEW.md`). Only material changes go back to the owner.
+
 ## Positioning decisions recorded (pending owner lock)
 
 These were applied to the pages, `llms.txt` and structured metadata. They settle the open questions in this deck. They are not a substitute for owner approval.

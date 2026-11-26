@@ -104,3 +104,14 @@ figure.method .method-steps{border-top:1px solid var(--ink)}
 .hdr[data-tone].is-scrolled{color:var(--ink);background:rgba(242,237,227,.93)}
 .hdr[data-tone] .btn{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .hdr[data-tone] .btn:hover{background:var(--accent);border-color:var(--accent);color:var(--ink)}
+
+/* About: "Based in the Greater Toronto Area" with the Toronto skyline drawing (illustration/svg/toronto-skyline.svg) */
+.loc-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:clamp(32px,5vw,88px);align-items:center}
+.loc-grid>.section-head{grid-column:1/-1}
+.loc-grid>.prose{grid-column:1;align-self:start;max-width:34em;margin-top:clamp(20px,2.4vw,32px)}
+.loc-art{grid-column:2;grid-row:2;margin:0}
+.loc-art img{display:block;width:100%;height:auto}
+@media (max-width:900px){
+  .loc-grid{grid-template-columns:1fr}
+  .loc-art{grid-column:1;grid-row:auto;margin:clamp(24px,6vw,40px) calc(-1*var(--pad)) 0}
+}
