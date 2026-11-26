@@ -58,8 +58,8 @@ const shots = [
   [0.658, "s4.gate", 55, -95, 980, 600],
   [0.735, "cloud", -70, -90, 1540, 950],
   [0.771, "cloud", -70, -90, 1540, 950],
-  [0.835, "s5.terminal", -155, -75, 720, 440],
-  [0.858, "s5.terminal", -155, -75, 720, 440],
+  [0.835, "s5.terminal", -230, -150, 1000, 620],
+  [0.858, "s5.terminal", -230, -150, 1000, 620],
   [0.96, "overview", 0, 0, 5280, 3300],
   [1, "overview", 0, 0, 5280, 3300],
 ];
@@ -79,11 +79,11 @@ export function prepareFraming(manifest, width, height, leftSpace = 0) {
       w = manifest.canvas.width;
       h = manifest.canvas.height;
       center = [w / 2, h / 2];
-      // Portrait panes: the whole board would be a thin strip; frame collector to data hall instead.
+      // Portrait panes: frame the whole chain, four systems to terminal, slightly cropped at the plate corners.
       if (portrait) {
-        w = 3300;
+        w = 4550;
         h = 0;
-        center = [3050, 2030];
+        center = [2770, 1760];
       }
     }
     // Expand the last shot into the available paper to the left of the plate.

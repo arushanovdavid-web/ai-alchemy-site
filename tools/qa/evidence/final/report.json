@@ -1,0 +1,1469 @@
+{
+  "base": "http://127.0.0.1:8737",
+  "when": "2026-11-26T03:07:41.153Z",
+  "spine": {
+    "desktop": {
+      "rows": [
+        {
+          "p": 0,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "0",
+          "vb": [
+            0,
+            -436.751,
+            5280,
+            4173.502
+          ],
+          "finite": true,
+          "shown": 0,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "off",
+            "off",
+            "off",
+            "off",
+            "proposed"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.25,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "2",
+          "vb": [
+            812.75,
+            380.564,
+            1613.556,
+            1275.413
+          ],
+          "finite": true,
+          "shown": 2,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "proposed",
+            "proposed",
+            "proposed",
+            "proposed",
+            "off"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.5,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "3",
+          "vb": [
+            2171.36,
+            1092.429,
+            1131.2,
+            894.141
+          ],
+          "finite": true,
+          "shown": 3,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "built",
+            "built",
+            "built",
+            "built",
+            "built"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.75,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "5",
+          "vb": [
+            3427.308,
+            1848.649,
+            1714.375,
+            1355.104
+          ],
+          "finite": true,
+          "shown": 5,
+          "lit": [
+            "default",
+            "active",
+            "active",
+            "active",
+            "default"
+          ],
+          "links": [
+            "built",
+            "built",
+            "built",
+            "built",
+            "built"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 1,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "6",
+          "vb": [
+            0,
+            -436.751,
+            5280,
+            4173.502
+          ],
+          "finite": true,
+          "shown": 6,
+          "lit": [
+            "active",
+            "active",
+            "active",
+            "active",
+            "active"
+          ],
+          "links": [
+            "active",
+            "active",
+            "active",
+            "active",
+            "active"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.75,
+          "dir": "up",
+          "mode": "scroll",
+          "chapter": "5",
+          "vb": [
+            3427.308,
+            1848.649,
+            1714.375,
+            1355.104
+          ],
+          "finite": true,
+          "shown": 5,
+          "lit": [
+            "default",
+            "active",
+            "active",
+            "active",
+            "default"
+          ],
+          "links": [
+            "built",
+            "built",
+            "built",
+            "built",
+            "built"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.5,
+          "dir": "up",
+          "mode": "scroll",
+          "chapter": "3",
+          "vb": [
+            2171.36,
+            1092.429,
+            1131.2,
+            894.141
+          ],
+          "finite": true,
+          "shown": 3,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "built",
+            "built",
+            "built",
+            "built",
+            "built"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.25,
+          "dir": "up",
+          "mode": "scroll",
+          "chapter": "2",
+          "vb": [
+            812.75,
+            380.564,
+            1613.556,
+            1275.413
+          ],
+          "finite": true,
+          "shown": 2,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "proposed",
+            "proposed",
+            "proposed",
+            "proposed",
+            "off"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0,
+          "dir": "up",
+          "mode": "scroll",
+          "chapter": "0",
+          "vb": [
+            0,
+            -436.751,
+            5280,
+            4173.502
+          ],
+          "finite": true,
+          "shown": 0,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "off",
+            "off",
+            "off",
+            "off",
+            "proposed"
+          ],
+          "badTransforms": 0
+        }
+      ],
+      "reversible": [
+        {
+          "p": 0,
+          "same": true,
+          "chapterSame": true
+        },
+        {
+          "p": 0.25,
+          "same": true,
+          "chapterSame": true
+        },
+        {
+          "p": 0.5,
+          "same": true,
+          "chapterSame": true
+        },
+        {
+          "p": 0.75,
+          "same": true,
+          "chapterSame": true
+        }
+      ],
+      "errors": [],
+      "failed": []
+    },
+    "tablet": {
+      "rows": [
+        {
+          "p": 0,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "0",
+          "vb": [
+            0,
+            -600.544,
+            5280,
+            4501.087
+          ],
+          "finite": true,
+          "shown": 0,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "off",
+            "off",
+            "off",
+            "off",
+            "proposed"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.25,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "2",
+          "vb": [
+            813.26,
+            330.641,
+            1613.73,
+            1375.671
+          ],
+          "finite": true,
+          "shown": 2,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "proposed",
+            "proposed",
+            "proposed",
+            "proposed",
+            "off"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.5,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "3",
+          "vb": [
+            2171.36,
+            1057.338,
+            1131.2,
+            964.324
+          ],
+          "finite": true,
+          "shown": 3,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "built",
+            "built",
+            "built",
+            "built",
+            "built"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.75,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "5",
+          "vb": [
+            3427.421,
+            1795.451,
+            1714.641,
+            1461.695
+          ],
+          "finite": true,
+          "shown": 5,
+          "lit": [
+            "default",
+            "active",
+            "active",
+            "active",
+            "default"
+          ],
+          "links": [
+            "built",
+            "built",
+            "built",
+            "built",
+            "built"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 1,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "6",
+          "vb": [
+            0,
+            -600.544,
+            5280,
+            4501.087
+          ],
+          "finite": true,
+          "shown": 6,
+          "lit": [
+            "active",
+            "active",
+            "active",
+            "active",
+            "active"
+          ],
+          "links": [
+            "active",
+            "active",
+            "active",
+            "active",
+            "active"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.75,
+          "dir": "up",
+          "mode": "scroll",
+          "chapter": "5",
+          "vb": [
+            3427.421,
+            1795.451,
+            1714.641,
+            1461.695
+          ],
+          "finite": true,
+          "shown": 5,
+          "lit": [
+            "default",
+            "active",
+            "active",
+            "active",
+            "default"
+          ],
+          "links": [
+            "built",
+            "built",
+            "built",
+            "built",
+            "built"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.5,
+          "dir": "up",
+          "mode": "scroll",
+          "chapter": "3",
+          "vb": [
+            2171.36,
+            1057.338,
+            1131.2,
+            964.324
+          ],
+          "finite": true,
+          "shown": 3,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "built",
+            "built",
+            "built",
+            "built",
+            "built"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.25,
+          "dir": "up",
+          "mode": "scroll",
+          "chapter": "2",
+          "vb": [
+            813.26,
+            330.641,
+            1613.73,
+            1375.671
+          ],
+          "finite": true,
+          "shown": 2,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "proposed",
+            "proposed",
+            "proposed",
+            "proposed",
+            "off"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0,
+          "dir": "up",
+          "mode": "scroll",
+          "chapter": "0",
+          "vb": [
+            0,
+            -600.544,
+            5280,
+            4501.087
+          ],
+          "finite": true,
+          "shown": 0,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "off",
+            "off",
+            "off",
+            "off",
+            "proposed"
+          ],
+          "badTransforms": 0
+        }
+      ],
+      "reversible": [
+        {
+          "p": 0,
+          "same": true,
+          "chapterSame": true
+        },
+        {
+          "p": 0.25,
+          "same": true,
+          "chapterSame": true
+        },
+        {
+          "p": 0.5,
+          "same": true,
+          "chapterSame": true
+        },
+        {
+          "p": 0.75,
+          "same": true,
+          "chapterSame": true
+        }
+      ],
+      "errors": [],
+      "failed": []
+    },
+    "phone": {
+      "rows": [
+        {
+          "p": 0,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "0",
+          "vb": [
+            495,
+            -765.555,
+            4550,
+            5051.109
+          ],
+          "finite": true,
+          "shown": 0,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "off",
+            "off",
+            "off",
+            "off",
+            "proposed"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.25,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "2",
+          "vb": [
+            974.877,
+            283.528,
+            1354.412,
+            1503.579
+          ],
+          "finite": true,
+          "shown": 2,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "proposed",
+            "proposed",
+            "proposed",
+            "proposed",
+            "off"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.5,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "3",
+          "vb": [
+            2373.36,
+            1135.855,
+            727.2,
+            807.289
+          ],
+          "finite": true,
+          "shown": 3,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "built",
+            "built",
+            "built",
+            "built",
+            "built"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.75,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "5",
+          "vb": [
+            3676.766,
+            1684.055,
+            1439.121,
+            1597.617
+          ],
+          "finite": true,
+          "shown": 5,
+          "lit": [
+            "default",
+            "active",
+            "active",
+            "active",
+            "default"
+          ],
+          "links": [
+            "built",
+            "built",
+            "built",
+            "built",
+            "built"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 1,
+          "dir": "down",
+          "mode": "scroll",
+          "chapter": "6",
+          "vb": [
+            495,
+            -765.555,
+            4550,
+            5051.109
+          ],
+          "finite": true,
+          "shown": 6,
+          "lit": [
+            "active",
+            "active",
+            "active",
+            "active",
+            "active"
+          ],
+          "links": [
+            "active",
+            "active",
+            "active",
+            "active",
+            "active"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.75,
+          "dir": "up",
+          "mode": "scroll",
+          "chapter": "5",
+          "vb": [
+            3676.766,
+            1684.055,
+            1439.121,
+            1597.617
+          ],
+          "finite": true,
+          "shown": 5,
+          "lit": [
+            "default",
+            "active",
+            "active",
+            "active",
+            "default"
+          ],
+          "links": [
+            "built",
+            "built",
+            "built",
+            "built",
+            "built"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.5,
+          "dir": "up",
+          "mode": "scroll",
+          "chapter": "3",
+          "vb": [
+            2373.36,
+            1135.855,
+            727.2,
+            807.289
+          ],
+          "finite": true,
+          "shown": 3,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "built",
+            "built",
+            "built",
+            "built",
+            "built"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0.25,
+          "dir": "up",
+          "mode": "scroll",
+          "chapter": "2",
+          "vb": [
+            974.877,
+            283.528,
+            1354.412,
+            1503.579
+          ],
+          "finite": true,
+          "shown": 2,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "proposed",
+            "proposed",
+            "proposed",
+            "proposed",
+            "off"
+          ],
+          "badTransforms": 0
+        },
+        {
+          "p": 0,
+          "dir": "up",
+          "mode": "scroll",
+          "chapter": "0",
+          "vb": [
+            495,
+            -765.555,
+            4550,
+            5051.109
+          ],
+          "finite": true,
+          "shown": 0,
+          "lit": [
+            "default",
+            "default",
+            "default",
+            "default",
+            "default"
+          ],
+          "links": [
+            "off",
+            "off",
+            "off",
+            "off",
+            "proposed"
+          ],
+          "badTransforms": 0
+        }
+      ],
+      "reversible": [
+        {
+          "p": 0,
+          "same": true,
+          "chapterSame": true
+        },
+        {
+          "p": 0.25,
+          "same": true,
+          "chapterSame": true
+        },
+        {
+          "p": 0.5,
+          "same": true,
+          "chapterSame": true
+        },
+        {
+          "p": 0.75,
+          "same": true,
+          "chapterSame": true
+        }
+      ],
+      "errors": [],
+      "failed": []
+    }
+  },
+  "sweep": {
+    "desktop": {
+      "steps": 600,
+      "maxCentreMovePerStep": 0.0536,
+      "worstAt": 0.047,
+      "maxLogScalePerStep": 0.0953,
+      "nonFinite": 0,
+      "film": [
+        "film-desktop-000.jpg",
+        "film-desktop-025.jpg",
+        "film-desktop-050.jpg",
+        "film-desktop-075.jpg",
+        "film-desktop-100.jpg",
+        "film-desktop-125.jpg",
+        "film-desktop-150.jpg",
+        "film-desktop-175.jpg",
+        "film-desktop-200.jpg",
+        "film-desktop-225.jpg",
+        "film-desktop-250.jpg",
+        "film-desktop-275.jpg",
+        "film-desktop-300.jpg",
+        "film-desktop-325.jpg",
+        "film-desktop-350.jpg",
+        "film-desktop-375.jpg",
+        "film-desktop-400.jpg",
+        "film-desktop-425.jpg",
+        "film-desktop-450.jpg",
+        "film-desktop-475.jpg",
+        "film-desktop-500.jpg",
+        "film-desktop-525.jpg",
+        "film-desktop-550.jpg",
+        "film-desktop-575.jpg",
+        "film-desktop-600.jpg"
+      ]
+    },
+    "tablet": {
+      "steps": 600,
+      "maxCentreMovePerStep": 0.0537,
+      "worstAt": 0.043,
+      "maxLogScalePerStep": 0.0954,
+      "nonFinite": 0,
+      "film": [
+        "film-tablet-000.jpg",
+        "film-tablet-025.jpg",
+        "film-tablet-050.jpg",
+        "film-tablet-075.jpg",
+        "film-tablet-100.jpg",
+        "film-tablet-125.jpg",
+        "film-tablet-150.jpg",
+        "film-tablet-175.jpg",
+        "film-tablet-200.jpg",
+        "film-tablet-225.jpg",
+        "film-tablet-250.jpg",
+        "film-tablet-275.jpg",
+        "film-tablet-300.jpg",
+        "film-tablet-325.jpg",
+        "film-tablet-350.jpg",
+        "film-tablet-375.jpg",
+        "film-tablet-400.jpg",
+        "film-tablet-425.jpg",
+        "film-tablet-450.jpg",
+        "film-tablet-475.jpg",
+        "film-tablet-500.jpg",
+        "film-tablet-525.jpg",
+        "film-tablet-550.jpg",
+        "film-tablet-575.jpg",
+        "film-tablet-600.jpg"
+      ]
+    },
+    "phone": {
+      "steps": 600,
+      "maxCentreMovePerStep": 0.0687,
+      "worstAt": 0.04,
+      "maxLogScalePerStep": 0.0988,
+      "nonFinite": 0,
+      "film": [
+        "film-phone-000.jpg",
+        "film-phone-025.jpg",
+        "film-phone-050.jpg",
+        "film-phone-075.jpg",
+        "film-phone-100.jpg",
+        "film-phone-125.jpg",
+        "film-phone-150.jpg",
+        "film-phone-175.jpg",
+        "film-phone-200.jpg",
+        "film-phone-225.jpg",
+        "film-phone-250.jpg",
+        "film-phone-275.jpg",
+        "film-phone-300.jpg",
+        "film-phone-325.jpg",
+        "film-phone-350.jpg",
+        "film-phone-375.jpg",
+        "film-phone-400.jpg",
+        "film-phone-425.jpg",
+        "film-phone-450.jpg",
+        "film-phone-475.jpg",
+        "film-phone-500.jpg",
+        "film-phone-525.jpg",
+        "film-phone-550.jpg",
+        "film-phone-575.jpg",
+        "film-phone-600.jpg"
+      ]
+    }
+  },
+  "routes": [
+    {
+      "route": "/",
+      "viewport": "desktop",
+      "title": "Systems Integration, Software & AI in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/services/",
+      "viewport": "desktop",
+      "title": "Systems Integration & Modernization in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/services/strategy-architecture/",
+      "viewport": "desktop",
+      "title": "Technology Strategy & Architecture in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/services/custom-software-modernization/",
+      "viewport": "desktop",
+      "title": "Custom Software & Modernization in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/services/enterprise-ai-automation/",
+      "viewport": "desktop",
+      "title": "Enterprise AI & Automation in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/services/cloud-data/",
+      "viewport": "desktop",
+      "title": "Cloud & Data Architecture in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/industries/",
+      "viewport": "desktop",
+      "title": "Industries We Serve in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/industries/manufacturing-wholesale-logistics/",
+      "viewport": "desktop",
+      "title": "Manufacturing, Wholesale & Logistics Tech | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/industries/mortgage-insurance/",
+      "viewport": "desktop",
+      "title": "Mortgage & Insurance Technology in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/industries/hvac-energy-home-improvement/",
+      "viewport": "desktop",
+      "title": "HVAC, Energy & Home Improvement Tech | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/industries/financial-professional-services-non-profits/",
+      "viewport": "desktop",
+      "title": "Financial, Professional & Non-Profit Tech | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/about/",
+      "viewport": "desktop",
+      "title": "About AI Alchemy | GTA Technology Consulting",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/contact/",
+      "viewport": "desktop",
+      "title": "Start a Project Brief | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/contact/thanks/",
+      "viewport": "desktop",
+      "title": "Your Brief Is Ready | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/privacy/",
+      "viewport": "desktop",
+      "title": "Privacy | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/404.html",
+      "viewport": "desktop",
+      "title": "Page not found | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/lab/experience-spine/",
+      "viewport": "desktop",
+      "title": "Experience Spine — AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/",
+      "viewport": "phone",
+      "title": "Systems Integration, Software & AI in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/services/",
+      "viewport": "phone",
+      "title": "Systems Integration & Modernization in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/services/strategy-architecture/",
+      "viewport": "phone",
+      "title": "Technology Strategy & Architecture in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/services/custom-software-modernization/",
+      "viewport": "phone",
+      "title": "Custom Software & Modernization in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/services/enterprise-ai-automation/",
+      "viewport": "phone",
+      "title": "Enterprise AI & Automation in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/services/cloud-data/",
+      "viewport": "phone",
+      "title": "Cloud & Data Architecture in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/industries/",
+      "viewport": "phone",
+      "title": "Industries We Serve in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/industries/manufacturing-wholesale-logistics/",
+      "viewport": "phone",
+      "title": "Manufacturing, Wholesale & Logistics Tech | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/industries/mortgage-insurance/",
+      "viewport": "phone",
+      "title": "Mortgage & Insurance Technology in the GTA | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/industries/hvac-energy-home-improvement/",
+      "viewport": "phone",
+      "title": "HVAC, Energy & Home Improvement Tech | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/industries/financial-professional-services-non-profits/",
+      "viewport": "phone",
+      "title": "Financial, Professional & Non-Profit Tech | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/about/",
+      "viewport": "phone",
+      "title": "About AI Alchemy | GTA Technology Consulting",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/contact/",
+      "viewport": "phone",
+      "title": "Start a Project Brief | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/contact/thanks/",
+      "viewport": "phone",
+      "title": "Your Brief Is Ready | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/privacy/",
+      "viewport": "phone",
+      "title": "Privacy | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/404.html",
+      "viewport": "phone",
+      "title": "Page not found | AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "route": "/lab/experience-spine/",
+      "viewport": "phone",
+      "title": "Experience Spine — AI Alchemy",
+      "h1": 1,
+      "overflow": false,
+      "imgsBroken": [],
+      "errors": [],
+      "failed": []
+    }
+  ],
+  "reducedMotion": {
+    "mode": "overview",
+    "live": false,
+    "articlesVisible": 7,
+    "linksLit": [
+      "active",
+      "active",
+      "active",
+      "active",
+      "active"
+    ]
+  },
+  "noScript": {
+    "h1": true,
+    "articles": 7,
+    "posterVisible": "visible",
+    "height": 8366
+  },
+  "keyboard": [
+    {
+      "el": "A Skip to content",
+      "outline": true
+    },
+    {
+      "el": "A AI Alchemy",
+      "outline": true
+    },
+    {
+      "el": "A Client Solutions",
+      "outline": true
+    },
+    {
+      "el": "A Products & Innovation",
+      "outline": true
+    },
+    {
+      "el": "A Industries",
+      "outline": true
+    },
+    {
+      "el": "A About",
+      "outline": true
+    },
+    {
+      "el": "A Start a project brief",
+      "outline": true
+    },
+    {
+      "el": "A Start a project brief",
+      "outline": true
+    },
+    {
+      "el": "A See how we connect systems",
+      "outline": true
+    },
+    {
+      "el": "A Start with Systems Integration & Moderni",
+      "outline": true
+    },
+    {
+      "el": "A Learn about Strategy & Architecture",
+      "outline": true
+    },
+    {
+      "el": "A Learn about Custom Software & Modernizat",
+      "outline": true
+    },
+    {
+      "el": "A Learn about Enterprise AI & Automation",
+      "outline": true
+    },
+    {
+      "el": "A Learn about Cloud & Data",
+      "outline": true
+    }
+  ],
+  "links": [
+    {
+      "href": "/",
+      "status": 200
+    },
+    {
+      "href": "/services/",
+      "status": 200
+    },
+    {
+      "href": "/industries/",
+      "status": 200
+    },
+    {
+      "href": "/about/",
+      "status": 200
+    },
+    {
+      "href": "/contact/",
+      "status": 200
+    },
+    {
+      "href": "/services/strategy-architecture/",
+      "status": 200
+    },
+    {
+      "href": "/services/custom-software-modernization/",
+      "status": 200
+    },
+    {
+      "href": "/services/enterprise-ai-automation/",
+      "status": 200
+    },
+    {
+      "href": "/services/cloud-data/",
+      "status": 200
+    },
+    {
+      "href": "/contact/?need=Connect%20our%20systems",
+      "status": 200
+    },
+    {
+      "href": "/industries/manufacturing-wholesale-logistics/",
+      "status": 200
+    },
+    {
+      "href": "/industries/mortgage-insurance/",
+      "status": 200
+    },
+    {
+      "href": "/industries/hvac-energy-home-improvement/",
+      "status": 200
+    },
+    {
+      "href": "/industries/financial-professional-services-non-profits/",
+      "status": 200
+    },
+    {
+      "href": "/privacy/",
+      "status": 200
+    },
+    {
+      "href": "/contact/?need=Modernize%20legacy%20software",
+      "status": 200
+    },
+    {
+      "href": "/contact/?need=Automate%20manual%20work",
+      "status": 200
+    },
+    {
+      "href": "/contact/?need=Move%20to%20the%20cloud",
+      "status": 200
+    }
+  ]
+}

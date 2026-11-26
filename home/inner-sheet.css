@@ -81,3 +81,17 @@ figure.method .method-steps{border-top:1px solid var(--ink)}
 .cta-band .sheet-ref,.cta-copy > .sheet-ref{color:var(--snow-2);border-color:var(--line-n)}
 .cta-band .sheet-ref span:first-child,.cta-copy > .sheet-ref span:first-child{color:var(--snow)}
 .l2{color:var(--ink-2)}
+
+/* 2026-11-25 final refinement: inner sheet references match the homepage's (11px mono, right edge of the
+   sheet, no extra rule under the block's own ink rule); the inline brief button closes its section. */
+.section-head{max-width:none}
+.section-head>:not(.sheet-ref){max-width:52rem}
+.block p.sheet-ref.label,
+.section-head>p.sheet-ref.label,
+.cta-band p.sheet-ref.label,
+.cta-copy>p.sheet-ref.label{font:500 11px/1.4 var(--mono);letter-spacing:.12em;max-width:none;color:var(--ink-2);padding:0;border-bottom:0;margin:0 0 clamp(28px,3.4vw,48px)}
+.cta-band p.sheet-ref.label,.cta-copy>p.sheet-ref.label{color:var(--snow-2)}
+.cta-copy{max-width:none}
+.cta-copy>:not(.sheet-ref){max-width:40rem}
+.block .inline-cta{padding:clamp(36px,5vh,56px) 0 0;max-width:none;margin:0}
+.cta-band>.wrap{grid-template-columns:minmax(0,1fr)}
