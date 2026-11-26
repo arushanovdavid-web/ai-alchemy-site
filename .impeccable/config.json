@@ -305,6 +305,15 @@
         ],
         "createdAt": "2026-11-26T03:29:37.106Z",
         "reason": "Claude triage: QA fixture rendering the social card in the brand's established Transmutation parchment (#F2EDE3), which CLAUDE.md requires keeping"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "tools/qa/poster-card.html"
+        ],
+        "createdAt": "2026-11-26T03:57:31.211Z",
+        "reason": "Claude triage: render fixture for home/spine/poster.jpg in the brand's established Transmutation parchment (#F2EDE3), which CLAUDE.md requires keeping"
       }
     ]
   }
