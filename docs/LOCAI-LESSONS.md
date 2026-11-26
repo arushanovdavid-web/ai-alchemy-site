@@ -31,3 +31,8 @@ Techniques and lessons from finishing the scroll-driven isometric Spine and the 
 - **Get depth order by drawing twice and clipping.** Draw the ring twice and clip each copy to a half-plane. The boundary is the projected line where the ring's depth equals its centre's depth, so the far copy sits behind the sphere and the near copy in front. Splitting by segment midpoint instead makes segments pop between layers.
 - **Keep the static art pixel-identical.** The tags are plain wrapper groups. The poster, no-JS fallback and component library stay unchanged, and the engine only takes over once it binds.
 - **Check that the generator is deterministic before regenerating shared artwork.** Generate into a temporary copy and diff it against the committed files first.
+
+## QA tooling
+
+- **A fixed DevTools port can silently serve stale results.** If a QA script crashes before it kills Chrome, the next run's Chrome cannot bind the port. The script then talks to the old Chrome, which still holds the old cache, so CSS fixes appear not to apply. `site-qa.mjs` now refuses to start while the port is in use. When computed styles disagree with the file on disk, check `lsof -iTCP:<port>` first.
+- **Measure contrast on the rendered page.** Static detectors flag the colours but not the element. A rendered scan compares each text node's computed colour with its composited ancestor background, and it finds the exact element (here, a button inherited a link colour inside a night section).

@@ -14,6 +14,8 @@ const PORT = 9333;
 mkdirSync(OUT, { recursive: true });
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// A Chrome left on this port by a crashed run would answer instead, with a stale cache: refuse to run.
+try { await fetch(`http://127.0.0.1:${PORT}/json/version`); console.error(`Port ${PORT} is already in use (stale Chrome?). Stop it first.`); process.exit(2); } catch {}
 const profile = join(tmpdir(), "aa-qa-" + Date.now());
 const chrome = spawn(CHROME, ["--headless=new", "--no-sandbox", "--disable-dev-shm-usage", "--remote-debugging-port=" + PORT, "--user-data-dir=" + profile,
   "--no-first-run", "--hide-scrollbars", "--force-color-profile=srgb", "about:blank"], { stdio: "ignore" });
