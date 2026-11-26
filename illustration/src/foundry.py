@@ -246,6 +246,18 @@ def corner_marks(x0, y0, x1, y1, L=18, cls="d"):
 # ======================================================================= scene 1: disconnected
 
 
+def screw(c3, axis, r=1.9, cls="d"):
+    """A fastener head: light disc with a fine rim. Craft detail only; no state, no animation."""
+    return ellipse(c3, axis, r, "f-t") + ellipse(c3, axis, r, cls)
+
+
+def keylock(c3, axis, r=3.0):
+    """A cylinder lock: bezel, barrel and key slot."""
+    x, y, z = c3
+    return (ellipse(c3, axis, r, "f-t") + ellipse(c3, axis, r, "e-i") + ellipse(c3, axis, r * 0.55, "d")
+            + line((x, y, z - r * 0.4), (x, y, z + r * 0.4), "d"))
+
+
 def c_spreadsheets(x0, y0):
     out = [plinth(x0, y0, 200, 160)]
     offs = [(0, 0), (7, 5), (2, 10), (10, 6), (4, 12), (13, 9), (18, 14)]
@@ -305,6 +317,9 @@ def c_pigeonhole(x0, y0):
                     out.append(polygon([(lu, fy, v0 + e), (lu + lw_, fy, v0 + e), (lu + lw_, fy, lh), (lu, fy, lh)], "f-t"))
                     out.append(polyline([(lu, fy, v0 + e), (lu, fy, lh), (lu + lw_, fy, lh), (lu + lw_, fy, v0 + e)], "d"))
             out.append(polyline(cell, "e-i", close=True))
+            # craft: a slot label tab under each cell
+            tm = u0 + cw / 2
+            out.append(polyline([(tm - 8, fy, v0 - 1.6), (tm + 8, fy, v0 - 1.6), (tm + 8, fy, v0 - 4.6), (tm - 8, fy, v0 - 4.6)], "d", close=True))
     # a loose stack of letters on top
     for j in range(3):
         out.append(box(bx + 26 + j * 5, by + 22 + j * 4, bz + bh + j * 2.2, 62, 40, 2.2, hatch=False))
@@ -353,6 +368,13 @@ def c_filing(x0, y0):
     out.append(polyline([(fxx, dy0 - 2, v0), (fxx, dy0 + dd + 2, v0), (fxx, dy0 + dd + 2, v1), (fxx, dy0 - 2, v1)], "e-o", close=True))
     mid = dy0 + dd / 2
     out.append(box(fxx, mid - 22, v0 + dh * 0.38, 4, 44, 4, hatch=False))
+    # craft: telescopic slide on the drawer's visible side, and the cabinet's lock above the top drawer
+    ys, zs = dy0 + dd, v0 + dh * 0.42
+    out.append(lines([((fx + 2, ys, zs), (fxx - 6, ys, zs)), ((fx + 2, ys, zs + 4), (fxx - 6, ys, zs + 4))], "d"))
+    out.append(line((fx + pull * 0.55, ys, zs), (fx + pull * 0.55, ys, zs + 4), "d"))
+    out.append(screw((fx + 8, ys, zs + 2), "y", 1.4))
+    out.append(screw((fxx - 12, ys, zs + 2), "y", 1.4))
+    out.append(keylock((fx, cy + cd - 18, cz + chh - 5), "x", 2.6))
     out.append(iso_text("S-03  FORMS", (x0 + 8, y0 + 200, 5.4), "face-l", "t-iso-s"))
     return "".join(out)
 
@@ -398,6 +420,16 @@ def c_mainframe(x0, y0):
     fx = bx + bw
     segs = [((fx, by + 14 + k * 6, bz + 140), (fx, by + 14 + k * 6, bz + 200)) for k in range(16)]
     out.append(lines(segs, "d"))
+    # craft: panel screws at the window corners, a riveted nameplate above it, the door lock at the seam
+    for ux, vz in ((bx + 17, bz + 109), (bx + bw - 17, bz + 109), (bx + 17, bz + 201), (bx + bw - 17, bz + 201)):
+        out.append(screw((ux, fy, vz), "y", 1.8, "e-i"))
+    plate = [(bx + 72, fy, bz + 209), (bx + 128, fy, bz + 209), (bx + 128, fy, bz + 218), (bx + 72, fy, bz + 218)]
+    out.append(polygon(plate, "f-t"))
+    out.append(polyline(plate, "d", close=True))
+    out.append(lines([((bx + 82, fy, bz + 213.5), (bx + 118, fy, bz + 213.5))], "h"))
+    out.append(screw((bx + 76, fy, bz + 213.5), "y", 1.2))
+    out.append(screw((bx + 124, fy, bz + 213.5), "y", 1.2))
+    out.append(keylock((bx + bw / 2 + 9, fy, bz + 64), "y", 3.0))
     out.append(iso_text("S-04  LEGACY", (x0 + 8, y0 + 180, 5.4), "face-l", "t-iso-s"))
     return "".join(out)
 
@@ -468,6 +500,9 @@ def c_collector(x0, y0):
     # glands on top for the four incoming lines
     for yy in (-45, -15, 15, 45):
         out.append(cylinder(bx + 18, y0 + 80 + yy, bz + bh, 6, 7, hatch=False))
+    # craft: panel fixings at the corners of the indicator face
+    for yy, zz in ((by + 6, bz + 6), (by + bd - 6, bz + 6), (by + 6, bz + bh - 6), (by + bd - 6, bz + bh - 6)):
+        out.append(screw((fx, yy, zz), "x", 1.7, "e-i"))
     out.append(iso_text("C-01  COLLECTOR", (bx + 4, by + bd, bz + 54), "face-l", "t-iso-l"))
     return "".join(out)
 
@@ -682,6 +717,9 @@ def c_module(x, y, z, w=60, d=110, h=48, label="M", lamp=True, side=False, built
     out.append(polyline([(x + 38, fy, z + h - 10), (x + w - 6, fy, z + h - 10), (x + w - 6, fy, z + h - 22), (x + 38, fy, z + h - 22)], dc, close=True))
     if lamp:
         out.append(ellipse((x + 44, fy, z + 12), "y", 3.2, "ia-lamp"))
+    # craft: rack-mount fixings at the front corners
+    for ux, vz in ((x + 3.5, z + 5), (x + 3.5, z + h - 5), (x + w - 3.5, z + 5), (x + w - 3.5, z + h - 5)):
+        out.append(screw((ux, fy, vz), "y", 1.3, "e-i" if built else "d"))
     out.append(iso_text(label, (x + 40, fy, z + h - 12.5), "face-l", tc))
     if side or built:
         fx = x + w
@@ -738,6 +776,8 @@ def c_junction(x=2266):
     """Junction box straddling the spine, with a three-strand riser that feeds each rack level."""
     out = [box(x, -34, 0, 22, 84, 14, tone="-d", hatch=False)]
     out.append(iso_text("J-03", (x + 22, 30, 4), "face-r", "t-iso-l"))
+    for yy in (-30, 46):
+        out.append(screw((x + 22, yy, 7), "x", 1.5, "e-i"))
     # riser: up the junction's front, then into the rack's right end at both levels
     for k, yy in enumerate((30, 36, 42)):
         cls = "strand" + (" ia-lead" if k == 1 else "")
@@ -753,7 +793,14 @@ def c_junction(x=2266):
 def c_gantry_back(xc=2135):
     out = []
     out.append(box(xc - 20, -306, 10, 40, 26, 16, hatch=False))
+    # craft: anchor bolts on the base plate (drawn before the column, which hides the far pair)
+    for bx_, by_ in ((xc - 15, -301), (xc + 15, -301), (xc - 15, -285), (xc + 15, -285)):
+        out.append(cylinder(bx_, by_, 26, 2.2, 2.4, hatch=False))
     out.append(box(xc - 8, -300, 26, 16, 14, 300))
+    # craft: a gusset where the column meets the beam
+    gus = [(xc + 8, -286, 326), (xc + 8, -258, 326), (xc + 8, -286, 298)]
+    out.append(polygon(gus, "f-r"))
+    out.append(polyline(gus, "d", close=True))
     return "".join(out)
 
 
@@ -772,7 +819,14 @@ def c_gantry_beam(xc=2135):
 def c_gantry_front(xc=2135):
     out = []
     out.append(box(xc - 20, 254, 10, 40, 26, 16, hatch=False))
+    # craft: anchor bolts on the base plate (drawn before the column, which hides the far pair)
+    for bx_, by_ in ((xc - 15, 259), (xc + 15, 259), (xc - 15, 275), (xc + 15, 275)):
+        out.append(cylinder(bx_, by_, 26, 2.2, 2.4, hatch=False))
     out.append(box(xc - 8, 260, 26, 16, 14, 300))
+    # craft: a gusset where the column meets the beam
+    gus = [(xc + 8, 260, 326), (xc + 8, 232, 326), (xc + 8, 260, 298)]
+    out.append(polygon(gus, "f-r"))
+    out.append(polyline(gus, "d", close=True))
     return "".join(out)
 
 
@@ -1091,6 +1145,8 @@ def c_gate(x=3236, y=238):
     out = []
     out.append(box(x, y, 18, 18, 18, 104))
     out.append(box(x - 2, y - 2, 18, 22, 22, 8, hatch=False))
+    for bx_, by_ in ((x + 1, y + 1), (x + 17, y + 1), (x + 1, y + 17), (x + 17, y + 17)):
+        out.append(screw((bx_, by_, 26), "z", 1.5))
     # boom across the belt, striped: approval is gold when active
     fixed = len(out)
     bz = 96
@@ -1123,6 +1179,11 @@ def c_console(x=3300, y=150):
     out.append(polyline(top, "e-o", close=True))
     out.append(polyline([(x, y + 46, 70), (x, y + 46, 84)], "e-o"))
     out.append(polyline([(x + 40, y + 46, 70), (x + 40, y + 46, 84), (x + 40, y, 70)], "e-o"))
+    # craft: a service door on the front face, with hinges and a lock
+    door = [(x + 6, y + 46, 8), (x + 34, y + 46, 8), (x + 34, y + 46, 60), (x + 6, y + 46, 60)]
+    out.append(polyline(door, "d", close=True))
+    out.append(lines([((x + 6, y + 46, 14), (x + 6, y + 46, 20)), ((x + 6, y + 46, 48), (x + 6, y + 46, 54))], "e-o"))
+    out.append(keylock((x + 29, y + 46, 34), "y", 2.4))
     fixed = len(out)
     # lever with a gold knob
     out.append(tube((x + 20, y + 26, 80), (x + 20, y + 14, 112), 1.8, cap=False))
@@ -1207,6 +1268,8 @@ def c_cabinet(x, y, z, w=50, d=96, h=212, side=False, idx=0):
     out.append(polygon(door, "f-deep", style="fill:url(#ia-perf-ld)"))
     out.append(polyline(door, "e-i", close=True))
     out.append(line((x + w - 9, fy, z + h * 0.45), (x + w - 9, fy, z + h * 0.6), "e-i"))
+    # craft: two door hinges on the hinge side
+    out.append(lines([((x + 5, fy, z + 24), (x + 5, fy, z + 34)), ((x + 5, fy, z + h - 48), (x + 5, fy, z + h - 38))], "e-o"))
     for k in range(2):
         out.append(ellipse((x + 10 + k * 7, fy, z + h - 12), "y", 2, "ia-lamp" if (idx + k) % 3 else "f-t"))
     out.append(lines([((x + 22, fy, z + h - 9 - k * 3.5), (x + w - 8, fy, z + h - 9 - k * 3.5)) for k in range(3)], "h"))
@@ -1248,6 +1311,12 @@ def c_tank(cx, cy, z=26, r=46, h=172):
     # domed cap: smaller cap cylinder + manway
     out.append(cylinder(cx, cy, zt, r * 0.62, 10, hatch=False))
     out.append(ellipse((cx, cy, zt + 10), "z", 10, "d"))
+    # craft: bolt circle on the manway flange and a welded base ring
+    for i in range(10):
+        t = 2 * math.pi * i / 10
+        bx_, by_, bz_ = circ_pt((cx, cy, zt + 10), "z", 14, t)
+        out.append(ellipse((bx_, by_, bz_), "z", 1.1, "f-ink"))
+    out.append(arc((cx, cy, z + 6), "z", r, math.radians(135), math.radians(315), "d"))
     # front ladder
     for a in (38, 52):
         t = math.radians(a)

@@ -16,6 +16,32 @@ Prepared 2026-11-25 on `integration/experience-spine-site`, on top of Codex's me
 
 Codex's mechanics are preserved and re-verified: the conveyor on its rollers, fan rotation, four conductors and reversible captions.
 
+## Illustration craftsmanship pass (2026-11-25)
+
+The motion and composition stay as approved. The detail was added in the generator (`illustration/src/foundry.py`), and every dependent asset was regenerated from it: master, board, scenes, the 30 component SVGs (paper and night), 30 preview PNGs, `home/spine/poster.jpg` and `og-image.png`. The poster and social image are now reproducible with `node tools/qa/render-rasters.mjs`.
+
+| Scene | Added (purposeful, no new colours) |
+|---|---|
+| 1 Disconnected | **Filing cabinet:** a lock and a telescopic slide with fixings on the open drawer. **Mainframe:** a riveted nameplate, window-panel screws and a door lock. **Pigeonholes:** a slot label tab under each cell. |
+| 2 Strategy | **Collector:** panel fixings at the corners of the indicator face. |
+| 3 Software | **Gantry:** four anchor bolts per base plate, with the far pair hidden by the column, and a gusset under the beam at each column. **Modules:** rack-mount screws at the front corners. **Junction box:** cover screws. |
+| 4 AI | **Approval console:** a service door with hinges and a lock. **Gate post:** a bolted base flange. |
+| 5 Cloud | **Server cabinets:** door hinges. **Tanks:** a manway bolt circle and a welded base ring. |
+
+**Unchanged (verified):**
+- Every element ID, and every `data-pivot`, `data-travel`, `data-center`, `data-from` and `data-to` value, in master, board and scenes.
+- `anchors.json`.
+- Component ports and viewBoxes.
+- The counts of state-driven elements: strand 53, lamp 48, gold 10, terminal 1. No new detail lights, moves or takes a state.
+
+**Cost:** master.svg grows from 255.7 KB to 276.4 KB raw, and from 58.1 KB to 60.9 KB gzipped. Frame times are unchanged.
+- Desktop: p95 17.6–17.7 ms.
+- Phone at 4× CPU: p95 25–27 ms, against 25.7–27.4 ms before.
+
+Codex's mechanics suite passes 481/481 samples per viewport, and all 34 route runs are clean.
+
+**Before/after sheets, one per scene:** `tools/qa/evidence/final/craft/scene-1.jpg` to `scene-5.jpg`. Each shows the chapter hold at website size and close-ups from the master drawing.
+
 ## Verification (Chrome 1xx, headless, served from 127.0.0.1:8737)
 
 | Check | Result | Evidence |

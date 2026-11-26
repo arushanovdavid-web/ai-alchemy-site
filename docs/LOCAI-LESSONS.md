@@ -36,3 +36,11 @@ Techniques and lessons from finishing the scroll-driven isometric Spine and the 
 
 - **A fixed DevTools port can silently serve stale results.** If a QA script crashes before it kills Chrome, the next run's Chrome cannot bind the port. The script then talks to the old Chrome, which still holds the old cache, so CSS fixes appear not to apply. `site-qa.mjs` now refuses to start while the port is in use. When computed styles disagree with the file on disk, check `lsof -iTCP:<port>` first.
 - **Measure contrast on the rendered page.** Static detectors flag the colours but not the element. A rendered scan compares each text node's computed colour with its composited ancestor background, and it finds the exact element (here, a button inherited a link colour inside a night section).
+
+## Illustration craftsmanship (detail pass)
+
+- **Add detail that explains how the object is built or used.** Fasteners where parts meet, slides where a drawer moves, locks, hinges, nameplates, bolt circles on flanges. Each one has a reason to be there, so the drawing reads as engineered rather than decorated.
+- **Work in the generator, never in the output.** One change to the generator updates the master, scenes, components, previews, poster and social card together.
+- **Verify invariants mechanically before looking.** Compare element IDs, data hooks, anchors, ports and the counts of state-driven classes against a baseline snapshot. A detail that accidentally reuses a state class such as `ia-lamp` would light up with the scene.
+- **Painter's order matters for small parts.** Anchor bolts drawn after a column showed through it. Draw the parts behind first, so the nearer part hides them.
+- **Review at two scales.** Read the 1:1 master close-ups for correctness, and the chapter holds at website size for noise. Details should be legible up close and quiet in the hero.
