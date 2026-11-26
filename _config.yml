@@ -1,0 +1,16 @@
+# GitHub Pages (legacy Jekyll build from main). Publish the website only.
+# Development material stays in the repository but is not served:
+# the Experience Spine lab, internal docs, QA tools and evidence, and the illustration source and previews.
+exclude:
+  - lab/
+  - docs/
+  - tools/
+  - illustration/src/
+  - illustration/previews/
+  - illustration/docs/
+  - illustration/README.md
+  - illustration/components.json
+  - CLAUDE.md
+  - PRODUCT.md
+  - DESIGN.md
+  - README.md

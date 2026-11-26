@@ -86,14 +86,14 @@ Codex made four corrections on top of the approved illustration pass. Its eviden
 
 ## Release blockers (owner decisions)
 
-1. **Copy approval.** `docs/copy/COPY-DECK.md` is still marked DRAFT. The owner must lock every NEW or ADAPTED line. The lines that need a decision:
+1. **Copy approval: done 2026-11-26.** Every line is approved; see `docs/copy/COPY-DECK.md`. The original note follows. `docs/copy/COPY-DECK.md` is still marked DRAFT. The owner must lock every NEW or ADAPTED line. The lines that need a decision:
    - **CS-LK, "Where most projects start".** It needs a true basis. Otherwise drop the label.
    - **PI-B1.** The wording that says what is "separate" about Products & Innovation.
    - **CH4-B.** The AI chapter body.
    - **CH6-B.** The final chapter body.
    - **F-T3.** The approval reassurance.
    - The new meta titles and descriptions.
-2. **Lab route.** `/lab/experience-spine/` is deployed with the site. It is `noindex` and not linked, but it is public. Decide whether to keep it or exclude it from the deploy.
+2. **Lab route: decided 2026-11-26, left out.** `_config.yml` excludes `lab/`, `docs/`, `tools/` and the illustration source, previews and docs from the GitHub Pages (Jekyll) build. They stay in the repository as development material. In a simulated published set (the same files minus the exclusions), 32 route runs were clean, 18 links worked, and `/lab/`, `/docs/` and `/tools/` returned 404. After deploy, confirm the same on ai-alchemy.ca, because Jekyll could not be run locally.
 3. **`llms.txt` and the About intro.** Both follow the copy decision.
 
 ## Deploy and rollback plan (after approval)

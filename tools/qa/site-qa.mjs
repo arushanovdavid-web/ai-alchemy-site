@@ -114,7 +114,7 @@ for (const [w, h, name] of sizes) {
 const routes = ["/", "/services/", "/services/strategy-architecture/", "/services/custom-software-modernization/", "/services/enterprise-ai-automation/",
   "/services/cloud-data/", "/industries/", "/industries/manufacturing-wholesale-logistics/", "/industries/mortgage-insurance/",
   "/industries/hvac-energy-home-improvement/", "/industries/financial-professional-services-non-profits/", "/about/", "/contact/",
-  "/contact/thanks/", "/privacy/", "/404.html", "/lab/experience-spine/"];
+  "/contact/thanks/", "/privacy/", "/404.html"];
 const linkSet = new Set();
 for (const [w, h, name] of [[1440, 900, "desktop"], [390, 844, "phone"]]) {
   for (const route of routes) {
