@@ -1,0 +1,320 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-11-24T23:47:20.792Z",
+        "reason": "Project CLAUDE.md binds Inter Tight (self-hosted) as the brand body face"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:20.820Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:20.848Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "404.html"
+        ],
+        "createdAt": "2026-11-24T23:47:20.875Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "404.html"
+        ],
+        "createdAt": "2026-11-24T23:47:20.904Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "about/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:20.930Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "about/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:20.955Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "contact/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:20.985Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "contact/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.018Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "contact/thanks/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.045Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "contact/thanks/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.065Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "privacy/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.096Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "privacy/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.124Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "services/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.147Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "services/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.165Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "services/strategy-architecture/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.182Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "services/strategy-architecture/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.199Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "services/custom-software-modernization/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.216Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "services/custom-software-modernization/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.233Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "services/enterprise-ai-automation/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.251Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "services/enterprise-ai-automation/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.267Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "services/cloud-data/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.282Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "services/cloud-data/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.297Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "industries/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.313Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "industries/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.328Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "industries/manufacturing-wholesale-logistics/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.342Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "industries/manufacturing-wholesale-logistics/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.355Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "industries/mortgage-insurance/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.369Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "industries/mortgage-insurance/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.383Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "industries/hvac-energy-home-improvement/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.396Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "industries/hvac-energy-home-improvement/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.411Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "industries/financial-professional-services-non-profits/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.424Z",
+        "reason": "user confirmed 2026-11-24: keep the live Transmutation palette (parchment #F2EDE3)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "industries/financial-professional-services-non-profits/index.html"
+        ],
+        "createdAt": "2026-11-24T23:47:21.438Z",
+        "reason": "Claude: Sheet system uses full-width ink rules between sections and bordered drawing cells; the rule is a section divider with section padding, not a padded box"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "tools/qa/og-card.html"
+        ],
+        "createdAt": "2026-11-26T03:29:37.106Z",
+        "reason": "Claude triage: QA fixture rendering the social card in the brand's established Transmutation parchment (#F2EDE3), which CLAUDE.md requires keeping"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "tools/qa/poster-card.html"
+        ],
+        "createdAt": "2026-11-26T03:57:31.211Z",
+        "reason": "Claude triage: render fixture for home/spine/poster.jpg in the brand's established Transmutation parchment (#F2EDE3), which CLAUDE.md requires keeping"
+      }
+    ]
+  }
+}

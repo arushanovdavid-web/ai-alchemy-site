@@ -1,0 +1,651 @@
+{
+  "version": "1.2.0",
+  "canvas": {
+    "width": 5280,
+    "height": 3300
+  },
+  "projection": {
+    "type": "isometric-30",
+    "origin_master": [
+      900,
+      700
+    ],
+    "screen_x": "OX + (x - y) * cos(30deg)",
+    "screen_y": "OY + (x + y) * 0.5 - z",
+    "units": "1 world unit = 1 SVG user unit along each axis"
+  },
+  "cameras": {
+    "disconnected": {
+      "scene": 1,
+      "viewBox": [
+        20.0,
+        70.0,
+        1760,
+        1100
+      ],
+      "portrait_viewBox": [
+        208.42,
+        -261.12,
+        1417.79,
+        1772.24
+      ]
+    },
+    "strategy": {
+      "scene": 2,
+      "viewBox": [
+        886.03,
+        570.0,
+        1760,
+        1100
+      ],
+      "portrait_viewBox": [
+        1136.71,
+        288.05,
+        1377.02,
+        1721.27
+      ]
+    },
+    "software": {
+      "scene": 3,
+      "viewBox": [
+        1752.05,
+        1070.0,
+        1760,
+        1100
+      ],
+      "portrait_viewBox": [
+        2113.19,
+        859.78,
+        1257.16,
+        1571.45
+      ]
+    },
+    "ai": {
+      "scene": 4,
+      "viewBox": [
+        2618.08,
+        1570.0,
+        1760,
+        1100
+      ],
+      "portrait_viewBox": [
+        2979.22,
+        1491.7,
+        1037.72,
+        1297.15
+      ]
+    },
+    "cloud": {
+      "scene": 5,
+      "viewBox": [
+        3484.1,
+        2070.0,
+        1760,
+        1100
+      ],
+      "portrait_viewBox": [
+        3790.47,
+        1717.72,
+        1373.25,
+        1716.56
+      ]
+    }
+  },
+  "anchors": [
+    {
+      "id": "s1.spreadsheets.out",
+      "scene": 1,
+      "role": "out",
+      "world": [
+        -200,
+        -100,
+        4.5
+      ],
+      "master": [
+        813.4,
+        545.5
+      ],
+      "note": ""
+    },
+    {
+      "id": "s1.mail.out",
+      "scene": 1,
+      "role": "out",
+      "world": [
+        200,
+        -126,
+        4.5
+      ],
+      "master": [
+        1182.32,
+        732.5
+      ],
+      "note": ""
+    },
+    {
+      "id": "s1.forms.out",
+      "scene": 1,
+      "role": "out",
+      "world": [
+        -128,
+        140,
+        4.5
+      ],
+      "master": [
+        667.91,
+        701.5
+      ],
+      "note": ""
+    },
+    {
+      "id": "s1.legacy.out",
+      "scene": 1,
+      "role": "out",
+      "world": [
+        352,
+        150,
+        4.5
+      ],
+      "master": [
+        1074.94,
+        946.5
+      ],
+      "note": ""
+    },
+    {
+      "id": "s1.centre",
+      "scene": 1,
+      "role": "camera",
+      "world": [
+        0,
+        0,
+        80
+      ],
+      "master": [
+        900.0,
+        620.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s2.collector.in.mail",
+      "scene": 2,
+      "role": "in",
+      "world": [
+        606,
+        -45,
+        0
+      ],
+      "master": [
+        1463.78,
+        980.5
+      ],
+      "note": ""
+    },
+    {
+      "id": "s2.collector.in.spreadsheets",
+      "scene": 2,
+      "role": "in",
+      "world": [
+        606,
+        -15,
+        0
+      ],
+      "master": [
+        1437.8,
+        995.5
+      ],
+      "note": ""
+    },
+    {
+      "id": "s2.collector.in.forms",
+      "scene": 2,
+      "role": "in",
+      "world": [
+        606,
+        15,
+        0
+      ],
+      "master": [
+        1411.82,
+        1010.5
+      ],
+      "note": ""
+    },
+    {
+      "id": "s2.collector.in.legacy",
+      "scene": 2,
+      "role": "in",
+      "world": [
+        606,
+        45,
+        0
+      ],
+      "master": [
+        1385.84,
+        1025.5
+      ],
+      "note": ""
+    },
+    {
+      "id": "s2.collector.out",
+      "scene": 2,
+      "role": "out",
+      "world": [
+        700,
+        0,
+        0
+      ],
+      "master": [
+        1506.22,
+        1050.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s2.plate.centre",
+      "scene": 2,
+      "role": "focus",
+      "world": [
+        1020,
+        -270,
+        16
+      ],
+      "master": [
+        2017.17,
+        1059.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s2.survey.head",
+      "scene": 2,
+      "role": "focus",
+      "world": [
+        690,
+        268,
+        184
+      ],
+      "master": [
+        1265.46,
+        995.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "spine.j23",
+      "scene": 2,
+      "role": "junction",
+      "world": [
+        1500,
+        0,
+        0
+      ],
+      "master": [
+        2199.04,
+        1450.0
+      ],
+      "note": "spine hand-off from scene 2 to scene 3"
+    },
+    {
+      "id": "s2.centre",
+      "scene": 2,
+      "role": "camera",
+      "world": [
+        1000,
+        0,
+        80
+      ],
+      "master": [
+        1766.03,
+        1120.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s3.rack.in",
+      "scene": 3,
+      "role": "in",
+      "world": [
+        1950,
+        0,
+        0
+      ],
+      "master": [
+        2588.75,
+        1675.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s3.legacy.out",
+      "scene": 3,
+      "role": "out",
+      "world": [
+        1854,
+        40,
+        0
+      ],
+      "master": [
+        2470.97,
+        1647.0
+      ],
+      "note": "proposed data migration from the legacy core"
+    },
+    {
+      "id": "s3.riser",
+      "scene": 3,
+      "role": "focus",
+      "world": [
+        2268,
+        36,
+        122
+      ],
+      "master": [
+        2832.97,
+        1730.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s3.rack.out",
+      "scene": 3,
+      "role": "out",
+      "world": [
+        2250,
+        0,
+        0
+      ],
+      "master": [
+        2848.56,
+        1825.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s3.module.hanging",
+      "scene": 3,
+      "role": "focus",
+      "world": [
+        2135,
+        0,
+        240
+      ],
+      "master": [
+        2748.96,
+        1527.5
+      ],
+      "note": ""
+    },
+    {
+      "id": "s3.module.slot",
+      "scene": 3,
+      "role": "target",
+      "world": [
+        2135,
+        0,
+        95
+      ],
+      "master": [
+        2748.96,
+        1672.5
+      ],
+      "note": "Seated centre of the module. The shelf is at z=69; the module is 50 tall, so its centre rests at z=95. A target of z=69 dropped the body through the shelf."
+    },
+    {
+      "id": "spine.j34",
+      "scene": 3,
+      "role": "junction",
+      "world": [
+        2500,
+        0,
+        0
+      ],
+      "master": [
+        3065.06,
+        1950.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s3.centre",
+      "scene": 3,
+      "role": "camera",
+      "world": [
+        2000,
+        0,
+        80
+      ],
+      "master": [
+        2632.05,
+        1620.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s4.core",
+      "scene": 4,
+      "role": "focus",
+      "world": [
+        3000,
+        0,
+        196
+      ],
+      "master": [
+        3498.08,
+        2004.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s4.core.crown",
+      "scene": 4,
+      "role": "focus",
+      "world": [
+        3000,
+        0,
+        378
+      ],
+      "master": [
+        3498.08,
+        1822.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s4.reader",
+      "scene": 4,
+      "role": "focus",
+      "world": [
+        3000,
+        200,
+        110
+      ],
+      "master": [
+        3324.87,
+        2190.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s4.conveyor.in",
+      "scene": 4,
+      "role": "in",
+      "world": [
+        2780,
+        200,
+        52
+      ],
+      "master": [
+        3134.35,
+        2138.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s4.conveyor.out",
+      "scene": 4,
+      "role": "out",
+      "world": [
+        3220,
+        200,
+        52
+      ],
+      "master": [
+        3515.4,
+        2358.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s4.gate",
+      "scene": 4,
+      "role": "focus",
+      "world": [
+        3177,
+        200,
+        104
+      ],
+      "master": [
+        3478.16,
+        2284.5
+      ],
+      "note": ""
+    },
+    {
+      "id": "s4.console.lever",
+      "scene": 4,
+      "role": "focus",
+      "world": [
+        3320,
+        164,
+        114
+      ],
+      "master": [
+        3633.18,
+        2328.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "spine.j45",
+      "scene": 4,
+      "role": "junction",
+      "world": [
+        3500,
+        0,
+        0
+      ],
+      "master": [
+        3931.09,
+        2450.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s4.centre",
+      "scene": 4,
+      "role": "camera",
+      "world": [
+        3000,
+        0,
+        80
+      ],
+      "master": [
+        3498.08,
+        2120.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s5.floor.in",
+      "scene": 5,
+      "role": "in",
+      "world": [
+        3660,
+        0,
+        0
+      ],
+      "master": [
+        4069.65,
+        2530.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s5.floor.out",
+      "scene": 5,
+      "role": "out",
+      "world": [
+        4260,
+        0,
+        0
+      ],
+      "master": [
+        4589.27,
+        2830.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s5.racks",
+      "scene": 5,
+      "role": "focus",
+      "world": [
+        3900,
+        -150,
+        240
+      ],
+      "master": [
+        4407.4,
+        2335.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s5.stores",
+      "scene": 5,
+      "role": "focus",
+      "world": [
+        3910,
+        140,
+        200
+      ],
+      "master": [
+        4164.92,
+        2525.0
+      ],
+      "note": ""
+    },
+    {
+      "id": "s5.terminal",
+      "scene": 5,
+      "role": "end",
+      "world": [
+        4600,
+        0,
+        5
+      ],
+      "master": [
+        4883.72,
+        2995.0
+      ],
+      "note": "the one connected operation"
+    },
+    {
+      "id": "s5.centre",
+      "scene": 5,
+      "role": "camera",
+      "world": [
+        4000,
+        0,
+        80
+      ],
+      "master": [
+        4364.1,
+        2620.0
+      ],
+      "note": ""
+    }
+  ]
+}

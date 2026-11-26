@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Poster card</title>
+<link rel="stylesheet" href="/home/sheet.css">
+<style>
+  html,body{margin:0;background:#F2EDE3}
+  #frame{width:1600px;height:1000px;position:relative;overflow:hidden;background:#F2EDE3}
+  #mount{position:absolute;left:0;right:0;top:0;height:1000px}
+  #mount svg{width:100%;height:100%;display:block}
+  .block{
+    position:absolute;left:0;right:0;bottom:0;height:82px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 36px;background:#1C2026;color:#F2EDE3;
+    border-top:1px solid rgba(242,237,227,.16);
+  }
+  .block strong{font:500 22px/1 "Newsreader",Georgia,serif;letter-spacing:-.02em;font-weight:500}
+  .block span{font:500 12px/1.35 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:#B9BCC0}
+  .block em{font-style:normal;color:#E2B04A}
+</style>
+</head>
+<body>
+<div id="frame">
+  <div id="mount"></div>
+  <div class="block" style="display:none">
+    <strong>AI Alchemy</strong>
+    <span>One connected operation</span>
+    <span>Greater Toronto Area</span>
+  </div>
+</div>
+<script>
+fetch("/illustration/svg/master.svg").then(r => r.text()).then(t => {
+  const mount = document.getElementById("mount");
+  mount.innerHTML = t;
+  const svg = mount.querySelector("svg");
+  svg.setAttribute("viewBox", "0 0 5280 3300");
+  svg.removeAttribute("width");
+  svg.removeAttribute("height");
+  const module = svg.querySelector("#ia-s3-module-new");
+  if (module) module.setAttribute("transform", "translate(0 145)");
+  svg.querySelector("#ia-s3-hoist-lines")?.setAttribute("opacity", "0");
+  svg.querySelector("#ia-s3-drop-line")?.setAttribute("opacity", "0");
+  svg.querySelectorAll("[id^='ia-scene-']").forEach(el => el.setAttribute("data-state", "active"));
+  svg.querySelectorAll(".ia-link").forEach(el => el.setAttribute("data-state", "active"));
+  svg.querySelector("#ia-annotations")?.setAttribute("display","none"); document.documentElement.dataset.ready = "1";
+});
+</script>
+</body>
+</html>

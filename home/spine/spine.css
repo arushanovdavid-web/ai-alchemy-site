@@ -1,0 +1,151 @@
+/* AI Alchemy — Experience Spine on the homepage. Layout adapted from lab/experience-spine (Codex), under the site header.
+   The camera and every state are written by /home/spine/engine.js from one scroll position. */
+
+#experience { position: relative; --hdr-h: var(--hdr, 68px); }
+#experience .stage { padding: 0 var(--pad); max-width: 2100px; margin: 0 auto; }
+#experience .spread {
+  display: grid; grid-template-columns: minmax(300px, .36fr) minmax(0, .64fr);
+  gap: clamp(16px, 2.4vw, 44px); align-items: center;
+}
+#experience .narrative { position: relative; z-index: 2; padding: 24px 0; }
+#experience .chapters { position: relative; }
+#experience article { padding: 18px 0; }
+#experience .folio {
+  font: 500 11px/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2);
+  margin-bottom: 18px; font-variant-numeric: tabular-nums; display: flex; gap: 12px; align-items: center;
+}
+#experience .folio::after { content: ""; flex: 0 0 40px; height: 1px; background: currentColor; opacity: .5; }
+#experience h1, #experience h2 {
+  font-family: var(--serif); font-weight: 420; letter-spacing: -.035em; line-height: .98;
+  font-size: clamp(40px, 4.4vw, 78px); text-wrap: balance;
+}
+#experience h1 { font-size: clamp(38px, 3.6vw, 64px); line-height: 1.0; letter-spacing: -.03em; }
+#experience h1 .l2, #experience h2 em { font-style: normal; color: var(--accent-deep); }
+#experience article p { max-width: 36ch; font-size: clamp(16px, 1.15vw, 19px); line-height: 1.5; margin-top: 20px; color: var(--ink-2); }
+#experience .hero-actions { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; margin-top: 30px; }
+#experience .svc-link {
+  display: inline-flex; gap: 10px; align-items: center; margin-top: 18px; font: 500 12px/1 var(--mono); letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink); text-decoration: none; padding: 10px 0; border-bottom: 1px solid var(--line);
+}
+#experience .svc-link::after { content: "\2192"; transition: transform .25s var(--ease); }
+#experience .svc-link:hover::after { transform: translateX(4px); }
+#experience .svc-link:hover { border-bottom-color: currentColor; }
+
+#experience figure { margin: 0; min-width: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; }
+#experience .plate-label, #experience figcaption {
+  display: flex; justify-content: space-between; gap: 8px; align-items: center;
+  font: 500 11px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); padding: 10px 0;
+}
+#experience .plate-label { border-bottom: 1px solid var(--line); }
+#experience figcaption { border-top: 1px solid var(--line); }
+#experience .viewport { position: relative; min-height: 0; overflow: hidden; }
+#experience .poster, #experience .viewport svg.ia { display: block; width: 100%; height: 100%; object-fit: contain; }
+#experience .viewport svg.ia { position: absolute; inset: 0; }
+#experience .viewport svg #ia-titles, #experience .viewport svg #ia-sheet { display: none; }
+
+/* Live: a sticky stage under the site header, scrubbed by native scroll. */
+#experience.live { height: calc(100svh + 760svh); }
+#experience.live .poster { visibility: hidden; }
+#experience.live .stage {
+  position: sticky; top: var(--hdr-h); height: calc(100svh - var(--hdr-h));
+  display: grid; grid-template-rows: minmax(0, 1fr) auto;
+}
+#experience.live .spread { min-height: 0; }
+#experience.live figure { align-self: stretch; margin: clamp(10px, 2.4vh, 30px) 0; }
+#experience.live .chapters { display: grid; }
+#experience.live article { grid-area: 1/1; align-self: center; opacity: 0; }
+#experience.live article:first-child { align-self: end; padding-bottom: clamp(8px, 3vh, 36px); }
+#experience.live article:not(:first-child) p { min-height: 4.6em; }
+#experience.live article[data-on] { pointer-events: auto; }
+#experience .stops { display: none; }
+#experience.live .stops { display: block; position: absolute; inset: 0 0 100svh; pointer-events: none; }
+#experience .stops span { position: absolute; width: 1px; height: 1px; }
+
+/* Opening and reveal: the camera frames the whole board wider than the plate; the clip opens into the paper
+   behind the narrative (the lab's approach). */
+#experience.live.unfolding .viewport { overflow: visible; clip-path: inset(0 0 0 var(--extend, 0px)); }
+#experience.live.unfolding .viewport svg.ia { overflow: visible; }
+#experience.live .narrative { transform: translateY(var(--caption-shift, 0)); pointer-events: none; }
+#experience.live .narrative a, #experience.live .narrative button { pointer-events: auto; }
+#experience.live .ia [data-state="active"] .ia-lead,
+#experience.live .ia .ia-link[data-state="active"] { vector-effect: non-scaling-stroke; stroke: var(--ia-signal); stroke-width: .75px; }
+#experience[data-mode="overview"] .poster { visibility: hidden; }
+@media (prefers-reduced-motion: no-preference) and (min-height: 316px) { .preparing #experience { min-height: 860svh; } }
+
+/* Chapter rail */
+#experience .rail {
+  border-top: 1px solid var(--ink); grid-template-columns: repeat(6, 1fr); gap: 14px; padding: 12px 0 16px;
+  font: 500 11px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase;
+}
+#experience .rail:not([hidden]) { display: grid; }
+#experience .rail a {
+  display: flex; gap: 8px; align-items: baseline; padding: 9px 0 0; text-decoration: none;
+  border-top: 2px solid var(--line); color: var(--ink-2); transition: color .3s, border-color .3s;
+}
+#experience .rail a[aria-current] { color: var(--accent-deep); border-color: var(--accent-deep); }
+#experience .rail a strong { font: 550 12.5px/1.2 var(--sans); letter-spacing: 0; text-transform: none; }
+#experience[data-chapter="0"] .rail a { opacity: .55; }
+
+#experience .mode {
+  font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2);
+  border-bottom: 1px solid currentColor; padding: 6px 0; margin-left: auto;
+}
+
+/* Static (no script, reduced motion, overview): a readable sheet. */
+#experience:not(.live) .stage { padding-top: calc(var(--hdr-h) + 24px); }
+#experience:not(.live) .spread { display: flex; flex-direction: column; align-items: stretch; }
+#experience:not(.live) figure { order: -1; width: 100%; max-width: 1280px; margin: 0 auto 24px; }
+#experience:not(.live) .viewport { aspect-ratio: 1.6; }
+#experience:not(.live) .chapters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 8px 40px; }
+#experience:not(.live) article:first-child { grid-column: 1 / -1; padding-bottom: 40px; border-bottom: 1px solid var(--line); }
+#experience:not(.live) article h2 { font-size: clamp(30px, 3vw, 44px); }
+#experience:not(.live) .stage-tools { display: flex; justify-content: flex-end; }
+
+@media (max-width: 860px), (max-aspect-ratio: 4/5) {
+  #experience.live .spread { display: flex; flex-direction: column; gap: 0; align-items: stretch; }
+  #experience.live figure { order: -1; flex: 1; min-height: 0; margin: 6px 0 0; }
+  #experience.live .viewport svg.ia { left: 0; width: 100%; }
+  #experience.live .narrative { padding: 6px 0 4px; }
+  #experience.live article { padding: 4px 0 8px; }
+  #experience.live article br { display: none; }
+  #experience.live article h1 { font-size: clamp(32px, 8.4vw, 52px); }
+  #experience.live article h2 { font-size: clamp(30px, 7.2vw, 48px); line-height: 1.02; }
+  #experience.live article p { font-size: 15px; min-height: 3em; max-width: 52ch; margin-top: 8px; }
+  #experience.live article:first-child p { display: none; }
+  #experience.live .hero-actions { margin-top: 14px; }
+  #experience .folio { margin-bottom: 8px; }
+  #experience .plate-label, #experience figcaption { display: none; }
+  #experience .rail { gap: 6px; padding: 8px 0 10px; }
+  #experience .rail a { padding-top: 6px; }
+  #experience .rail a strong { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { #experience article { transition: none; } }
+
+/* Phones: compact narrative so the drawing keeps the screen. */
+@media (max-width: 860px), (max-aspect-ratio: 4/5) {
+  #experience.live article, #experience.live article:first-child { align-self: end; padding: 2px 0 6px; }
+  #experience.live .folio { font-size: 10px; letter-spacing: .08em; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #experience.live .folio::after { display: none; }
+  #experience.live article h1 { font-size: clamp(28px, 7.4vw, 46px); line-height: 1.02; }
+  #experience.live article h2 { font-size: clamp(26px, 6.6vw, 42px); }
+  #experience.live article p { font-size: 14.5px; line-height: 1.45; min-height: 0; margin-top: 6px; }
+  #experience.live article:not(:first-child) p { min-height: 0; }
+  #experience.live .fine-note { display: none; }
+  #experience.live .svc-link { font: 550 14px/1.3 var(--sans); letter-spacing: 0; text-transform: none; margin-top: 8px; padding: 6px 0; }
+  #experience.live .hero-actions { gap: 10px 18px; margin-top: 12px; }
+  #experience.live .hero-actions .btn { min-height: 46px; }
+  #experience.live .hero-actions .textlink { font-size: 14.5px; }
+}
+@media (max-width: 860px), (max-aspect-ratio: 4/5) {
+  #experience.live figure { grid-template-rows: minmax(0, 1fr); }
+}
+/* 2026-11-24 review fixes */
+#experience .folio { max-width: none !important; min-height: 0 !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#experience h1 .l2, #experience h2 em { color: var(--ink-2); }
+#experience.live article:last-child h2 { font-size: clamp(34px, 3.4vw, 60px); }
+#experience .rail a[aria-current] { color: var(--accent-deep); border-color: var(--accent); }
+@media (max-width: 860px), (max-aspect-ratio: 4/5) {
+  #experience.live article:first-child p { display: block; }
+  #experience.live article:first-child .hero-fact { display: none; }
+  #experience.live article:last-child h2 { font-size: clamp(24px, 6vw, 38px); }
+}

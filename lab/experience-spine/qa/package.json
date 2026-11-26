@@ -1,0 +1,14 @@
+{
+  "name": "experience-spine-qa",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "node verify.mjs",
+    "capture": "node capture.mjs final",
+    "profile": "node profile.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.65.1"
+  },
+  "private": true
+}

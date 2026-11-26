@@ -1,0 +1,1050 @@
+{
+  "version": "1.2.0",
+  "components": [
+    {
+      "name": "spreadsheet-stack",
+      "file": "svg/components/spreadsheet-stack.svg",
+      "scene": 1,
+      "origin_world": [
+        -330,
+        -300,
+        0
+      ],
+      "viewBox": [
+        -163,
+        -36,
+        360,
+        236
+      ],
+      "ports": {
+        "out": {
+          "local": [
+            130,
+            160,
+            4.5
+          ],
+          "component_svg": [
+            -25.98,
+            140.5
+          ]
+        }
+      },
+      "description": "Fanned stack of ledger sheets on a 200 x 160 plinth; top sheet carries a cell grid.",
+      "place_in_master": "translate(874.02 385)"
+    },
+    {
+      "name": "mail-pigeonhole",
+      "file": "svg/components/mail-pigeonhole.svg",
+      "scene": 1,
+      "origin_world": [
+        60,
+        -320,
+        0
+      ],
+      "viewBox": [
+        -154,
+        -166,
+        352,
+        361
+      ],
+      "ports": {
+        "out": {
+          "local": [
+            140,
+            150,
+            4.5
+          ],
+          "component_svg": [
+            -8.66,
+            140.5
+          ]
+        }
+      },
+      "description": "Pigeonhole cabinet, 4 x 3 recessed cells with letters, on a 200 x 150 plinth.",
+      "place_in_master": "translate(1229.09 570)"
+    },
+    {
+      "name": "filing-cabinet",
+      "file": "svg/components/filing-cabinet.svg",
+      "scene": 1,
+      "origin_world": [
+        -340,
+        80,
+        0
+      ],
+      "viewBox": [
+        -198,
+        -212,
+        365,
+        412
+      ],
+      "ports": {
+        "out": {
+          "local": [
+            160,
+            60,
+            4.5
+          ],
+          "component_svg": [
+            86.6,
+            105.5
+          ]
+        }
+      },
+      "description": "Four-drawer filing cabinet with one drawer pulled open to show folders.",
+      "place_in_master": "translate(536.27 570)"
+    },
+    {
+      "name": "legacy-mainframe",
+      "file": "svg/components/legacy-mainframe.svg",
+      "scene": 1,
+      "origin_world": [
+        60,
+        80,
+        0
+      ],
+      "viewBox": [
+        -180,
+        -238,
+        412,
+        468
+      ],
+      "ports": {
+        "out": {
+          "local": [
+            240,
+            70,
+            4.5
+          ],
+          "component_svg": [
+            147.22,
+            150.5
+          ]
+        }
+      },
+      "description": "Tape-reel cabinet: two reels, indicator row, vents.",
+      "place_in_master": "translate(882.68 770)"
+    },
+    {
+      "name": "open-stub",
+      "file": "svg/components/open-stub.svg",
+      "scene": 1,
+      "origin_world": [
+        0,
+        0,
+        0
+      ],
+      "viewBox": [
+        -83,
+        -27,
+        112,
+        85
+      ],
+      "ports": {
+        "in": {
+          "local": [
+            0,
+            0,
+            0
+          ],
+          "component_svg": [
+            0.0,
+            0.0
+          ]
+        },
+        "end": {
+          "local": [
+            0,
+            44,
+            4.5
+          ],
+          "component_svg": [
+            -38.11,
+            17.5
+          ]
+        }
+      },
+      "description": "Three-strand stub ending in an open plug (the disconnected state).",
+      "place_in_master": "translate(900 700)"
+    },
+    {
+      "name": "collector",
+      "file": "svg/components/collector.svg",
+      "scene": 2,
+      "origin_world": [
+        620,
+        -80,
+        0
+      ],
+      "viewBox": [
+        -198,
+        -96,
+        308,
+        250
+      ],
+      "ports": {
+        "in.1": {
+          "local": [
+            -14,
+            35,
+            0
+          ],
+          "component_svg": [
+            -42.44,
+            10.5
+          ]
+        },
+        "in.4": {
+          "local": [
+            -14,
+            125,
+            0
+          ],
+          "component_svg": [
+            -120.38,
+            55.5
+          ]
+        },
+        "out": {
+          "local": [
+            80,
+            80,
+            0
+          ],
+          "component_svg": [
+            0.0,
+            80.0
+          ]
+        }
+      },
+      "description": "Terminal block that gathers four inputs into the spine.",
+      "place_in_master": "translate(1506.22 970)"
+    },
+    {
+      "name": "dependency-map",
+      "file": "svg/components/dependency-map.svg",
+      "scene": 2,
+      "origin_world": [
+        0,
+        0,
+        0
+      ],
+      "viewBox": [
+        -184,
+        -140,
+        339,
+        240
+      ],
+      "ports": {},
+      "description": "Two source systems converge on a routing block and an exploded target module.",
+      "place_in_master": "translate(900 700)"
+    },
+    {
+      "name": "drafting-plate",
+      "file": "svg/components/drafting-plate.svg",
+      "scene": 2,
+      "origin_world": [
+        760,
+        -440,
+        0
+      ],
+      "viewBox": [
+        -319,
+        -40,
+        793,
+        494
+      ],
+      "ports": {
+        "centre": {
+          "local": [
+            260,
+            170,
+            16
+          ],
+          "component_svg": [
+            77.94,
+            199.0
+          ]
+        }
+      },
+      "description": "Plate with a poche plan, structural grid, wire massing, scale rule and set square.",
+      "place_in_master": "translate(1939.23 860)"
+    },
+    {
+      "name": "survey-station",
+      "file": "svg/components/survey-station.svg",
+      "scene": 2,
+      "origin_world": [
+        690,
+        268,
+        0
+      ],
+      "viewBox": [
+        -73,
+        -221,
+        178,
+        284
+      ],
+      "ports": {
+        "head": {
+          "local": [
+            0,
+            0,
+            184
+          ],
+          "component_svg": [
+            0.0,
+            -184.0
+          ]
+        },
+        "mark": {
+          "local": [
+            0,
+            0,
+            0
+          ],
+          "component_svg": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "description": "Tripod survey instrument with a plumb line to a ground mark.",
+      "place_in_master": "translate(1265.46 1179)"
+    },
+    {
+      "name": "module",
+      "file": "svg/components/module.svg",
+      "scene": 3,
+      "origin_world": [
+        0,
+        0,
+        0
+      ],
+      "viewBox": [
+        -121,
+        -74,
+        197,
+        184
+      ],
+      "ports": {
+        "top": {
+          "local": [
+            30,
+            56,
+            50
+          ],
+          "component_svg": [
+            -22.52,
+            -7.0
+          ]
+        }
+      },
+      "description": "One software module: 60 x 112 x 50, vents, status lamp, stencil ID.",
+      "place_in_master": "translate(900 700)"
+    },
+    {
+      "name": "module-built",
+      "file": "svg/components/module-built.svg",
+      "scene": 3,
+      "origin_world": [
+        0,
+        0,
+        0
+      ],
+      "viewBox": [
+        -121,
+        -74,
+        197,
+        184
+      ],
+      "ports": {
+        "top": {
+          "local": [
+            30,
+            56,
+            50
+          ],
+          "component_svg": [
+            -22.52,
+            -7.0
+          ]
+        }
+      },
+      "description": "The same module in built (deep) material: what AI Alchemy delivers.",
+      "place_in_master": "translate(900 700)"
+    },
+    {
+      "name": "junction-riser",
+      "file": "svg/components/junction-riser.svg",
+      "scene": 3,
+      "origin_world": [
+        2266,
+        0,
+        0
+      ],
+      "viewBox": [
+        -80,
+        -142,
+        152,
+        202
+      ],
+      "ports": {
+        "base": {
+          "local": [
+            11,
+            0,
+            14
+          ],
+          "component_svg": [
+            9.53,
+            -8.5
+          ]
+        },
+        "top": {
+          "local": [
+            2,
+            36,
+            122
+          ],
+          "component_svg": [
+            -29.44,
+            -103.0
+          ]
+        }
+      },
+      "description": "Junction box on the spine with a three-strand riser into the rack levels.",
+      "place_in_master": "translate(2862.41 1833)"
+    },
+    {
+      "name": "module-rack",
+      "file": "svg/components/module-rack.svg",
+      "scene": 3,
+      "origin_world": [
+        1950,
+        -70,
+        0
+      ],
+      "viewBox": [
+        -146,
+        -149,
+        430,
+        393
+      ],
+      "ports": {
+        "in": {
+          "local": [
+            0,
+            70,
+            0
+          ],
+          "component_svg": [
+            -60.62,
+            35.0
+          ]
+        },
+        "out": {
+          "local": [
+            300,
+            70,
+            0
+          ],
+          "component_svg": [
+            199.19,
+            185.0
+          ]
+        },
+        "slot": {
+          "local": [
+            185,
+            70,
+            69
+          ],
+          "component_svg": [
+            99.59,
+            58.5
+          ]
+        }
+      },
+      "description": "Open-top rack, 4 bays x 2 levels, one empty bay.",
+      "place_in_master": "translate(2649.37 1640)"
+    },
+    {
+      "name": "gantry",
+      "file": "svg/components/gantry.svg",
+      "scene": 3,
+      "origin_world": [
+        2135,
+        0,
+        0
+      ],
+      "viewBox": [
+        -284,
+        -537,
+        591,
+        701
+      ],
+      "ports": {
+        "hook": {
+          "local": [
+            0,
+            0,
+            264
+          ],
+          "component_svg": [
+            0.0,
+            -264.0
+          ]
+        }
+      },
+      "description": "Portal gantry with trolley and a module on the hoist.",
+      "place_in_master": "translate(2748.96 1767.5)"
+    },
+    {
+      "name": "legacy-core-outline",
+      "file": "svg/components/legacy-core-outline.svg",
+      "scene": 3,
+      "origin_world": [
+        1704,
+        -64,
+        0
+      ],
+      "viewBox": [
+        -135,
+        -194,
+        289,
+        357
+      ],
+      "ports": {
+        "centre": {
+          "local": [
+            75,
+            64,
+            85
+          ],
+          "component_svg": [
+            9.53,
+            -15.5
+          ]
+        }
+      },
+      "description": "Dashed demolition outline for a system that will be replaced.",
+      "place_in_master": "translate(2431.13 1520)"
+    },
+    {
+      "name": "platform",
+      "file": "svg/components/platform.svg",
+      "scene": 4,
+      "origin_world": [
+        3000,
+        0,
+        0
+      ],
+      "viewBox": [
+        -392,
+        -248,
+        783,
+        484
+      ],
+      "ports": {
+        "centre": {
+          "local": [
+            0,
+            0,
+            18
+          ],
+          "component_svg": [
+            0.0,
+            -18.0
+          ]
+        }
+      },
+      "description": "Circular platform, r 300, dial ticks and a covered cable trench.",
+      "place_in_master": "translate(3498.08 2200)"
+    },
+    {
+      "name": "gyro-core",
+      "file": "svg/components/gyro-core.svg",
+      "scene": 4,
+      "origin_world": [
+        3000,
+        0,
+        0
+      ],
+      "viewBox": [
+        -176,
+        -425,
+        352,
+        519
+      ],
+      "ports": {
+        "core": {
+          "local": [
+            0,
+            0,
+            196
+          ],
+          "component_svg": [
+            0.0,
+            -196.0
+          ]
+        },
+        "crown": {
+          "local": [
+            0,
+            0,
+            378
+          ],
+          "component_svg": [
+            0.0,
+            -378.0
+          ]
+        }
+      },
+      "description": "The signature core: the Rings mark (segmented gimbal rings, copper core) inside a smoked-glass vessel on a finned base, fed by the spine.",
+      "place_in_master": "translate(3498.08 2200)"
+    },
+    {
+      "name": "reader-arch",
+      "file": "svg/components/reader-arch.svg",
+      "scene": 4,
+      "origin_world": [
+        3000,
+        200,
+        0
+      ],
+      "viewBox": [
+        -73,
+        -174,
+        178,
+        207
+      ],
+      "ports": {
+        "read-line": {
+          "local": [
+            0,
+            0,
+            110
+          ],
+          "component_svg": [
+            0.0,
+            -110.0
+          ]
+        }
+      },
+      "description": "Arch over the conveyor with a read line, ducted to the core's dais.",
+      "place_in_master": "translate(3324.87 2300)"
+    },
+    {
+      "name": "floor-duct",
+      "file": "svg/components/floor-duct.svg",
+      "scene": null,
+      "origin_world": [
+        0,
+        0,
+        0
+      ],
+      "viewBox": [
+        -138,
+        -30,
+        171,
+        119
+      ],
+      "ports": {
+        "a": {
+          "local": [
+            0,
+            0,
+            0
+          ],
+          "component_svg": [
+            0.0,
+            0.0
+          ]
+        },
+        "b": {
+          "local": [
+            0,
+            120,
+            0
+          ],
+          "component_svg": [
+            -103.92,
+            60.0
+          ]
+        }
+      },
+      "description": "Shallow covered duct with three strands; the shared vocabulary for short connections.",
+      "place_in_master": "translate(900 700)"
+    },
+    {
+      "name": "conveyor",
+      "file": "svg/components/conveyor.svg",
+      "scene": 4,
+      "origin_world": [
+        2780,
+        172,
+        0
+      ],
+      "viewBox": [
+        -73,
+        -76,
+        478,
+        308
+      ],
+      "ports": {
+        "in": {
+          "local": [
+            0,
+            28,
+            52
+          ],
+          "component_svg": [
+            -24.25,
+            -38.0
+          ]
+        },
+        "out": {
+          "local": [
+            440,
+            28,
+            52
+          ],
+          "component_svg": [
+            356.8,
+            182.0
+          ]
+        }
+      },
+      "description": "Roller conveyor with unsorted documents before the core and aligned ones after.",
+      "place_in_master": "translate(3158.59 2176)"
+    },
+    {
+      "name": "approval-gate",
+      "file": "svg/components/approval-gate.svg",
+      "scene": 4,
+      "origin_world": [
+        3168,
+        238,
+        0
+      ],
+      "viewBox": [
+        -44,
+        -170,
+        156,
+        196
+      ],
+      "ports": {
+        "boom": {
+          "local": [
+            9,
+            -44,
+            100
+          ],
+          "component_svg": [
+            45.9,
+            -117.5
+          ]
+        }
+      },
+      "description": "Striped boom over the belt. The stripes turn gold when active.",
+      "place_in_master": "translate(3437.45 2403)"
+    },
+    {
+      "name": "approval-console",
+      "file": "svg/components/approval-console.svg",
+      "scene": 4,
+      "origin_world": [
+        3300,
+        150,
+        0
+      ],
+      "viewBox": [
+        -64,
+        -121,
+        123,
+        188
+      ],
+      "ports": {
+        "lever": {
+          "local": [
+            20,
+            14,
+            114
+          ],
+          "component_svg": [
+            5.2,
+            -97.0
+          ]
+        }
+      },
+      "description": "Console with a manager's lever (gold knob) and three lamps.",
+      "place_in_master": "translate(3627.98 2425)"
+    },
+    {
+      "name": "raised-floor",
+      "file": "svg/components/raised-floor.svg",
+      "scene": 5,
+      "origin_world": [
+        3660,
+        -330,
+        0
+      ],
+      "viewBox": [
+        -509,
+        -50,
+        1053,
+        654
+      ],
+      "ports": {
+        "in": {
+          "local": [
+            0,
+            330,
+            0
+          ],
+          "component_svg": [
+            -285.79,
+            165.0
+          ]
+        },
+        "out": {
+          "local": [
+            600,
+            330,
+            0
+          ],
+          "component_svg": [
+            233.83,
+            465.0
+          ]
+        }
+      },
+      "description": "Raised access floor with pedestals visible in the void and a perforated cold aisle.",
+      "place_in_master": "translate(4355.44 2365)"
+    },
+    {
+      "name": "server-cabinet",
+      "file": "svg/components/server-cabinet.svg",
+      "scene": 5,
+      "origin_world": [
+        0,
+        0,
+        0
+      ],
+      "viewBox": [
+        -108,
+        -236,
+        175,
+        333
+      ],
+      "ports": {
+        "top": {
+          "local": [
+            25,
+            48,
+            212
+          ],
+          "component_svg": [
+            -19.92,
+            -175.5
+          ]
+        }
+      },
+      "description": "Rack cabinet 50 x 96 x 212 with perforated door, lamps and handle.",
+      "place_in_master": "translate(900 700)"
+    },
+    {
+      "name": "cable-tray",
+      "file": "svg/components/cable-tray.svg",
+      "scene": 5,
+      "origin_world": [
+        3688,
+        -260,
+        278
+      ],
+      "viewBox": [
+        -54,
+        -31,
+        461,
+        540
+      ],
+      "ports": {},
+      "description": "Ladder tray on end posts with drops into each cabinet.",
+      "place_in_master": "translate(4319.07 2136)"
+    },
+    {
+      "name": "data-tank",
+      "file": "svg/components/data-tank.svg",
+      "scene": 5,
+      "origin_world": [
+        0,
+        0,
+        0
+      ],
+      "viewBox": [
+        -81,
+        -221,
+        161,
+        277
+      ],
+      "ports": {
+        "top": {
+          "local": [
+            0,
+            0,
+            182
+          ],
+          "component_svg": [
+            0.0,
+            -182.0
+          ]
+        }
+      },
+      "description": "Vertical store, r 46 x 172, hoop bands, cap and ladder.",
+      "place_in_master": "translate(900 700)"
+    },
+    {
+      "name": "terminal",
+      "file": "svg/components/terminal.svg",
+      "scene": 5,
+      "origin_world": [
+        4600,
+        0,
+        0
+      ],
+      "viewBox": [
+        -64,
+        -47,
+        128,
+        94
+      ],
+      "ports": {
+        "end": {
+          "local": [
+            0,
+            0,
+            5
+          ],
+          "component_svg": [
+            0.0,
+            -5.0
+          ]
+        }
+      },
+      "description": "Ground terminal where the spine ends.",
+      "place_in_master": "translate(4883.72 3000)"
+    },
+    {
+      "name": "cable-bundle",
+      "file": "svg/components/cable-bundle.svg",
+      "scene": null,
+      "origin_world": [
+        0,
+        0,
+        0
+      ],
+      "viewBox": [
+        -30,
+        -28,
+        268,
+        175
+      ],
+      "ports": {
+        "in": {
+          "local": [
+            0,
+            0,
+            0
+          ],
+          "component_svg": [
+            0.0,
+            0.0
+          ]
+        },
+        "out": {
+          "local": [
+            240,
+            0,
+            0
+          ],
+          "component_svg": [
+            207.85,
+            120.0
+          ]
+        }
+      },
+      "description": "Four thin conductors, 4.5 units apart; one copper lead when powered. Clamps every 120-160 units.",
+      "place_in_master": "translate(900 700)"
+    },
+    {
+      "name": "grid-bubble",
+      "file": "svg/components/grid-bubble.svg",
+      "scene": null,
+      "origin_world": [
+        0,
+        0,
+        0
+      ],
+      "viewBox": [
+        -37,
+        -32,
+        74,
+        63
+      ],
+      "ports": {},
+      "description": "Structural grid bubble lying on the ground.",
+      "place_in_master": "translate(900 700)"
+    },
+    {
+      "name": "annotation",
+      "file": "svg/components/annotation.svg",
+      "scene": null,
+      "origin_world": [
+        0,
+        0,
+        0
+      ],
+      "viewBox": [
+        -30,
+        -94,
+        214,
+        124
+      ],
+      "ports": {
+        "point": {
+          "local": [
+            0,
+            0,
+            0
+          ],
+          "component_svg": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "description": "Leader with dot, 58 degree rise, 16 unit shoulder, mono label.",
+      "place_in_master": "translate(900 700)"
+    },
+    {
+      "name": "detail-title",
+      "file": "svg/components/detail-title.svg",
+      "scene": null,
+      "origin_world": [
+        0,
+        0,
+        0
+      ],
+      "viewBox": [
+        -46,
+        -46,
+        540,
+        120
+      ],
+      "ports": {},
+      "description": "Numbered bubble, serif title, rule and sheet line.",
+      "place_in_master": "translate(900 700)"
+    }
+  ]
+}

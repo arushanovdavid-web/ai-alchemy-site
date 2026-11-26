@@ -1,0 +1,56 @@
+[
+  {
+    "browser": "chromium",
+    "version": "159.0.8154.6",
+    "profile": "desktop",
+    "passed": true
+  },
+  {
+    "browser": "chromium",
+    "version": "159.0.8154.6",
+    "profile": "tablet",
+    "passed": true
+  },
+  {
+    "browser": "chromium",
+    "version": "159.0.8154.6",
+    "profile": "phone",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "159.0",
+    "profile": "desktop",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "159.0",
+    "profile": "tablet",
+    "passed": true
+  },
+  {
+    "browser": "firefox",
+    "version": "159.0",
+    "profile": "phone",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "profile": "desktop",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "profile": "tablet",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "version": "27.2",
+    "profile": "phone",
+    "passed": true
+  }
+]
