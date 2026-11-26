@@ -979,6 +979,14 @@ def c_core(cx=3000, cy=0):
     inner.append(line((cx, cy, gz0), (cx, cy, gz1), "w-h"))
     ring_o = ring_segments((cx, cy, zc), "x", 72, 7, 22, 0.64, "f-ring")
     ring_i = ring_segments((cx, cy, zc), "y", 56, 6, 16, 0.62, "f-ring")
+    # Motion hooks: the engine spins each gimbal ring about its own axis and redraws its segments from these values.
+    def _ring_data(axis, r, w, n_seg, frac):
+        return {"data-center": "%s,%s,%s" % (n(cx), n(cy), n(zc)), "data-axis": axis, "data-r": n(r), "data-width": n(w),
+                "data-segments": str(n_seg), "data-frac": n(frac), "data-phase": "0.13"}
+    ring_o = (g(ring_o[0], "ia-s4-ring-outer-back", **_ring_data("x", 72, 7, 22, 0.64)),
+              g(ring_o[1], "ia-s4-ring-outer-front", **_ring_data("x", 72, 7, 22, 0.64)))
+    ring_i = (g(ring_i[0], "ia-s4-ring-inner-back", **_ring_data("y", 56, 6, 16, 0.62)),
+              g(ring_i[1], "ia-s4-ring-inner-front", **_ring_data("y", 56, 6, 16, 0.62)))
     sx, sy = P(cx, cy, zc)
     rr = R * K
     sphere = [

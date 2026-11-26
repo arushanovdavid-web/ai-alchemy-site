@@ -23,3 +23,11 @@ Techniques and lessons from finishing the scroll-driven isometric Spine and the 
 - Check `git log` on the branch and fast-forward the worktree before reviewing. Here the worktree was three commits behind the PR.
 - Keep before and after frames for every creative change in `tools/qa/evidence/final/`, so the owner can judge the change itself and not only the end state.
 - Separate "verified" from "not verified" in every report. Here that meant Safari, Firefox, real devices and screen readers.
+
+## Rotating a planar part in isometric (gimbal rings)
+
+- **Do not use a 2D `rotate()` on projected art.** A ring spinning in its own plane is affine after projection, but a single transform still distorts the stroke widths and cannot reorder depth.
+- **Recompute and project every frame.** Tag the static artwork with its world parameters: centre, axis, radii, segment count, duty and phase. At run time, rebuild each segment from world coordinates and project it. The ellipses, ring widths and line weights stay exact. About 40 segments cost nothing measurable, even at 4× CPU throttle.
+- **Get depth order by drawing twice and clipping.** Draw the ring twice and clip each copy to a half-plane. The boundary is the projected line where the ring's depth equals its centre's depth, so the far copy sits behind the sphere and the near copy in front. Splitting by segment midpoint instead makes segments pop between layers.
+- **Keep the static art pixel-identical.** The tags are plain wrapper groups. The poster, no-JS fallback and component library stay unchanged, and the engine only takes over once it binds.
+- **Check that the generator is deterministic before regenerating shared artwork.** Generate into a temporary copy and diff it against the committed files first.

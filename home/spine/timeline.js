@@ -182,6 +182,8 @@ function sampleCore(p, framing) {
     barrier: ramp(p, 0.64, 0.67),
     conveyor: ramp(p, 0.67, 0.75),
     fanAngle: 270 * ramp(p, 0.595, 0.72),
+    // Gimbal rings: start with chamber power (0.595), before the lever (0.62); counter-rotating, eased to rest.
+    ringAngles: [-300 * ramp(p, 0.595, 0.745), 480 * ramp(p, 0.595, 0.745)],
     terminal: p >= 0.833,
     powered: [0.85, 0.62, 0.62, 0.65, 0.833].map((at) => p >= at),
     depth: 8 * (ramp(p, 0, 0.51) - ramp(p, 0.51, 0.96)),

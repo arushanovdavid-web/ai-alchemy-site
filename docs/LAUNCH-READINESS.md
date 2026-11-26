@@ -12,6 +12,8 @@ Prepared 2026-11-25 on `integration/experience-spine-site`, on top of Codex's me
 | Inner pages, night CTA band | The copy column spans the sheet, so the "05 Project brief" reference reaches the right edge. The text keeps its 40rem measure. | Same floating-label defect. The empty grid column was left over from the old needle-field art. |
 | Inner pages, inline brief button | Moved inside the section it closes. It is on all 10 service and industry pages. | It sat on its own between two sections, with its bottom edge on the next section's ink rule. |
 
+| AI chamber gimbal rings | The two segmented rings now spin about their own axes. The outer ring turns −300° about world X, and the inner ring counter-rotates +480° about world Y. Both are driven by scroll from chamber power-up (core 0.595) and ease to rest by 0.745, so the rings are already turning before the lever lowers (0.62–0.64). Each frame the engine recomputes the segments in world space and projects them, so the ellipses and line weights stay exact. Each ring is drawn twice, clipped to the halves behind and in front of the sphere, so the depth order stays correct. The housing, fan and other parts are unchanged. | Owner request, 2026-11-25: "an operating gyroscope". |
+
 Codex's mechanics are preserved and re-verified: the conveyor on its rollers, fan rotation, four conductors and reversible captions.
 
 ## Verification (Chrome 1xx, headless, served from 127.0.0.1:8737)
@@ -28,7 +30,8 @@ Codex's mechanics are preserved and re-verified: the conveyor on its rollers, fa
 | No JavaScript | Headline, 7 chapters and the poster are present | `no-script-desktop.jpg` |
 | Keyboard | Every tab stop shows a visible focus outline | `report.json` → `keyboard` |
 | Brief builder | Preselect, three steps and a composed `mailto:`. No email was sent | earlier run, unchanged code |
-| Performance, home (local server, no network throttling) | Desktop: LCP 148 ms, CLS 0, 610 KB transferred, scroll frames p50 16.7 ms and p95 17.3 ms. Phone at 4× CPU throttle: LCP 308 ms, CLS 0, p95 frame 22.4 ms | measured in this pass |
+| Gimbal rings | At 14 positions through the chamber sequence, forward and back at 1440×900 and 390×844, all rings stay inside the glass bounds. The reverse frames match the forward ones exactly. The rings are at rest until 0.595 and moving by 0.605, while the lever is still at 0° | `gimbal-rings-sequence.jpg` |
+| Performance, home (local server, no network throttling) | Desktop: LCP 140 ms, CLS 0, 614 KB transferred, scroll frames p50 16.7 ms and p95 18.2 ms. Phone at 4× CPU throttle: p50 about 19.5 ms and p95 24–27 ms, the same as the build without rings (19.1–19.2 ms and 25.7–26.6 ms over two runs each) | measured in this pass |
 | SEO | Every indexable route has a title, a description, an og:image and a canonical on `https://ai-alchemy.ca/`. The sitemap has 14 URLs, `robots.txt` allows crawling, CNAME is `ai-alchemy.ca`, and `/lab/` is `noindex` | measured in this pass |
 
 ## Not verified

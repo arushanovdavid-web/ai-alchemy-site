@@ -11,12 +11,68 @@ const attr = (el, key, val) => {
 const opacity = (el, v) => attr(el, "opacity", v.toFixed(3));
 const ids = ["spreadsheets", "mail", "forms", "legacy"];
 
-function bindMechanics(get, C30) {
+// Gimbal rings: each ring spins about its own normal axis. Segments are recomputed in world space and
+// projected, so the isometric ellipse, line weights and ring width stay exact at every angle. Each ring is
+// drawn twice, and each copy is clipped to the half of the ring that lies behind or in front of the sphere.
+const RING_AXES = { x: [[0, 1, 0], [0, 0, 1]], y: [[1, 0, 0], [0, 0, 1]], z: [[1, 0, 0], [0, 1, 0]] };
+function bindRing(back, front, project, defs) {
+  const d = back.dataset;
+  const c = d.center.split(",").map(Number);
+  const [u, v] = RING_AXES[d.axis];
+  const r = Number(d.r), rIn = r - Number(d.width), count = Number(d.segments),
+    frac = Number(d.frac), phase = Number(d.phase);
+  const at = (rad, t) => project(...[0, 1, 2].map((k) => c[k] + rad * (u[k] * Math.cos(t) + v[k] * Math.sin(t))));
+  // Depth toward the viewer is along (1,1,1); the boundary between halves is where it equals the centre's.
+  const du = u[0] + u[1] + u[2], dv = v[0] + v[1] + v[2];
+  const [cx, cy] = project(...c);
+  const [ex, ey] = at(r * 3, Math.atan2(-du, dv)), [fx, fy] = at(r * 3, Math.atan2(dv, du));
+  const lx = ex - cx, ly = ey - cy, nx = fx - cx, ny = fy - cy;
+  const half = (s) => {
+    const clip = document.createElementNS(NS, "clipPath"), path = document.createElementNS(NS, "path");
+    clip.id = back.id + (s > 0 ? "-near" : "-far");
+    clip.setAttribute("clipPathUnits", "userSpaceOnUse");
+    const pts = [[cx + lx, cy + ly], [cx + lx + s * nx, cy + ly + s * ny], [cx - lx + s * nx, cy - ly + s * ny], [cx - lx, cy - ly]];
+    path.setAttribute("d", "M" + pts.map((p) => p.map((q) => q.toFixed(2)).join(",")).join("L") + "Z");
+    clip.append(path);
+    defs.append(clip);
+    return "url(#" + clip.id + ")";
+  };
+  const layers = [[back, half(-1)], [front, half(1)]].map(([group, clip]) => {
+    group.replaceChildren();
+    group.setAttribute("clip-path", clip);
+    return Array.from({ length: count }, () => {
+      const face = document.createElementNS(NS, "path"), edge = document.createElementNS(NS, "path");
+      face.setAttribute("class", "f-ring");
+      edge.setAttribute("class", "e-i");
+      group.append(face, edge);
+      return [face, edge];
+    });
+  });
+  let last = null;
+  return (angle) => {
+    const a = (angle * Math.PI) / 180;
+    if (a === last) return;
+    last = a;
+    for (let i = 0; i < count; i++) {
+      const a0 = phase + (2 * Math.PI * i) / count + a, a1 = a0 + ((2 * Math.PI) / count) * frac;
+      const pts = [];
+      for (let j = 0; j <= 8; j++) pts.push(at(r, a0 + ((a1 - a0) * j) / 8));
+      for (let j = 0; j <= 8; j++) pts.push(at(rIn, a1 - ((a1 - a0) * j) / 8));
+      const path = "M" + pts.map((p) => p[0].toFixed(2) + "," + p[1].toFixed(2)).join("L") + "Z";
+      for (const layer of layers) for (const el of layer[i]) el.setAttribute("d", path);
+    }
+  };
+}
+
+function bindMechanics(get, C30, project, defs) {
   const fan = get("s4-fan-rotor"), parcel = get("s4-parcel"),
     boom = get("s4-boom"), lever = get("s4-lever");
+  const rings = ["outer", "inner"].map((name) =>
+    bindRing(get("s4-ring-" + name + "-back"), get("s4-ring-" + name + "-front"), project, defs));
   const travelX = Number(parcel.dataset.travel);
   const [hx, hy] = boom.dataset.pivot.split(",").map(Number);
   return (frame) => {
+    rings.forEach((spin, i) => spin(frame.ringAngles[i]));
     attr(fan, "transform", `rotate(${frame.fanAngle.toFixed(4)})`);
     attr(parcel, "transform", `translate(${(frame.conveyor * travelX * C30).toFixed(4)} ${(frame.conveyor * travelX / 2).toFixed(4)})`);
     // Hinge along world X: rotate in the Y/Z plane, then project back.
@@ -107,7 +163,7 @@ function bind(svg, manifest) {
     terminal = get("s5-terminal"),
     ground = get("ground"),
     notes = get("annotations");
-  const paintMechanics = mechanics ? bindMechanics(get, C30) : null;
+  const paintMechanics = mechanics ? bindMechanics(get, C30, project, defs) : null;
   const labels = [...svg.querySelectorAll(".ia-note")].map((n) => {
     const dot = n.querySelector("circle");
     return { n, x: Number(dot?.getAttribute("cx")), y: Number(dot?.getAttribute("cy")) };
