@@ -42,6 +42,24 @@ Codex's mechanics suite passes 481/481 samples per viewport, and all 34 route ru
 
 **Before/after sheets, one per scene:** `tools/qa/evidence/final/craft/scene-1.jpg` to `scene-5.jpg`. Each shows the chapter hold at website size and close-ups from the master drawing.
 
+## Codex visual corrections (c2772e4, 2026-11-26)
+
+Codex made four corrections on top of the approved illustration pass. Its evidence is in `tools/qa/evidence/owner-review/`, and its summary is the PR #6 comment of 26 Nov.
+
+- **Open end:** the label clears the drawer on desktop, and on phones it sits above the cabinet. It used to be hidden there.
+- **Transparent study cylinder:** the rims and sides are projected from one axis, so the cylinder reads evenly.
+- **Copper activation:** each spine lead lights only after its own reveal reaches the receiving end. S4 used to light at core 0.650, before contact at 0.671.
+- **Technology architecture and planning card:** it now shows its own dependency drawing, so it no longer repeats the drafting table.
+
+**Independent re-check by Claude:**
+- **Routes:** 34/34 runs clean, with 0 broken links.
+- **Spine sweep:** 0 non-finite transforms, and reduced motion shows all 7 chapters.
+- **Mechanics:** 481/481 samples per viewport.
+- **Contrast:** no text below WCAG AA on the home page, Client Solutions, Strategy & Architecture or an industry page.
+- **Preview:** it serves `review-revision` c2772e4 and is `noindex`.
+
+**Still open, according to Codex:** the owner's device, and which cylinder the missing owner screenshot showed. Both need visual confirmation.
+
 ## Verification (Chrome 1xx, headless, served from 127.0.0.1:8737)
 
 | Check | Result | Evidence |
