@@ -103,6 +103,7 @@ STYLE = """
 .ia .ia-anchor{fill:none;stroke:none}
 .ia text{font-family:var(--ia-mono);fill:var(--ia-ink-2)}
 .ia .t-note{font-size:calc(12.5px*var(--ia-type,1));font-weight:500;letter-spacing:.09em}
+.ia .t-note{paint-order:stroke fill;stroke:var(--ia-ground);stroke-width:calc(4.5px*var(--ia-type,1));stroke-linejoin:round;stroke-opacity:.92}
 .ia .t-note-2{transform:translateY(calc((var(--ia-type,1) - 1) * 15px))}
 .ia .t-iso{font-size:10px;font-weight:600;letter-spacing:.14em;fill:var(--ia-ink)}
 .ia .t-iso-s{font-size:7.5px;font-weight:600;letter-spacing:.12em;fill:var(--ia-ink-2)}

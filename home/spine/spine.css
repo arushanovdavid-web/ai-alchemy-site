@@ -149,3 +149,23 @@
   #experience.live article:first-child .hero-fact { display: none; }
   #experience.live article:last-child h2 { font-size: clamp(24px, 6vw, 38px); }
 }
+
+/* Short desktop viewports (about 600-800px tall, or a zoomed browser): the stage row is a fixed height, so the
+   drawing panel can never run under the chapter rail, and headline and body sizes also scale with height
+   so the chapter text fits beside it. Normal-height screens are unchanged (the vw term is smaller there). */
+#experience.live .spread { height: 100%; grid-template-rows: minmax(0, 1fr); }
+#experience.live figure { min-height: 0; }
+@media (min-width: 861px) and (min-aspect-ratio: 4/5) {
+  #experience h1, #experience h2 { font-size: clamp(32px, min(4.4vw, 7.6vh), 78px); }
+  #experience h1 { font-size: clamp(30px, min(3.6vw, 6.6vh), 64px); }
+  #experience article p { font-size: clamp(15px, min(1.15vw, 2.4vh), 19px); margin-top: clamp(10px, 2.2vh, 20px); }
+  #experience .hero-actions { margin-top: clamp(14px, 3.2vh, 30px); }
+  #experience .svc-link { margin-top: clamp(6px, 1.9vh, 18px); }
+  #experience .folio { margin-bottom: clamp(10px, 1.9vh, 18px); }
+  #experience.live article { padding: clamp(8px, 1.9vh, 18px) 0; }
+}
+@media (min-width: 861px) and (min-aspect-ratio: 4/5) and (max-height: 760px) {
+  #experience h1 { font-size: clamp(28px, min(3.6vw, 5.8vh), 64px); }
+  #experience .hero-fact { margin-top: 12px !important; }
+  #experience.live article:first-child { padding-bottom: 4px; }
+}
