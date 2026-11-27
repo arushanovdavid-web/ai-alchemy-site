@@ -31,6 +31,7 @@ being added; test folders and generated files were stripped.
 | form-cro | Contact / lead form optimization | aitmpl.com |
 | marketing-psychology | Behavioral principles behind persuasive pages | aitmpl.com |
 | analytics-tracking | GA4 / event / UTM tracking setup and audits | aitmpl.com |
+| humanizer | Removing AI-writing tells from site copy, PR text and docs without changing facts | humanizer (Siqi Chen, MIT) |
 
 ## Left out on purpose
 - `design` (pack): an all-in-one router whose logo/icon scripts send prompts to third-party
